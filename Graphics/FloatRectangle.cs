@@ -9,10 +9,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Graphics
 {
     /// <summary>
@@ -22,109 +18,90 @@ namespace BurnSystems.Graphics
     public class FloatRectangle
     {
         /// <summary>
-        /// Linke Kante
-        /// </summary>
-        double _Left;
-
-        /// <summary>
-        /// Obere Kante
-        /// </summary>
-        double _Top;
-
-        /// <summary>
-        /// Breite des Rechtecks
-        /// </summary>
-        double _Width;
-
-        /// <summary>
-        /// Höhe des Rechtecks
-        /// </summary>
-        double _Height;
-
-        /// <summary>
-        /// Linker Wert
-        /// </summary>
-        public double Left
-        {
-            get { return _Left; }
-            set { _Left = value; }
-        }
-
-        /// <summary>
-        /// Oberer Wert
-        /// </summary>
-        public double Top
-        {
-            get { return _Top; }
-            set { _Top = value; }
-        }
-
-        public double Right
-        {
-            get { return _Left + _Width; }
-            set { _Width = value - _Left; }
-        }
-
-        /// <summary>
-        /// Untere und obere Ecke
-        /// </summary>
-        public double Bottom
-        {
-            get { return _Top + _Height; }
-            set { _Height = value - _Top; }
-        }
-
-        /// <summary>
-        /// Breite des Rechtecks
-        /// </summary>
-        public double Width
-        {
-            get { return _Width; }
-            set { _Width = value; }
-        }
-
-        /// <summary>
-        /// Höhe des Rechtecks
-        /// </summary>
-        public double Height
-        {
-            get { return _Height; }
-            set { _Height = value; }
-        }
-
-        /// <summary>
-        /// Erstellt ein neues Rechteck
+        /// Creates a new instance
         /// </summary>
         public FloatRectangle()
         {
         }
 
         /// <summary>
-        /// Erstellt ein neues Rechteck
+        /// Creates a new rectangle and sets width and height
         /// </summary>
-        /// <param name="dWidth">Breite</param>
-        /// <param name="dHeight">Höhe</param>
-        public FloatRectangle(double dWidth, double dHeight)
+        /// <param name="width">Width of rectangle</param>
+        /// <param name="height">Height of rectangle</param>
+        public FloatRectangle(double width, double height)
         {
-            _Left = 0;
-            _Top = 0;
-            _Width = dWidth;
-            _Height = dHeight;
+            this.Width = width;
+            this.Height = height;
         }
 
         /// <summary>
-        /// Erstellt ein neues Rechteck
+        /// Creates a new rectangle and sets all parameter
         /// </summary>
-        /// <param name="dLeft">Links</param>
-        /// <param name="dTop">Oben</param>
-        /// <param name="dWidth">Breite</param>
-        /// <param name="dHeight">Höhe</param>
-        public FloatRectangle(double dLeft, double dTop, double dWidth, double dHeight)
+        /// <param name="left">Left border</param>
+        /// <param name="top">Top border</param>
+        /// <param name="width">Width of rectangle</param>
+        /// <param name="height">Height of rectangle</param>
+        public FloatRectangle(double left, double top, double width, double height)
         {
-            _Left = dLeft;
-            _Top = dTop;
-            _Width = dWidth;
-            _Height = dHeight;
+            this.Left = left;
+            this.Top = top;
+            this.Width = width;
+            this.Height = height;
+        }
+
+        /// <summary>
+        /// Gets or sets the x-value of the left border
+        /// </summary>
+        public double Left
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the y-value of the top border
+        /// </summary>
+        public double Top
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the x-value of the right border
+        /// </summary>
+        public double Right
+        {
+            get { return this.Left + this.Width; }
+            set { this.Width = value - this.Left; }
+        }
+
+        /// <summary>
+        /// Gets or sets the y-value of the bottom border
+        /// </summary>
+        public double Bottom
+        {
+            get { return this.Top + this.Height; }
+            set { this.Height = value - this.Top; }
+        }
+
+        /// <summary>
+        /// Gets or sets the width of rectangle
+        /// </summary>
+        public double Width
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the height of rectangle
+        /// </summary>
+        public double Height
+        {
+            get;
+            set;
         }
     }
 }
