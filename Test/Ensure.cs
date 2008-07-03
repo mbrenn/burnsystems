@@ -45,10 +45,10 @@ namespace BurnSystems.Test
         /// <summary>
         /// Versichert, dass das angegebene Objekt null ist. 
         /// </summary>
-        /// <param name="oValue">Zu prüfendes Objekt</param>
-        public static void IsNull(object oValue)
+        /// <param name="value">Zu prüfendes Objekt</param>
+        public static void IsNull(object value)
         {
-            if (oValue != null)
+            if (value != null)
             {
                 throw new EnsureFailedException("IsNull");
             }
@@ -57,10 +57,10 @@ namespace BurnSystems.Test
         /// <summary>
         /// Versichert, dass das angegebene Objekt nicht null ist
         /// </summary>
-        /// <param name="oValue">Zu prüfendes Objekt</param>
-        public static void IsNotNull(object oValue)
+        /// <param name="value">Zu prüfendes Objekt</param>
+        public static void IsNotNull(object value)
         {
-            if (oValue == null)
+            if (value == null)
             {
                 throw new EnsureFailedException("IsNotNull");
             }
@@ -69,23 +69,23 @@ namespace BurnSystems.Test
         /// <summary>
         /// Versichert, dass das angegebene Objekt nicht null ist
         /// </summary>
-        /// <param name="oValue">Wert</param>
-        /// <param name="strErrorText">Fehlertext</param>
-        public static void IsNotNull(object oValue, String strErrorText)
+        /// <param name="value">Wert</param>
+        /// <param name="errorText">Fehlertext</param>
+        public static void IsNotNull(object value, String errorText)
         {
-            if (oValue == null)
+            if (value == null)
             {
-                throw new EnsureFailedException("IsNotNull: " + strErrorText);
+                throw new EnsureFailedException("IsNotNull: " + errorText);
             }
         }
 
         /// <summary>
         /// Prüft, ob der angegebene Wert true ist
         /// </summary>
-        /// <param name="bValue">Zu überprüfende Wert</param>
-        public static void IsTrue(bool bValue)
+        /// <param name="value">Zu überprüfende Wert</param>
+        public static void IsTrue(bool value)
         {
-            if (!bValue)
+            if (!value)
             {
                 throw new EnsureFailedException("IsTrue");
             }
@@ -94,22 +94,22 @@ namespace BurnSystems.Test
         /// <summary>
         /// Prüft, ob der angegebene Wert true ist
         /// </summary>
-        /// <param name="bValue">Zu überprüfende Wert</param>
-        public static void IsTrue(bool bValue, String strText)
+        /// <param name="value">Zu überprüfende Wert</param>
+        public static void IsTrue(bool value, String errorText)
         {
-            if (!bValue)
+            if (!value)
             {
-                throw new EnsureFailedException("IsTrue: " + strText);
+                throw new EnsureFailedException("IsTrue: " + errorText);
             }
         }
 
         /// <summary>
         /// Prüft, ob der angegebene Wert false ist
         /// </summary>
-        /// <param name="bValue">Zu überprüfende Wert</param>
-        public static void IsFalse(bool bValue)
+        /// <param name="value">Zu überprüfende Wert</param>
+        public static void IsFalse(bool value)
         {
-            if (bValue)
+            if (value)
             {
                 throw new EnsureFailedException("IsFalse");
             }
@@ -118,12 +118,12 @@ namespace BurnSystems.Test
         /// <summary>
         /// Prüft, ob der angegebene Wert false ist
         /// </summary>
-        /// <param name="bValue">Zu überprüfende Wert</param>
-        public static void IsFalse(bool bValue, String strText)
+        /// <param name="value">Zu überprüfende Wert</param>
+        public static void IsFalse(bool value, String errorText)
         {
-            if (bValue)
+            if (value)
             {
-                throw new EnsureFailedException("IsFalse: " + strText);
+                throw new EnsureFailedException("IsFalse: " + errorText);
             }
         }
 
@@ -134,11 +134,11 @@ namespace BurnSystems.Test
         /// wird der ==-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void AreEqual<T>(T oValue, T oReference) 
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void AreEqual<T>(T value, T reference) 
         {
-            if (oValue.Equals(oReference))
+            if (value.Equals(reference))
             {
                 return;
             }
@@ -146,7 +146,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} == {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} == {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -155,11 +155,11 @@ namespace BurnSystems.Test
         /// wird der ==-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void AreEqual<T>(T oValue, T oReference, String strText)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void AreEqual<T>(T value, T reference, String strText)
         {
-            if (oValue.Equals(oReference))
+            if (value.Equals(reference))
             {
                 return;
             }
@@ -167,7 +167,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} == {1}: {2}", oValue.ToString(), oReference.ToString(), strText));
+                        "{0} == {1}: {2}", value.ToString(), reference.ToString(), strText));
             }
         }
 
@@ -182,11 +182,11 @@ namespace BurnSystems.Test
         /// wird der !=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void AreNotEqual<T>(T oValue, T oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void AreNotEqual<T>(T value, T reference)
         {
-            if (!oValue.Equals(oReference))
+            if (!value.Equals(reference))
             {
                 return;
             }
@@ -194,7 +194,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} != {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} != {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -207,11 +207,11 @@ namespace BurnSystems.Test
         /// wird der >-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreater(short oValue, short oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreater(short value, short reference)
         {
-            if (oValue > oReference)
+            if (value > reference)
             {
                 return;
             }
@@ -219,7 +219,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} > {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -228,11 +228,11 @@ namespace BurnSystems.Test
         /// wird der >-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreater(int oValue, int oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreater(int value, int reference)
         {
-            if (oValue > oReference)
+            if (value > reference)
             {
                 return;
             }
@@ -240,7 +240,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} > {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -249,11 +249,11 @@ namespace BurnSystems.Test
         /// wird der >-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreater(long oValue, long oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreater(long value, long reference)
         {
-            if (oValue > oReference)
+            if (value > reference)
             {
                 return;
             }
@@ -261,7 +261,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} > {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -270,11 +270,11 @@ namespace BurnSystems.Test
         /// wird der >-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreater(float oValue, float oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreater(float value, float reference)
         {
-            if (oValue > oReference)
+            if (value > reference)
             {
                 return;
             }
@@ -282,7 +282,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} > {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -291,11 +291,11 @@ namespace BurnSystems.Test
         /// wird der >-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreater(double oValue, double oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreater(double value, double reference)
         {
-            if (oValue > oReference)
+            if (value > reference)
             {
                 return;
             }
@@ -303,7 +303,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} > {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -312,11 +312,11 @@ namespace BurnSystems.Test
         /// wird der >-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreater(decimal oValue, decimal oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreater(decimal value, decimal reference)
         {
-            if (oValue > oReference)
+            if (value > reference)
             {
                 return;
             }
@@ -324,7 +324,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} > {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -337,11 +337,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreaterOrEqual(short oValue, short oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreaterOrEqual(short value, short reference)
         {
-            if (oValue >= oReference)
+            if (value >= reference)
             {
                 return;
             }
@@ -349,7 +349,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} >= {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -358,11 +358,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreaterOrEqual(int oValue, int oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreaterOrEqual(int value, int reference)
         {
-            if (oValue >= oReference)
+            if (value >= reference)
             {
                 return;
             }
@@ -370,7 +370,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} >= {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -379,11 +379,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreaterOrEqual(long oValue, long oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreaterOrEqual(long value, long reference)
         {
-            if (oValue >= oReference)
+            if (value >= reference)
             {
                 return;
             }
@@ -391,7 +391,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} >= {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -400,11 +400,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreaterOrEqual(float oValue, float oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreaterOrEqual(float value, float reference)
         {
-            if (oValue >= oReference)
+            if (value >= reference)
             {
                 return;
             }
@@ -412,7 +412,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} >= {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -421,11 +421,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreaterOrEqual(double oValue, double oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreaterOrEqual(double value, double reference)
         {
-            if (oValue >= oReference)
+            if (value >= reference)
             {
                 return;
             }
@@ -433,7 +433,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} >= {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -442,11 +442,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsGreaterOrEqual(decimal oValue, decimal oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsGreaterOrEqual(decimal value, decimal reference)
         {
-            if (oValue >= oReference)
+            if (value >= reference)
             {
                 return;
             }
@@ -454,7 +454,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} >= {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -467,11 +467,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmaller(short oValue, short oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmaller(short value, short reference)
         {
-            if (oValue < oReference)
+            if (value < reference)
             {
                 return;
             }
@@ -479,7 +479,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} < {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -488,11 +488,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmaller(int oValue, int oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmaller(int value, int reference)
         {
-            if (oValue < oReference)
+            if (value < reference)
             {
                 return;
             }
@@ -500,7 +500,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} < {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -509,11 +509,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmaller(long oValue, long oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmaller(long value, long reference)
         {
-            if (oValue < oReference)
+            if (value < reference)
             {
                 return;
             }
@@ -521,7 +521,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} < {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -530,11 +530,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmaller(float oValue, float oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmaller(float value, float reference)
         {
-            if (oValue < oReference)
+            if (value < reference)
             {
                 return;
             }
@@ -542,7 +542,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} < {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -551,11 +551,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmaller(double oValue, double oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmaller(double value, double reference)
         {
-            if (oValue < oReference)
+            if (value < reference)
             {
                 return;
             }
@@ -563,7 +563,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} < {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -572,11 +572,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmaller(decimal oValue, decimal oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmaller(decimal value, decimal reference)
         {
-            if (oValue < oReference)
+            if (value < reference)
             {
                 return;
             }
@@ -584,7 +584,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", oValue.ToString(), oReference.ToString()));
+                        "{0} < {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -597,11 +597,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmallerOrEqual(short oValue, short oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmallerOrEqual(short value, short reference)
         {
-            if (oValue <= oReference)
+            if (value <= reference)
             {
                 return;
             }
@@ -609,7 +609,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", oValue.ToString(), oReference.ToString()));  
+                        "{0} <= {1}", value.ToString(), reference.ToString()));  
             }
         }
 
@@ -618,11 +618,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmallerOrEqual(int oValue, int oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmallerOrEqual(int value, int reference)
         {
-            if (oValue <= oReference)
+            if (value <= reference)
             {
                 return;
             }
@@ -630,7 +630,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", oValue.ToString(), oReference.ToString()));  
+                        "{0} <= {1}", value.ToString(), reference.ToString()));  
             }
         }
 
@@ -639,11 +639,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmallerOrEqual(long oValue, long oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmallerOrEqual(long value, long reference)
         {
-            if (oValue <= oReference)
+            if (value <= reference)
             {
                 return;
             }
@@ -651,7 +651,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", oValue.ToString(), oReference.ToString()));  
+                        "{0} <= {1}", value.ToString(), reference.ToString()));  
             }
         }
 
@@ -660,11 +660,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmallerOrEqual(float oValue, float oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmallerOrEqual(float value, float reference)
         {
-            if (oValue <= oReference)
+            if (value <= reference)
             {
                 return;
             }
@@ -672,7 +672,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", oValue.ToString(), oReference.ToString()));  
+                        "{0} <= {1}", value.ToString(), reference.ToString()));  
             }
         }
 
@@ -681,11 +681,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmallerOrEqual(double oValue, double oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmallerOrEqual(double value, double reference)
         {
-            if (oValue <= oReference)
+            if (value <= reference)
             {
                 return;
             }
@@ -693,7 +693,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", oValue.ToString(), oReference.ToString()));  
+                        "{0} <= {1}", value.ToString(), reference.ToString()));  
             }
         }
 
@@ -702,11 +702,11 @@ namespace BurnSystems.Test
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="oValue">Wert, der geprüft werden soll. </param>
-        /// <param name="oReference">Wert, zu dem <c>oValue</c> gleich sein soll.</param>
-        public static void IsSmallerOrEqual(decimal oValue, decimal oReference)
+        /// <param name="value">Wert, der geprüft werden soll. </param>
+        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
+        public static void IsSmallerOrEqual(decimal value, decimal reference)
         {
-            if (oValue <= oReference)
+            if (value <= reference)
             {
                 return;
             }
@@ -714,7 +714,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", oValue.ToString(), oReference.ToString()));  
+                        "{0} <= {1}", value.ToString(), reference.ToString()));  
             }
         }
 
