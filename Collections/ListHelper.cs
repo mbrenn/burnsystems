@@ -401,5 +401,25 @@ namespace BurnSystems.Collections
             }
             return aoReturn;
         }
+
+        /// <summary>
+        /// Checks, if all elements in the enumeration fulfill the predicate. 
+        /// </summary>
+        /// <typeparam name="T">Type of items in enumeration</typeparam>
+        /// <param name="items">Items, which should be checked. </param>
+        /// <param name="predicate">Predicate, which should be fulfilled</param>
+        /// <returns>true, if all items fulfill the predicate</returns>
+        public static bool ForAll<T>(IEnumerable<T> items, Predicate<T> predicate)
+        {
+            foreach (var item in items)
+            {
+                if (!predicate(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
