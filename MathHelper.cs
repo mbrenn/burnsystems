@@ -9,155 +9,108 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-
 namespace BurnSystems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Globalization;
+
     /// <summary>
     /// Eine Klasse, die ein paar Hilfsfunktionen für die mathematischen 
     /// Routinen zur Verfügung stellt. 
     /// </summary>
     public static class MathHelper
     {
-        #region Threadsafe Implementation of random
-
-        /// <summary>
-        /// Threadsichere Klasse von Random
-        /// </summary>
-        class RandomThreadSafe : Random
-        {
-            object _SyncObject = new object();
-
-            public override double NextDouble()
-            {
-                lock (_SyncObject)
-                {
-                    return base.NextDouble();
-                }
-            }
-            public override int Next()
-            {
-                lock (_SyncObject)
-                {
-                    return base.Next();
-                }
-            }
-            public override int Next(int maxValue)
-            {
-                lock (_SyncObject)
-                {
-                    return base.Next(maxValue);
-                }
-            }
-
-            public override int Next(int minValue, int maxValue)
-            {
-                lock (_SyncObject)
-                {
-                    return base.Next(minValue, maxValue);
-                }
-            }
-            public override void NextBytes(byte[] buffer)
-            {
-                lock (_SyncObject)
-                {
-                    base.NextBytes(buffer);
-                }
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// Eine Zufallsvariable
         /// </summary>
-        static Random _Random = new RandomThreadSafe();
-
-        public static Random Random
-        {
-            get { return _Random; }
-        }
+        private static Random random = new RandomThreadSafe();
 
         /// <summary>
         /// Statischer Kontsruktor
         /// </summary>
         static MathHelper()
         {
+        }
 
+        /// <summary>
+        /// Gets a threadsafe random instance
+        /// </summary>
+        public static Random Random
+        {
+            get { return random; }
         }
 
         /// <summary>
         /// Gibt das kleinere der beiden Timespans zurück
         /// </summary>
-        /// <param name="o1">Das Timespan 1</param>
-        /// <param name="o2">Das Timespan 2</param>
+        /// <param name="timeSpan1">Das Timespan 1</param>
+        /// <param name="timeSpan2">Das Timespan 2</param>
         /// <returns>Die kleinere Zeitspanne</returns>
-        public static TimeSpan Min(TimeSpan o1, TimeSpan o2)
+        public static TimeSpan Min(TimeSpan timeSpan1, TimeSpan timeSpan2)
         {
-            if (o1.TotalMilliseconds > o2.TotalMilliseconds)
+            if (timeSpan1.TotalMilliseconds > timeSpan2.TotalMilliseconds)
             {
-                return o2;
+                return timeSpan2;
             }
             else
             {
-                return o1;
+                return timeSpan1;
             }
         }
 
         /// <summary>
         /// Gibt das kleinere der beiden Timespans zurück
         /// </summary>
-        /// <param name="o1">Das Timespan 1</param>
-        /// <param name="o2">Das Timespan 2</param>
+        /// <param name="timeSpan1">Das Timespan 1</param>
+        /// <param name="timeSpan2">Das Timespan 2</param>
         /// <returns>Die kleinere Zeitspanne</returns>
-        public static TimeSpan Max(TimeSpan o1, TimeSpan o2)
+        public static TimeSpan Max(TimeSpan timeSpan1, TimeSpan timeSpan2)
         {
-            if (o1.TotalMilliseconds < o2.TotalMilliseconds)
+            if (timeSpan1.TotalMilliseconds < timeSpan2.TotalMilliseconds)
             {
-                return o2;
+                return timeSpan2;
             }
             else
             {
-                return o1;
+                return timeSpan1;
             }
         }
 
         /// <summary>
         /// Gibt den früheren der beiden Zeitpunkte zurück
         /// </summary>
-        /// <param name="o1">Der erste Zeitpunkt 1</param>
-        /// <param name="o2">Der zweite Zeitpunkt 2</param>
+        /// <param name="dateTime1">Der erste Zeitpunkt 1</param>
+        /// <param name="dateTime2">Der zweite Zeitpunkt 2</param>
         /// <returns>Die früheren Zeitpunkt</returns>
-        public static DateTime Min(DateTime o1, DateTime o2)
+        public static DateTime Min(DateTime dateTime1, DateTime dateTime2)
         {
-            if (o1.Ticks > o2.Ticks)
+            if (dateTime1.Ticks > dateTime2.Ticks)
             {
-                return o2;
+                return dateTime2;
             }
             else
             {
-                return o1;
+                return dateTime1;
             }
         }
 
         /// <summary>
         /// Gibt den spüteren der beiden Zeitpunkte zurück
         /// </summary>
-        /// <param name="o1">Der erste Zeitpunkt 1</param>
-        /// <param name="o2">Der zweite Zeitpunkt 2</param>
+        /// <param name="dateTime1">Der erste Zeitpunkt 1</param>
+        /// <param name="dateTime2">Der zweite Zeitpunkt 2</param>
         /// <returns>Die spüteren Zeitpunkt</returns>
-        public static DateTime Max(DateTime o1, DateTime o2)
+        public static DateTime Max(DateTime dateTime1, DateTime dateTime2)
         {
-            if (o1.Ticks < o2.Ticks)
+            if (dateTime1.Ticks < dateTime2.Ticks)
             {
-                return o2;
+                return dateTime2;
             }
             else
             {
-                return o1;
+                return dateTime1;
             }
         }
 
@@ -165,63 +118,63 @@ namespace BurnSystems
         /// Ermittelt das kleinste Objekt, das in der Auflistung übergeben wurde
         /// </summary>
         /// <typeparam name="T">Auflistung von Objekten</typeparam>
-        /// <param name="aoObjects">Objekte, die zu vergleichen sind</param>
-        /// <returns>Das kleisnte</returns>
-        public static T Min<T>(IEnumerable<T> aoObjects) where T : IComparable<T>
+        /// <param name="objects">Objekte, die zu vergleichen sind</param>
+        /// <returns>Das kleinste Objekt in der Auflistung</returns>
+        public static T Min<T>(IEnumerable<T> objects) where T : IComparable<T>
         {
-            bool bFirst = true;
-            T oReturn = default(T);
+            bool first = true;
+            T result = default(T);
 
-            foreach (var oObject in aoObjects)
+            foreach (var obj in objects)
             {
-                if (bFirst)
+                if (first)
                 {
-                    oReturn = oObject;
-                    bFirst = false;
+                    result = obj;
+                    first = false;
                 }
                 else
                 {
-                    oReturn = (oReturn.CompareTo(oObject) == -1) ? oReturn : oObject;
+                    result = (result.CompareTo(obj) == -1) ? result : obj;
                 }
             }
 
-            return oReturn;
+            return result;
         }
 
         /// <summary>
         /// Ermittelt das grüüte Objekt, das in der Auflistung übergeben wurde
         /// </summary>
         /// <typeparam name="T">Auflistung von Objekten</typeparam>
-        /// <param name="aoObjects">Objekte, die zu vergleichen sind</param>
-        /// <returns>Das kleisnte</returns>
-        public static T Max<T>(IEnumerable<T> aoObjects) where T : IComparable<T>
+        /// <param name="objects">Objekte, die zu vergleichen sind</param>
+        /// <returns>The biggest object in enumeration</returns>
+        public static T Max<T>(IEnumerable<T> objects) where T : IComparable<T>
         {
-            bool bFirst = true;
-            T oReturn = default(T);
+            bool first = true;
+            T result = default(T);
 
-            foreach (var oObject in aoObjects)
+            foreach (var obj in objects)
             {
-                if (bFirst)
+                if (first)
                 {
-                    oReturn = oObject;
-                    bFirst = false;
+                    result = obj;
+                    first = false;
                 }
                 else
                 {
-                    oReturn = (oReturn.CompareTo(oObject) == 1) ? oReturn : oObject;
+                    result = (result.CompareTo(obj) == 1) ? result : obj;
                 }
             }
 
-            return oReturn;
+            return result;
         }
 
         /// <summary>
         /// Gibt eine zufüllige Zahl zurück
         /// </summary>
-        /// <param name="dAverage">Erwarteter Durchschnitt</param>
-        /// <param name="dVariance">Erwartete Varianz</param>
+        /// <param name="average">Erwarteter Durchschnitt</param>
+        /// <param name="variance">Erwartete Varianz</param>
         /// <returns>Ermittelte Zufallszahl</returns>
-        public static double GetNextGaussian(double dAverage, double dVariance)
+        public static double GetNextGaussian(double average, double variance)
         {
             while (true)
             {
@@ -235,51 +188,130 @@ namespace BurnSystems
                     continue;
                 }
 
-                double dRandom = (2 * d1 - 1) * Math.Sqrt(-2 * Math.Log(dV) / dV);
-                dRandom *= Math.Sqrt(dVariance);
-                return dRandom + dAverage;                
+                double randomNumber = (2 * d1 - 1) * Math.Sqrt(-2 * Math.Log(dV) / dV);
+                randomNumber *= Math.Sqrt(variance);
+                return randomNumber + average;                
             }
         }
-
-
-
+        
         /// <summary>
         /// Formatiert einen Timespan so, dass er dem Format
         /// HH:MM:SS entspricht
         /// </summary>
-        /// <param name="oTimeSpan">Zu formatierender Timespan</param>
+        /// <param name="timeSpan">Zu formatierender Timespan</param>
         /// <returns>String mit dem oben genannten Format</returns>
-        public static String FormatTimeSpan(TimeSpan oTimeSpan)
+        public static string FormatTimeSpan(TimeSpan timeSpan)
         {
-            if (oTimeSpan > TimeSpan.MaxValue - TimeSpan.FromSeconds(2) ||
-                oTimeSpan < TimeSpan.MinValue + TimeSpan.FromSeconds(2))
+            if (timeSpan > TimeSpan.MaxValue - TimeSpan.FromSeconds(2) ||
+                timeSpan < TimeSpan.MinValue + TimeSpan.FromSeconds(2))
             {
                 return LocalizationBS.TimeSpan_MaxValue;
             }
-            int nTotalSeconds = (int) Math.Round(oTimeSpan.TotalSeconds);
-            int nSeconds = nTotalSeconds % 60;
-            int nMinutes = (nTotalSeconds / 60) % 60;
-            int nHours = nTotalSeconds / 3600;
 
-            return String.Format(CultureInfo.InvariantCulture,
+            int totalSeconds = (int) Math.Round(timeSpan.TotalSeconds);
+            int seconds = totalSeconds % 60;
+            int minutes = (totalSeconds / 60) % 60;
+            int hours = totalSeconds / 3600;
+
+            return String.Format(
+                CultureInfo.InvariantCulture,
                 "{0}:{1}:{2}",
-                MakeTwoDigits(nHours),
-                MakeTwoDigits(nMinutes),
-                MakeTwoDigits(nSeconds));
+                MakeTwoDigits(hours),
+                MakeTwoDigits(minutes),
+                MakeTwoDigits(seconds));
         }
 
         /// <summary>
         /// Gibt eine zwei- oder mehrstellige Ziffer.
         /// </summary>
-        /// <param name="nDigit">Ziffer, die umgewandelt werden soll.</param>
+        /// <param name="digit">Ziffer, die umgewandelt werden soll.</param>
         /// <returns>Zahl im Format XX.</returns>
-        static String MakeTwoDigits(int nDigit)
+        private static string MakeTwoDigits(int digit)
         {
-            if (nDigit < 10)
+            if (digit < 10)
             {
-                return String.Format(CultureInfo.InvariantCulture, "0{0}", nDigit);
+                return string.Format(CultureInfo.InvariantCulture, "0{0}", digit);
             }
-            return nDigit.ToString(CultureInfo.InvariantCulture);
+
+            return digit.ToString(CultureInfo.InvariantCulture);
         }
+        
+        #region Threadsafe Implementation of random
+
+        /// <summary>
+        /// Threadsichere Klasse von Random
+        /// </summary>
+        private class RandomThreadSafe : Random
+        {
+            /// <summary>
+            /// Object for synchronisation
+            /// </summary>
+            private object syncObject = new object();
+
+            /// <summary>
+            /// Calls Random.NextDouble()
+            /// </summary>
+            /// <returns>Result of Call</returns>
+            public override double NextDouble()
+            {
+                lock (this.syncObject)
+                {
+                    return base.NextDouble();
+                }
+            }
+
+            /// <summary>
+            /// Calls Random.Next()
+            /// </summary>
+            /// <returns>Result of Call</returns>
+            public override int Next()
+            {
+                lock (this.syncObject)
+                {
+                    return base.Next();
+                }
+            }
+
+            /// <summary>
+            /// Calls Random.Next()
+            /// </summary>
+            /// <param name="maxValue">Parameter for Random.Next</param>
+            /// <returns>Result of Call</returns>
+            public override int Next(int maxValue)
+            {
+                lock (this.syncObject)
+                {
+                    return base.Next(maxValue);
+                }
+            }
+
+            /// <summary>
+            /// Calls Random.Next()            
+            /// </summary>
+            /// <param name="minValue">First Parameter for Random.Next</param>
+            /// <param name="maxValue">Second Parameter for Random.Next</param>
+            /// <returns>Result of Call</returns>
+            public override int Next(int minValue, int maxValue)
+            {
+                lock (this.syncObject)
+                {
+                    return base.Next(minValue, maxValue);
+                }
+            }
+
+            /// <summary>
+            /// Calls Random.NextBytes()
+            /// </summary>
+            /// <param name="buffer">Parameter for buffer</param>
+            public override void NextBytes(byte[] buffer)
+            {
+                lock (this.syncObject)
+                {
+                    base.NextBytes(buffer);
+                }
+            }
+        }
+
+        #endregion
     }
 }
