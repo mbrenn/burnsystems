@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace BurnSystems.Collections
 {
@@ -420,6 +421,87 @@ namespace BurnSystems.Collections
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Executes the <c>action</c> for each of the items in <c>items</c>
+        /// parallel within threads. It is important that the actions are threadsafe.
+        /// </summary>
+        /// <typeparam name="T">Type of enumeration</typeparam>
+        /// <param name="items">Enumeration, whose elements should be
+        /// executed.</param>
+        /// <param name="action">Action, which should be executed</param>
+        public static void ForeachParallel<T>(IEnumerable<T> items, Action<T> action)
+        {
+            ForeachParallel(
+                items, 
+                action, 
+                Environment.ProcessorCount + 1);
+        }
+
+        /// <summary>
+        /// Executes the <c>action</c> for each of the items in <c>items</c>
+        /// parallel within threads. It is important that the actions are threadsafe.
+        /// </summary>
+        /// <typeparam name="T">Type of enumeration</typeparam>
+        /// <param name="items">Enumeration, whose elements should be
+        /// executed.</param>
+        /// <param name="action">Action, which should be executed</param>
+        /// <param name="numberOfThreads">Number of threads, that should
+        /// be used</param>
+        public static void ForeachParallel<T>(
+            IEnumerable<T> items, 
+            Action<T> action,
+            int numberOfThreads)
+        {
+            // One thread, simple execution
+            if (numberOfThreads == 1)
+            {
+                ListHelper.ForEach(items, action);
+                return;
+            }
+
+            // Fills the stack with items
+
+            var itemStack = new Stack<T>();
+            foreach (var item in items)
+            {
+                itemStack.Push(item);
+            }
+
+            // Generates the threads
+            var threads = new Thread[numberOfThreads];
+
+            for (var n = 0; n < numberOfThreads; n++)
+            {
+                var threadStart = new ThreadStart(
+                    () =>
+                    {
+                        while (true)
+                        {
+                            T item;
+                            lock (itemStack)
+                            {
+                                if (itemStack.Count == 0)
+                                {
+                                    break;
+                                }
+                                item = itemStack.Pop();
+                            }
+                            action(item);
+                        }
+                    });
+                var thread =                 
+                    new Thread(threadStart);
+                thread.Start();
+                threads[n] = thread;
+            }
+
+            // Wait until all threads are joined
+            for (var n = 0; n < numberOfThreads; n++)
+            {
+                threads[n].Join();
+            }
         }
     }
 }
