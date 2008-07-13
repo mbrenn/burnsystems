@@ -15,6 +15,7 @@ namespace BurnSystems
     using System.Collections.Generic;
     using System.Text;
     using System.Globalization;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Eine Klasse, die ein paar Hilfsfunktionen für die mathematischen 
@@ -178,6 +179,7 @@ namespace BurnSystems
         {
             while (true)
             {
+                Ensure.IsGreaterOrEqual(variance, 0.0);
                 double d1 = Random.NextDouble();
                 double d2 = Random.NextDouble();
 
