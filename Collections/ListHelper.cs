@@ -17,6 +17,38 @@ using System.Threading;
 namespace BurnSystems.Collections
 {
     /// <summary>
+    /// Defines the delegate for the procedure
+    /// </summary>    
+    public delegate void Procedure();
+
+    /// <summary>
+    /// Defines the delegate for the procedure
+    /// </summary>    
+    /// <typeparam name="T">Type of first argument</typeparam>
+    /// <param name="arg">First argument</param>
+    public delegate void Procedure<T>(T arg);
+
+    /// <summary>
+    /// Defines the delegate for the procedure
+    /// </summary>    
+    /// <typeparam name="T1">Type of first argument</typeparam>
+    /// <typeparam name="T2">Type of second argument</typeparam>
+    /// <param name="arg1">First argument</param>
+    /// <param name="arg2">Second argument</param>
+    public delegate void Procedure<T1, T2>(T1 arg1, T2 arg2);
+
+    /// <summary>
+    /// Defines the delegate for the procedure
+    /// </summary>    
+    /// <typeparam name="T1">Type of first argument</typeparam>
+    /// <typeparam name="T2">Type of second argument</typeparam>
+    /// <typeparam name="T3">Type of third argument</typeparam>
+    /// <param name="arg1">First argument</param>
+    /// <param name="arg2">Second argument</param>
+    /// <param name="arg3">Third argument</param>
+    public delegate void Procedure<T1, T2, T3>(T1 arg1, T2 arg2, T3 arg3);
+
+    /// <summary>
     /// Portiert den Delegaten <c>Action</c> aus System.Core zurück.
     /// </summary>
     public delegate void Function();
