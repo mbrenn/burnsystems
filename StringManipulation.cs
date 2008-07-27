@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Globalization;
+using System.Security.Cryptography;
 
 namespace BurnSystems
 {
@@ -286,6 +287,28 @@ namespace BurnSystems
             }
 
             return oBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Creates a secure random string, containing of <c>nLength</c> letters
+        /// </summary>
+        /// <param name="nLength">Length</param>
+        /// <returns>Random string</returns>
+        public static String SecureRandomString(int nLength)
+        {
+            var pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder builder = new StringBuilder();
+            var randomGenerator = new  System.Security.Cryptography.RNGCryptoServiceProvider();
+
+            var randomBytes = new byte[nLength];
+            randomGenerator.GetBytes(randomBytes);
+            for (int nCounter = 0; nCounter < nLength; nCounter++)
+            {
+                // Only 32 values to avoid unequal distribution
+                builder.Append(pool[randomBytes[nCounter] % 32]);
+            }
+
+            return builder.ToString();
         }
 
         /// <summary>
