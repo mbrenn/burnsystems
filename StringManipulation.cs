@@ -279,7 +279,7 @@ namespace BurnSystems
         {
             String strPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             StringBuilder oBuilder = new StringBuilder();
-            Random oRandom = new Random();
+            var oRandom = MathHelper.Random;
 
             for (int nCounter = 0; nCounter < nLength; nCounter++)
             {
