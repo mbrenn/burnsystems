@@ -9,13 +9,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-
 namespace BurnSystems.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Xml;
+
     /// <summary>
     /// Dieses Interface muss von allen Objekten implementiert werden,
     /// die sich irgendwie in einem Xml-Knoten speichern künnen.

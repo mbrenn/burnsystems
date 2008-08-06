@@ -116,6 +116,7 @@ namespace BurnSystems.Collections
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -135,6 +136,7 @@ namespace BurnSystems.Collections
                     return oObject;
                 }
             }
+
             return default(T);
         }
 
@@ -255,6 +257,24 @@ namespace BurnSystems.Collections
         public static long Sum<T>(IEnumerable<T> oSource, Converter<T, long> oConverter)
         {
             var nReturn = 0L;
+
+            foreach (var oElement in oSource)
+            {
+                nReturn += oConverter(oElement);
+            }
+            return nReturn;
+        }
+
+        /// <summary>
+        /// Gibt die Summe der konvertierten Objekte zurück
+        /// </summary>
+        /// <typeparam name="T">Angefragter Typ</typeparam>
+        /// <param name="oSource">Quellobjekt</param>
+        /// <param name="oConverter">Konvertierungsdelegat</param>
+        /// <returns>Summe der Rückgabewerte</returns>
+        public static double Sum<T>(IEnumerable<T> oSource, Converter<T, double> oConverter)
+        {
+            var nReturn = 0.0;
 
             foreach (var oElement in oSource)
             {
