@@ -283,9 +283,11 @@ namespace BurnSystems
             var result = new StringBuilder();
             var random = MathHelper.Random;
 
+            var randomBytes = new byte[length];
+            random.NextBytes(randomBytes);
             for (var n = 0; n < length; n++)
             {
-                result.Append(pool[random.Next(0, pool.Length)]);
+                result.Append(pool[randomBytes[n] % 32]);
             }
 
             return result.ToString();
