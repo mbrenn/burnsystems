@@ -16,7 +16,6 @@ namespace BurnSystems.Test
     using System.Text;
     using BurnSystems.Collections;
 
-
     /// <summary>
     /// Mit Hilfe dieser Hilfsklasse kann überprüft werden, ob 
     /// ein bestimmter Zustand eingehalten wird. Im Prinzip entspricht 
@@ -748,7 +747,14 @@ namespace BurnSystems.Test
         {
             if (!type.IsInstanceOfType(value))
             {
-                throw new EnsureFailedException(value.ToString() + " not type of " + type.FullName);
+                if (value == null)
+                {
+                    throw new EnsureFailedException("null not type of " + type.FullName);
+                }
+                else
+                {
+                    throw new EnsureFailedException(value.ToString() + " not type of " + type.FullName);
+                }
             }
         }
     }
