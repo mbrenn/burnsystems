@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BinaryReader_InvalidHeader" xml:space="preserve">
+    <value>Unerwarteter Header im serialisierten Strom.</value>
+  </data>
+  <data name="BinaryReader_ObjectNotConverted" xml:space="preserve">
+    <value>Das Objekt konnte nicht konvertiert werden: {0}</value>
+  </data>
+  <data name="BinaryWriter_ObjectNotConverted" xml:space="preserve">
+    <value>Das Objekt konnte nicht konvertiert werden: {0}</value>
+  </data>
+  <data name="BinaryWriter_UnknownContainerType" xml:space="preserve">
+    <value>Unbekannter Containertyp</value>
+  </data>
+  <data name="BinaryWriter_UnknownDataType" xml:space="preserve">
+    <value>Unbekannter Datentyp</value>
+  </data>
   <data name="Executor_InvalidParameterCount" xml:space="preserve">
     <value>Die Methode, die das Attribut 'TestMethod' enthält, besitzt mehr als einen Parameter. </value>
   </data>

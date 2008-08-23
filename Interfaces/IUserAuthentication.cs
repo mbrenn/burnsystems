@@ -26,11 +26,11 @@ namespace BurnSystems.Interfaces
         /// überprüft ob der Benutzername und das Kennwort zueinander
         /// zusammen passen
         /// </summary>
-        /// <param name="strUsername">Benutzername</param>
-        /// <param name="strPassword">Kennwort</param>
-        /// <param name="bEncryted">Flag, ob das Kennwort schon 
+        /// <param name="userName">Benutzername</param>
+        /// <param name="password">Kennwort</param>
+        /// <param name="encryted">Flag, ob das Kennwort schon 
         /// verschlüsselt ist</param>
         /// <returns>true, wenn dies der Fall ist</returns>
-        bool AreCredentialsOk(String strUserName, String strPassword, bool bEncryted);
+        bool AreCredentialsOk(String userName, String password, bool encryted);
     }
 }

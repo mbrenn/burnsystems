@@ -53,9 +53,15 @@ namespace BurnSystems.Net
             get { return _Headers; }
         }
 
-        public String this [String strHeaderName ]
+        /// <summary>
+        /// Gets a specific header
+        /// </summary>
+        /// <param name="strHeaderName">Name of requested header</param>
+        /// <returns>Found header or null</returns>
+        public String this[String strHeaderName]
         {
-            get{
+            get
+            {
                 var oPair =
                     Headers.Find(x => x.First == strHeaderName);
                 if (oPair != null)

@@ -147,6 +147,10 @@ namespace BurnSystems.Logging
 
         #region IDisposable Member
 
+        /// <summary>
+        /// Disposes this object
+        /// </summary>
+        /// <param name="bDisposing">Flag, if disposed by <c>Dispose()</c></param>
         void Dispose(bool bDisposing)
         {
             if (bDisposing)
@@ -155,12 +159,18 @@ namespace BurnSystems.Logging
             }
         }
 
+        /// <summary>
+        /// Disposes this object
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Finaliser
+        /// </summary>
         ~Log()
         {
             Dispose(false);

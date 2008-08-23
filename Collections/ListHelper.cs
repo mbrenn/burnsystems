@@ -56,22 +56,25 @@ namespace BurnSystems.Collections
     /// <summary>
     /// Portiert den Delegat <c>Func</c> aus System.Core zurück
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="oParameter"></param>
-    /// <returns></returns>
+    /// <typeparam name="TResult">Type of result</typeparam>
+    /// <returns>Result</returns>
     public delegate TResult Function<TResult>();
 
     /// <summary>
     /// Portiert den Delegat <c>Func</c> aus System.Core zurück
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="oParameter"></param>
+    /// <typeparam name="TResult">Type of result</typeparam>
+    /// <typeparam name="T">Type of first parameter</typeparam>
+    /// <param name="parameter">Parameter</param>
     /// <returns></returns>
-    public delegate TResult Function<TResult, T>(T oParameter);
+    public delegate TResult Function<TResult, T>(T parameter);
 
     /// <summary>
     /// Portiert den Delegat <c>Func</c> aus System.Core zurück
     /// </summary>
+    /// <param name="o1">First parameter</param>
+    /// <param name="o2">Second parameter</param>
+    /// <typeparam name="TResult">Type of result</typeparam>
     /// <typeparam name="T1">Typ 1</typeparam>
     /// <typeparam name="T2">Typ 2</typeparam>    
     /// <returns></returns>
@@ -309,12 +312,12 @@ namespace BurnSystems.Collections
         /// Sortiert eine Liste mit Hilfe des übergebenen Comparers
         /// </summary>
         /// <typeparam name="T">Typ der in der Liste enthaltenen Elemente</typeparam>
-        /// <param name="oList">Zu sortierende Liste</param>
-        /// <param name="oComparer">Compaerer</param>
-        public static IEnumerable<T> Sort<T>(IEnumerable<T> iList, Comparison<T> oComparer)
+        /// <param name="list">Zu sortierende Liste</param>
+        /// <param name="comparer">Compaerer</param>
+        public static IEnumerable<T> Sort<T>(IEnumerable<T> list, Comparison<T> comparer)
         {
-            var oList = new List<T>(iList);
-            oList.Sort(oComparer);
+            var oList = new List<T>(list);
+            oList.Sort(comparer);
             return oList;
         }
 
@@ -323,19 +326,19 @@ namespace BurnSystems.Collections
         /// Prädikat <c>oPredicate</c> erfüllen.
         /// </summary>
         /// <typeparam name="T">Typspezifizierer</typeparam>
-        /// <param name="aiList">Liste, die verändert werden soll</param>
-        /// <param name="oPredicate">Prädikat</param>
+        /// <param name="list">Liste, die verändert werden soll</param>
+        /// <param name="predicate">Prädikat</param>
         /// <returns>Anzahl der entfernten Elemente</returns>
-        public static int Remove<T>(IList<T> aiList, Predicate<T> oPredicate)
+        public static int Remove<T>(IList<T> list, Predicate<T> predicate)
         {
-            var oList = new List<T>(aiList);
+            var oList = new List<T>(list);
             var nPosition = 0;
             int nRemoved = 0;
             foreach (var oItem in oList)
             {
-                if (oPredicate(oItem))
+                if (predicate(oItem))
                 {
-                    aiList.RemoveAt(nPosition);
+                    list.RemoveAt(nPosition);
                     nRemoved++;
                 }
                 else

@@ -95,6 +95,7 @@ namespace BurnSystems.Test
         /// Prüft, ob der angegebene Wert true ist
         /// </summary>
         /// <param name="value">Zu überprüfende Wert</param>
+        /// <param name="errorText">Error text, if check fails</param>
         public static void IsTrue(bool value, String errorText)
         {
             if (!value)
@@ -119,6 +120,7 @@ namespace BurnSystems.Test
         /// Prüft, ob der angegebene Wert false ist
         /// </summary>
         /// <param name="value">Zu überprüfende Wert</param>
+        /// <param name="errorText">Error text, if check fails</param>
         public static void IsFalse(bool value, String errorText)
         {
             if (value)
@@ -157,7 +159,8 @@ namespace BurnSystems.Test
         /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
-        public static void AreEqual<T>(T value, T reference, String strText)
+        /// <param name="text">Error text</param>
+        public static void AreEqual<T>(T value, T reference, String text)
         {
             if (value.Equals(reference))
             {
@@ -167,7 +170,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} == {1}: {2}", value.ToString(), reference.ToString(), strText));
+                        "{0} == {1}: {2}", value.ToString(), reference.ToString(), text));
             }
         }
 
@@ -206,7 +209,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer der Referenz ist. Zum Vergleich
         /// wird der >-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreater(short value, short reference)
@@ -227,7 +229,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer der Referenz ist. Zum Vergleich
         /// wird der >-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreater(int value, int reference)
@@ -248,7 +249,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer der Referenz ist. Zum Vergleich
         /// wird der >-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreater(long value, long reference)
@@ -269,7 +269,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer der Referenz ist. Zum Vergleich
         /// wird der >-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreater(float value, float reference)
@@ -290,7 +289,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer der Referenz ist. Zum Vergleich
         /// wird der >-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreater(double value, double reference)
@@ -311,7 +309,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer der Referenz ist. Zum Vergleich
         /// wird der >-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreater(decimal value, decimal reference)
@@ -336,7 +333,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreaterOrEqual(short value, short reference)
@@ -357,7 +353,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreaterOrEqual(int value, int reference)
@@ -378,7 +373,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreaterOrEqual(long value, long reference)
@@ -399,7 +393,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreaterOrEqual(float value, float reference)
@@ -420,7 +413,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreaterOrEqual(double value, double reference)
@@ -441,7 +433,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsGreaterOrEqual(decimal value, decimal reference)
@@ -466,7 +457,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmaller(short value, short reference)
@@ -487,7 +477,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmaller(int value, int reference)
@@ -508,7 +497,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmaller(long value, long reference)
@@ -529,7 +517,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmaller(float value, float reference)
@@ -550,7 +537,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmaller(double value, double reference)
@@ -571,7 +557,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmaller(decimal value, decimal reference)
@@ -596,7 +581,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmallerOrEqual(short value, short reference)
@@ -617,7 +601,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmallerOrEqual(int value, int reference)
@@ -638,7 +621,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmallerOrEqual(long value, long reference)
@@ -659,7 +641,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmallerOrEqual(float value, float reference)
@@ -680,7 +661,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmallerOrEqual(double value, double reference)
@@ -701,7 +681,6 @@ namespace BurnSystems.Test
         /// Überprüft, ob das übergebene Objekt größer oder gleich der Referenz ist. 
         /// Zum Vergleich wird der >=-Operator genutzt.
         /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void IsSmallerOrEqual(decimal value, decimal reference)

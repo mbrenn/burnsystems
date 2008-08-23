@@ -9,12 +9,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Threading;
 
 namespace BurnSystems.Logging
 {
+    using System;
+    using System.IO;
+    using System.Threading;
+
     /// <summary>
     /// This is a file provider, which stores the logs into a file.
     /// The logging file is only opened during the writing of a log entry
@@ -23,28 +24,28 @@ namespace BurnSystems.Logging
     /// </summary>
     public class FileProvider : ILogProvider
     {
-        readonly String _Path;
+        private readonly String path;
 
         /// <summary>
         /// Flag, if the Fileprovider is currently in the exception
         /// </summary>
-        static bool _InException;
+        private static bool _InException;
 
         /// <summary>
         /// Gibt den Pfad zurück an dem das Logging gespeichert wird.
         /// </summary>
         public String Path
         {
-            get { return _Path; }
+            get { return this.path; }
         }
 
         /// <summary>
         /// Creates new fileprovider with the name
         /// </summary>
-        /// <param name="filename">Filename</param>
-        public FileProvider(String strPath)
+        /// <param name="path">Filename</param>
+        public FileProvider(String path)
         {
-            _Path = strPath;
+            this.path = path;
         }
 
         #region ILogProvider Members
@@ -73,7 +74,7 @@ namespace BurnSystems.Logging
         {
             try
             {
-                using (StreamWriter oWriter = new StreamWriter(_Path, true))
+                using (StreamWriter oWriter = new StreamWriter(path, true))
                 {
                     String strMessage = entry.Message.Replace(';', ',')
                         .Replace('\r', ' ').Replace('\n', ' ');
@@ -96,7 +97,7 @@ namespace BurnSystems.Logging
                 _InException = false;
 
                 // Retry
-                using (StreamWriter oWriter = new StreamWriter(_Path, true))
+                using (StreamWriter oWriter = new StreamWriter(path, true))
                 {
                     String strMessage = entry.Message.Replace(';', ',')
                         .Replace('\r', ' ').Replace('\n', ' ');

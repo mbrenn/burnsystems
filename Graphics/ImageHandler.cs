@@ -9,17 +9,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-// (c) by BurnSystems '06
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
-
 namespace BurnSystems.Graphics
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Drawing;
+    using System.IO;
+    using System.Drawing.Imaging;
+
     /// <summary>
     /// This class takes an image and performs some actions on it. 
     /// </summary>
@@ -28,83 +26,44 @@ namespace BurnSystems.Graphics
         /// <summary>
         /// Image to be handled
         /// </summary>
-        Image m_oImage;
-
-        /// <summary>
-        /// Current image
-        /// </summary>
-        public Image Image
-        {
-            get { return m_oImage; }
-        }   
+        private Image image;
 
         /// <summary>
         /// Creates new image handler and stores the imageit
         /// </summary>
-        /// <param name="oImage">Image</param>
-        public ImageHandler(Image oImage)
+        /// <param name="image">Image used by this handler</param>
+        public ImageHandler(Image image)
         {
-            m_oImage = oImage;
+            this.image = image;
         }
 
         /// <summary>
         /// Creates a new image and creates an image from stream
         /// </summary>
-        /// <param name="oStream">Stream</param>
-        public ImageHandler(Stream oStream)
+        /// <param name="stream">Stream containing the image</param>
+        public ImageHandler(Stream stream)
         {
-            m_oImage = Image.FromStream(oStream);
+            this.image = Image.FromStream(stream);
         }
 
-        public ImageHandler(byte[] aoImageData)
+        /// <summary>
+        /// Creates new instance and sets image 
+        /// </summary>
+        /// <param name="imageData">Imagedata containing the image</param>
+        public ImageHandler(byte[] imageData)
         {
-            using (MemoryStream oStream = new MemoryStream(aoImageData))
+            using (var stream = new MemoryStream(imageData))
             {
-                m_oImage = Image.FromStream(oStream);
+                this.image = Image.FromStream(stream);
             }
         }
 
         /// <summary>
-        /// Resizes the image so, that it fits to the border
+        /// Finalisierer of image. 
         /// </summary>
-        /// <param name="nWidth">Width</param>
-        /// <param name="nHeight">Height</param>
-        public void ResizeToBorder(int nWidth, int nHeight)
+        ~ImageHandler()
         {
-            double dFactor = nWidth / (double)m_oImage.Width;
-            dFactor = System.Math.Min(dFactor, nHeight / (double)m_oImage.Height);
-
-            // Checks, if image needs to be shrinked
-            if (dFactor > 1)
-            {
-                return;
-            }
-
-            int nNewWidth = (int)(m_oImage.Width * dFactor);
-            int nNewHeight = (int)(m_oImage.Height * dFactor);
-
-            Image oNewImage = new Bitmap(m_oImage, new Size(nNewWidth, nNewHeight));
-            m_oImage.Dispose();
-            m_oImage = oNewImage;
-        }
-
-
-        /// <summary>
-        /// Resizes image, so it fits into the border
-        /// </summary>
-        /// <param name="oSize">Targetsize of image</param>
-        public void ResizeToBorder(Size oSize)
-        {
-            ResizeToBorder(oSize.Width, oSize.Height);
-        }
-
-        /// <summary>
-        /// Clones image
-        /// </summary>
-        /// <returns></returns>
-        public Image CloneImage()
-        {
-            return (Image)m_oImage.Clone();
+            this.Dispose(false);
         }
 
         /// <summary>
@@ -114,13 +73,13 @@ namespace BurnSystems.Graphics
         {
             get
             {
-                ImageCodecInfo[] aoCodecs = ImageCodecInfo.GetImageEncoders();
+                ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
 
-                foreach (ImageCodecInfo oCodec in aoCodecs)
+                foreach (ImageCodecInfo codec in codecs)
                 {
-                    if (oCodec.MimeType == "image/jpeg")
+                    if (codec.MimeType == "image/jpeg")
                     {
-                        return oCodec;
+                        return codec;
                     }
                 }
 
@@ -128,41 +87,83 @@ namespace BurnSystems.Graphics
             }
         }
 
-        #region IDisposable Members
+        /// <summary>
+        /// Gets the image
+        /// </summary>
+        public Image Image
+        {
+            get { return this.image; }
+        }   
 
         /// <summary>
-        /// Disposes the image.
+        /// Resizes the image so, that it fits to the border
         /// </summary>
-        void Dispose(bool bDisposing)
+        /// <param name="width">Width of border</param>
+        /// <param name="height">Height of border</param>
+        public void ResizeToBorder(int width, int height)
         {
-            if (bDisposing)
+            double factor = width / (double)this.image.Width;
+            factor = System.Math.Min(factor, height / (double)this.image.Height);
+
+            // Checks, if image needs to be shrinked
+            if (factor > 1)
             {
-                if (m_oImage != null)
-                {
-                    m_oImage.Dispose();
-                    m_oImage = null;
-                }                
+                return;
             }
+
+            int newWidth = (int)(this.image.Width * factor);
+            int newHeight = (int)(this.image.Height * factor);
+
+            Image newImage = new Bitmap(this.image, new Size(newWidth, newHeight));
+            this.image.Dispose();
+            this.image = newImage;
         }
+
+        /// <summary>
+        /// Resizes image, so it fits into the border
+        /// </summary>
+        /// <param name="size">Targetsize of image</param>
+        public void ResizeToBorder(Size size)
+        {
+            this.ResizeToBorder(size.Width, size.Height);
+        }
+
+        /// <summary>
+        /// Clones image
+        /// </summary>
+        /// <returns>Cloned image</returns>
+        public Image CloneImage()
+        {
+            return (Image)this.image.Clone();
+        }
+
+        #region IDisposable Members
 
         /// <summary>
         /// Vernichtet das Objekt
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Finalisierer
+        /// Disposes the image.
         /// </summary>
-        ~ImageHandler()
+        /// <param name="disposing">true, if called by Dispose()</param>
+        private void Dispose(bool disposing)
         {
-            Dispose(false);
+            if (disposing)
+            {
+                if (this.image != null)
+                {
+                    this.image.Dispose();
+                    this.image = null;
+                }
+            }
         }
 
         #endregion
-
     }
 }

@@ -43,6 +43,10 @@ namespace BurnSystems.Synchronisation
 
         #region IDisposable Member
 
+        /// <summary>
+        /// Disposes und unlocks the element
+        /// </summary>
+        /// <param name="bDisposing">Called by Dispose</param>
         void Dispose(bool bDisposing)
         {
             if (bDisposing && !_IsDisposed)
@@ -60,6 +64,9 @@ namespace BurnSystems.Synchronisation
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Finaliser
+        /// </summary>
         ~SimpleLock()
         {
             Dispose(false);
