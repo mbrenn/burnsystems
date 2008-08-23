@@ -9,13 +9,14 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BurnSystems.Collections;
-
 namespace BurnSystems.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using BurnSystems.Collections;
+
+
     /// <summary>
     /// Mit Hilfe dieser Hilfsklasse kann überprüft werden, ob 
     /// ein bestimmter Zustand eingehalten wird. Im Prinzip entspricht 
@@ -736,6 +737,19 @@ namespace BurnSystems.Test
                 return;
             }
             throw new EnsureFailedException("ThrowsException");
+        }
+
+        /// <summary>
+        /// Checks, if the given object is from a specific type
+        /// </summary>
+        /// <param name="value">Value to be checked</param>
+        /// <param name="type">Type to be checked</param>
+        public static void IsType(object value, Type type)
+        {
+            if (!type.IsInstanceOfType(value))
+            {
+                throw new EnsureFailedException(value.ToString() + " not type of " + type.FullName);
+            }
         }
     }
 }
