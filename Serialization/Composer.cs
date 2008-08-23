@@ -64,12 +64,12 @@ namespace BurnSystems.Serialization
                 switch (containerType)
                 {
                     case ContainerType.Type:
-                        ReadType();
+                        this.ReadType();
                         break;
                     case ContainerType.Data:
-                        return ReadData();
+                        return this.ReadData();
                     case ContainerType.Reference:
-                        return ReadReference();
+                        return this.ReadReference();
                     default:
                         throw new InvalidOperationException(
                             LocalizationBS.BinaryWriter_UnknownContainerType);
@@ -90,17 +90,38 @@ namespace BurnSystems.Serialization
                 case DataType.Null:
                     return null;
                 case DataType.Native:
-                    return ReadNativeType();
+                    return this.ReadNativeType();
                 case DataType.Array:
-                    return ReadArrayType();
+                    return this.ReadArrayType();
                 case DataType.Complex:
-                    return ReadComplexType();
+                    return this.ReadComplexType();
                 case DataType.Enum:
-                    return ReadEnumType();
+                    return this.ReadEnumType();
                 default:
                     throw new InvalidOperationException(
                         LocalizationBS.BinaryWriter_UnknownDataType);
             }
+        }
+
+        /// <summary>
+        /// Reads a new datatype
+        /// </summary>
+        public void ReadType()
+        {
+            var typeEntry = this.BinaryReader.ReadTypeEntry();
+
+            this.Deserializer.RegisterType(typeEntry);            
+        }
+
+        /// <summary>
+        /// Reads the reference
+        /// </summary>
+        /// <returns>Read reference</returns>
+        public object ReadReference()
+        {
+            var referenceHeader = this.BinaryReader.ReadReferenceHeader();
+
+            return this.Deserializer.ObjectContainer.FindObjectById(referenceHeader.ObjectId);
         }
 
         /// <summary>
@@ -160,7 +181,7 @@ namespace BurnSystems.Serialization
         private object ReadArrayType()
         {
             var arrayHeader = this.BinaryReader.ReadArrayHeader();
-            
+
             // Gets the list
             var dimensions = arrayHeader.DimensionCount;
             var dimensionList = new List<int>();
@@ -222,27 +243,6 @@ namespace BurnSystems.Serialization
         {
             var value = this.BinaryReader.ReadNativeObject();
             return value;
-        }
-
-        /// <summary>
-        /// Reads a new datatype
-        /// </summary>
-        public void ReadType()
-        {
-            var typeEntry = this.BinaryReader.ReadTypeEntry();
-
-            this.Deserializer.RegisterType(typeEntry);            
-        }
-
-        /// <summary>
-        /// Reads the reference
-        /// </summary>
-        /// <returns>Read reference</returns>
-        public object ReadReference()
-        {
-            var referenceHeader = this.BinaryReader.ReadReferenceHeader();
-
-            return this.Deserializer.ObjectContainer.FindObjectById(referenceHeader.ObjectId);
         }
     }
 }

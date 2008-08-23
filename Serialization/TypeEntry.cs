@@ -25,12 +25,12 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// The methods of this type
         /// </summary>
-        List<FieldEntry> fields = new List<FieldEntry>();
+        private List<FieldEntry> fields = new List<FieldEntry>();
 
         /// <summary>
         /// Id of the last index
         /// </summary>
-        int lastIndex;
+        private int lastIndex;
 
         /// <summary>
         /// Gets or sets the id of the type
@@ -53,7 +53,7 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Gets or sets the name of the type
         /// </summary>
-        public String Name
+        public string Name
         {
             get;
             set;
@@ -75,8 +75,8 @@ namespace BurnSystems.Serialization
         {
             var fieldEntry = new FieldEntry();
 
-            lastIndex++;
-            fieldEntry.FieldId = lastIndex;
+            this.lastIndex++;
+            fieldEntry.FieldId = this.lastIndex;
 
             fieldEntry.FieldInfo = field;
 

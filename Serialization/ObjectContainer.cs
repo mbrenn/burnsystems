@@ -24,25 +24,25 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Stores the object and associates them to a number
         /// </summary>
-        Dictionary<object, long> objectToNumber;
+        private Dictionary<object, long> objectToNumber;
 
         /// <summary>
         /// Stores the number and associates an object
         /// </summary>
-        Dictionary<long, object> numberToObject;
+        private Dictionary<long, object> numberToObject;
 
         /// <summary>
         /// Last index of the inserted object
         /// </summary>
-        long lastIndex;
+        private long lastIndex;
 
         /// <summary>
         /// Creates a new container
         /// </summary>
         public ObjectContainer()
         {
-            objectToNumber = new Dictionary<object, long>(new ObjectComparer());
-            numberToObject = new Dictionary<long, object>();
+            this.objectToNumber = new Dictionary<object, long>(new ObjectComparer());
+            this.numberToObject = new Dictionary<long, object>();
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace BurnSystems.Serialization
 
             // Add new entry
             alreadyInserted = false;
-            lastIndex++;
-            result = lastIndex;
-            this.objectToNumber[value] = lastIndex;
-            this.numberToObject[lastIndex] = value;
+            this.lastIndex++;
+            result = this.lastIndex;
+            this.objectToNumber[value] = this.lastIndex;
+            this.numberToObject[this.lastIndex] = value;
 
             return result;
         }
@@ -83,9 +83,19 @@ namespace BurnSystems.Serialization
         }
 
         /// <summary>
+        /// Returns an object by objectid
+        /// </summary>
+        /// <param name="objectId">Id of object</param>
+        /// <returns>Found object</returns>
+        public object FindObjectById(long objectId)
+        {
+            return this.numberToObject[objectId];
+        }
+
+        /// <summary>
         /// Equalitycomparer for references
         /// </summary>
-        class ObjectComparer : IEqualityComparer<object>
+        private class ObjectComparer : IEqualityComparer<object>
         {
             #region IEqualityComparer<object> Members
 
@@ -111,16 +121,6 @@ namespace BurnSystems.Serialization
             }
 
             #endregion
-        }
-
-        /// <summary>
-        /// Returns an object by objectid
-        /// </summary>
-        /// <param name="objectId">Id of object</param>
-        /// <returns>Found object</returns>
-        public object FindObjectById(long objectId)
-        {
-            return this.numberToObject[objectId];
         }
     }
 }

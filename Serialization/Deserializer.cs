@@ -78,7 +78,8 @@ namespace BurnSystems.Serialization
             // Go through field infos and sets them
             foreach (var field in typeEntry.Fields)
             {
-                var fieldInfo = type.GetField(field.Name,
+                var fieldInfo = type.GetField(
+                    field.Name,
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                 field.FieldInfo = fieldInfo;
             }

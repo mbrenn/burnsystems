@@ -9,12 +9,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Serialization
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
     /// The base class for serialization and deserialization.
     /// </summary>
@@ -35,7 +35,7 @@ namespace BurnSystems.Serialization
         /// </summary>
         public ObjectContainer ObjectContainer
         {
-            get { return objectContainer; }
+            get { return this.objectContainer; }
         }
 
         /// <summary>

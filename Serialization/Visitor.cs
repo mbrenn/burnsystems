@@ -53,8 +53,8 @@ namespace BurnSystems.Serialization
             // Null object
             if (value == null)
             {
-                writer.StartContainer(ContainerType.Data);
-                writer.StartDataContainer(DataType.Null);
+                this.writer.StartContainer(ContainerType.Data);
+                this.writer.StartDataContainer(DataType.Null);
                 return;
             }
 
@@ -62,6 +62,7 @@ namespace BurnSystems.Serialization
             var type = value.GetType();
 
             long objectId = -1;
+
             // Checks, if object is already in reference
             if (type.IsClass || type.IsArray)
             {
@@ -69,8 +70,8 @@ namespace BurnSystems.Serialization
                 objectId = this.serializer.RegisterObject(value, out alreadyInserted);
                 if (alreadyInserted)
                 {
-                    writer.StartContainer(ContainerType.Reference);
-                    writer.WriteReference(objectId);
+                    this.writer.StartContainer(ContainerType.Reference);
+                    this.writer.WriteReference(objectId);
                     return;
                 }
             }
@@ -78,9 +79,9 @@ namespace BurnSystems.Serialization
             // Write
             if (Helper.IsNativeType(type))
             {
-                writer.StartContainer(ContainerType.Data);
-                writer.StartDataContainer(DataType.Native);
-                writer.WriteNativeType(value);
+                this.writer.StartContainer(ContainerType.Data);
+                this.writer.StartDataContainer(DataType.Native);
+                this.writer.WriteNativeType(value);
             }
             else if (Helper.IsEnumeration(type))
             {
@@ -107,9 +108,9 @@ namespace BurnSystems.Serialization
 
             var typeEntry = this.serializer.RegisterType(type);
 
-            writer.StartContainer(ContainerType.Data);
-            writer.StartDataContainer(DataType.Enum);
-            writer.WriteEnumType(typeEntry.TypeId, value as Enum);
+            this.writer.StartContainer(ContainerType.Data);
+            this.writer.StartDataContainer(DataType.Enum);
+            this.writer.WriteEnumType(typeEntry.TypeId, value as Enum);
         }
 
         /// <summary>
@@ -124,14 +125,14 @@ namespace BurnSystems.Serialization
             var typeEntry = this.serializer.RegisterType(type);
             
             // Get the properties of 'Type' class object.            
-            writer.StartContainer(ContainerType.Data);
-            writer.StartDataContainer(DataType.Complex);
-            writer.StartComplexType(typeEntry.TypeId, objectId, typeEntry.Fields.Count);
+            this.writer.StartContainer(ContainerType.Data);
+            this.writer.StartDataContainer(DataType.Complex);
+            this.writer.StartComplexType(typeEntry.TypeId, objectId, typeEntry.Fields.Count);
 
             foreach (var field in typeEntry.Fields) 
             {
-                writer.WritePropertyId(field.FieldId);
-                ParseObject(field.FieldInfo.GetValue(value));
+                this.writer.WritePropertyId(field.FieldId);
+                this.ParseObject(field.FieldInfo.GetValue(value));
             }
         }
 
@@ -148,9 +149,9 @@ namespace BurnSystems.Serialization
             Ensure.IsNotNull(elementType);
 
             var elementTypeEntry = this.serializer.RegisterType(elementType);
-            
-            writer.StartContainer(ContainerType.Data);
-            writer.StartDataContainer(DataType.Array);            
+
+            this.writer.StartContainer(ContainerType.Data);
+            this.writer.StartDataContainer(DataType.Array);            
 
             // Got dimensions
             var dimensions = array.Rank;
@@ -161,7 +162,11 @@ namespace BurnSystems.Serialization
                 dimensionList.Add(length);
             }
 
-            writer.StartArrayType(elementTypeEntry.TypeId, objectId, dimensions, dimensionList);
+            this.writer.StartArrayType(
+                elementTypeEntry.TypeId, 
+                objectId, 
+                dimensions, 
+                dimensionList);
 
             // Go through all values
             int[] index = new int[dimensions];

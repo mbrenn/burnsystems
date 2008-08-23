@@ -104,7 +104,7 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Adds a typeentry without performing the allocation for a new id
         /// </summary>
-        /// <param name="typeEntry"></param>
+        /// <param name="typeEntry">Typeentry to be added</param>
         internal void AddType(TypeEntry typeEntry)
         {
             this.types.Add(typeEntry);

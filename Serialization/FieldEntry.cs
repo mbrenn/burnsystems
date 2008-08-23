@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="TypeEntry.cs" company="Martin Brenn">
+// <copyright file="FieldEntry.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
 //     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
@@ -33,7 +33,7 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Gets or sets the name of the field
         /// </summary>
-        public String Name
+        public string Name
         {
             get;
             set;

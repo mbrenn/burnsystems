@@ -307,7 +307,7 @@ namespace BurnSystems.Serialization
         {
             this.WriteInt64(typeId);
 
-            WriteNativeType((enumeration as IConvertible).ToInt32(null));
+            this.WriteNativeType((enumeration as IConvertible).ToInt32(null));
         }
     }
 }

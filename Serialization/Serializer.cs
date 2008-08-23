@@ -71,8 +71,8 @@ namespace BurnSystems.Serialization
             {
                 typeEntry = this.TypeContainer.AddType(type);
 
-                writer.StartContainer(ContainerType.Type);
-                writer.WriteType(typeEntry);
+                this.writer.StartContainer(ContainerType.Type);
+                this.writer.WriteType(typeEntry);
             }
 
             return typeEntry;

@@ -23,7 +23,7 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// List of dimensionsizes
         /// </summary>
-        List<int> dimensions = new List<int>();
+        private List<int> dimensions = new List<int>();
 
         /// <summary>
         /// Gets or sets the id of type
