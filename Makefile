@@ -17,11 +17,15 @@ BURNSYSTEMS_REFERENCES = System.Drawing.dll,System.Web.dll
 
 all: 	bin/Release/BurnSystems.dll
 
-bin/Release/BurnSystems.dll: $(CSHARP_FILES)
+bin/Release/BurnSystems.dll: $(CSHARP_FILES) LocalizationBS.resources
 	mkdir -p bin
 	mkdir -p bin/Release
-	$(MCS) $(MCS_FLAGS) -out:bin/Release/BurnSystems.dll -target:library -r:$(BURNSYSTEMS_REFERENCES) $(CSHARP_FILES) 
+	$(MCS) $(MCS_FLAGS) -out:bin/Release/BurnSystems.dll -target:library -r:$(BURNSYSTEMS_REFERENCES) -resource:LocalizationBS.resources $(CSHARP_FILES)
+
+LocalizationBS.resources: LocalizationBS.resx
+	resgen2 LocalizationBS.resx
 
 .PHONY: clean
 clean:
 	rm -rf bin
+	rm *.resources
