@@ -1,4 +1,4 @@
-MCS_FLAGS = -warn:4 -langversion:LINQ
+MCS_FLAGS = -warn:4
 MCS = gmcs
 
 CSHARP_FILES = *.cs \
@@ -8,6 +8,7 @@ CSHARP_FILES = *.cs \
 	Logging/*.cs \
 	Net/*.cs \
 	Properties/*.cs \
+	Serialization/*.cs \
 	Synchronisation/*.cs \
 	Test/*.cs \
 	UnitTests/*.cs
