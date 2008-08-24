@@ -69,6 +69,16 @@ namespace BurnSystems.Serialization
 
             if (typeEntry == null)
             {
+                // Adds subgeneric
+                if (type.IsGenericType)
+                {
+                    foreach (var genericType in type.GetGenericArguments())
+                    {
+                        this.RegisterType(genericType);
+                    }
+                }
+
+                // Adds a new type
                 typeEntry = this.TypeContainer.AddType(type);
 
                 this.writer.StartContainer(ContainerType.Type);

@@ -18,6 +18,7 @@ namespace BurnSystems.Serialization
     using BurnSystems.Test;
     using System.Reflection;
     using System.Threading;
+    using BurnSystems.Collections;
 
     /// <summary>
     /// Deserializes a stream and returns an object. 
@@ -61,6 +62,7 @@ namespace BurnSystems.Serialization
         /// <param name="typeEntry">Type-Entry to be created</param>
         public void RegisterType(TypeEntry typeEntry)
         {
+            // Gets the type
             Type type = null;
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -73,6 +75,16 @@ namespace BurnSystems.Serialization
 
             Ensure.IsNotNull(type, typeEntry.Name);
 
+            // Gets generic arguments
+            if (typeEntry.GenericArguments.Count > 0)
+            {
+                var genericTypes = ListHelper.ConvertToArray(typeEntry.GenericArguments,
+                    x => this.TypeContainer.FindType(x).Type);
+
+                type = type.MakeGenericType(genericTypes);
+            }
+
+            // Sets the type
             typeEntry.Type = type;
 
             // Go through field infos and sets them

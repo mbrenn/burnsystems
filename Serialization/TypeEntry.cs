@@ -28,6 +28,11 @@ namespace BurnSystems.Serialization
         private List<FieldEntry> fields = new List<FieldEntry>();
 
         /// <summary>
+        /// The generic arguments of the type
+        /// </summary>
+        private List<long> genericArguments = new List<long>();
+
+        /// <summary>
         /// Id of the last index
         /// </summary>
         private int lastIndex;
@@ -65,6 +70,14 @@ namespace BurnSystems.Serialization
         public List<FieldEntry> Fields
         {
             get { return this.fields; }
+        }
+
+        /// <summary>
+        /// Gets the generic arguments
+        /// </summary>
+        public List<long> GenericArguments
+        {
+            get { return this.genericArguments; }
         }
 
         /// <summary>

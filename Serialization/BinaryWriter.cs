@@ -159,6 +159,12 @@ namespace BurnSystems.Serialization
             this.WriteInt32(typeNameAsBytes.Length);
             this.stream.Write(typeNameAsBytes, 0, typeNameAsBytes.Length);
 
+            this.WriteInt32(typeEntry.GenericArguments.Count);
+            foreach (var typeEntryId in typeEntry.GenericArguments)            
+            {
+                this.WriteInt64(typeEntryId);
+            }
+
             // Writes number of fields
             this.WriteInt32(typeEntry.Fields.Count);
 

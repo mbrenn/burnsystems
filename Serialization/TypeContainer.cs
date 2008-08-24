@@ -16,6 +16,7 @@ namespace BurnSystems.Serialization
     using System.Text;
     using System.Reflection;
     using BurnSystems.Collections;
+    using BurnSystems.Test;
 
     /// <summary>
     /// The typecontainer stores and initializes the different type entries
@@ -52,15 +53,30 @@ namespace BurnSystems.Serialization
         /// <returns>Added TypeEntry</returns>
         public TypeEntry AddType(Type type)
         {
+            // Creates new entry
             var typeEntry = new TypeEntry();
 
             this.lastIndex++;
             typeEntry.TypeId = this.lastIndex;
 
+            // Sets typeid etc
             typeEntry.Type = type;
             typeEntry.Name = type.FullName;
+
+            if (type.IsGenericType)
+            {
+                typeEntry.Name = type.GetGenericTypeDefinition().FullName;
+
+                // Adds generic arguments
+                foreach (var genericType in type.GetGenericArguments())
+                {
+                    var genericTypeEntry = this.FindType(genericType);
+                    Ensure.IsNotNull(genericTypeEntry);
+                    typeEntry.GenericArguments.Add(genericTypeEntry.TypeId);
+                }
+            }
             
-            // Adds methods
+            // Adds fields
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 typeEntry.AddField(field);

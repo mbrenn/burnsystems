@@ -202,17 +202,27 @@ namespace BurnSystems.Serialization
 
             var typeNameBytes = new byte[typeNameLength];
             this.stream.Read(typeNameBytes, 0, typeNameLength);
-
-            var propertyCount = this.ReadInt32();
-            Ensure.IsGreaterOrEqual(propertyCount, 0);
-
+            
             // Create type entry
             var typeEntry = new TypeEntry();
             typeEntry.TypeId = typeId;
             typeEntry.Name = Encoding.UTF8.GetString(typeNameBytes);
 
+            // Read generic arguments
+            var genericArgumentCount = this.ReadInt32();
+            for (var n = 0; n < genericArgumentCount; n++)
+            {
+                var genericTypeId = this.ReadInt64();
+                typeEntry.GenericArguments.Add(genericTypeId);
+            }
+
+            // Add fields
+            var fieldCount = this.ReadInt32();
+            Ensure.IsGreaterOrEqual(fieldCount, 0);
+
+
             // Read properties
-            for (var n = 0; n < propertyCount; n++)
+            for (var n = 0; n < fieldCount; n++)
             {
                 var fieldId = this.ReadInt32();
                 var fieldNameLength = this.ReadInt32();
