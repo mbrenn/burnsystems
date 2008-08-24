@@ -80,9 +80,17 @@ namespace BurnSystems.Serialization
             var thisType = type;
             while (thisType != null)
             {
-                foreach (var field in type.GetFields(
+                foreach (var field in thisType.GetFields(
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
+                    // Checks, if this field already exists
+                    if (typeEntry.Fields.Exists(
+                        x => 
+                            x.FieldInfo.DeclaringType.FullName == field.DeclaringType.FullName
+                            && x.FieldInfo.Name == field.Name))
+                    {
+                        continue;
+                    }
                     typeEntry.AddField(field);
                 }
 

@@ -94,7 +94,7 @@ namespace BurnSystems.Serialization
 
                 while (thisType != null && field.FieldInfo == null)
                 {
-                    var fieldInfo = type.GetField(
+                    var fieldInfo = thisType.GetField(
                         field.Name,
                         BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     field.FieldInfo = fieldInfo;
