@@ -43,6 +43,11 @@ namespace BurnSystems.Serialization
         /// <returns>Bytearray with the converted value</returns>
         public static byte[] ConvertNativeObject(object value, Type type)
         {
+            if (type == typeof(bool))
+            {
+                return new byte[] { (byte) (((bool)value) ? 0x01 : 0x00) };
+            }
+
             if (type == typeof(byte))
             {
                 return new byte[] { (byte)value };
@@ -103,6 +108,8 @@ namespace BurnSystems.Serialization
                     LocalizationBS.BinaryWriter_ObjectNotConverted,
                     value.GetType()));
         }
+    
+        
 
         /// <summary>
         /// Writes the header into the stream

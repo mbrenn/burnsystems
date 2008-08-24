@@ -98,16 +98,17 @@ namespace BurnSystems.Serialization
         /// </summary>
         static Helper()
         {
-            numberToNativeType[1] = typeof(byte);
-            numberToNativeType[2] = typeof(short);
-            numberToNativeType[3] = typeof(int);
-            numberToNativeType[4] = typeof(long);
-            numberToNativeType[5] = typeof(ushort);
-            numberToNativeType[6] = typeof(ulong);
-            numberToNativeType[7] = typeof(float);
-            numberToNativeType[8] = typeof(double);
-            numberToNativeType[9] = typeof(char);
-            numberToNativeType[10] = typeof(string);
+            numberToNativeType[1] = typeof(bool);
+            numberToNativeType[2] = typeof(byte);
+            numberToNativeType[3] = typeof(short);
+            numberToNativeType[4] = typeof(int);
+            numberToNativeType[5] = typeof(long);
+            numberToNativeType[6] = typeof(ushort);
+            numberToNativeType[7] = typeof(ulong);
+            numberToNativeType[8] = typeof(float);
+            numberToNativeType[9] = typeof(double);
+            numberToNativeType[10] = typeof(char);
+            numberToNativeType[11] = typeof(string);
 
             foreach (var pair in numberToNativeType)
             {

@@ -44,6 +44,11 @@ namespace BurnSystems.Serialization
         /// <returns>Converted object</returns>
         public static object ConvertObject(byte[] value, Type type)
         {
+            if (type == typeof(bool))
+            {
+                return value[0] == 1;
+            }
+
             if (type == typeof(byte))
             {
                 return (byte)value[0];
