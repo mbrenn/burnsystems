@@ -175,11 +175,6 @@ namespace BurnSystems.Serialization
             var inloop = true;
             while (inloop)
             {
-                this.ParseObject(array.GetValue(index));
-
-                // Increase index
-                index[0]++;
-
                 // Check indizes
                 for (var n = 0; n < dimensions; n++)
                 {
@@ -198,6 +193,14 @@ namespace BurnSystems.Serialization
                             index[n + 1]++;
                         }
                     }
+                }
+
+                if (inloop)
+                {
+                    this.ParseObject(array.GetValue(index));
+
+                    // Increase index
+                    index[0]++;
                 }
             }
         }
