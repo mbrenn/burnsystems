@@ -84,23 +84,31 @@ namespace BurnSystems.Serialization
         public object ReadData()
         {
             var dataType = this.BinaryReader.ReadDataType();
+            object result = null;
 
             switch (dataType)
             {
                 case DataType.Null:
-                    return null;
+                    result = null;
+                    break;
                 case DataType.Native:
-                    return this.ReadNativeType();
+                    result = this.ReadNativeType();
+                    break;
                 case DataType.Array:
-                    return this.ReadArrayType();
+                    result = this.ReadArrayType();
+                    break;
                 case DataType.Complex:
-                    return this.ReadComplexType();
+                    result = this.ReadComplexType();
+                    break;
                 case DataType.Enum:
-                    return this.ReadEnumType();
+                    result = this.ReadEnumType();
+                    break;
                 default:
                     throw new InvalidOperationException(
                         LocalizationBS.BinaryWriter_UnknownDataType);
             }
+
+            return result;
         }
 
         /// <summary>

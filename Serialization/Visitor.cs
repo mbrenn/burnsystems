@@ -63,19 +63,6 @@ namespace BurnSystems.Serialization
 
             long objectId = -1;
 
-            // Checks, if object is already in reference
-            if (type.IsClass || type.IsArray)
-            {
-                bool alreadyInserted;
-                objectId = this.serializer.RegisterObject(value, out alreadyInserted);
-                if (alreadyInserted)
-                {
-                    this.writer.StartContainer(ContainerType.Reference);
-                    this.writer.WriteReference(objectId);
-                    return;
-                }
-            }
-
             // Write
             if (Helper.IsNativeType(type))
             {
@@ -89,10 +76,38 @@ namespace BurnSystems.Serialization
             }
             else if (Helper.IsArray(type))
             {
+
+                // Checks, if object is already in reference
+                if (type.IsClass || type.IsArray)
+                {
+                    bool alreadyInserted;
+                    objectId = this.serializer.RegisterObject(value, out alreadyInserted);
+                    if (alreadyInserted)
+                    {
+                        this.writer.StartContainer(ContainerType.Reference);
+                        this.writer.WriteReference(objectId);
+                        return;
+                    }
+                }
+
                 this.ParseArrayObject(value, objectId);
             }
             else
             {
+
+                // Checks, if object is already in reference
+                if (type.IsClass || type.IsArray)
+                {
+                    bool alreadyInserted;
+                    objectId = this.serializer.RegisterObject(value, out alreadyInserted);
+                    if (alreadyInserted)
+                    {
+                        this.writer.StartContainer(ContainerType.Reference);
+                        this.writer.WriteReference(objectId);
+                        return;
+                    }
+                }
+
                 // Complex type
                 this.ParseComplexObject(value, objectId);
             }
