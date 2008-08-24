@@ -116,5 +116,14 @@ namespace BurnSystems.Serialization
         {
             return ListHelper.Find(this.fields, x => x.Name == fieldName);
         }
+
+        /// <summary>
+        /// Converts this instance to string
+        /// </summary>
+        /// <returns>Name of type</returns>
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

@@ -87,13 +87,20 @@ namespace BurnSystems.Serialization
             // Sets the type
             typeEntry.Type = type;
 
-            // Go through field infos and sets them
+            // Go through field infos and sets them            
             foreach (var field in typeEntry.Fields)
             {
-                var fieldInfo = type.GetField(
-                    field.Name,
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                field.FieldInfo = fieldInfo;
+                var thisType = type;
+
+                while (thisType != null && field.FieldInfo == null)
+                {
+                    var fieldInfo = type.GetField(
+                        field.Name,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    field.FieldInfo = fieldInfo;
+
+                    thisType = thisType.BaseType;
+                }
             }
 
             this.TypeContainer.AddType(typeEntry);

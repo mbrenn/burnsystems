@@ -76,10 +76,17 @@ namespace BurnSystems.Serialization
                 }
             }
             
-            // Adds fields
-            foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            // Adds fields     
+            var thisType = type;
+            while (thisType != null)
             {
-                typeEntry.AddField(field);
+                foreach (var field in type.GetFields(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    typeEntry.AddField(field);
+                }
+
+                thisType = thisType.BaseType;
             }
 
             this.types.Add(typeEntry);

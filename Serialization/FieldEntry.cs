@@ -47,5 +47,14 @@ namespace BurnSystems.Serialization
             get;
             set;
         }
+
+        /// <summary>
+        /// Converts this instance to string
+        /// </summary>
+        /// <returns>Name of field</returns>
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }
