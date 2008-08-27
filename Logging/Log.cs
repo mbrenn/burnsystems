@@ -174,7 +174,9 @@ namespace BurnSystems.Logging
             this.filterLevel = LogLevel.Message;
             ListHelper.ForEach(
                 this.logProviders,
-                x => this.RemoveLogProvider(x));
+                x => x.Shutdown());
+
+            this.logProviders.Clear();
         }
 
         /// <summary>
