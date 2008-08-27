@@ -44,13 +44,35 @@ namespace BurnSystems.Collections
         private Dictionary<string, T> dictionary = new Dictionary<string, T>();
 
         /// <summary>
-        /// Adds a new object. If there is already an object with the same name, it
-        /// will be overwritten
+        /// Gets the number of entries
         /// </summary>
-        /// <param name="o">Object to be added</param>
-        public void Add(T o)
+        public int Count
         {
-            this.dictionary[o.Key] = o;
+            get { return this.dictionary.Count; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this dictionary is read only
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets the collection of keys
+        /// </summary>
+        public ICollection<string> Keys
+        {
+            get { return this.dictionary.Keys; }
+        }
+
+        /// <summary>
+        /// Gets a collection of values
+        /// </summary>
+        public ICollection<T> Values
+        {
+            get { return this.dictionary.Values; }
         }
 
         /// <summary>
@@ -63,6 +85,16 @@ namespace BurnSystems.Collections
         {
             get { return this.dictionary[key]; }
             set { this.Add(key, value); }
+        }
+
+        /// <summary>
+        /// Adds a new object. If there is already an object with the same name, it
+        /// will be overwritten
+        /// </summary>
+        /// <param name="o">Object to be added</param>
+        public void Add(T o)
+        {
+            this.dictionary[o.Key] = o;
         }
 
         /// <summary>
@@ -101,14 +133,6 @@ namespace BurnSystems.Collections
         {
             return this.dictionary.ContainsKey(key);
         }
-
-        /// <summary>
-        /// Gets the collection of keys
-        /// </summary>
-        public ICollection<string> Keys
-        {
-            get { return this.dictionary.Keys; }
-        }
     
         /// <summary>
         /// Tries to get a value
@@ -119,14 +143,6 @@ namespace BurnSystems.Collections
         public bool TryGetValue(string key, out T value)
         {
             return this.dictionary.TryGetValue(key, out value);
-        }
-
-        /// <summary>
-        /// Gets a collection of values
-        /// </summary>
-        public ICollection<T> Values
-        {
-            get { return this.dictionary.Values; }
         }
         
         #endregion
@@ -164,27 +180,11 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Not implemented
         /// </summary>
-        /// <param name="array">This parameter is not used.</param>
-        /// <param name="arrayIndex">This parameter is not used.</param>
+        /// <param name="array">The parameter is not used.</param>
+        /// <param name="arrayIndex">The parameter is not used.</param>
         public void CopyTo(KeyValuePair<string, T>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the number of entries
-        /// </summary>
-        public int Count
-        {
-            get { return this.dictionary.Count; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this dictionary is read only
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
         }
 
         /// <summary>

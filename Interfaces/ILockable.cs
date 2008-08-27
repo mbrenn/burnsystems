@@ -9,25 +9,21 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Interfaces
 {
     /// <summary>
-    /// Dieses Interface wird von allen Objekten implementiert, 
-    /// die irgendwie gesperrt werden müssen
+    /// This interface is used for all objects, which should 
+    /// be locked by <c>SimpleLock</c>.
     /// </summary>
     public interface ILockable 
     {
         /// <summary>
-        /// Sperrt das Objekt für die Synchronisation
+        /// Locks an object
         /// </summary>
         void Lock();
 
         /// <summary>
-        /// Entsperrt das Objekt für die Synchronisation
+        /// Unlocks an object
         /// </summary>
         void Unlock();
     }

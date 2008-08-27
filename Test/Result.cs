@@ -9,20 +9,20 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
-    /// Enthält das Testergebnis eines Unittests
+    /// Stores the result of the testcase
     /// </summary>
     [Serializable()]
     public class Result
     {
         /// <summary>
-        /// True, wenn der Test fehlgeschlagen ist.
+        /// Gets or sets a value indicating whether the test was successful.
         /// </summary>
         public bool Failed
         {
@@ -31,7 +31,7 @@ namespace BurnSystems.Test
         }
 
         /// <summary>
-        /// Dauer des Tests
+        /// Gets or sets the duration of test
         /// </summary>
         public TimeSpan Duration
         {
@@ -40,7 +40,7 @@ namespace BurnSystems.Test
         }
 
         /// <summary>
-        /// Ausnahme, mit der der Test gescheitert ist. 
+        /// Gets or sets the exception of the testcase
         /// </summary>
         public Exception Exception
         {

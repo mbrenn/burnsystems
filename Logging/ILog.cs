@@ -9,9 +9,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
 namespace BurnSystems.Logging
 {
+    using System;
+
     /// <summary>
     /// Ein sehr schmales Interface, das eine Logging-Schnittstelle zur
     /// Verfügung stellt. Über dieses Interface können keine neuen Log-Provider
@@ -22,7 +23,7 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Fügt einen neuen Logeintrag zur Datenbank hinzu
         /// </summary>
-        /// <param name="oEntry">Logeintrag</param>
-        void LogEntry(LogEntry oEntry);
+        /// <param name="entry">Entry to be logged</param>
+        void LogEntry(LogEntry entry);
     }
 }

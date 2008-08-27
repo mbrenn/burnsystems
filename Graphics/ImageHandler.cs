@@ -12,11 +12,9 @@
 namespace BurnSystems.Graphics
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Drawing;
-    using System.IO;
     using System.Drawing.Imaging;
+    using System.IO;
 
     /// <summary>
     /// This class takes an image and performs some actions on it. 

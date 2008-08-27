@@ -9,15 +9,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-// (c) by BurnSystems '06
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-
 namespace BurnSystems.IO
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.IO;
+
     /// <summary>
     /// Dieser TextReader wird benötigt, wenn ein Teil des Streams als Text
     /// behandelt werden soll. Wird dieser TextReader nicht mehr benötigt,
@@ -26,49 +24,49 @@ namespace BurnSystems.IO
     public class DirectTextReader
     {
         /// <summary>
-        /// Stream
+        /// Stream to be used for direct streaming
         /// </summary>
-        Stream m_oStream;
+        private Stream stream;
 
         /// <summary>
         /// Creates a new textreader
         /// </summary>
-        /// <param name="oStream"></param>
-        public DirectTextReader(Stream oStream)
+        /// <param name="stream">Stream to be used</param>
+        public DirectTextReader(Stream stream)
         {
-            m_oStream = oStream;
+            this.stream = stream;
         }
+
         /// <summary>
         /// Reads one line, and returns it. This method moves the stream only to the place of 
         /// the end of the line. This means, that no buffering will be used. It will finish the 
         /// reading of line, if a \r was received. A \n at first position will be skipped
         /// </summary>
         /// <returns>Line, which was read</returns>
-        public String ReadLine()
+        public string ReadLine()
         {
-            using (MemoryStream oMemoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
-                int nCurrentByte;
+                int currentByte;
 
-                while ((nCurrentByte = m_oStream.ReadByte()) != -1)
+                while ((currentByte = this.stream.ReadByte()) != -1)
                 {
-                    if (nCurrentByte == 10)
+                    if (currentByte == 10)
                     {
                         continue;
                     }
-                    if (nCurrentByte == 13)
+
+                    if (currentByte == 13)
                     {
                         break;
                     }
-                    oMemoryStream.WriteByte((byte) nCurrentByte);
+
+                    memoryStream.WriteByte((byte) currentByte);
                 }
 
-
-                UTF8Encoding oEnc = new UTF8Encoding();
-                byte[] aoBytes = oMemoryStream.GetBuffer();
-                return oEnc.GetString(aoBytes, 0, (int)oMemoryStream.Length);
+                var bytes = memoryStream.GetBuffer();
+                return Encoding.UTF8.GetString(bytes, 0, (int)memoryStream.Length);
             }
-
         }
     }
 }

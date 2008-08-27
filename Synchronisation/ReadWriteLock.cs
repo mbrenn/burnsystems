@@ -9,12 +9,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Synchronisation
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
     /// Diese Hilfsklasse vereinfacht den Zugriff auf einen lesenden 
     /// und schreibenden Sperrzugriff, der zur Synchronisation von 
@@ -22,44 +22,85 @@ namespace BurnSystems.Synchronisation
     /// </summary>
     public class ReadWriteLock
     {
-        System.Threading.ReaderWriterLock _Lock;
+        /// <summary>
+        /// Native lockstructure
+        /// </summary>
+        private System.Threading.ReaderWriterLock nativeLock 
+            = new System.Threading.ReaderWriterLock();
+
+        /// <summary>
+        /// Locks object for readaccess. If returned structure
+        /// is disposed, the object will become unlocked
+        /// </summary>
+        /// <returns>Object controlling the lifetime of readlock</returns>
+        public IDisposable GetReadLock()
+        {
+            this.nativeLock.AcquireReaderLock(-1);
+            return new ReaderLock(this);
+        }
+
+        /// <summary>
+        /// Locks object for writeaccess. If returned structure
+        /// is disposed, the object will become unlocked
+        /// </summary>
+        /// <returns>Object controlling the lifetime of writelock</returns>
+        public IDisposable GetWriteLock()
+        {
+            this.nativeLock.AcquireWriterLock(-1);
+            return new WriterLock(this);
+        }
 
         #region Hilfsklassen für die einfache Freigabe des Lese-/Schreibzugriffes
 
         /// <summary>
-        /// Hilfsklasse 
+        /// Helperclass for readerlock
         /// </summary>
-        class ReaderLock : IDisposable
+        private class ReaderLock : IDisposable
         {
-            ReadWriteLock _Lock;
+            /// <summary>
+            /// Reference to readwritelock-object
+            /// </summary>
+            private ReadWriteLock readWriteLock;
 
-            public ReaderLock(ReadWriteLock oLock)
+            /// <summary>
+            /// Creates new instance
+            /// </summary>
+            /// <param name="readWriteLock">Read locked structure,
+            /// which should be controlled by this lock.</param>
+            public ReaderLock(ReadWriteLock readWriteLock)
             {
-                _Lock = oLock;
+                this.readWriteLock = readWriteLock;
+            }
+
+            /// <summary>
+            /// Finaliser of structure
+            /// </summary>
+            ~ReaderLock()
+            {
+                this.Dispose(false);
             }
 
             #region IDisposable Member
 
             /// <summary>
-            /// Gibt dieses Objekt wieder frei
+            /// Disposes the object
             /// </summary>
-            public void Dispose(bool bDisposing)
+            /// <param name="disposing">Flag, if Dispose() has been called</param>
+            public void Dispose(bool disposing)
             {
-                if (bDisposing)
+                if (disposing)
                 {
-                    _Lock._Lock.ReleaseReaderLock();
+                    this.readWriteLock.nativeLock.ReleaseReaderLock();
                 }
             }
 
+            /// <summary>
+            /// Disposes the object
+            /// </summary>
             public void Dispose()
             {
-                Dispose(true);
+                this.Dispose(true);
                 GC.SuppressFinalize(this);
-            }
-
-            ~ReaderLock()
-            {
-                Dispose(false);
             }
 
             #endregion
@@ -68,72 +109,57 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Hilfsklasse für den Schreibzugriff
         /// </summary>
-        class WriterLock : IDisposable
+        private class WriterLock : IDisposable
         {
-            ReadWriteLock _Lock;
+            /// <summary>
+            /// Reference to readwritelock-object
+            /// </summary>
+            private ReadWriteLock readWriteLock;
 
-            public WriterLock(ReadWriteLock oLock)
+            /// <summary>
+            /// Creates new instance
+            /// </summary>
+            /// <param name="readWriteLock">Read locked structure,
+            /// which should be controlled by this lock.</param>
+            public WriterLock(ReadWriteLock readWriteLock)
             {
-                _Lock = oLock;
+                this.readWriteLock = readWriteLock;
+            }
+
+            /// <summary>
+            /// Finaliser of structure
+            /// </summary>
+            ~WriterLock()
+            {
+                this.Dispose(false);
             }
 
             #region IDisposable Member
-            public void Dispose(bool bDisposing)
+
+            /// <summary>
+            /// Disposes the object
+            /// </summary>
+            /// <param name="disposing">Flag, if Dispose() has been called</param>
+            public void Dispose(bool disposing)
             {
-                if (bDisposing)
+                if (disposing)
                 {
-                    _Lock._Lock.ReleaseReaderLock();
+                    this.readWriteLock.nativeLock.ReleaseWriterLock();
                 }
             }
-
+            
+            /// <summary>
+            /// Dispoeses the object
+            /// </summary>
             public void Dispose()
             {
-                Dispose(true);
+                this.Dispose(true);
                 GC.SuppressFinalize(this);
-            }
-
-            ~WriterLock()
-            {
-                Dispose(false);
             }
 
             #endregion
         }
 
         #endregion
-
-        /// <summary>
-        /// Erstellt ein neues Hilfsobjekt
-        /// </summary>
-        public ReadWriteLock()
-        {
-            _Lock = new System.Threading.ReaderWriterLock();
-        }
-
-        /// <summary>
-        /// Sperrt das Objekt für einen lesegeschützten Zugriff. 
-        /// Wenn das zurückgegebene Objekt gelüscht wird, so wird die Sperrung
-        /// wieder aufgehoben.
-        /// </summary>
-        /// <returns>Objekt, dass die Lesefreigabe wieder aufhebt, wenn
-        /// dess Methode <c>Dispose</c> aufgerufen wird</returns>
-        public IDisposable GetReadLock()
-        {
-            _Lock.AcquireReaderLock(-1);
-            return new ReaderLock(this);
-        }
-
-        /// <summary>
-        /// Sperrt das Objekt für einen schreibgeschützten Zugriff. 
-        /// Wenn das zurückgegebene Objekt gelüscht wird, so wird die Sperrung
-        /// wieder aufgehoben.
-        /// </summary>
-        /// <returns>Objekt, dass die Schreibfreigabe wieder aufhebt, wenn
-        /// dess Methode <c>Dispose</c> aufgerufen wird</returns>
-        public IDisposable GetWriteLock()
-        {
-            _Lock.AcquireWriterLock(-1);
-            return new WriterLock(this);
-        }
     }
 }

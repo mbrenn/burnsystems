@@ -225,7 +225,6 @@ namespace BurnSystems.Serialization
             var fieldCount = this.ReadInt32();
             Ensure.IsGreaterOrEqual(fieldCount, 0);
 
-
             // Read properties
             for (var n = 0; n < fieldCount; n++)
             {

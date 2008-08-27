@@ -9,11 +9,11 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Threading;
-
 namespace BurnSystems.Synchronisation
 {
+    using System;
+    using System.Threading;
+
     /// <summary>
     /// Diese Delegatstruktur wird für die Benachrichtigung 
     /// von Threadabbrüchen genutzt. 
@@ -24,65 +24,49 @@ namespace BurnSystems.Synchronisation
     /// Diese Hilfsklasse dient als Speicherobjekt für die zu 
     /// überwachenden Threads. 
     /// </summary>
-    class ThreadWatcherItem
+    internal class ThreadWatcherItem
     {
         /// <summary>
-        /// Der zu überwachende Thread
+        /// Creates a new thread item
         /// </summary>
-        Thread _Thread;
+        /// <param name="thread">Thread to be watched.</param>
+        /// <param name="timeOut">Time, when thread should be aborted</param>
+        /// <param name="threadAbortDelegate">Delegate called after abortion.</param>
+        public ThreadWatcherItem(
+            Thread thread, 
+            DateTime timeOut,
+            ThreadAbortAction threadAbortDelegate)
+        {
+            this.Thread = thread;
+            this.TimeOut = timeOut;
+            this.OnThreadAbort = threadAbortDelegate;
+        }
 
         /// <summary>
-        /// Zeitpunkt, an dem der Thread abgebrochen werden soll
-        /// </summary>
-        DateTime _TimeOut;
-
-        /// <summary>
-        /// Dieser Methode wird aufgerufen, wenn der Thread vom
-        /// ThreadWatcher hart abgebrochen wird. 
-        /// </summary>
-        ThreadAbortAction _OnThreadAbort;
-
-        /// <summary>
-        /// Der zu überwachende Thread
+        /// Gets or sets the watched thread
         /// </summary>
         public Thread Thread
         {
-            get { return _Thread; }
-            set { _Thread = value; }
+            get;
+            set;
         }
 
         /// <summary>
-        /// Zeitpunkt, an dem der Thread abgebrochen werden soll
+        /// Gets or sets the datetime, when thread has to be aborted
         /// </summary>
         public DateTime TimeOut
         {
-            get { return _TimeOut; }
-            set { _TimeOut = value; }
+            get;
+            set;
         }
 
         /// <summary>
-        /// Dieser Methode wird aufgerufen, wenn der Thread vom
-        /// ThreadWatcher hart abgebrochen wird. 
+        /// Gets or sets the delegate to be called, if thread is aborted by threadwatcher
         /// </summary>
         public ThreadAbortAction OnThreadAbort
         {
-            get { return _OnThreadAbort; }
-            set { _OnThreadAbort = value; }
-        }
-
-        /// <summary>
-        /// Erzeugt ein neues Item
-        /// </summary>
-        /// <param name="oThread">Thread, der überwacht werden soll.</param>
-        /// <param name="dTimeOut">Zeit</param>
-        /// <param name="dOnThreadAbort">Delegat, der aufgerufen werden soll,
-        /// wenn der Thread abgeborchen werden soll.</param>
-        public ThreadWatcherItem(Thread oThread, DateTime dTimeOut,
-            ThreadAbortAction dOnThreadAbort)
-        {
-            _Thread = oThread;
-            _TimeOut = dTimeOut;
-            _OnThreadAbort = dOnThreadAbort;
+            get;
+            set;
         }
     }
 }

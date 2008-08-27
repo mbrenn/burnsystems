@@ -9,7 +9,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-
 namespace BurnSystems.Logging
 {
     using System;
@@ -24,28 +23,31 @@ namespace BurnSystems.Logging
     /// </summary>
     public class FileProvider : ILogProvider
     {
-        private readonly String path;
+        /// <summary>
+        /// Path to logfile
+        /// </summary>
+        private readonly string path;
 
         /// <summary>
         /// Flag, if the Fileprovider is currently in the exception
         /// </summary>
-        private static bool _InException;
-
-        /// <summary>
-        /// Gibt den Pfad zurück an dem das Logging gespeichert wird.
-        /// </summary>
-        public String Path
-        {
-            get { return this.path; }
-        }
+        private static bool currentlyInException;
 
         /// <summary>
         /// Creates new fileprovider with the name
         /// </summary>
-        /// <param name="path">Filename</param>
-        public FileProvider(String path)
+        /// <param name="path">Path to file storing the logentries</param>
+        public FileProvider(string path)
         {
             this.path = path;
+        }
+
+        /// <summary>
+        /// Gets the logfile. 
+        /// </summary>
+        public string Path
+        {
+            get { return this.path; }
         }
 
         #region ILogProvider Members
@@ -54,16 +56,14 @@ namespace BurnSystems.Logging
         /// Starts this handler, is doing nothing
         /// </summary>
         public void Start()
-        {
-            
+        {            
         }
 
         /// <summary>
         /// Stops this handler, is doing nothing
         /// </summary>
         public void Shutdown()
-        {
-            
+        {            
         }
 
         /// <summary>
@@ -74,12 +74,16 @@ namespace BurnSystems.Logging
         {
             try
             {
-                using (StreamWriter oWriter = new StreamWriter(path, true))
+                using (var writer = new StreamWriter(this.path, true))
                 {
-                    String strMessage = entry.Message.Replace(';', ',')
+                    string message = entry.Message.Replace(';', ',')
                         .Replace('\r', ' ').Replace('\n', ' ');
-                    oWriter.WriteLine("{0};{1};{2};{3}",
-                        entry.Created, entry.LogLevel, entry.Catagories, strMessage);
+                    writer.WriteLine(
+                        "{0};{1};{2};{3}",
+                        entry.Created, 
+                        entry.LogLevel, 
+                        entry.Catagories,
+                        message);
                 }
             }
             catch (IOException)
@@ -87,22 +91,27 @@ namespace BurnSystems.Logging
                 // Perhaps a blocked file
                 Thread.Sleep(1000);
 
-                if (!_InException)
+                if (!currentlyInException)
                 {
-                    _InException = true;
+                    currentlyInException = true;
                     Log.TheLog.LogEntry(
                         new LogEntry(
                             LocalizationBS.FileLogProvider_ExceptionCaught, LogLevel.Fail));
                 }
-                _InException = false;
+
+                currentlyInException = false;
 
                 // Retry
-                using (StreamWriter oWriter = new StreamWriter(path, true))
+                using (var writer = new StreamWriter(this.path, true))
                 {
-                    String strMessage = entry.Message.Replace(';', ',')
+                    string message = entry.Message.Replace(';', ',')
                         .Replace('\r', ' ').Replace('\n', ' ');
-                    oWriter.WriteLine("{0};{1};{2};{3}",
-                        entry.Created, entry.LogLevel, entry.Catagories, strMessage);
+                    writer.WriteLine(
+                        "{0};{1};{2};{3}",
+                        entry.Created, 
+                        entry.LogLevel, 
+                        entry.Catagories, 
+                        message);
                 }
             }
         }

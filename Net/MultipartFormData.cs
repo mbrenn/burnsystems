@@ -9,12 +9,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Net
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Implements the storage of a multipart formdata according
     /// to RFC 2388
@@ -24,23 +22,15 @@ namespace BurnSystems.Net
         /// <summary>
         /// List of parts
         /// </summary>
-        List<MultipartFormDataPart> _Parts =
+        private List<MultipartFormDataPart> parts =
             new List<MultipartFormDataPart>();
 
         /// <summary>
-        /// The different parts of the formdata
+        /// Gets the different parts of the formdata
         /// </summary>
         public List<MultipartFormDataPart> Parts
         {
-            get { return _Parts; }
-        }
-
-
-        /// <summary>
-        /// Creates a new instance
-        /// </summary>
-        public MultipartFormData()
-        {
+            get { return this.parts; }
         }
     }
 }

@@ -45,7 +45,7 @@ namespace BurnSystems.Serialization
         {
             if (type == typeof(bool))
             {
-                return new byte[] { (byte) (((bool)value) ? 0x01 : 0x00) };
+                return new byte[] { (byte)(((bool)value) ? 0x01 : 0x00) };
             }
 
             if (type == typeof(byte))
@@ -107,9 +107,7 @@ namespace BurnSystems.Serialization
                 string.Format(
                     LocalizationBS.BinaryWriter_ObjectNotConverted,
                     value.GetType()));
-        }
-    
-        
+        }        
 
         /// <summary>
         /// Writes the header into the stream

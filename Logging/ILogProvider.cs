@@ -9,10 +9,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Logging
 {
     /// <summary>
@@ -36,7 +32,7 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Called, when a new logentry has to be logged
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">Entry to be logged</param>
         void DoLog(LogEntry entry);
     }
 }

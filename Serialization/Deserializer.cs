@@ -78,7 +78,8 @@ namespace BurnSystems.Serialization
             // Gets generic arguments
             if (typeEntry.GenericArguments.Count > 0)
             {
-                var genericTypes = ListHelper.ConvertToArray(typeEntry.GenericArguments,
+                var genericTypes = ListHelper.ConvertToArray(
+                    typeEntry.GenericArguments,
                     x => this.TypeContainer.FindType(x).Type);
 
                 type = type.MakeGenericType(genericTypes);

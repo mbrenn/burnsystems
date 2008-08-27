@@ -9,14 +9,14 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using BurnSystems.Collections;
-
 namespace BurnSystems.Net
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.IO;
+    using BurnSystems.Collections;
+
     /// <summary>
     /// Reads a stream and returns a MultipartFormData-Instance. 
     /// This method is NOT threadsafe
@@ -24,73 +24,75 @@ namespace BurnSystems.Net
     public class MultipartFormDataReader
     {
         /// <summary>
-        /// Boundary
+        /// Boundary which separates the parts 
         /// </summary>
-        byte[] _Boundary;
+        private byte[] boundary;
 
         /// <summary>
         /// Creates a new instance and stores the boundary for the incoming stream
         /// </summary>
-        /// <param name="strBoundary">Boundary</param>
-        public MultipartFormDataReader(String strBoundary)
+        /// <param name="boundary">Used Boundary</param>
+        public MultipartFormDataReader(string boundary)
         {
-            _Boundary = ASCIIEncoding.ASCII.GetBytes(strBoundary);
+            this.boundary = ASCIIEncoding.ASCII.GetBytes(boundary);
         }
 
         /// <summary>
         /// Creates a new instance and stores the boundary for the incoming stream
         /// </summary>
-        /// <param name="strBoundary">Boundary</param>
-        /// <param name="oEncoding">Encoding of stream</param>
-        public MultipartFormDataReader(String strBoundary, Encoding oEncoding)
+        /// <param name="boundary">Used Boundary</param>
+        /// <param name="encoding">Encoding of stream</param>
+        public MultipartFormDataReader(string boundary, Encoding encoding)
         {
-            _Boundary = oEncoding.GetBytes(strBoundary);
+            this.boundary = encoding.GetBytes(boundary);
         }
 
         /// <summary>
         /// Creates a new instance and stores the boundary for the incoming stream
         /// </summary>
-        /// <param name="aoBoundary">Boundary</param>
-        public MultipartFormDataReader(byte[] aoBoundary)
+        /// <param name="boundary">Used Boundary</param>
+        public MultipartFormDataReader(byte[] boundary)
         {
-            _Boundary = aoBoundary;
+            this.boundary = boundary;
         }
 
         /// <summary>
         /// Reads the stream and returns an instance of the multipartformdata
         /// </summary>
-        /// <param name="oStream">Stream with data</param>
+        /// <param name="stream">Stream with data</param>
         /// <returns>Instance with containing data</returns>
-        public MultipartFormData ReadStream(Stream oStream)
+        public MultipartFormData ReadStream(Stream stream)
         {
-            var oReturn = new MultipartFormData();
-            
+            var result = new MultipartFormData();
+
             // Convert Stream to Bytes
-            using (var oMemoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
-                int nByte;
-                while ((nByte = oStream.ReadByte()) != -1)
+                int readByte;
+                while ((readByte = stream.ReadByte()) != -1)
                 {
-                    oMemoryStream.WriteByte((byte)nByte);
+                    memoryStream.WriteByte((byte)readByte);
                 }
 
-                var nOffset = 0;
-                // First part: Search for boundary
-                var aoBuffer = oMemoryStream.GetBuffer();
-                SearchForBoundary(ref nOffset, aoBuffer);
+                var offset = 0;
 
-                MultipartFormDataPart oPart;
+                // First part: Search for boundary
+                var buffer = memoryStream.GetBuffer();
+                this.SearchForBoundary(ref offset, buffer);
+
+                MultipartFormDataPart part;
                 do
                 {
-                    oPart = ReadPart(ref nOffset, aoBuffer);
-                    if (oPart != null)
+                    part = this.ReadPart(ref offset, buffer);
+                    if (part != null)
                     {
-                        oReturn.Parts.Add(oPart);
+                        result.Parts.Add(part);
                     }
                 }
-                while (oPart != null);
+                while (part != null);
             }
-            return oReturn;
+
+            return result;
         }
 
         /// <summary>
@@ -98,127 +100,128 @@ namespace BurnSystems.Net
         /// offset is behind the found boundary. If the boundary is not found, 
         /// <c>nOffset</c> is set to -1.
         /// </summary>
-        /// <param name="nOffset">Offset</param>
-        /// <param name="aoBuffer">Buffer</param>
-        private void SearchForBoundary(ref int nOffset, byte[] aoBuffer)
+        /// <param name="offset">Offset of search</param>
+        /// <param name="buffer">Buffer storing the message</param>
+        private void SearchForBoundary(ref int offset, byte[] buffer)
         {
-            var nReturn = ListHelper.IndexOf(aoBuffer, _Boundary, nOffset);
+            var result = ListHelper.IndexOf(buffer, this.boundary, offset);
 
-            if (nReturn == -1)
+            if (result == -1)
             {
-                nOffset = -1;
+                offset = -1;
             }
             else
             {
                 // 2 is added for CRLF
-                nOffset = nReturn + _Boundary.Length + 2;
+                offset = result + this.boundary.Length + 2;
             }
-            
         }
 
         /// <summary>
         /// Reads one part
         /// </summary>
-        /// <param name="nOffset">Offset</param>
-        /// <param name="aoBuffer">Buffer containing the values</param>
+        /// <param name="offset">Offset for reading</param>
+        /// <param name="buffer">Buffer containing the values</param>
         /// <returns>A new part or null, if the stream is invalid</returns>
-        private MultipartFormDataPart ReadPart(ref int nOffset, byte[] aoBuffer)
+        private MultipartFormDataPart ReadPart(ref int offset, byte[] buffer)
         {
-            var oReturn = new MultipartFormDataPart();
+            var result = new MultipartFormDataPart();
+
             // Reads the part. 
             // First: Read the headers
-            var nStart = nOffset;
+            var start = offset;
             while (true)
             {
-                if (nOffset >= aoBuffer.Length)
+                if (offset >= buffer.Length)
                 {
-                    nOffset = -1;
+                    offset = -1;
                     return null;
                 }
 
-                byte oCurrentByte = aoBuffer[nOffset];
-                if (oCurrentByte == 13 || oCurrentByte == 10)
+                byte currentByte = buffer[offset];
+                if (currentByte == 13 || currentByte == 10)
                 {
                     // Convert region between start and currentposition to String
+                    var headerText = ASCIIEncoding.ASCII.GetString(
+                        buffer, 
+                        start,
+                        offset - start);
 
-                    var strHeaderText = ASCIIEncoding.ASCII.GetString(aoBuffer, nStart,
-                        nOffset - nStart);
-
-                    //  Skip '\n'
-                    nOffset += 2;
-                    nStart = nOffset;
-                    if (String.IsNullOrEmpty(strHeaderText.Trim()))
+                    // Skip '\n'
+                    offset += 2;
+                    start = offset;
+                    if (String.IsNullOrEmpty(headerText.Trim()))
                     {
                         // Header has been read
                         break;
                     }
                     else
                     {
-                        EvaluateHeader(oReturn, strHeaderText);
+                        this.EvaluateHeader(result, headerText);
                     }
                 }
                 else
                 {
-                    nOffset++;
+                    offset++;
                 }
             }
 
             // Headers are read, now search for endboundary and quit
-            var nReturn = ListHelper.IndexOf(aoBuffer, _Boundary, nOffset);
-            if (nReturn == -1)
+            var nextBoundaryPos = ListHelper.IndexOf(buffer, this.boundary, offset);
+            if (nextBoundaryPos == -1)
             {
                 return null;
             }
 
             // Store Content (without finishing CRLF)
-            oReturn.Content = new byte[nReturn - nOffset - 2];
-            var nPos = 0;
-            for (var nIndex = nOffset; nIndex < (nReturn - 2); nIndex++)
+            result.Content = new byte[nextBoundaryPos - offset - 2];
+            var pos = 0;
+            for (var index = offset; index < (nextBoundaryPos - 2); index++)
             {
-                oReturn.Content[nPos] = aoBuffer[nIndex];
-                nPos++;
+                result.Content[pos] = buffer[index];
+                pos++;
             }
 
             // Start of Boundary + Length of Boundary + 2
-            nOffset = nReturn + _Boundary.Length + 2;
+            offset = nextBoundaryPos + this.boundary.Length + 2;
 
-            return oReturn;
+            return result;
         }
 
         /// <summary>
         /// Evaluates a headertext.
         /// </summary>
-        /// <param name="strHeaderText">Headertext to be parsed</param>
-        /// <param name="oPart">Part, getting the headertext</param>
-        private void EvaluateHeader(MultipartFormDataPart oPart, string strHeaderText)
+        /// <param name="part">Part, getting the headertext</param>
+        /// <param name="headerText">Headertext to be parsed</param>
+        private void EvaluateHeader(MultipartFormDataPart part, string headerText)
         {
-            int nPosColon = strHeaderText.IndexOf(':');
-            if (nPosColon == -1)
+            int posColon = headerText.IndexOf(':');
+            if (posColon == -1)
             {
                 return;
             }
 
-            var strLeft = strHeaderText.Substring(0, nPosColon).Trim();
-            var strRight = strHeaderText.Substring(nPosColon + 1).Trim();
+            var left = headerText.Substring(0, posColon).Trim();
+            var right = headerText.Substring(posColon + 1).Trim();
 
-            oPart.Headers.Add(new Pair<string, string>(strLeft, strRight));
+            part.Headers.Add(new Pair<string, string>(left, right));
 
-            if (strLeft == "Content-Disposition")
+            if (left == "Content-Disposition")
             {
-                var astrRight = strRight.Split(new[] { ';' });
+                var splittedRight = right.Split(new[] { ';' });
 
-                foreach ( var strHeaderPart in astrRight )
+                foreach (var headerPart in splittedRight)
                 {
-                    int nPosColon2 = strHeaderPart.IndexOf ( '=' );
-                    if (nPosColon2 == -1)
+                    int posColon2 = headerPart.IndexOf('=');
+                    if (posColon2 == -1)
                     {
                         continue;
                     }
 
-                    var strLeft2 = strHeaderPart.Substring(0, nPosColon2).Trim();
-                    var strRight2 = strHeaderPart.Substring(nPosColon2 + 1).Trim();
+                    var left2 = headerPart.Substring(0, posColon2).Trim();
+                    var right2 = headerPart.Substring(posColon2 + 1).Trim();
 
-                    oPart.ContentDisposition[strLeft2] = strRight2;
+                    part.ContentDisposition[left2] = right2;
                 }
             }
         }

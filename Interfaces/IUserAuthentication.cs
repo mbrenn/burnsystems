@@ -9,10 +9,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Interfaces
 {
     /// <summary>
@@ -26,11 +22,11 @@ namespace BurnSystems.Interfaces
         /// überprüft ob der Benutzername und das Kennwort zueinander
         /// zusammen passen
         /// </summary>
-        /// <param name="userName">Benutzername</param>
-        /// <param name="password">Kennwort</param>
+        /// <param name="userName">Username of credentials</param>
+        /// <param name="password">Encrypted or unencrypted password</param>
         /// <param name="encryted">Flag, ob das Kennwort schon 
         /// verschlüsselt ist</param>
         /// <returns>true, wenn dies der Fall ist</returns>
-        bool AreCredentialsOk(String userName, String password, bool encryted);
+        bool AreCredentialsOk(string userName, string password, bool encryted);
     }
 }

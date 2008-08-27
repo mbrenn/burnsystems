@@ -9,112 +9,50 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
-using System.IO;
-using System.Diagnostics;
-using System.Runtime.Remoting;
-
 namespace BurnSystems.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.Remoting;
+
     /// <summary>
-    /// Diese Klasse sucht sich die Tests in einer Assembly zusammen
-    /// und führt diese bei Bedarf aus. 
+    /// This class collects the testcase methods and offer methods
+    /// to start the testing. 
     /// </summary>
     public class Executor
     {
         /// <summary>
-        /// Liste von Methoden
+        /// List of methods with testcases
         /// </summary>
-        List<MethodBase> _Methods =
+        private List<MethodBase> methods =
             new List<MethodBase>();
 
         /// <summary>
-        /// Liste von Methoden
+        /// Gets a list of methods with testcases
         /// </summary>
         public List<MethodBase> Methods
         {
-            get { return _Methods; }
-            set { _Methods = value; }
+            get { return this.methods; }
         }
 
         /// <summary>
-        /// Lädt alle Tests ein, die in der Assembly gefunden worden sind.
+        /// Calls a method and returns result of testcase
         /// </summary>
-        /// <param name="oAssembly">Assembly mit den Tests</param>
-        public void LoadAssembly(Assembly oAssembly)
+        /// <param name="method">Method with testcase</param>
+        /// <returns>Result of testcase</returns>
+        public static Result TestMethod(MethodBase method)
         {
-            foreach (var oType in oAssembly.GetTypes())
-            {
-                var aoAttributes = oType.GetCustomAttributes(
-                    typeof(TestClassAttribute), false);
-
-                if (aoAttributes.Length == 0)
-                {
-                    // Kein Attribut, kein Test
-                    continue;
-                }
-                if (!oType.IsPublic)
-                {
-                    throw new InvalidOperationException(
-                        LocalizationBS.Executor_NoPublicClass);
-                }
-
-                foreach (var oMethod in oType.GetMethods())
-                {
-                    var aoMethodAttributes = oMethod.GetCustomAttributes(
-                        typeof(TestMethodAttribute), false);
-                    if (aoMethodAttributes.Length == 0)
-                    {
-                        continue;
-                    }                 
-
-                    _Methods.Add(oMethod);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Lädt eine Assembly aus einem Pfad. Wenn diese Assembly
-        /// bereits eingeladen wurde, so wird sie wiederverwendet. 
-        /// </summary>
-        /// <param name="strPath">Pfad zur Assembly</param>
-        public void LoadAssembly(String strPath)
-        {
-            strPath = Path.GetFullPath(strPath);
-
-            // Suche zuerst die schon geladenen Assemblies durch
-            foreach (var oAssembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                var strAssemblyPath = Path.GetFullPath(
-                    oAssembly.Location);
-                if (strAssemblyPath == strPath)
-                {
-                    LoadAssembly(oAssembly);
-                    return;
-                }
-            }
-
-            // Nun lade die Assembly
-            var oLoadedAssembly = Assembly.LoadFile(strPath);
-            LoadAssembly(oLoadedAssembly);
-        }
-
-        /// <summary>
-        /// Ruft die Methode auf und gibt die Testergebnisse zurück
-        /// </summary>
-        /// <param name="oMethod">Methode</param>
-        public static Result TestMethod(MethodBase oMethod)
-        {
-            if (!oMethod.IsPublic)
+            if (!method.IsPublic)
             {
                 // Nur öffentliche Methoden
                 throw new InvalidOperationException(
                     LocalizationBS.Executor_NoPublicMethod);
             }
-            if (oMethod.GetParameters().Length != 0)
+
+            if (method.GetParameters().Length != 0)
             {
                 // Nur Methoden ohne einem Parameter können aufgerufen
                 // werden
@@ -123,64 +61,142 @@ namespace BurnSystems.Test
             }
 
             // Erzeugt die AppDomain
-            var oAppDomain = AppDomain.CreateDomain("TESTDomain",
-                null, Environment.CurrentDirectory, Environment.CurrentDirectory, false);
+            var appDomain = AppDomain.CreateDomain(
+                "TESTDomain",
+                null,
+                Environment.CurrentDirectory,
+                Environment.CurrentDirectory,
+                false);
 
-            var oObject = 
-                oAppDomain.CreateInstanceFrom(oMethod.ReflectedType.Assembly.Location, 
-                oMethod.ReflectedType.FullName);
-            
+            var typeObject = appDomain.CreateInstanceFrom(
+                method.ReflectedType.Assembly.Location,
+                method.ReflectedType.FullName);
+
             // Startet nun den Test
-            var oResult = new Result();
-            Stopwatch oWatch = new Stopwatch();
+            var result = new Result();
+            Stopwatch watch = new Stopwatch();
             try
             {
-                oWatch.Start();
+                watch.Start();
 
-                oAppDomain.DoCallBack(new Helper(oMethod, oObject).Invoke);
+                appDomain.DoCallBack(new Helper(typeObject, method).Invoke);
 
-                oResult.Failed = false;
+                result.Failed = false;
             }
             catch (Exception exc)
             {
-                oResult.Failed = true;
-                oResult.Exception = exc;
+                result.Failed = true;
+                result.Exception = exc;
             }
             finally
             {
-                oWatch.Stop();
-                oResult.Duration = oWatch.Elapsed;
+                watch.Stop();
+                result.Duration = watch.Elapsed;
             }
 
             // Entlädt die AppDomain
-            AppDomain.Unload(oAppDomain);
-            return oResult;
+            AppDomain.Unload(appDomain);
+            return result;
         }
 
+        /// <summary>
+        /// Loads all testcases within assembly
+        /// </summary>
+        /// <param name="assembly">Assembly with tests</param>
+        public void LoadAssembly(Assembly assembly)
+        {
+            foreach (var type in assembly.GetTypes())
+            {
+                var attributes = type.GetCustomAttributes(
+                    typeof(TestClassAttribute), false);
+
+                if (attributes.Length == 0)
+                {
+                    // Kein Attribut, kein Test
+                    continue;
+                }
+
+                if (!type.IsPublic)
+                {
+                    throw new InvalidOperationException(
+                        LocalizationBS.Executor_NoPublicClass);
+                }
+
+                foreach (var method in type.GetMethods())
+                {
+                    var methodAttributes = method.GetCustomAttributes(
+                        typeof(TestMethodAttribute), false);
+                    if (methodAttributes.Length == 0)
+                    {
+                        continue;
+                    }                 
+
+                    this.methods.Add(method);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads an assembly in path. If assembly is already loaded, 
+        /// it will be reused
+        /// </summary>
+        /// <param name="path">Path to assembly</param>
+        public void LoadAssembly(string path)
+        {
+            path = Path.GetFullPath(path);
+
+            // Suche zuerst die schon geladenen Assemblies durch
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                var assemblyPath = Path.GetFullPath(
+                    assembly.Location);
+                if (assemblyPath == path)
+                {
+                    this.LoadAssembly(assembly);
+                    return;
+                }
+            }
+
+            // Nun lade die Assembly
+            var loadedAssembly = Assembly.LoadFile(path);
+            this.LoadAssembly(loadedAssembly);
+        }
+
+        /// <summary>
+        /// A helperclass for invoking the testcase
+        /// </summary>
         [Serializable()]
-        class Helper
+        internal class Helper
         {
             /// <summary>
-            /// Methode, die aufgerufen werden soll
+            /// Methodinformation with testcase
             /// </summary>
-            MethodBase _MethodBase;
+            private MethodBase methodBase;
 
             /// <summary>
-            /// Das Handle, das genutzt werden soll
+            /// Object, being instantiated for called by methodbase
             /// </summary>
-            ObjectHandle _Handle;
+            private ObjectHandle handle;
 
-            public Helper(MethodBase oBase, ObjectHandle oHandle)
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            /// <param name="handle">ObjectHandle storing the reference of
+            /// invoked method. </param>
+            /// <param name="methodBase">Methodbase being called in <c>Invoke</c>.</param>
+            public Helper(ObjectHandle handle, MethodBase methodBase)
             {
-                _MethodBase = oBase;
-                _Handle = oHandle;
+                this.methodBase = methodBase;
+                this.handle = handle;
             }
 
+            /// <summary>
+            /// Invokes the testcase
+            /// </summary>
             public void Invoke()
-            {                
-                _MethodBase.Invoke(_Handle.Unwrap(), null);
+            {
+                this.methodBase.Invoke(this.handle.Unwrap(), null);
             }
         }
-
     }
 }

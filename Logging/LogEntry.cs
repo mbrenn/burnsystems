@@ -9,71 +9,29 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Logging
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
     /// This is a log entry
     /// </summary>
     [Serializable()]
     public class LogEntry
     {
-        String _Message;
-        DateTime _Created;
-        LogLevel _LogLevel;
-        String _Categories;
-
-        /// <summary>
-        /// Message
-        /// </summary>
-        public String Message
-        {
-            get { return _Message; }
-            set { _Message = value; }
-        }
-
-        /// <summary>
-        /// Time, when this log entry was created
-        /// </summary>
-        public DateTime Created
-        {
-            get { return _Created; }
-            set { _Created = value; }
-        }
-
-        /// <summary>
-        /// Loglevel
-        /// </summary>
-        public LogLevel LogLevel
-        {
-            get { return _LogLevel; }
-            set { _LogLevel = value; }
-        }
-
-        /// <summary>
-        /// A komma separated list of categories
-        /// </summary>
-        public String Catagories
-        {
-            get { return _Categories; }
-            set { _Categories = value; }
-        }
-
-
         /// <summary>
         /// Creates new logentry
         /// </summary>
-        /// <param name="message">Message</param>
+        /// <param name="message">Message to be stored</param>
         /// <param name="logLevel">Loglevel of this entry</param>
-        public LogEntry(String message, LogLevel logLevel)
+        public LogEntry(string message, LogLevel logLevel)
         {
-            Message = message;
-            LogLevel = logLevel;
-            Catagories = "";
-            Created = DateTime.Now;
+            this.Message = message;
+            this.LogLevel = logLevel;
+            this.Catagories = string.Empty;
+            this.Created = DateTime.Now;
         }
 
         /// <summary>
@@ -81,13 +39,49 @@ namespace BurnSystems.Logging
         /// </summary>
         /// <param name="message">Message to be stored</param>
         /// <param name="logLevel">Loglevel of this entry</param>
-        /// <param name="categories">Categories</param>
-        public LogEntry(String message, LogLevel logLevel, String categories)
+        /// <param name="categories">Commaseparated list of categories</param>
+        public LogEntry(string message, LogLevel logLevel, string categories)
         {
-            Message = message;
-            LogLevel = logLevel;
-            Catagories = categories;
-            Created = DateTime.Now;
+            this.Message = message;
+            this.LogLevel = logLevel;
+            this.Catagories = categories;
+            this.Created = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Gets or sets the message
+        /// </summary>
+        public string Message
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the datetime, when entry was created
+        /// </summary>
+        public DateTime Created
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the logleved
+        /// </summary>
+        public LogLevel LogLevel
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a comma separated list of categories
+        /// </summary>
+        public string Catagories
+        {
+            get;
+            set;
         }
     }
 }

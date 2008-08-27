@@ -9,54 +9,33 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BurnSystems.Interfaces;
-
 namespace BurnSystems.Collections
 {
+    using System;
+    using System.Collections.Generic;
+    using BurnSystems.Interfaces;
+
     /// <summary>
     /// Dieses Dictionary entspricht dem normalen Dictionary, nur dass 
     /// bei der Abfrage über den Indexer ein null-Wert zurückgegeben wird, 
     /// wenn dieser nicht vorhanden ist 
     /// </summary>
+    /// <typeparam name="TKey">Type of key</typeparam>
+    /// <typeparam name="TValue">Type of values in dictionary</typeparam>
     [Serializable()]
     public class NiceDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IHasIndex<TKey, TValue>
     {
         /// <summary>
         /// Eingebettetes Dictionary
         /// </summary>
-        Dictionary<TKey, TValue> _Dictionary;
+        private Dictionary<TKey, TValue> dictionary;
 
         /// <summary>
         /// Erstellt eine neue Instanz des 'netten' Verzeichnis
         /// </summary>
         public NiceDictionary()
         {
-            _Dictionary = new Dictionary<TKey, TValue>();
-        }
-
-        #region IDictionary<TKey,TValue> Member
-
-        /// <summary>
-        /// Adds a new key
-        /// </summary>
-        /// <param name="key">Key to be added</param>
-        /// <param name="value">Value to be added</param>
-        public void Add(TKey key, TValue value)
-        {
-            _Dictionary.Add(key, value);
-        }
-
-        /// <summary>
-        /// Checks, if the dictionary contains 
-        /// </summary>
-        /// <param name="key">Requested key</param>
-        /// <returns>true, if key exists</returns>
-        public bool ContainsKey(TKey key)
-        {
-            return _Dictionary.ContainsKey(key);
+            this.dictionary = new Dictionary<TKey, TValue>();
         }
 
         /// <summary>
@@ -64,28 +43,23 @@ namespace BurnSystems.Collections
         /// </summary>
         public ICollection<TKey> Keys
         {
-            get { return _Dictionary.Keys; }
+            get { return this.dictionary.Keys; }
         }
 
         /// <summary>
-        /// Removes an entry
+        /// Gets the number of entries
         /// </summary>
-        /// <param name="key">Key of entry to be removed</param>
-        /// <returns>true, if entry is removed</returns>
-        public bool Remove(TKey key)
+        public int Count
         {
-            return _Dictionary.Remove(key);
+            get { return this.dictionary.Count; }
         }
 
         /// <summary>
-        /// Tries to get a value
+        /// Gets a value indicating whether this instance is readonly
         /// </summary>
-        /// <param name="key">Requested key</param>
-        /// <param name="value">Output for value</param>
-        /// <returns>true, if value is found</returns>
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool IsReadOnly
         {
-            return _Dictionary.TryGetValue(key, out value);
+            get { return ((IDictionary<TKey, TValue>)this.dictionary).IsReadOnly; }
         }
 
         /// <summary>
@@ -93,7 +67,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public ICollection<TValue> Values
         {
-            get { return _Dictionary.Values; }
+            get { return this.dictionary.Values; }
         }
 
         /// <summary>
@@ -105,18 +79,63 @@ namespace BurnSystems.Collections
         {
             get
             {
-                TValue oValue;
+                TValue value;
 
-                if (_Dictionary.TryGetValue(key, out oValue))
+                if (this.dictionary.TryGetValue(key, out value))
                 {
-                    return oValue;
+                    return value;
                 }
+
                 return default(TValue);
             }
+
             set
             {
-                _Dictionary[key] = value;
+                this.dictionary[key] = value;
             }
+        }
+
+        #region IDictionary<TKey,TValue> Member
+
+        /// <summary>
+        /// Adds a new key
+        /// </summary>
+        /// <param name="key">Key to be added</param>
+        /// <param name="value">Value to be added</param>
+        public void Add(TKey key, TValue value)
+        {
+            this.dictionary.Add(key, value);
+        }
+
+        /// <summary>
+        /// Checks, if the dictionary contains 
+        /// </summary>
+        /// <param name="key">Requested key</param>
+        /// <returns>true, if key exists</returns>
+        public bool ContainsKey(TKey key)
+        {
+            return this.dictionary.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Removes an entry
+        /// </summary>
+        /// <param name="key">Key of entry to be removed</param>
+        /// <returns>true, if entry is removed</returns>
+        public bool Remove(TKey key)
+        {
+            return this.dictionary.Remove(key);
+        }
+
+        /// <summary>
+        /// Tries to get a value
+        /// </summary>
+        /// <param name="key">Requested key</param>
+        /// <param name="value">Output for value</param>
+        /// <returns>true, if value is found</returns>
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            return this.dictionary.TryGetValue(key, out value);
         }
 
         #endregion
@@ -129,7 +148,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            _Dictionary.Add(item.Key, item.Value);
+            this.dictionary.Add(item.Key, item.Value);
         }
 
         /// <summary>
@@ -137,7 +156,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Clear()
         {
-            _Dictionary.Clear();
+            this.dictionary.Clear();
         }
 
         /// <summary>
@@ -147,7 +166,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if exists</returns>
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return ((IDictionary<TKey, TValue>)_Dictionary).Contains(item);
+            return ((IDictionary<TKey, TValue>)this.dictionary).Contains(item);
         }
 
         /// <summary>
@@ -157,23 +176,7 @@ namespace BurnSystems.Collections
         /// <param name="arrayIndex">Used index</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            ((IDictionary<TKey, TValue>)_Dictionary).CopyTo(array, arrayIndex);
-        }
-
-        /// <summary>
-        /// Gets the number of entries
-        /// </summary>
-        public int Count
-        {
-            get { return _Dictionary.Count; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is readonly
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get { return ((IDictionary<TKey, TValue>)_Dictionary).IsReadOnly; }
+            ((IDictionary<TKey, TValue>)this.dictionary).CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -183,7 +186,7 @@ namespace BurnSystems.Collections
         /// <returns>True, if removal was successful</returns>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return _Dictionary.Remove(item.Key);
+            return this.dictionary.Remove(item.Key);
         }
 
         #endregion
@@ -196,7 +199,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of dictionary</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return _Dictionary.GetEnumerator();
+            return this.dictionary.GetEnumerator();
         }
 
         #endregion
@@ -209,7 +212,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of dictionary</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return _Dictionary.GetEnumerator();
+            return this.dictionary.GetEnumerator();
         }
 
         #endregion

@@ -9,16 +9,14 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Interfaces
 {
     /// <summary>
     /// Dieses Interface ist eine Fabrik für eine bestimmte Art
     /// von Objekten
     /// </summary>
+    /// <typeparam name="T">Type of object to be created in factory. </typeparam>
+    /// <returns>Created object by factory</returns>
     public delegate T FactoryDelegate<T>();
 
     /// <summary>
@@ -29,6 +27,5 @@ namespace BurnSystems.Interfaces
     /// <typeparam name="TParameter">Typ der Parameter</typeparam>
     /// <param name="oParameter">übergebene Parameter</param>
     /// <returns>Neu erzeugtes Objekt</returns>
-    public delegate TResult FactoryDelegate<TResult, TParameter> ( TParameter oParameter );
-    
+    public delegate TResult FactoryDelegate<TResult, TParameter>(TParameter oParameter);    
 }

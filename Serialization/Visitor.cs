@@ -76,7 +76,6 @@ namespace BurnSystems.Serialization
             }
             else if (Helper.IsArray(type))
             {
-
                 // Checks, if object is already in reference
                 if (type.IsClass || type.IsArray)
                 {
@@ -94,7 +93,6 @@ namespace BurnSystems.Serialization
             }
             else
             {
-
                 // Checks, if object is already in reference
                 if (type.IsClass || type.IsArray)
                 {

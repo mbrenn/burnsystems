@@ -9,13 +9,11 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BurnSystems.Collections;
-
 namespace BurnSystems.Net
 {
+    using System.Collections.Generic;
+    using BurnSystems.Collections;
+
     /// <summary>
     /// Contains one part of the multipartform data. 
     /// </summary>
@@ -24,68 +22,64 @@ namespace BurnSystems.Net
         /// <summary>
         /// Stores the elements of the content-disposition header 
         /// </summary>
-        NiceDictionary<String, String> _ContentDisposition =
+        private NiceDictionary<string, string> contentDisposition =
             new NiceDictionary<string, string>();
 
         /// <summary>
         /// Stores a list of all header
         /// </summary>
-        List<Pair<String, String>> _Headers = new List<Pair<String, String>>();
-
-        /// <summary>
-        /// Content of this part
-        /// </summary>
-        byte[] _Content;
-
-        /// <summary>
-        /// Stores the elements of the content-disposition header
-        /// </summary>
-        public NiceDictionary<String, String> ContentDisposition
-        {
-            get { return _ContentDisposition; }
-        }
-
-        /// <summary>
-        /// Stores a list of headers
-        /// </summary>
-        public List<Pair<String, String>> Headers
-        {
-            get { return _Headers; }
-        }
-
-        /// <summary>
-        /// Gets a specific header
-        /// </summary>
-        /// <param name="strHeaderName">Name of requested header</param>
-        /// <returns>Found header or null</returns>
-        public String this[String strHeaderName]
-        {
-            get
-            {
-                var oPair =
-                    Headers.Find(x => x.First == strHeaderName);
-                if (oPair != null)
-                {
-                    return oPair.Second;
-                }
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Content of this part
-        /// </summary>
-        public byte[] Content
-        {
-            get { return _Content; }
-            set { _Content = value; }
-        }
+        private List<Pair<string, string>> headers = new List<Pair<string, string>>();
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
         public MultipartFormDataPart()
         {
+        }
+
+        /// <summary>
+        /// Gets the elements of the content-disposition header
+        /// </summary>
+        public NiceDictionary<string, string> ContentDisposition
+        {
+            get { return this.contentDisposition; }
+        }
+
+        /// <summary>
+        /// Gets a list of headers
+        /// </summary>
+        public List<Pair<string, string>> Headers
+        {
+            get { return this.headers; }
+        }
+
+        /// <summary>
+        /// Gets or sets the content of this part
+        /// </summary>
+        public byte[] Content
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets a specific header
+        /// </summary>
+        /// <param name="headerName">Name of requested header</param>
+        /// <returns>Found header or null</returns>
+        public string this[string headerName]
+        {
+            get
+            {
+                var pair =
+                    this.Headers.Find(x => x.First == headerName);
+                if (pair != null)
+                {
+                    return pair.Second;
+                }
+
+                return null;
+            }
         }
     }
 }

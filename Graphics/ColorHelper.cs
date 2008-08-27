@@ -9,16 +9,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-// (c) by BurnSystems '06
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Globalization;
-
 namespace BurnSystems.Graphics
 {
+    using System;
+    using System.Drawing;
+    using System.Globalization;
+    
     /// <summary>
     /// This is a small helper class for converting colors to hex and back. 
     /// Further methods will be implemented in the future
@@ -30,12 +26,14 @@ namespace BurnSystems.Graphics
         /// </summary>
         /// <param name="color">Color to be converted</param>
         /// <returns>Hexstring of color</returns>
-        public static String ColorToHex(Color color)
+        public static string ColorToHex(Color color)
         {
-            return String.Format(
+            return string.Format(
                 CultureInfo.InvariantCulture,
                 "{0:X2}{1:X2}{2:X2}",
-                color.R, color.G, color.B);
+                color.R, 
+                color.G, 
+                color.B);
         }
 
         /// <summary>
@@ -43,22 +41,23 @@ namespace BurnSystems.Graphics
         /// </summary>
         /// <param name="hexValue">Hexadecimal string to be converted</param>
         /// <returns>Converted color</returns>
-        public static Color HexToColor(String hexValue)
+        public static Color HexToColor(string hexValue)
         {
             if (hexValue.Length == 0)
             {
                 return Color.White;
             }
-            int nStart = hexValue[0] == '#' ? 1 : 0;
 
-            if (hexValue.Length != nStart + 6)
+            int start = hexValue[0] == '#' ? 1 : 0;
+
+            if (hexValue.Length != start + 6)
             {
                 return Color.White;
             }
 
-            int nR = StringManipulation.HexToInt(hexValue.Substring(nStart, 2));
-            int nG = StringManipulation.HexToInt(hexValue.Substring(nStart + 2, 2));
-            int nB = StringManipulation.HexToInt(hexValue.Substring(nStart + 4, 2));
+            var nR = StringManipulation.HexToInt(hexValue.Substring(start, 2));
+            var nG = StringManipulation.HexToInt(hexValue.Substring(start + 2, 2));
+            var nB = StringManipulation.HexToInt(hexValue.Substring(start + 4, 2));
             return Color.FromArgb(255, nR, nG, nB);
         }
     }

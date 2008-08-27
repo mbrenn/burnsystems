@@ -9,38 +9,20 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Logging
 {
+    using System;
+
     /// <summary>
     /// This provider writes all data on the console
     /// </summary>
     public class ConsoleProvider : ILogProvider
     {
         /// <summary>
-        /// Flag, ob nur eine einfache Ausgabe ohne Uhrzeiten 
-        /// und Schwere des Ereignisses ausgegeben werden sollen
-        /// </summary>
-        bool _SimpleOutput = false;
-
-        /// <summary>
-        /// Flag, ob nur eine einfache Ausgabe ohne Uhrzeiten 
-        /// und Schwere des Ereignisses ausgegeben werden sollen
-        /// </summary>
-        public bool SimpleOutput
-        {
-            get { return _SimpleOutput; }
-            set { _SimpleOutput = value; }
-        }
-
-        /// <summary>
         /// Erzeugt eine neue Instanz
         /// </summary>
         public ConsoleProvider()
-            : this ( false )
+            : this(false)
         {
         }
 
@@ -48,39 +30,46 @@ namespace BurnSystems.Logging
         /// Erzeugt eine neue Instanz und legt fest ob nur
         /// eine einfache Ausgabe erzeugt werden soll
         /// </summary>
-        /// <param name="bSimpleOutput">true, wenn nur eine einfache
+        /// <param name="simpleOutput">true, wenn nur eine einfache
         /// Ausgabe erzeugt werden soll. </param>
-        public ConsoleProvider(bool bSimpleOutput)
+        public ConsoleProvider(bool simpleOutput)
         {
-            _SimpleOutput = bSimpleOutput;
+            this.SimpleOutput = simpleOutput;
         }
 
-
+        /// <summary>
+        /// Gets or sets a value indicating whether a simple output without
+        /// date and loglevel should be used.
+        /// </summary>
+        public bool SimpleOutput
+        {
+            get;
+            set;
+        }
+        
         #region ILogProvider Members
 
         /// <summary>
         /// Nothing is done
         /// </summary>
         public void Start()
-        {
-            
+        {            
         }
 
         /// <summary>
         /// Nothing is done
         /// </summary>
         public void Shutdown()
-        {
-            
+        {            
         }
 
         /// <summary>
         /// Writes the logentry to console
         /// </summary>
-        /// <param name="entry">Entry</param>
+        /// <param name="entry">Entry to be logged</param>
         public void DoLog(LogEntry entry)
         {
-            var eColor = Console.ForegroundColor;
+            var color = Console.ForegroundColor;
 
             switch (entry.LogLevel)
             {
@@ -98,20 +87,20 @@ namespace BurnSystems.Logging
                     break;
             }
 
-            if (_SimpleOutput)
+            if (this.SimpleOutput)
             {
                 Console.WriteLine(entry.Message);
             }
             else
             {
-                Console.WriteLine("{0} {1} {2}", 
+                Console.WriteLine(
+                    "{0} {1} {2}", 
                     entry.Created, 
                     entry.LogLevel.ToString(), 
                     entry.Message);
-
             }
 
-            Console.ForegroundColor = eColor;
+            Console.ForegroundColor = color;
         }
 
         #endregion

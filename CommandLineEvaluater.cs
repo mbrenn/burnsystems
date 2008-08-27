@@ -9,13 +9,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BurnSystems.Collections;
-
 namespace BurnSystems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using BurnSystems.Collections;
+
     /// <summary>
     /// Wertet die Kommandozeilen aus
     /// </summary>
@@ -24,63 +24,64 @@ namespace BurnSystems
         /// <summary>
         /// Nichtbenannte Argument
         /// </summary>
-        List<String> _UnnamedArguments =
+        private List<string> unnamedArguments =
             new List<string>();
 
         /// <summary>
         /// Benannte Argumente
         /// </summary>
-        NiceDictionary<String, String> _NamedArguments =
+        private NiceDictionary<string, string> namedArguments =
             new NiceDictionary<string, string>();
 
         /// <summary>
-        /// Liste aller unbenannten Argumente
+        /// Creates a new instance and reads the arguments
         /// </summary>
-        public List<String> UnnamedArguments
+        /// <param name="arguments">List of program arguments</param>
+        public CommandLineEvaluater(string[] arguments)
         {
-            get { return _UnnamedArguments; }
-        }
-
-        /// <summary>
-        /// Liste aller benannten Argumente
-        /// </summary>
-        public NiceDictionary<String, String> NamedArguments
-        {
-            get { return _NamedArguments; }
-        }
-
-        /// <summary>
-        /// Erzeugt eine neue Struktur
-        /// </summary>
-        /// <param name="astrArguments"></param>
-        public CommandLineEvaluater(String[] astrArguments)
-        {
-            foreach (String strArgument in astrArguments)
+            foreach (var argument in arguments)
             {
-                if (strArgument.Length == 0)
+                if (argument.Length == 0)
                 {
                     continue;
                 }
 
-                if (strArgument[0] == '-')
+                if (argument[0] == '-')
                 {
-                    int nPos = strArgument.IndexOf('=');
-                    if (nPos == -1)
+                    int pos = argument.IndexOf('=');
+                    if (pos == -1)
                     {
-                        _NamedArguments[strArgument] = "1";
+                        this.namedArguments[argument] = "1";
                     }
                     else
                     {
-                        _NamedArguments[strArgument.Substring(1, nPos - 1)] =
-                            strArgument.Substring(nPos + 1);
+                        this.namedArguments[argument.Substring(1, pos - 1)] =
+                            argument.Substring(pos + 1);
                     }
+
                     continue;
                 }
                 else
                 {
-                    _UnnamedArguments.Add(strArgument);
+                    this.unnamedArguments.Add(argument);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a list of unnamed arguments
+        /// </summary>
+        public List<string> UnnamedArguments
+        {
+            get { return this.unnamedArguments; }
+        }
+
+        /// <summary>
+        /// Gets a dictionary of named arguments
+        /// </summary>
+        public NiceDictionary<string, string> NamedArguments
+        {
+            get { return this.namedArguments; }
         }
     }
 }

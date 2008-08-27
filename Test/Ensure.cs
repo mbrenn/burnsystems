@@ -37,9 +37,11 @@ namespace BurnSystems.Test
         /// <summary>
         /// Wirft die 'EnsureFailedException'-Ausnahme
         /// </summary>
-        public static void Fail(String strFailText)
+        /// <param name="failText">The failtext, which is thrown
+        /// with the exception</param>
+        public static void Fail(string failText)
         {
-            throw new EnsureFailedException("Fail: " + strFailText);
+            throw new EnsureFailedException("Fail: " + failText);
         }
 
         /// <summary>
@@ -69,9 +71,10 @@ namespace BurnSystems.Test
         /// <summary>
         /// Versichert, dass das angegebene Objekt nicht null ist
         /// </summary>
-        /// <param name="value">Wert</param>
-        /// <param name="errorText">Fehlertext</param>
-        public static void IsNotNull(object value, String errorText)
+        /// <param name="value">Value to be checked</param>
+        /// <param name="errorText">Errortext, which is thrown, if
+        /// check fails</param>
+        public static void IsNotNull(object value, string errorText)
         {
             if (value == null)
             {
@@ -96,7 +99,7 @@ namespace BurnSystems.Test
         /// </summary>
         /// <param name="value">Zu überprüfende Wert</param>
         /// <param name="errorText">Error text, if check fails</param>
-        public static void IsTrue(bool value, String errorText)
+        public static void IsTrue(bool value, string errorText)
         {
             if (!value)
             {
@@ -121,7 +124,7 @@ namespace BurnSystems.Test
         /// </summary>
         /// <param name="value">Zu überprüfende Wert</param>
         /// <param name="errorText">Error text, if check fails</param>
-        public static void IsFalse(bool value, String errorText)
+        public static void IsFalse(bool value, string errorText)
         {
             if (value)
             {
@@ -160,7 +163,7 @@ namespace BurnSystems.Test
         /// <param name="value">Wert, der geprüft werden soll. </param>
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         /// <param name="text">Error text</param>
-        public static void AreEqual<T>(T value, T reference, String text)
+        public static void AreEqual<T>(T value, T reference, string text)
         {
             if (value.Equals(reference))
             {
@@ -177,8 +180,6 @@ namespace BurnSystems.Test
         #endregion
 
         #region AreNotEqual
-
-        
 
         /// <summary>
         /// Überprüft, ob die beiden Objekte ungleich sind. Zum Vergleich
@@ -703,17 +704,20 @@ namespace BurnSystems.Test
         /// Versichert, dass eine Ausnahme geworfen wird
         /// </summary>
         /// <typeparam name="T">Typ der zu werfenden Ausnahme</typeparam>
-        public static void ThrowsException<T>(Function dFunction) where T : Exception
+        /// <param name="function">Function, which is called. The 
+        /// Exception is expected to be thrown from the function</param>
+        public static void ThrowsException<T>(Function function) where T : Exception
         {
             try
             {
-                dFunction();
+                function();
             }
             catch (T)
             {
                 // Alles OK
                 return;
             }
+
             throw new EnsureFailedException("ThrowsException");
         }
 

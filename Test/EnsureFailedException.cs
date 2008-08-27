@@ -9,12 +9,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
     /// This method is thrown, when an ensure check failes
     /// </summary>
@@ -24,20 +24,27 @@ namespace BurnSystems.Test
         /// <summary>
         /// Creates new instance
         /// </summary>
-        public EnsureFailedException() { }
+        public EnsureFailedException()
+        { 
+        }
 
         /// <summary>
         /// Creates new instance and sets the message
         /// </summary>
         /// <param name="message">Message, why check failed</param>
-        public EnsureFailedException(string message) : base(message) { }
+        public EnsureFailedException(string message) : base(message) 
+        { 
+        }
 
         /// <summary>
         /// Creates new instance and sets message and inner exception
         /// </summary>
         /// <param name="message">Message of check</param>
         /// <param name="inner">Inner exception</param>
-        public EnsureFailedException(string message, Exception inner) : base(message, inner) { }
+        public EnsureFailedException(string message, Exception inner) 
+            : base(message, inner) 
+        { 
+        }
 
         /// <summary>
         /// Creates new instance
@@ -47,6 +54,8 @@ namespace BurnSystems.Test
         protected EnsureFailedException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            : base(info, context) 
+        { 
+        }
     }
 }

@@ -9,13 +9,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-
 namespace BurnSystems.Collections
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+
     /// <summary>
     /// Defines the delegate for the procedure
     /// </summary>    
@@ -49,35 +48,35 @@ namespace BurnSystems.Collections
     public delegate void Procedure<T1, T2, T3>(T1 arg1, T2 arg2, T3 arg3);
 
     /// <summary>
-    /// Portiert den Delegaten <c>Action</c> aus System.Core zurück.
+    /// Backports delegate <c>Action</c> of System.Core
     /// </summary>
     public delegate void Function();
 
     /// <summary>
-    /// Portiert den Delegat <c>Func</c> aus System.Core zurück
+    /// Backports delegate <c>Func</c> of System.Core
     /// </summary>
     /// <typeparam name="TResult">Type of result</typeparam>
-    /// <returns>Result</returns>
+    /// <returns>Result of function</returns>
     public delegate TResult Function<TResult>();
 
     /// <summary>
-    /// Portiert den Delegat <c>Func</c> aus System.Core zurück
+    /// Backports delegate <c>Func</c> of System.Core
     /// </summary>
     /// <typeparam name="TResult">Type of result</typeparam>
     /// <typeparam name="T">Type of first parameter</typeparam>
-    /// <param name="parameter">Parameter</param>
-    /// <returns></returns>
+    /// <param name="parameter">Parameter of function</param>
+    /// <returns>Result of function</returns>
     public delegate TResult Function<TResult, T>(T parameter);
 
     /// <summary>
-    /// Portiert den Delegat <c>Func</c> aus System.Core zurück
+    /// Backports delegate <c>Func</c> of System.Core
     /// </summary>
     /// <param name="o1">First parameter</param>
     /// <param name="o2">Second parameter</param>
     /// <typeparam name="TResult">Type of result</typeparam>
-    /// <typeparam name="T1">Typ 1</typeparam>
-    /// <typeparam name="T2">Typ 2</typeparam>    
-    /// <returns></returns>
+    /// <typeparam name="T1">Type of first parameter</typeparam>
+    /// <typeparam name="T2">Type of second parameter</typeparam>    
+    /// <returns>Result of function</returns>
     public delegate TResult Function<TResult, T1, T2>(T1 o1, T2 o2);
 
     /// <summary>
@@ -91,13 +90,15 @@ namespace BurnSystems.Collections
         /// mit diesem Element aufgerufen
         /// </summary>
         /// <typeparam name="T">Typ des Delegaten</typeparam>
-        /// <param name="iList">Aufzählung mit den Elementen</param>
-        /// <param name="oDelegate">Delegat, der aufgerufen wird</param>
-        public static void ForEach<T>(IEnumerable<T> iList, Action<T> oDelegate)
+        /// <param name="list">Aufzählung mit den Elementen</param>
+        /// <param name="action">Delegat, der aufgerufen wird</param>
+        public static void ForEach<T>(
+            IEnumerable<T> list, 
+            Action<T> action)
         {
-            foreach (T oObject in iList)
+            foreach (T element in list)
             {
-                oDelegate(oObject);
+                action(element);
             }
         }
 
@@ -106,15 +107,15 @@ namespace BurnSystems.Collections
         /// Prädikat zutrifft
         /// </summary>
         /// <typeparam name="T">Typ der Elemente in der Liste</typeparam>
-        /// <param name="iList">Liste</param>
-        /// <param name="oPredicate">Prädikat, auf das jedes einzelne
+        /// <param name="list">List to be checked</param>
+        /// <param name="predicate">Prädikat, auf das jedes einzelne
         /// Element getestet wird. </param>
         /// <returns>true, wenn eines der Elemente zutrifft</returns>
-        public static bool Exists<T>(IEnumerable<T> iList, Predicate<T> oPredicate)
+        public static bool Exists<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
-            foreach (var oElement in iList)
+            foreach (var element in list)
             {
-                if (oPredicate(oElement))
+                if (predicate(element))
                 {
                     return true;
                 }
@@ -126,17 +127,17 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gibt das erste Element zurück, dass das Prädikat erfüllt
         /// </summary>
-        /// <typeparam name="T">Typ</typeparam>
-        /// <param name="iList">List</param>
-        /// <param name="oPredicate">Zu erfüllendes Prädikat</param>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">List to be checked</param>
+        /// <param name="predicate">Zu erfüllendes Prädikat</param>
         /// <returns>Gefundenes Objekt</returns>
-        public static T Find<T>(IEnumerable<T> iList, Predicate<T> oPredicate)
+        public static T Find<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
-            foreach (T oObject in iList)
+            foreach (T element in list)
             {
-                if (oPredicate(oObject))
+                if (predicate(element))
                 {
-                    return oObject;
+                    return element;
                 }
             }
 
@@ -147,17 +148,19 @@ namespace BurnSystems.Collections
         /// Gibt eine Aufzählung aller Inhalte zurück, die das übergebene
         /// Prädikat erfüllen
         /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <param name="iList">Liste mit den Elementen, die zu überprüfen sind</param>
-        /// <param name="oPredicate">Gefordertes Prädikat</param>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">Liste mit den Elementen, die zu überprüfen sind</param>
+        /// <param name="predicate">Gefordertes Prädikat</param>
         /// <returns>Aufzählung mit passenden Elementen</returns>
-        public static IEnumerable<T> FindAll<T>(IEnumerable<T> iList, Predicate<T> oPredicate)
+        public static IEnumerable<T> FindAll<T>(
+            IEnumerable<T> list, 
+            Predicate<T> predicate)
         {
-            foreach (var oObject in iList)
+            foreach (var element in list)
             {
-                if (oPredicate(oObject))
+                if (predicate(element))
                 {
-                    yield return oObject;
+                    yield return element;
                 }
             }
         }
@@ -168,20 +171,21 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <typeparam name="TSource">Typ der Quellobjekte</typeparam>
         /// <typeparam name="TResult">Typ der Zielobjekt</typeparam>
-        /// <param name="aoSource">Array mit den Quellelementen</param>
-        /// <param name="oConverter">Konverter mit dem Resultat</param>
+        /// <param name="source">Array mit den Quellelementen</param>
+        /// <param name="converter">Konverter mit dem Resultat</param>
         /// <returns>Liste mit dem konvertierten Elementen</returns>
-        public static IList<TResult> Convert<TSource, TResult>
-            (IEnumerable<TSource> aoSource, Converter<TSource, TResult> oConverter)
+        public static IList<TResult> Convert<TSource, TResult>(
+            IEnumerable<TSource> source, 
+            Converter<TSource, TResult> converter)
         {
-            var aoResult = new List<TResult>();
+            var result = new List<TResult>();
 
-            foreach (var oSource in aoSource)
+            foreach (var element in source)
             {
-                aoResult.Add(oConverter(oSource));
+                result.Add(converter(element));
             }
 
-            return aoResult;
+            return result;
         }
 
         /// <summary>
@@ -190,41 +194,42 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <typeparam name="TSource">Typ der Quellobjekte</typeparam>
         /// <typeparam name="TResult">Typ der Zielobjekt</typeparam>
-        /// <param name="aoSource">Array mit den Quellelementen</param>
-        /// <param name="oConverter">Konverter mit dem Resultat</param>
+        /// <param name="source">Array mit den Quellelementen</param>
+        /// <param name="converter">Konverter mit dem Resultat</param>
         /// <returns>Array mit dem konvertierten Elementen</returns>
-        public static TResult[] ConvertToArray<TSource, TResult>
-            (IEnumerable<TSource> aoSource, Converter<TSource, TResult> oConverter)
+        public static TResult[] ConvertToArray<TSource, TResult>(
+            IEnumerable<TSource> source, 
+            Converter<TSource, TResult> converter)
         {
-            var aoResult = new List<TResult>();
+            var result = new List<TResult>();
 
-            foreach (var oSource in aoSource)
+            foreach (var element in source)
             {
-                aoResult.Add(oConverter(oSource));
+                result.Add(converter(element));
             }
 
-            return aoResult.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
         /// Identifiziert Duplikate in der Liste und gibt nur die eindeutigen
         /// Elemente zurück. Dazu wird die Funktion 'Equals' genutzt. 
         /// </summary>
-        /// <typeparam name="T">Typ der zu überprüfenden Objekte</typeparam>
-        /// <param name="oSource">Quelle</param>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="source">List with elements</param>
         /// <returns>Eindeutige Objekte</returns>
-        public static IEnumerable<T> Distinct<T>
-            (IEnumerable<T> oSource)
+        public static IEnumerable<T> Distinct<T>(
+            IEnumerable<T> source)
         {
-            var aoFound = new List<T>();
+            var found = new List<T>();
 
-            foreach (var oObject in oSource)
+            foreach (var element in source)
             {
-                if (aoFound.IndexOf(oObject) == -1)
+                if (found.IndexOf(element) == -1)
                 {
                     // Noch nicht in der Liste, hinzufügen und zurückgeben
-                    yield return oObject;
-                    aoFound.Add(oObject);
+                    yield return element;
+                    found.Add(element);
                 }
             }
         }
@@ -233,57 +238,66 @@ namespace BurnSystems.Collections
         /// Gibt die Anzahl der Elemente zurück, die ein bestimmtes
         /// Prädikat erfüllen
         /// </summary>
-        /// <typeparam name="T">Typ der Elemente in der Aufzählung</typeparam>
-        /// <param name="oSource">Elemente, die zu prüfen sind</param>
-        /// <param name="oPredicate">Das zu erfüllende Prädikat</param>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="source">Elemente, die zu prüfen sind</param>
+        /// <param name="predicate">Das zu erfüllende Prädikat</param>
         /// <returns>Anzahl der gefundenen Elemente</returns>
-        public static int Count<T>(IEnumerable<T> oSource, Predicate<T> oPredicate)
+        public static int Count<T>(IEnumerable<T> source, Predicate<T> predicate)
         {
-            var nReturn = 0;
-            foreach (var oElement in oSource)
+            var result = 0;
+            foreach (var element in source)
             {
-                if (oPredicate(oElement))
+                if (predicate(element))
                 {
-                    nReturn++;
+                    result++;
                 }
             }
-            return nReturn;
+
+            return result;
         }
 
         /// <summary>
         /// Gibt die Summe der konvertierten Objekte zurück
         /// </summary>
-        /// <typeparam name="T">Angefragter Typ</typeparam>
-        /// <param name="oSource">Quellobjekt</param>
-        /// <param name="oConverter">Konvertierungsdelegat</param>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="source">List with elements</param>
+        /// <param name="converter">Delegate used for conversion of an 
+        /// element to a long-value</param>
         /// <returns>Summe der Rückgabewerte</returns>
-        public static long Sum<T>(IEnumerable<T> oSource, Converter<T, long> oConverter)
+        public static long Sum<T>(
+            IEnumerable<T> source, 
+            Converter<T, long> converter)
         {
-            var nReturn = 0L;
+            var result = 0L;
 
-            foreach (var oElement in oSource)
+            foreach (var element in source)
             {
-                nReturn += oConverter(oElement);
+                result += converter(element);
             }
-            return nReturn;
+
+            return result;
         }
 
         /// <summary>
         /// Gibt die Summe der konvertierten Objekte zurück
         /// </summary>
-        /// <typeparam name="T">Angefragter Typ</typeparam>
-        /// <param name="oSource">Quellobjekt</param>
-        /// <param name="oConverter">Konvertierungsdelegat</param>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="source">List with elements</param>
+        /// <param name="converter">Delegate used for conversion of an 
+        /// element to a double-value</param>
         /// <returns>Summe der Rückgabewerte</returns>
-        public static double Sum<T>(IEnumerable<T> oSource, Converter<T, double> oConverter)
+        public static double Sum<T>(
+            IEnumerable<T> source, 
+            Converter<T, double> converter)
         {
-            var nReturn = 0.0;
+            var result = 0.0;
 
-            foreach (var oElement in oSource)
+            foreach (var element in source)
             {
-                nReturn += oConverter(oElement);
+                result += converter(element);
             }
-            return nReturn;
+
+            return result;
         }
 
         /// <summary>
@@ -291,21 +305,25 @@ namespace BurnSystems.Collections
         /// schon in der Liste befindet. Ist dies nicht der Fall, so
         /// wird das Objekt hinzugefügt
         /// </summary>
-        /// <typeparam name="T">Typ des Objektes</typeparam>
-        /// <param name="oList">Liste, zu der das Objekt hinzugefügt
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">Liste, zu der das Objekt hinzugefügt
         /// werden soll. </param>
-        /// <param name="oToBeAdded">Objekt, das hinzugefügt werden soll.</param>
-        /// <param name="oTest">Prädikat, mit dessen Hilfe getestet wird.</param>
-        public static void AddIfNotExists<T>(IList<T> oList, T oToBeAdded, Function<bool, T, T> oTest)
+        /// <param name="itemToBeAdded">Objekt, das hinzugefügt werden soll.</param>
+        /// <param name="testFunction">Prädikat, mit dessen Hilfe getestet wird.</param>
+        public static void AddIfNotExists<T>(
+            IList<T> list, 
+            T itemToBeAdded, 
+            Function<bool, T, T> testFunction)
         {
-            foreach (var oObject in oList)
+            foreach (var element in list)
             {
-                if (oTest(oToBeAdded, oObject))
+                if (testFunction(itemToBeAdded, element))
                 {
                     return;
                 }
             }
-            oList.Add(oToBeAdded);
+
+            list.Add(itemToBeAdded);
         }
 
         /// <summary>
@@ -313,84 +331,90 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <typeparam name="T">Typ der in der Liste enthaltenen Elemente</typeparam>
         /// <param name="list">Zu sortierende Liste</param>
-        /// <param name="comparer">Compaerer</param>
-        public static IEnumerable<T> Sort<T>(IEnumerable<T> list, Comparison<T> comparer)
+        /// <param name="comparer">Comparer to be used for sorting</param>
+        /// <returns>Sortet list</returns>
+        public static IEnumerable<T> Sort<T>(
+            IEnumerable<T> list, 
+            Comparison<T> comparer)
         {
-            var oList = new List<T>(list);
-            oList.Sort(comparer);
-            return oList;
+            var copiedList = new List<T>(list);
+            copiedList.Sort(comparer);
+            return copiedList;
         }
 
         /// <summary>
         /// Entfernt alle Elemente aus der Liste <c>aiList</c>, die das 
         /// Prädikat <c>oPredicate</c> erfüllen.
         /// </summary>
-        /// <typeparam name="T">Typspezifizierer</typeparam>
+        /// <typeparam name="T">Type of elements in list</typeparam>
         /// <param name="list">Liste, die verändert werden soll</param>
-        /// <param name="predicate">Prädikat</param>
+        /// <param name="predicate">Predicate, which checks, if an 
+        /// element has to be removed</param>
         /// <returns>Anzahl der entfernten Elemente</returns>
         public static int Remove<T>(IList<T> list, Predicate<T> predicate)
         {
-            var oList = new List<T>(list);
-            var nPosition = 0;
-            int nRemoved = 0;
-            foreach (var oItem in oList)
+            var copiedList = new List<T>(list);
+            var position = 0;
+            int removed = 0;
+            foreach (var element in copiedList)
             {
-                if (predicate(oItem))
+                if (predicate(element))
                 {
-                    list.RemoveAt(nPosition);
-                    nRemoved++;
+                    list.RemoveAt(position);
+                    removed++;
                 }
                 else
                 {
-                    nPosition++;
+                    position++;
                 }
             }
-            return nRemoved;
+
+            return removed;
         }
 
         /// <summary>
-        /// Returns the position of the first occurance of <c>aoNeedle</c>
-        /// in the Array <c>aoHayStick</c>. The method <c>Equals</c> is used
+        /// Returns the position of the first occurance of <c>needle</c>
+        /// in the Array <c>hayStick</c>. The method <c>Equals</c> is used
         /// for testing. 
         /// </summary>
-        /// <typeparam name="T">Type of the elements.</typeparam>
-        /// <param name="aoHayStick">Haystick</param>
-        /// <param name="aoNeedle">Searched Needle</param>
-        /// <param name="nStartPosition">StartPosition</param>
-        /// <returns></returns>
-        public static int IndexOf<T>(T[] aoHayStick, T[] aoNeedle, int nStartPosition)
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="hayStick">Haystick with all elements</param>
+        /// <param name="needle">Searched Needle</param>
+        /// <param name="startPosition">Starting position of search</param>
+        /// <returns>Position of first occurance</returns>
+        public static int IndexOf<T>(T[] hayStick, T[] needle, int startPosition)
         {
             // Do standard error checking here.
-            if (aoHayStick == null)
+            if (hayStick == null)
             {
-                throw new ArgumentNullException("aoHayStick");
+                throw new ArgumentNullException("hayStick");
             }
-            if (aoNeedle == null)
+
+            if (needle == null)
             {
-                throw new ArgumentNullException("aoNeedle");
+                throw new ArgumentNullException("needle");
             }
 
             // Found?
-            bool bFound = false;
+            bool found = false;
 
             // Cycle through each byte of the searched.  Do not search past
             // searched.Length - find.Length bytes, since it's impossible
             // for the value to be found at that point.
-            for (var nIndex = nStartPosition; nIndex <= aoHayStick.Length - aoNeedle.Length; ++nIndex)
+            for (var index = startPosition; index <= hayStick.Length - needle.Length; ++index)
             {
                 // Assume the values matched.
-                bFound = true;
+                found = true;
 
                 // Search in the values to be found.
-                for (var nSubIndex = 0L; nSubIndex < aoNeedle.Length; ++nSubIndex)
+                for (var subIndex = 0L; subIndex < needle.Length; ++subIndex)
                 {
                     // Check the value in the searched array vs the value
                     // in the find array.
-                    if (!aoNeedle[nSubIndex].Equals(aoHayStick[nIndex + nSubIndex]))
+                    if (!needle[subIndex].Equals(hayStick[index + subIndex]))
                     {
                         // The values did not match.
-                        bFound = false;
+                        found = false;
 
                         // Break out of the loop.
                         break;
@@ -398,10 +422,10 @@ namespace BurnSystems.Collections
                 }
 
                 // If the values matched, return the index.
-                if (bFound)
+                if (found)
                 {
                     // Return the index.
-                    return nIndex;
+                    return index;
                 }
             }
 
@@ -412,64 +436,72 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Stabile Sortierung mit Hilfe des Insertionsorts
         /// </summary>
-        /// <typeparam name="T">Typ der zu sortierenden Elemente</typeparam>
-        /// <param name="oList">Zu sortierende Liste</param>
-        /// <param name="dComparison">Sortierfunktion</param>
-        public static void InsertionSort<T>(IList<T> oList, Comparison<T> dComparison)
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">Zu sortierende Liste</param>
+        /// <param name="comparison">Comparison-Delegate used 
+        /// for sorting</param>
+        public static void InsertionSort<T>(IList<T> list, Comparison<T> comparison)
         {
-            if (oList == null)
+            if (list == null)
+            {
                 throw new ArgumentNullException("list");
-            if (dComparison == null)
-                throw new ArgumentNullException("comparison");
+            }
 
-            var count = oList.Count;
+            if (comparison == null)
+            {
+                throw new ArgumentNullException("comparison");
+            }
+
+            var count = list.Count;
             for (int j = 1; j < count; j++)
             {
-                var key = oList[j];
+                var key = list[j];
 
                 var i = j - 1;
-                for (; i >= 0 && dComparison(oList[i], key) > 0; i--)
+                for (; i >= 0 && comparison(list[i], key) > 0; i--)
                 {
-                    oList[i + 1] = oList[i];
+                    list[i + 1] = list[i];
                 }
-                oList[i + 1] = key;
+
+                list[i + 1] = key;
             }
         }
 
         /// <summary>
         /// Kopiert ein zweidimensionales Array
         /// </summary>
-        /// <typeparam name="T">Typ der Elemente in dem Array</typeparam>
-        /// <param name="aoArray">Zu kopierendes Array</param>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="source">Zu kopierendes Array</param>
         /// <returns>Kopiertes Array</returns>
-        public static T[,] Copy<T>(T[,] aoArray)
+        public static T[,] Copy<T>(T[,] source)
         {
-            int nHeight = aoArray.GetLength(0);
-            int nWidth = aoArray.GetLength(1);
+            int height = source.GetLength(0);
+            int width = source.GetLength(1);
 
-            var aoReturn = new T[nHeight, nWidth];
-            for (int n = 0; n < nHeight; n++)
+            var result = new T[height, width];
+            for (int n = 0; n < height; n++)
             {
-                for (int m = 0; m < nWidth; m++)
+                for (int m = 0; m < width; m++)
                 {
-                    aoReturn[n, m] = aoArray[n, m];
+                    result[n, m] = source[n, m];
                 }
             }
-            return aoReturn;
+
+            return result;
         }
 
         /// <summary>
         /// Checks, if all elements in the enumeration fulfill the predicate. 
         /// </summary>
-        /// <typeparam name="T">Type of items in enumeration</typeparam>
+        /// <typeparam name="T">Type of elements in list</typeparam>
         /// <param name="items">Items, which should be checked. </param>
         /// <param name="predicate">Predicate, which should be fulfilled</param>
         /// <returns>true, if all items fulfill the predicate</returns>
         public static bool ForAll<T>(IEnumerable<T> items, Predicate<T> predicate)
         {
-            foreach (var item in items)
+            foreach (var element in items)
             {
-                if (!predicate(item))
+                if (!predicate(element))
                 {
                     return false;
                 }
@@ -482,7 +514,7 @@ namespace BurnSystems.Collections
         /// Executes the <c>action</c> for each of the items in <c>items</c>
         /// parallel within threads. It is important that the actions are threadsafe.
         /// </summary>
-        /// <typeparam name="T">Type of enumeration</typeparam>
+        /// <typeparam name="T">Type of elements in list</typeparam>
         /// <param name="items">Enumeration, whose elements should be
         /// executed.</param>
         /// <param name="action">Action, which should be executed</param>
@@ -517,7 +549,6 @@ namespace BurnSystems.Collections
             }
 
             // Fills the stack with items
-
             var itemStack = new Stack<T>();
             foreach (var item in items)
             {
@@ -541,8 +572,10 @@ namespace BurnSystems.Collections
                                 {
                                     break;
                                 }
+
                                 item = itemStack.Pop();
                             }
+
                             action(item);
                         }
                     });

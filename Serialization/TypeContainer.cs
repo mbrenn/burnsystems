@@ -91,6 +91,7 @@ namespace BurnSystems.Serialization
                     {
                         continue;
                     }
+
                     typeEntry.AddField(field);
                 }
 

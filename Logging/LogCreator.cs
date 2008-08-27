@@ -9,14 +9,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Globalization;
-
 namespace BurnSystems.Logging
 {
+    using System;
+    using System.Globalization;
+    using System.Xml;
+
     /// <summary>
     /// Dies ist eine Klasse mit dessen Hilfe 
     /// ein Log-Objekt über einen Xml-Knoten erzeugt werden kann. 
@@ -30,54 +28,56 @@ namespace BurnSystems.Logging
         /// <returns>Ein neuerstelltes Log</returns>
         public static Log CreateLog(XmlNode xmlNode)
         {
-            Log oLog = new Log();
+            var log = new Log();
 
             // Setzt das Filterlevel
             if (xmlNode.Attributes["filter"] != null)
             {
-                String strFilterlevel
+                string strFilterlevel
                     = xmlNode.Attributes["filter"].InnerText;
                 try
                 {
-                    LogLevel oLogLevel = (LogLevel)
+                    LogLevel logLevel = (LogLevel)
                         Enum.Parse(typeof(LogLevel), strFilterlevel, true);
-                    oLog.FilterLevel = oLogLevel;
+                    log.FilterLevel = logLevel;
                 }
                 catch (FormatException)
                 {
                     throw new InvalidOperationException(
-                        String.Format( 
-                        CultureInfo.CurrentUICulture,
-                        LocalizationBS.Log_UnknownFilter, strFilterlevel));
+                        String.Format(
+                            CultureInfo.CurrentUICulture,
+                            LocalizationBS.Log_UnknownFilter, 
+                            strFilterlevel));
                 }
             } 
             
-            AddLogProviders(oLog, xmlNode);
+            AddLogProviders(log, xmlNode);
 
-            return oLog;
+            return log;
         }
 
         /// <summary>
-        /// Fügt Logprovider hinzu
+        /// Adds logproviders to a log by xml-Configuration
         /// </summary>
-        /// <param name="xmlNode">Xml-Knoten</param>
-        /// <param name="oLog">Log, der erweitert werden soll.</param>
-        public static void AddLogProviders(Log oLog, XmlNode xmlNode)
+        /// <param name="log">Log, der erweitert werden soll.</param>
+        /// <param name="xmlNode">Xmlnode, storing the configuration of
+        /// logproviders</param>
+        public static void AddLogProviders(Log log, XmlNode xmlNode)
         {
             // Erzeugt die Logprovider
             foreach (XmlNode xmlProvider in xmlNode.SelectNodes("./logprovider"))
             {
-                String strType = xmlProvider.Attributes["type"].InnerText;
+                string type = xmlProvider.Attributes["type"].InnerText;
 
-                switch (strType)
+                switch (type)
                 {
                     case "console":
-                        oLog.AddLogProvider(new ConsoleProvider());
+                        log.AddLogProvider(new ConsoleProvider());
                         break;
                     case "file":
-                        String strPath =
+                        string strPath =
                             xmlProvider.Attributes["path"].InnerText;
-                        oLog.AddLogProvider(new FileProvider(strPath));
+                        log.AddLogProvider(new FileProvider(strPath));
                         break;
                 }
             }

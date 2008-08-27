@@ -9,12 +9,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace BurnSystems.Logging
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using BurnSystems.Collections;
+
     /// <summary>
     /// The different loglevels from less important to very importang
     /// </summary>
@@ -24,99 +25,145 @@ namespace BurnSystems.Logging
         /// Everything will be logged
         /// </summary>
         Everything = 0,
+
         /// <summary>
         /// Some information, that is only interesting at verbose level
         /// </summary>
         Verbose = 1,
+
         /// <summary>
         /// Notifications, which are quite interesting
         /// </summary>
         Notify = 2,
+
         /// <summary>
         /// Messages, which should be evaluated
         /// </summary>
         Message = 3,
+
         /// <summary>
         /// An action failed and the application can continue normally
         /// </summary>
         Fail = 4,
+
         /// <summary>
         /// An action failed and the application can continue with some minor
         /// problems or dataloss
         /// </summary>
         Critical = 5,
+
         /// <summary>
         /// An action failed and the execution of the application was stopped
         /// </summary>
         Fatal = 6
     }
+
     /// <summary>
     /// The log class can be used to create logs for specific providers.
     /// </summary>
     public class Log : BurnSystems.Logging.ILog
     {
         /// <summary>
+        /// Singleton storing the only log
+        /// </summary>
+        private static Log singleton;        
+
+        /// <summary>
         /// Liste von Logprovider
         /// </summary>
-        List<ILogProvider> _LogProviders;
+        private List<ILogProvider> logProviders;
 
         /// <summary>
         /// Loglevel ab dem der Log überhaupt aktiv wird
         /// </summary>
-        LogLevel _FilterLevel = LogLevel.Message;
-
-        object _SyncObject = new object();
+        private LogLevel filterLevel = LogLevel.Message;
 
         /// <summary>
-        /// Loglevel ab dem der Log überhaupt aktiv wird
+        /// Used synchronisationobject for logging
         /// </summary>
-        public LogLevel FilterLevel
-        {
-            get { return _FilterLevel; }
-            set { _FilterLevel = value; }
-        }
-
-        /// <summary>
-        /// Gibt eine Liste von LogProvider zurück
-        /// </summary>
-        public ILogProvider[] GetLogProviders()
-        {
-            return _LogProviders.ToArray();            
-        }
+        private object syncObject = new object();
 
         /// <summary>
         /// Erstellt ein neues Log
         /// </summary>
         public Log()
         {
-            _LogProviders = new List<ILogProvider>();
+            this.logProviders = new List<ILogProvider>();
+        }
+
+        /// <summary>
+        /// Finalises the log 
+        /// </summary>
+        ~Log()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Gets a singleton for logging
+        /// </summary>
+        public static Log TheLog
+        {
+            get
+            {
+                if (singleton == null)
+                {
+                    lock (typeof(Log))
+                    {
+                        if (singleton == null)
+                        {
+                            singleton = new Log();
+                        }
+                    }
+                }
+
+                return singleton;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the active filterlevel
+        /// </summary>
+        public LogLevel FilterLevel
+        {
+            get { return this.filterLevel; }
+            set { this.filterLevel = value; }
+        }
+
+        /// <summary>
+        /// Gibt eine Liste von LogProvider zurück
+        /// </summary>
+        /// <returns>An array of logproviders</returns>
+        public ILogProvider[] GetLogProviders()
+        {
+            return this.logProviders.ToArray();
         }
 
         /// <summary>
         /// Fügt einen neuen LogProvider hinzu
         /// </summary>
-        /// <param name="iLogProvider"></param>
-        public void AddLogProvider(ILogProvider iLogProvider)
+        /// <param name="logProvider">Logprovider to be added</param>
+        public void AddLogProvider(ILogProvider logProvider)
         {
-            iLogProvider.Start();
-            _LogProviders.Add(iLogProvider);
+            logProvider.Start();
+            this.logProviders.Add(logProvider);
         }
 
         /// <summary>
         /// Removes log provider
         /// </summary>
-        /// <param name="iLogProvider"></param>
-        public void RemoveLogProvider(ILogProvider iLogProvider)
+        /// <param name="logProvider">Logprovider to be removed</param>
+        public void RemoveLogProvider(ILogProvider logProvider)
         {
-            int nPosition = _LogProviders.IndexOf(iLogProvider);
+            int position = this.logProviders.IndexOf(logProvider);
 
-            if (nPosition == -1)
+            if (position == -1)
             {
-                throw new ArgumentException("iLogprovider is not in internal list", "iLogProvider");
+                throw new ArgumentException("logprovider is not in internal list", "iLogProvider");
             }
 
-            iLogProvider.Shutdown();
-            _LogProviders.RemoveAt(nPosition);
+            logProvider.Shutdown();
+            this.logProviders.RemoveAt(position);
         }
 
         /// <summary>
@@ -124,23 +171,24 @@ namespace BurnSystems.Logging
         /// </summary>
         public void Reset()
         {
-            _FilterLevel = LogLevel.Message;
-            new List<ILogProvider>(_LogProviders).ForEach(delegate(ILogProvider iProvider)
-                { RemoveLogProvider(iProvider); });
+            this.filterLevel = LogLevel.Message;
+            ListHelper.ForEach(
+                this.logProviders,
+                x => this.RemoveLogProvider(x));
         }
 
         /// <summary>
         /// Logs entry
         /// </summary>
-        /// <param name="oEntry"></param>
-        public void LogEntry(LogEntry oEntry)
+        /// <param name="entry">Entry to be logged</param>
+        public void LogEntry(LogEntry entry)
         {
-            lock (_SyncObject)
+            lock (this.syncObject)
             {
-                if ((int)oEntry.LogLevel >= (int)_FilterLevel)
+                if ((int)entry.LogLevel >= (int)this.filterLevel)
                 {
-                    _LogProviders.ForEach(
-                        delegate(ILogProvider iProvider) { iProvider.DoLog(oEntry); });
+                    this.logProviders.ForEach(
+                        x => x.DoLog(entry)); 
                 }
             }
         }
@@ -150,58 +198,24 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Disposes this object
         /// </summary>
-        /// <param name="bDisposing">Flag, if disposed by <c>Dispose()</c></param>
-        void Dispose(bool bDisposing)
+        public void Dispose()
         {
-            if (bDisposing)
-            {
-                Reset();
-            }
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
         /// Disposes this object
         /// </summary>
-        public void Dispose()
+        /// <param name="disposing">Flag, if disposed by <c>Dispose()</c></param>
+        private void Dispose(bool disposing)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Finaliser
-        /// </summary>
-        ~Log()
-        {
-            Dispose(false);
+            if (disposing)
+            {
+                this.Reset();
+            }
         }
 
         #endregion
-
-        /// <summary>
-        /// Singleton
-        /// </summary>
-        static Log _Singleton;        
-
-        /// <summary>
-        /// Gibt ein Singleton für das Logging zurück
-        /// </summary>
-        public static Log TheLog
-        {
-            get
-            {
-                if (_Singleton == null)
-                {
-                    lock (typeof(Log))
-                    {
-                        if (_Singleton == null)
-                        {
-                            _Singleton = new Log();
-                        }
-                    }
-                }
-                return _Singleton;
-            }
-        }
     }
 }

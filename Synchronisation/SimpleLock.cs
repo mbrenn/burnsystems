@@ -9,68 +9,76 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BurnSystems.Interfaces;
-
 namespace BurnSystems.Synchronisation
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using BurnSystems.Interfaces;
+
     /// <summary>
     /// Eine einfache Locking-Klasse, die für das Locken 
     /// eines ILockable-Objektes zustündig ist
     /// </summary>
     public class SimpleLock : IDisposable
     {
-        ILockable _Lockable;
-        bool _IsDisposed;
+        /// <summary>
+        /// The lockable structure, which is used by this simple lock
+        /// </summary>
+        private ILockable lockable;
+
+        /// <summary>
+        /// Flag, if object was disposed
+        /// </summary>
+        private bool disposed;
 
         /// <summary>
         /// Wenn dieses Objekt erzeugt wird, so wird das übergebene
         /// Objekt gesperrt
         /// </summary>
-        /// <param name="iLockable">Das Objekt, das zu sperren ist</param>
-        public SimpleLock(ILockable iLockable)
+        /// <param name="lockable">Das Objekt, das zu sperren ist</param>
+        public SimpleLock(ILockable lockable)
         {
-            if (iLockable == null)
+            if (lockable == null)
             {
                 throw new ArgumentNullException("iLockable");
             }
-            _Lockable = iLockable;
-            _Lockable.Lock();
+
+            this.lockable = lockable;
+            this.lockable.Lock();
         }
 
+        /// <summary>
+        /// Finaliser of this class
+        /// </summary>
+        ~SimpleLock()
+        {
+            this.Dispose(false);
+        }
 
         #region IDisposable Member
 
-        /// <summary>
-        /// Disposes und unlocks the element
-        /// </summary>
-        /// <param name="bDisposing">Called by Dispose</param>
-        void Dispose(bool bDisposing)
-        {
-            if (bDisposing && !_IsDisposed)
-            {
-                _IsDisposed = true;
-                _Lockable.Unlock();
-            }
-        }
         /// <summary>
         /// Entsperrt das Objekt wieder
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Finaliser
+        /// Disposes und unlocks the element
         /// </summary>
-        ~SimpleLock()
+        /// <param name="disposing">Called by Dispose</param>
+        private void Dispose(bool disposing)
         {
-            Dispose(false);
-        }
+            if (disposing && !this.disposed)
+            {
+                this.disposed = true;
+                this.lockable.Unlock();
+            }
+        }       
 
         #endregion
     }
