@@ -96,6 +96,44 @@ namespace BurnSystems.Net
         }
 
         /// <summary>
+        /// Evaluates a headertext.
+        /// </summary>
+        /// <param name="part">Part, getting the headertext</param>
+        /// <param name="headerText">Headertext to be parsed</param>
+        private static void EvaluateHeader(MultipartFormDataPart part, string headerText)
+        {
+            int posColon = headerText.IndexOf(':');
+            if (posColon == -1)
+            {
+                return;
+            }
+
+            var left = headerText.Substring(0, posColon).Trim();
+            var right = headerText.Substring(posColon + 1).Trim();
+
+            part.Headers.Add(new Pair<string, string>(left, right));
+
+            if (left == "Content-Disposition")
+            {
+                var splittedRight = right.Split(new[] { ';' });
+
+                foreach (var headerPart in splittedRight)
+                {
+                    int posColon2 = headerPart.IndexOf('=');
+                    if (posColon2 == -1)
+                    {
+                        continue;
+                    }
+
+                    var left2 = headerPart.Substring(0, posColon2).Trim();
+                    var right2 = headerPart.Substring(posColon2 + 1).Trim();
+
+                    part.ContentDisposition[left2] = right2;
+                }
+            }
+        }
+
+        /// <summary>
         /// Searches for the boundary and changes the value <c>nOffset</c>, so the
         /// offset is behind the found boundary. If the boundary is not found, 
         /// <c>nOffset</c> is set to -1.
@@ -157,7 +195,7 @@ namespace BurnSystems.Net
                     }
                     else
                     {
-                        this.EvaluateHeader(result, headerText);
+                        EvaluateHeader(result, headerText);
                     }
                 }
                 else
@@ -186,44 +224,6 @@ namespace BurnSystems.Net
             offset = nextBoundaryPos + this.boundary.Length + 2;
 
             return result;
-        }
-
-        /// <summary>
-        /// Evaluates a headertext.
-        /// </summary>
-        /// <param name="part">Part, getting the headertext</param>
-        /// <param name="headerText">Headertext to be parsed</param>
-        private void EvaluateHeader(MultipartFormDataPart part, string headerText)
-        {
-            int posColon = headerText.IndexOf(':');
-            if (posColon == -1)
-            {
-                return;
-            }
-
-            var left = headerText.Substring(0, posColon).Trim();
-            var right = headerText.Substring(posColon + 1).Trim();
-
-            part.Headers.Add(new Pair<string, string>(left, right));
-
-            if (left == "Content-Disposition")
-            {
-                var splittedRight = right.Split(new[] { ';' });
-
-                foreach (var headerPart in splittedRight)
-                {
-                    int posColon2 = headerPart.IndexOf('=');
-                    if (posColon2 == -1)
-                    {
-                        continue;
-                    }
-
-                    var left2 = headerPart.Substring(0, posColon2).Trim();
-                    var right2 = headerPart.Substring(posColon2 + 1).Trim();
-
-                    part.ContentDisposition[left2] = right2;
-                }
-            }
         }
     }
 }

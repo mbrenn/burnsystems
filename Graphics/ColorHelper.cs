@@ -14,6 +14,7 @@ namespace BurnSystems.Graphics
     using System;
     using System.Drawing;
     using System.Globalization;
+    using BurnSystems.Test;
     
     /// <summary>
     /// This is a small helper class for converting colors to hex and back. 
@@ -28,6 +29,8 @@ namespace BurnSystems.Graphics
         /// <returns>Hexstring of color</returns>
         public static string ColorToHex(Color color)
         {
+            Ensure.IsNotNull(color);
+
             return string.Format(
                 CultureInfo.InvariantCulture,
                 "{0:X2}{1:X2}{2:X2}",

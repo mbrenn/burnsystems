@@ -15,6 +15,7 @@ namespace BurnSystems.Test
     using System.Collections.Generic;
     using System.Text;
     using BurnSystems.Collections;
+    using System.Globalization;
 
     /// <summary>
     /// Mit Hilfe dieser Hilfsklasse kann überprüft werden, ob 
@@ -718,7 +719,11 @@ namespace BurnSystems.Test
                 return;
             }
 
-            throw new EnsureFailedException("ThrowsException");
+            throw new EnsureFailedException(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "ThrowsException<{0}>",
+                typeof(T).FullName));
         }
 
         /// <summary>

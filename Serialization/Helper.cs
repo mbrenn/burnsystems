@@ -14,12 +14,18 @@ namespace BurnSystems.Serialization
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Type of container
     /// </summary>
     public enum ContainerType
     {
+        /// <summary>
+        /// Unknown container type
+        /// </summary>
+        Unknown = 0x00,
+
         /// <summary>
         /// Container contains type information
         /// </summary>
@@ -41,6 +47,11 @@ namespace BurnSystems.Serialization
     /// </summary>
     public enum DataType
     {
+        /// <summary>
+        /// Unknown containertype
+        /// </summary>
+        Unknown = 0x00, 
+
         /// <summary>
         /// Datacontainer contains a <c>null</c>
         /// </summary>
@@ -76,7 +87,7 @@ namespace BurnSystems.Serialization
         /// Defines the streamheadertext, that will be written as header
         /// in the stream
         /// </summary>
-        public static readonly string StreamHeaderText = "BurnSystems.Serialization\n\n";
+        public const string StreamHeaderText = "BurnSystems.Serialization\n\n";
 
         /// <summary>
         /// Defines the used streamversion
@@ -123,6 +134,8 @@ namespace BurnSystems.Serialization
         /// <returns>true, if the given type is a native type</returns>
         public static bool IsNativeType(Type type)
         {
+            Ensure.IsNotNull(type);
+
             return nativeTypeToNumber.ContainsKey(type);
         }
 
@@ -133,6 +146,8 @@ namespace BurnSystems.Serialization
         /// <returns>true, if requested type is enumeration</returns>
         public static bool IsEnumeration(Type type)
         {
+            Ensure.IsNotNull(type);
+
             return type.IsEnum;
         }
 

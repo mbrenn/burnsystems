@@ -41,7 +41,7 @@ namespace BurnSystems.Synchronisation
         {
             if (lockable == null)
             {
-                throw new ArgumentNullException("iLockable");
+                throw new ArgumentNullException("lockable");
             }
 
             this.lockable = lockable;

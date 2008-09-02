@@ -17,7 +17,7 @@ namespace BurnSystems.Interfaces
     /// </summary>
     /// <typeparam name="T">Type of object to be created in factory. </typeparam>
     /// <returns>Created object by factory</returns>
-    public delegate T FactoryDelegate<T>();
+    public delegate T Factory<T>();
 
     /// <summary>
     /// Dieser Delegat lüsst eine neue Instanz mit dem dahinterliegenden
@@ -25,7 +25,7 @@ namespace BurnSystems.Interfaces
     /// </summary>
     /// <typeparam name="TResult">Typ des neuerzeugten Objektes</typeparam>
     /// <typeparam name="TParameter">Typ der Parameter</typeparam>
-    /// <param name="oParameter">übergebene Parameter</param>
+    /// <param name="parameter">übergebene Parameter</param>
     /// <returns>Neu erzeugtes Objekt</returns>
-    public delegate TResult FactoryDelegate<TResult, TParameter>(TParameter oParameter);    
+    public delegate TResult Factory<TResult, TParameter>(TParameter parameter);    
 }

@@ -257,6 +257,71 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
+        /// Gets the first element of enumeration
+        /// </summary>
+        /// <typeparam name="T">Type of elements in source</typeparam>
+        /// <param name="source">Source, from which the last element should be get</param>
+        /// <returns>First element of list, or <c>default(T)</c> if no element exists</returns>
+        public static T GetFirstElement<T>(IEnumerable<T> source)
+        {
+            foreach (var item in source)
+            {
+                return item;
+            }
+
+            return default(T);
+        }
+
+        /// <summary>
+        /// Gets the first element of collection
+        /// </summary>
+        /// <typeparam name="T">Type of elements in source</typeparam>
+        /// <param name="source">Source, from which the last element should be get</param>
+        /// <returns>First element of list, or <c>default(T)</c> if no element exists</returns>
+        public static T GetFirstElement<T>(IList<T> source)
+        {
+            if (source.Count == 0)
+            {
+                return default(T);
+            }
+
+            return source[0];
+        }
+
+        /// <summary>
+        /// Gets the last element of enumeration
+        /// </summary>
+        /// <typeparam name="T">Type of elements in source</typeparam>
+        /// <param name="source">Source, from which the last element should be get</param>
+        /// <returns>Last element of list, or <c>default(T)</c> if no element exists</returns>
+        public static T GetLastElement<T>(IEnumerable<T> source)
+        {
+            var result = default(T);
+            foreach (var item in source)
+            {
+                result = item;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the last element of collection
+        /// </summary>
+        /// <typeparam name="T">Type of elements in source</typeparam>
+        /// <param name="source">Source, from which the last element should be get</param>
+        /// <returns>Last element of list, or <c>default(T)</c> if no element exists</returns>
+        public static T GetLastElement<T>(IList<T> source)
+        {
+            if (source.Count == 0)
+            {
+                return default(T);
+            }
+
+            return source[source.Count - 1];
+        }
+
+        /// <summary>
         /// Gibt die Summe der konvertierten Objekte zurück
         /// </summary>
         /// <typeparam name="T">Type of elements in list</typeparam>

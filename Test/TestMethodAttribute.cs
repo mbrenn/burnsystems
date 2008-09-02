@@ -20,7 +20,7 @@ namespace BurnSystems.Test
     /// The class of the method has to be delared by the <c>TestClassAttribute</c>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TestMethodAttribute : Attribute
+    public sealed class TestMethodAttribute : Attribute
     {
     }
 }

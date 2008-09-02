@@ -16,6 +16,7 @@ namespace BurnSystems.Serialization
     using System.Text;
     using System.IO;
     using BurnSystems.Test;
+    using System.Globalization;
 
     /// <summary>
     /// This class is an implementation of a binary reader for serialization.
@@ -106,6 +107,7 @@ namespace BurnSystems.Serialization
 
             throw new InvalidOperationException(
                 string.Format(
+                    CultureInfo.InvariantCulture,
                     LocalizationBS.BinaryReader_ObjectNotConverted,
                     value.GetType()));
         }

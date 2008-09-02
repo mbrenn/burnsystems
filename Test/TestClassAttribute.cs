@@ -19,7 +19,7 @@ namespace BurnSystems.Test
     /// This attribute declares all classes containing tests
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class TestClassAttribute : Attribute
+    public sealed class TestClassAttribute : Attribute
     {
     }
 }

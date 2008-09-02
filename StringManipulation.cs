@@ -26,7 +26,7 @@ namespace BurnSystems
     /// <typeparam name="T">Datentyp, der für jede Schleife übergeben werden soll. </typeparam>
     /// <param name="item">Jeweiliges Objekt, aus dem ein Eintrag erzeugt werden soll. </param>
     /// <returns>Result of joindelegate</returns>
-    public delegate string JoinDelegate<T>(T item);
+    public delegate string Join<T>(T item);
 
     /// <summary>
     /// Basisklasse, die einige Stringmanipulationen durchführt
@@ -501,7 +501,7 @@ namespace BurnSystems
         /// erzeugt.</param>
         /// <param name="separator">Trenner, im Regelfall wird dieser ', ' sein. </param>
         /// <returns>Joined string</returns>
-        public static string Join<T>(IEnumerable<T> elements, JoinDelegate<T> joinDelegate, string separator)
+        public static string Join<T>(IEnumerable<T> elements, Join<T> joinDelegate, string separator)
         {
             var result = new StringBuilder();
             var first = true;

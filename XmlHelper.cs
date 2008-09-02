@@ -16,6 +16,7 @@ namespace BurnSystems
     using System.Text;
     using System.Xml;
     using System.Globalization;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Helperclass for improving access to xml documents
@@ -36,10 +37,8 @@ namespace BurnSystems
             string attributeName, 
             string defaultvalue)
         {
-            if (xmlNode == null)
-            {
-                throw new ArgumentNullException("xmlNode");
-            }
+            Ensure.IsNotNull(xmlNode);
+            Ensure.IsNotNull(attributeName);
 
             XmlAttribute xmlAttribute = xmlNode.Attributes[attributeName];
 
@@ -62,20 +61,9 @@ namespace BurnSystems
             XmlNode xmlNode, 
             string attributeName)
         {
-            if (xmlNode == null)
-            {
-                throw new ArgumentNullException("xmlNode");
-            }
-
-            if (attributeName == null)
-            {
-                throw new ArgumentNullException("strAttributeName");
-            }
-
-            if (xmlNode.Attributes == null)
-            {
-                throw new ArgumentNullException("xmlNode", "xmlNode.Attributs == null");
-            }
+            Ensure.IsNotNull(xmlNode);
+            Ensure.IsNotNull(attributeName);
+            Ensure.IsNotNull(xmlNode.Attributes);
 
             XmlAttribute xmlAttribute = xmlNode.Attributes[attributeName];
 
@@ -100,10 +88,8 @@ namespace BurnSystems
         /// if no xmlnode is returned by query</exception>
         public static XmlNode QuerySingleXmlNode(XmlNode xmlNode, string xpathQuery)
         {
-            if (xmlNode == null)
-            {
-                throw new ArgumentNullException("xmlNode");
-            }
+            Ensure.IsNotNull(xmlNode);
+            Ensure.IsNotNull(xpathQuery);
 
             XmlNode xmlFoundNode = xmlNode.SelectSingleNode(xpathQuery);
             if (xmlFoundNode == null)

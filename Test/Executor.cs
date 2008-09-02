@@ -45,6 +45,8 @@ namespace BurnSystems.Test
         /// <returns>Result of testcase</returns>
         public static Result TestMethod(MethodBase method)
         {
+            Ensure.IsNotNull(method);
+
             if (!method.IsPublic)
             {
                 // Nur öffentliche Methoden
@@ -176,6 +178,7 @@ namespace BurnSystems.Test
             /// <summary>
             /// Object, being instantiated for called by methodbase
             /// </summary>
+            [NonSerialized]
             private ObjectHandle handle;
 
             /// <summary>

@@ -91,10 +91,10 @@ namespace BurnSystems.Collections
         /// Adds a new object. If there is already an object with the same name, it
         /// will be overwritten
         /// </summary>
-        /// <param name="o">Object to be added</param>
-        public void Add(T o)
+        /// <param name="item">Object to be added</param>
+        public void Add(T item)
         {
-            this.dictionary[o.Key] = o;
+            this.dictionary[item.Key] = item;
         }
 
         /// <summary>
