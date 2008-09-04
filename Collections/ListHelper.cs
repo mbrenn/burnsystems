@@ -656,5 +656,29 @@ namespace BurnSystems.Collections
                 threads[n].Join();
             }
         }
+
+        /// <summary>
+        /// Gets the index of an item matched by a predicate.
+        /// </summary>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">List of items</param>
+        /// <param name="predicate">Predicate for finding the item</param>
+        /// <returns>Index of item matching the predicate or -1 if not found. </returns>
+        public static int IndexOf<T>(ICollection<T> list, Predicate<T> predicate)
+        {
+            var result = 0;
+
+            foreach (var item in list)
+            {
+                if (predicate(item))
+                {
+                    return result;
+                }
+
+                result++;
+            }
+
+            return -1;
+        }
     }
 }
