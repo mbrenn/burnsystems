@@ -178,7 +178,6 @@ namespace BurnSystems.Test
             /// <summary>
             /// Object, being instantiated for called by methodbase
             /// </summary>
-            [NonSerialized]
             private ObjectHandle handle;
 
             /// <summary>
