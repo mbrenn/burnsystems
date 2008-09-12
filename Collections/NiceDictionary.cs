@@ -31,7 +31,7 @@ namespace BurnSystems.Collections
         private Dictionary<TKey, TValue> dictionary;
 
         /// <summary>
-        /// Erstellt eine neue Instanz des 'netten' Verzeichnis
+        /// Initializes a new instance of the NiceDictionary class.
         /// </summary>
         public NiceDictionary()
         {

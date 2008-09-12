@@ -12,18 +12,17 @@
 namespace BurnSystems.Test
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using BurnSystems.Collections;
     using System.Globalization;
+    using BurnSystems.Collections;
 
     /// <summary>
     /// Mit Hilfe dieser Hilfsklasse kann überprüft werden, ob 
     /// ein bestimmter Zustand eingehalten wird. Im Prinzip entspricht 
     /// diese Klasse der Debug.Assert-Funktionalität, ist nur um einiges
     /// flexibler. 
-    /// 
+    /// <para>
     /// Scheitert eine Abfrage, so wird eine EnsureFailedException geworfen. 
+    /// </para>
     /// </summary>
     public static class Ensure
     {

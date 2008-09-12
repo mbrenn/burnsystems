@@ -12,10 +12,8 @@
 namespace BurnSystems
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Xml;
     using System.Globalization;
+    using System.Xml;
     using BurnSystems.Test;
 
     /// <summary>

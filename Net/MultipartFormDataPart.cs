@@ -31,7 +31,7 @@ namespace BurnSystems.Net
         private List<Pair<string, string>> headers = new List<Pair<string, string>>();
 
         /// <summary>
-        /// Creates a new instance
+        /// Initializes a new instance of the MultipartFormDataPart class.
         /// </summary>
         public MultipartFormDataPart()
         {

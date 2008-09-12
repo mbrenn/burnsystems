@@ -27,7 +27,7 @@ namespace BurnSystems.Graphics
         private Image image;
 
         /// <summary>
-        /// Creates new image handler and stores the imageit
+        /// Initializes a new instance of the ImageHandler class.
         /// </summary>
         /// <param name="image">Image used by this handler</param>
         public ImageHandler(Image image)
@@ -36,7 +36,8 @@ namespace BurnSystems.Graphics
         }
 
         /// <summary>
-        /// Creates a new image and creates an image from stream
+        /// Initializes a new instance of the ImageHandler class.
+        /// The image is read from stream.
         /// </summary>
         /// <param name="stream">Stream containing the image</param>
         public ImageHandler(Stream stream)
@@ -45,7 +46,7 @@ namespace BurnSystems.Graphics
         }
 
         /// <summary>
-        /// Creates new instance and sets image 
+        /// Initializes a new instance of the ImageHandler class.
         /// </summary>
         /// <param name="imageData">Imagedata containing the image</param>
         public ImageHandler(byte[] imageData)
@@ -57,7 +58,7 @@ namespace BurnSystems.Graphics
         }
 
         /// <summary>
-        /// Finalisierer of image. 
+        /// Finalizes an instance of the ImageHandler class.
         /// </summary>
         ~ImageHandler()
         {

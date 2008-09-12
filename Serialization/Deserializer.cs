@@ -12,13 +12,10 @@
 namespace BurnSystems.Serialization
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.IO;
-    using BurnSystems.Test;
     using System.Reflection;
-    using System.Threading;
     using BurnSystems.Collections;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Deserializes a stream and returns an object. 
@@ -31,7 +28,7 @@ namespace BurnSystems.Serialization
         private Stream stream;
 
         /// <summary>
-        /// Creates new instance and sets stream
+        /// Initializes a new instance of the Deserializer class.
         /// </summary>
         /// <param name="stream">Stream with serialized objects</param>
         public Deserializer(Stream stream)

@@ -19,7 +19,7 @@ namespace BurnSystems.Logging
     public class ConsoleProvider : ILogProvider
     {
         /// <summary>
-        /// Erzeugt eine neue Instanz
+        /// Initializes a new instance of the ConsoleProvider class.
         /// </summary>
         public ConsoleProvider()
             : this(false)
@@ -27,8 +27,8 @@ namespace BurnSystems.Logging
         }
 
         /// <summary>
-        /// Erzeugt eine neue Instanz und legt fest ob nur
-        /// eine einfache Ausgabe erzeugt werden soll
+        /// Initializes a new instance of the ConsoleProvider class.
+        /// <c>simpleOutput</c> defines if a colorful output should be used.
         /// </summary>
         /// <param name="simpleOutput">true, wenn nur eine einfache
         /// Ausgabe erzeugt werden soll. </param>

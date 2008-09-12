@@ -11,9 +11,6 @@
 
 namespace BurnSystems.Collections
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Globalization;
 
     /// <summary>
@@ -34,7 +31,7 @@ namespace BurnSystems.Collections
         private TSecond second;
 
         /// <summary>
-        /// Creates a new instance and stores the two values
+        /// Initializes a new instance of the Pair class.
         /// </summary>
         /// <param name="first">First value to be stored</param>
         /// <param name="second">Second value to be stored</param>

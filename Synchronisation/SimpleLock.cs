@@ -15,6 +15,7 @@ namespace BurnSystems.Synchronisation
     using System.Collections.Generic;
     using System.Text;
     using BurnSystems.Interfaces;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Eine einfache Locking-Klasse, die für das Locken 
@@ -33,23 +34,20 @@ namespace BurnSystems.Synchronisation
         private bool disposed;
 
         /// <summary>
-        /// Wenn dieses Objekt erzeugt wird, so wird das übergebene
-        /// Objekt gesperrt
+        /// Initializes a new instance of the SimpleLock class. The object
+        /// <c>lockable</c> is locked. 
         /// </summary>
         /// <param name="lockable">Das Objekt, das zu sperren ist</param>
         public SimpleLock(ILockable lockable)
         {
-            if (lockable == null)
-            {
-                throw new ArgumentNullException("lockable");
-            }
+            Ensure.IsNotNull(lockable);
 
             this.lockable = lockable;
             this.lockable.Lock();
         }
 
         /// <summary>
-        /// Finaliser of this class
+        /// Finalizes an instance of the SimpleLock class.
         /// </summary>
         ~SimpleLock()
         {

@@ -11,9 +11,7 @@
 
 namespace BurnSystems.Serialization
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -37,7 +35,7 @@ namespace BurnSystems.Serialization
         private long lastIndex;
 
         /// <summary>
-        /// Creates a new container
+        /// Initializes a new instance of the ObjectContainer class.
         /// </summary>
         public ObjectContainer()
         {

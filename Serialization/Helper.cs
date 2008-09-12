@@ -105,7 +105,7 @@ namespace BurnSystems.Serialization
         private static Dictionary<Type, int> nativeTypeToNumber = new Dictionary<Type, int>();
 
         /// <summary>
-        /// Static constructor
+        /// Initializes static members of the Helper class.
         /// </summary>
         static Helper()
         {

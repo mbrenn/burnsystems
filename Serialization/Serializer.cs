@@ -12,8 +12,6 @@
 namespace BurnSystems.Serialization
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.IO;
     using BurnSystems.Test;
 
@@ -33,7 +31,7 @@ namespace BurnSystems.Serialization
         private BinaryWriter writer;
 
         /// <summary>
-        /// Creates a new instance and sets the stream
+        /// Initializes a new instance of the Serializer class.
         /// </summary>
         /// <param name="stream">Stream to be used</param>
         public Serializer(Stream stream)

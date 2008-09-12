@@ -84,7 +84,7 @@ namespace BurnSystems.Logging
         private object syncObject = new object();
 
         /// <summary>
-        /// Erstellt ein neues Log
+        /// Initializes a new instance of the Log class.
         /// </summary>
         public Log()
         {
@@ -92,7 +92,7 @@ namespace BurnSystems.Logging
         }
 
         /// <summary>
-        /// Finalises the log 
+        /// Finalizes an instance of the Log class.
         /// </summary>
         ~Log()
         {

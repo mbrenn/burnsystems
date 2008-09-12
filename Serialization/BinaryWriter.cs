@@ -13,8 +13,8 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.IO;
+    using System.Text;
 
     /// <summary>
     /// This class is an implementation of a binary writer for serialization.
@@ -27,7 +27,7 @@ namespace BurnSystems.Serialization
         private Stream stream;
 
         /// <summary>
-        /// Creates a new binary writer
+        /// Initializes a new instance of the BinaryWriter class.
         /// </summary>
         /// <param name="stream">Stream to be used for serialization</param>
         public BinaryWriter(Stream stream)

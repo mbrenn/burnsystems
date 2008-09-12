@@ -22,14 +22,14 @@ namespace BurnSystems.Test
     public class EnsureFailedException : Exception
     {
         /// <summary>
-        /// Creates new instance
+        /// Initializes a new instance of the EnsureFailedException class.
         /// </summary>
         public EnsureFailedException()
         { 
         }
 
         /// <summary>
-        /// Creates new instance and sets the message
+        /// Initializes a new instance of the EnsureFailedException class.
         /// </summary>
         /// <param name="message">Message, why check failed</param>
         public EnsureFailedException(string message) : base(message) 
@@ -37,7 +37,7 @@ namespace BurnSystems.Test
         }
 
         /// <summary>
-        /// Creates new instance and sets message and inner exception
+        /// Initializes a new instance of the EnsureFailedException class.
         /// </summary>
         /// <param name="message">Message of check</param>
         /// <param name="inner">Inner exception</param>
@@ -47,7 +47,7 @@ namespace BurnSystems.Test
         }
 
         /// <summary>
-        /// Creates new instance
+        /// Initializes a new instance of the EnsureFailedException class.
         /// </summary>
         /// <param name="info">Used by serialization</param>
         /// <param name="context">Context required for serialization</param>

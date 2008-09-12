@@ -63,7 +63,7 @@ namespace BurnSystems.Synchronisation
             private ReadWriteLock readWriteLock;
 
             /// <summary>
-            /// Creates new instance
+            /// Initializes a new instance of the ReaderLock class.
             /// </summary>
             /// <param name="readWriteLock">Read locked structure,
             /// which should be controlled by this lock.</param>
@@ -73,7 +73,7 @@ namespace BurnSystems.Synchronisation
             }
 
             /// <summary>
-            /// Finaliser of structure
+            /// Finalizes an instance of the ReaderLock class.
             /// </summary>
             ~ReaderLock()
             {
@@ -117,7 +117,7 @@ namespace BurnSystems.Synchronisation
             private ReadWriteLock readWriteLock;
 
             /// <summary>
-            /// Creates new instance
+            /// Initializes a new instance of the WriterLock class.
             /// </summary>
             /// <param name="readWriteLock">Read locked structure,
             /// which should be controlled by this lock.</param>
@@ -127,7 +127,7 @@ namespace BurnSystems.Synchronisation
             }
 
             /// <summary>
-            /// Finaliser of structure
+            /// Finalizes an instance of the WriterLock class.
             /// </summary>
             ~WriterLock()
             {

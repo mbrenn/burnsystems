@@ -34,7 +34,7 @@ namespace BurnSystems
             new NiceDictionary<string, string>();
 
         /// <summary>
-        /// Creates a new instance and reads the arguments
+        /// Initializes a new instance of the CommandLineEvaluater class.
         /// </summary>
         /// <param name="arguments">List of program arguments</param>
         public CommandLineEvaluater(string[] arguments)

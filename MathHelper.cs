@@ -13,7 +13,6 @@ namespace BurnSystems
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Globalization;
     using BurnSystems.Test;
 
@@ -27,13 +26,6 @@ namespace BurnSystems
         /// Eine Zufallsvariable
         /// </summary>
         private static Random random = new RandomThreadSafe();
-
-        /// <summary>
-        /// Statischer Kontsruktor
-        /// </summary>
-        static MathHelper()
-        {
-        }
 
         /// <summary>
         /// Gets a threadsafe random instance
@@ -184,13 +176,14 @@ namespace BurnSystems
                 double d2 = Random.NextDouble();
 
                 // Algorithmus aus http://de.wikipedia.org/wiki/Normalverteilung
-                double dV = (2 * d1 - 1) * (2 * d1 - 1) + (2 * d2 - 1) * (2 * d2 - 1);
+                double dV = (((2 * d1) - 1) * ((2 * d1) - 1))
+                    + (((2 * d2) - 1) * ((2 * d2) - 1));
                 if (dV >= 1)
                 {
                     continue;
                 }
 
-                double randomNumber = (2 * d1 - 1) * Math.Sqrt(-2 * Math.Log(dV) / dV);
+                double randomNumber = ((2 * d1) - 1) * Math.Sqrt(-2 * Math.Log(dV) / dV);
                 randomNumber *= Math.Sqrt(variance);
                 return randomNumber + average;                
             }

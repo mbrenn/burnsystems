@@ -34,7 +34,7 @@ namespace BurnSystems.Logging
         private static bool currentlyInException;
 
         /// <summary>
-        /// Creates new fileprovider with the name
+        /// Initializes a new instance of the FileProvider class.
         /// </summary>
         /// <param name="path">Path to file storing the logentries</param>
         public FileProvider(string path)

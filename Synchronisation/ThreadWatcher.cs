@@ -201,7 +201,7 @@ namespace BurnSystems.Synchronisation
             private Thread thread;
 
             /// <summary>
-            /// Erzeugt eine neue Instanz
+            /// Initializes a new instance of the WatchHelper class.
             /// </summary>
             /// <param name="thread">Thread to be watched</param>
             public WatchHelper(Thread thread)
@@ -210,7 +210,7 @@ namespace BurnSystems.Synchronisation
             }
 
             /// <summary>
-            /// Finalises the watchhelper
+            /// Finalizes an instance of the WatchHelper class.
             /// </summary>
             ~WatchHelper()
             {

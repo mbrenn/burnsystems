@@ -18,14 +18,14 @@ namespace BurnSystems.Graphics
     public class FloatRectangle
     {
         /// <summary>
-        /// Creates a new instance
+        /// Initializes a new instance of the FloatRectangle class.
         /// </summary>
         public FloatRectangle()
         {
         }
 
         /// <summary>
-        /// Creates a new rectangle and sets width and height
+        /// Initializes a new instance of the FloatRectangle class.
         /// </summary>
         /// <param name="width">Width of rectangle</param>
         /// <param name="height">Height of rectangle</param>
@@ -36,7 +36,7 @@ namespace BurnSystems.Graphics
         }
 
         /// <summary>
-        /// Creates a new rectangle and sets all parameter
+        /// Initializes a new instance of the FloatRectangle class.
         /// </summary>
         /// <param name="left">Left border</param>
         /// <param name="top">Top border</param>

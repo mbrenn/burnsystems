@@ -27,7 +27,7 @@ namespace BurnSystems.Synchronisation
     internal class ThreadWatcherItem
     {
         /// <summary>
-        /// Creates a new thread item
+        /// Initializes a new instance of the ThreadWatcherItem class.
         /// </summary>
         /// <param name="thread">Thread to be watched.</param>
         /// <param name="timeOut">Time, when thread should be aborted</param>

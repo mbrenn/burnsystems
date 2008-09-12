@@ -13,9 +13,8 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
-    using BurnSystems.Collections;
     using System.Reflection;
+    using BurnSystems.Collections;
 
     /// <summary>
     /// This class defines the different types

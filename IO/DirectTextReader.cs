@@ -11,10 +11,8 @@
 
 namespace BurnSystems.IO
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.IO;
+    using System.Text;
 
     /// <summary>
     /// Dieser TextReader wird benötigt, wenn ein Teil des Streams als Text
@@ -29,7 +27,7 @@ namespace BurnSystems.IO
         private Stream stream;
 
         /// <summary>
-        /// Creates a new textreader
+        /// Initializes a new instance of the DirectTextReader class.
         /// </summary>
         /// <param name="stream">Stream to be used</param>
         public DirectTextReader(Stream stream)

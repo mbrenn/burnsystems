@@ -181,7 +181,7 @@ namespace BurnSystems.Test
             private ObjectHandle handle;
 
             /// <summary>
-            /// Creates a new instance
+            /// Initializes a new instance of the Helper class. 
             /// </summary>
             /// <param name="handle">ObjectHandle storing the reference of
             /// invoked method. </param>

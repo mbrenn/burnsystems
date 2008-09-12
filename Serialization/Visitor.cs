@@ -13,8 +13,6 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
-    using System.Reflection;
     using BurnSystems.Test;
 
     /// <summary>
@@ -34,7 +32,7 @@ namespace BurnSystems.Serialization
         private BinaryWriter writer;
 
         /// <summary>
-        /// Creates a new instance and sets serializer and writer
+        /// Initializes a new instance of the Visitor class.
         /// </summary>
         /// <param name="serializer">Serializer to be used</param>
         /// <param name="writer">Writer to be used</param>

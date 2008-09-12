@@ -12,9 +12,8 @@
 namespace BurnSystems.Net
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.IO;
+    using System.Text;
     using BurnSystems.Collections;
 
     /// <summary>
@@ -29,7 +28,7 @@ namespace BurnSystems.Net
         private byte[] boundary;
 
         /// <summary>
-        /// Creates a new instance and stores the boundary for the incoming stream
+        /// Initializes a new instance of the MultipartFormDataReader class.
         /// </summary>
         /// <param name="boundary">Used Boundary</param>
         public MultipartFormDataReader(string boundary)
@@ -38,7 +37,7 @@ namespace BurnSystems.Net
         }
 
         /// <summary>
-        /// Creates a new instance and stores the boundary for the incoming stream
+        /// Initializes a new instance of the MultipartFormDataReader class.
         /// </summary>
         /// <param name="boundary">Used Boundary</param>
         /// <param name="encoding">Encoding of stream</param>
@@ -48,7 +47,7 @@ namespace BurnSystems.Net
         }
 
         /// <summary>
-        /// Creates a new instance and stores the boundary for the incoming stream
+        /// Initializes a new instance of the MultipartFormDataReader class.
         /// </summary>
         /// <param name="boundary">Used Boundary</param>
         public MultipartFormDataReader(byte[] boundary)

@@ -22,7 +22,7 @@ namespace BurnSystems.Logging
     public class LogEntry
     {
         /// <summary>
-        /// Creates new logentry
+        /// Initializes a new instance of the LogEntry class.
         /// </summary>
         /// <param name="message">Message to be stored</param>
         /// <param name="logLevel">Loglevel of this entry</param>
@@ -35,7 +35,7 @@ namespace BurnSystems.Logging
         }
 
         /// <summary>
-        /// Creates new logentry
+        /// Initializes a new instance of the LogEntry class.
         /// </summary>
         /// <param name="message">Message to be stored</param>
         /// <param name="logLevel">Loglevel of this entry</param>

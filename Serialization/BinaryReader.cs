@@ -12,11 +12,10 @@
 namespace BurnSystems.Serialization
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.IO;
-    using BurnSystems.Test;
     using System.Globalization;
+    using System.IO;
+    using System.Text;
+    using BurnSystems.Test;
 
     /// <summary>
     /// This class is an implementation of a binary reader for serialization.
@@ -29,7 +28,7 @@ namespace BurnSystems.Serialization
         private Stream stream;
 
         /// <summary>
-        /// Creates a new stream
+        /// Initializes a new instance of the BinaryReader class.
         /// </summary>
         /// <param name="stream">Stream to be used for serialization</param>
         public BinaryReader(Stream stream)

@@ -15,10 +15,8 @@ namespace BurnSystems
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.IO;
-    using System.Globalization;
-    using System.Security.Cryptography;
+    using System.Text;
 
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird
@@ -88,7 +86,7 @@ namespace BurnSystems
             {
                 int b = bytes[i];
                 chars[i * 2] = hexDigits[b >> 4];
-                chars[i * 2 + 1] = hexDigits[b & 0xF];
+                chars[(i * 2) + 1] = hexDigits[b & 0xF];
             }
 
             return new string(chars);
@@ -322,7 +320,7 @@ namespace BurnSystems
         /// <returns>String being converted</returns>
         public static string Nl2Br(string value)
         {
-            return value.Replace("\n", "<br />").Replace("\r", "");
+            return value.Replace("\n", "<br />").Replace("\r", string.Empty);
         }
 
         /// <summary>

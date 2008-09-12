@@ -13,9 +13,8 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
-    using BurnSystems.Test;
     using System.Runtime.Serialization;
+    using BurnSystems.Test;
 
     /// <summary>
     /// The composer class helps to recompose the object
@@ -23,7 +22,7 @@ namespace BurnSystems.Serialization
     public class Composer
     {        
         /// <summary>
-        /// Creates new instance
+        /// Initializes a new instance of the Composer class.
         /// </summary>
         /// <param name="deserializer">Used deserializer</param>
         /// <param name="binaryReader">Used binaray reader</param>
