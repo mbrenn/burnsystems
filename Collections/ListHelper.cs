@@ -145,6 +145,55 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
+        /// Converts an enumeration to an array
+        /// </summary>
+        /// <typeparam name="T">Type of element in enumeration</typeparam>
+        /// <param name="list">List with elements</param>
+        /// <returns>Array with elements</returns>
+        public static T[] ToArray<T>(IEnumerable<T> list)
+        {
+            var listTemp = new List<T>(list);
+            return listTemp.ToArray();
+        }
+
+        /// <summary>
+        /// Converts an enumeration to an array
+        /// </summary>
+        /// <typeparam name="T">Type of element in enumeration</typeparam>
+        /// <param name="list">List with elements</param>
+        /// <returns>Array with elements</returns>
+        public static T[] ToArray<T>(ICollection<T> list)
+        {
+            var listTemp = new T[list.Count];
+            var n = 0; 
+            foreach (var item in list)
+            {
+                listTemp[n] = item;
+                n++;
+            }
+
+            return listTemp;
+        }
+
+        /// <summary>
+        /// Returns all elements matching the predicate
+        /// </summary>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">List to be evaluated</param>
+        /// <param name="predicate">Predicate for items</param>
+        /// <returns>The elements matching the predicate</returns>
+        public static IEnumerable<T> Where<T>(IEnumerable<T> list, Predicate<T> predicate)
+        {
+            foreach (var item in list)
+            {
+                if (predicate(item))
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gibt eine Aufzählung aller Inhalte zurück, die das übergebene
         /// Prädikat erfüllen
         /// </summary>
