@@ -66,6 +66,7 @@
     <Compile Include="Collections\AutoDictionary.cs" />
     <Compile Include="Collections\ListHelper.cs" />
     <Compile Include="Collections\NiceDictionary.cs" />
+    <Compile Include="Collections\ObjectContainer.cs" />
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
     <Compile Include="Serialization\ArrayHeader.cs" />
