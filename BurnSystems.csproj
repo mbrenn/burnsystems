@@ -68,6 +68,7 @@
     <Compile Include="Collections\NiceDictionary.cs" />
     <Compile Include="Collections\ObjectContainer.cs" />
     <Compile Include="Collections\Pair.cs" />
+    <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
     <Compile Include="Serialization\ArrayHeader.cs" />
     <Compile Include="Serialization\BinaryReader.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Test\Executor.cs" />
     <Compile Include="Test\TestMethodAttribute.cs" />
     <Compile Include="UnitTests\MathTest.cs" />
+    <Compile Include="UnitTests\PriorityQueueTests.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
