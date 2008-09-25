@@ -177,11 +177,11 @@ namespace BurnSystems.Collections
             var right = this.Count; // Exclusive border
 
             var current = (left + right) / 2;
-            while (left < right)
+            while (left < right && current < this.Count)
             {
                 var compareValue = this.comparer(item, this.elements[current]);
 
-                if (compareValue > 0)
+                if (compareValue >= 0)
                 {
                     right = current;
                 }
@@ -194,9 +194,16 @@ namespace BurnSystems.Collections
             }
 
             // Found ?! 
-            exists = this.elements[current].Equals(item);
-
-            return current;
+            if (current >= this.Count)
+            {
+                exists = false;
+                return current;
+            }
+            else
+            {
+                exists = this.elements[current].Equals(item);
+                return current;
+            }
         }
 
         #endregion

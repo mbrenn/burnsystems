@@ -11,6 +11,7 @@
 
 namespace BurnSystems.UnitTests
 {
+    using System;
     using BurnSystems.Collections;
     using BurnSystems.Test;
 
@@ -27,6 +28,72 @@ namespace BurnSystems.UnitTests
         public void TestPriorityQueue()
         {
             var priorityQueue = new PriorityQueue<int>();
+
+            var test = new PriorityQueue<object>();
+            test.Add(23);
+            test.Add(25);
+            test.Add(10);
+
+            Ensure.AreEqual(test.Count, 3);
+            Ensure.AreEqual(test.Pop(), 25);
+            Ensure.AreEqual(test.Pop(), 23);
+            Ensure.AreEqual(test.Pop(), 10);
+            Ensure.IsNull(test.Pop());
+
+            test.Add(23);
+            test.Add(25);
+            test.Add(10);
+            Ensure.AreEqual(test.GetFirst(), 25);
+
+            test.Remove(10);
+            Ensure.AreEqual(test.GetFirst(), 25);
+            Ensure.AreEqual(test.Pop(), 25);
+            Ensure.AreEqual(test.Pop(), 23);
+            Ensure.AreEqual(test.Count, 0);
+
+            test.Add(23);
+            test.Add(25);
+            test.Add(10);
+
+            test.Remove(25);
+            Ensure.AreEqual(test.GetFirst(), 23);
+            Ensure.AreEqual(test.Pop(), 23);
+            Ensure.AreEqual(test.Pop(), 10);
+            
+            test.Add(23);
+            test.Add(23);
+            test.Add(23);
+            test.Add(25);
+            test.Add(23);
+            test.Add(25);
+            test.Add(25);
+            test.Add(10);
+            test.Add(25);
+            test.Add(10);
+            
+            Ensure.AreEqual(test.Pop(), 25);
+            Ensure.AreEqual(test.Pop(), 25);
+            Ensure.AreEqual(test.Pop(), 25);
+            Ensure.AreEqual(test.Pop(), 25);
+            Ensure.AreEqual(test.Pop(), 23);
+            Ensure.AreEqual(test.Pop(), 23);
+            Ensure.AreEqual(test.Pop(), 23);
+            Ensure.AreEqual(test.Pop(), 23);
+            Ensure.AreEqual(test.Pop(), 10);
+            Ensure.AreEqual(test.Pop(), 10);
+
+            for (var n = 0; n < 10000; n++)
+            {
+                priorityQueue.Add(MathHelper.Random.Next());
+            }
+
+            var last = Int32.MaxValue;
+            while (test.Count > 0)
+            {
+                var current = priorityQueue.Pop();
+                Ensure.IsSmallerOrEqual(current, last);
+                current = last;
+            }
         }
     }
 }
