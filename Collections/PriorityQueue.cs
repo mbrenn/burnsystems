@@ -108,7 +108,7 @@ namespace BurnSystems.Collections
         /// Gets the first entry
         /// </summary>
         /// <returns>First entry to be added</returns>
-        public T GetFirst()
+        public T Peek()
         {
             if (this.Count == 0)
             {
@@ -133,6 +133,25 @@ namespace BurnSystems.Collections
             var result = this.elements[0];
             this.elements.RemoveAt(0);
             return result;
+        }
+
+        /// <summary>
+        /// Clears the eventlist
+        /// </summary>
+        public void Clear()
+        {
+            this.elements.Clear();
+        }
+
+        /// <summary>
+        /// Gets all elements an array. 
+        /// </summary>
+        /// <returns>Array of elements</returns>
+        public T[] GetElements()
+        {
+            return ListHelper.ConvertToArray(
+                this.elements,
+                x => x);
         }
 
         #region IEnumerable<T> Members

@@ -25,7 +25,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Stores the objects
         /// </summary>
-        Dictionary<string, object> objects =
+        private Dictionary<string, object> objects =
             new Dictionary<string, object>();
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="PriorityQueue.cs" company="Martin Brenn">
+// <copyright file="PriorityQueueTests.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
 //     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
@@ -43,10 +43,10 @@ namespace BurnSystems.UnitTests
             test.Add(23);
             test.Add(25);
             test.Add(10);
-            Ensure.AreEqual(test.GetFirst(), 25);
+            Ensure.AreEqual(test.Peek(), 25);
 
             test.Remove(10);
-            Ensure.AreEqual(test.GetFirst(), 25);
+            Ensure.AreEqual(test.Peek(), 25);
             Ensure.AreEqual(test.Pop(), 25);
             Ensure.AreEqual(test.Pop(), 23);
             Ensure.AreEqual(test.Count, 0);
@@ -56,7 +56,7 @@ namespace BurnSystems.UnitTests
             test.Add(10);
 
             test.Remove(25);
-            Ensure.AreEqual(test.GetFirst(), 23);
+            Ensure.AreEqual(test.Peek(), 23);
             Ensure.AreEqual(test.Pop(), 23);
             Ensure.AreEqual(test.Pop(), 10);
             
