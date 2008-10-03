@@ -12,6 +12,7 @@
 namespace BurnSystems.Serialization
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using BurnSystems.Collections;
@@ -26,6 +27,13 @@ namespace BurnSystems.Serialization
         /// Stream, where the object will be stored
         /// </summary>
         private Stream stream;
+
+        /// <summary>
+        /// Stores the translation table for translating 
+        /// a type name to the corresponding type
+        /// </summary>
+        private Dictionary<string, Type> typeTranslation = 
+            new Dictionary<string,Type>();
 
         /// <summary>
         /// Initializes a new instance of the Deserializer class.
@@ -61,12 +69,20 @@ namespace BurnSystems.Serialization
         {
             // Gets the type
             Type type = null;
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+
+            // Tries to find the type in the table
+            this.typeTranslation.TryGetValue(typeEntry.Name, out type);
+
+            // If not found in table, look in the assemblies
+            if (type == null)
             {
-                type = assembly.GetType(typeEntry.Name);
-                if (type != null)
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    break;
+                    type = assembly.GetType(typeEntry.Name);
+                    if (type != null)
+                    {
+                        break;
+                    }
                 }
             }
 
@@ -102,6 +118,20 @@ namespace BurnSystems.Serialization
             }
 
             this.TypeContainer.AddType(typeEntry);
+        }
+
+        /// <summary>
+        /// Adds a type translation, which is used, to convert a typename to 
+        /// a normal type. If no type translation is found, the type is 
+        /// searched in every loaded assembly. 
+        /// </summary>
+        /// <param name="typeName">Typename to be translated to 
+        /// <c>translatedType</c>.</param>
+        /// <param name="translatedType">Type, to which the typename is
+        /// translated. </param>
+        public void AddTypeTranslation(string typeName, Type translatedType)
+        {
+            this.typeTranslation[typeName] = translatedType;
         }
     }
 }
