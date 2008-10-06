@@ -729,5 +729,63 @@ namespace BurnSystems.Collections
 
             return -1;
         }
+
+        /// <summary>
+        /// Finds the minimum value of an enumeration 
+        /// </summary>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">List to be queried</param>
+        /// <param name="function">Function, which converts an 
+        /// element to a comparable value</param>
+        /// <returns>The minimum element</returns>
+        public static T FindMin<T>(IEnumerable<T> list, Function<IComparable, T> function)
+        {
+            T smallest = default(T);
+            IComparable smallestValue = null;
+            bool first = true;
+
+            foreach (var element in list)
+            {
+                var value = function ( element );
+                if (first
+                    || smallestValue.CompareTo(value) > 0)
+                {
+                    smallestValue = value;
+                    smallest = element;
+                    first = false;
+                }
+            }
+
+            return smallest;
+        }
+
+        /// <summary>
+        /// Finds the minimum value of an enumeration 
+        /// </summary>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">List to be queried</param>
+        /// <param name="function">Function, which converts an 
+        /// element to a comparable value</param>
+        /// <returns>The minimum element</returns>
+        public static T FindMax<T>(IEnumerable<T> list, Function<IComparable, T> function)
+        {
+            T smallest = default(T);
+            IComparable smallestValue = null;
+            bool first = true;
+
+            foreach (var element in list)
+            {
+                var value = function(element);
+                if (first
+                    || smallestValue.CompareTo(value) < 0)
+                {
+                    smallestValue = value;
+                    smallest = element;
+                    first = false;
+                }
+            }
+
+            return smallest;
+        }
     }
 }

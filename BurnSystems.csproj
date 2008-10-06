@@ -123,6 +123,7 @@
     <Compile Include="Test\TestClassAttribute.cs" />
     <Compile Include="Test\Executor.cs" />
     <Compile Include="Test\TestMethodAttribute.cs" />
+    <Compile Include="UnitTests\ListHelperTest.cs" />
     <Compile Include="UnitTests\MathTest.cs" />
     <Compile Include="UnitTests\PriorityQueueTests.cs" />
     <Compile Include="XmlHelper.cs" />
