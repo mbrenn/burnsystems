@@ -11,6 +11,7 @@
 
 namespace BurnSystems.Collections
 {
+    using System;
     using System.Globalization;
 
     /// <summary>
@@ -18,6 +19,7 @@ namespace BurnSystems.Collections
     /// </summary>
     /// <typeparam name="TFirst">Datatype of first value</typeparam>
     /// <typeparam name="TSecond">Datatype of second value</typeparam>
+    [Serializable]
     public class Pair<TFirst, TSecond>
     {
         /// <summary>
