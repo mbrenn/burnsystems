@@ -28,6 +28,11 @@ namespace BurnSystems.Net
         private byte[] boundary;
 
         /// <summary>
+        /// Stores the maximumsize of stream, that will be read
+        /// </summary>
+        private long maxStreamSize = long.MaxValue;
+
+        /// <summary>
         /// Initializes a new instance of the MultipartFormDataReader class.
         /// </summary>
         /// <param name="boundary">Used Boundary</param>
@@ -56,6 +61,16 @@ namespace BurnSystems.Net
         }
 
         /// <summary>
+        /// Gets or sets the number of bytes, which is the maximum of the
+        /// read bytes of stream
+        /// </summary>
+        public long MaxStreamSize
+        {
+            get { return this.maxStreamSize; }
+            set { this.maxStreamSize = value; }
+        }
+
+        /// <summary>
         /// Reads the stream and returns an instance of the multipartformdata
         /// </summary>
         /// <param name="stream">Stream with data</param>
@@ -68,9 +83,13 @@ namespace BurnSystems.Net
             using (var memoryStream = new MemoryStream())
             {
                 int readByte;
-                while ((readByte = stream.ReadByte()) != -1)
+                var numberOfBytes = 0L; 
+
+                while ((readByte = stream.ReadByte()) != -1 &&
+                    numberOfBytes < this.MaxStreamSize)
                 {
                     memoryStream.WriteByte((byte)readByte);
+                    numberOfBytes++;
                 }
 
                 var offset = 0;
