@@ -787,5 +787,39 @@ namespace BurnSystems.Collections
 
             return smallest;
         }
+
+        /// <summary>
+        /// Gets the first item of a list. The method returns null, if
+        /// <c>list</c> is null or if the list has no items.
+        /// </summary>
+        /// <typeparam name="T">Type of an item</typeparam>
+        /// <param name="list">List to checked</param>
+        /// <returns>First item or null</returns>
+        public static T GetFirst<T>(IList<T> list)
+        {
+            if (list == null || list.Count == 0)
+            {
+                return default(T);
+            }
+
+            return list[0];
+        }
+
+        /// <summary>
+        /// Gets the last item of a list. The method returns null, if
+        /// <c>list</c> is null or if the list has no items.
+        /// </summary>
+        /// <typeparam name="T">Type of an item</typeparam>
+        /// <param name="list">List to checked</param>
+        /// <returns>Last item or null</returns>
+        public static T GetLast<T>(IList<T> list)
+        {
+            if (list == null || list.Count == 0)
+            {
+                return default(T);
+            }
+
+            return list[list.Count - 1];
+        }
     }
 }
