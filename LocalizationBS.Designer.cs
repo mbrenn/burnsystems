@@ -106,6 +106,15 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Falscher Datentyp bei der Deserialisierung. Ist: {0}, Soll: {1}.
+        /// </summary>
+        internal static string Composer_WrongTypeFound {
+            get {
+                return ResourceManager.GetString("Composer_WrongTypeFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Die Methode, die das Attribut &apos;TestMethod&apos; enthält, besitzt mehr als einen Parameter. .
         /// </summary>
         internal static string Executor_InvalidParameterCount {
