@@ -57,5 +57,33 @@ namespace BurnSystems.Collections
         {
             this.objects[key] = value;
         }
+
+        /// <summary>
+        /// Gets or sets an untyped variable of the object container. 
+        /// </summary>
+        /// <param name="key">Key of required object</param>
+        /// <returns>Object with the key</returns>
+        public object this[string key]
+        {
+            get
+            {
+                return this.objects[key];
+            }
+            set
+            {
+                this.objects[key] = value;
+            }
+        }
+
+        /// <summary>
+        /// Tries to get an untyped value 
+        /// </summary>
+        /// <param name="key">Key of the requested object.</param>
+        /// <param name="result">Result of the object</param>
+        /// <returns>true, if the object was found</returns>
+        public bool TryGetValue(string key, out object result)
+        {
+            return this.objects.TryGetValue(key, out result);
+        }
     }
 }
