@@ -15,6 +15,7 @@ namespace BurnSystems.Serialization
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using BurnSystems.Test;
+using BurnSystems.Logging;
 
     /// <summary>
     /// The composer class helps to recompose the object
@@ -174,7 +175,22 @@ namespace BurnSystems.Serialization
 
                 if (field.FieldInfo != null)
                 {
-                    field.FieldInfo.SetValue(value, valueProperty);
+                    if (valueProperty != null &&
+                        !field.FieldInfo.FieldType.IsAssignableFrom(valueProperty.GetType()))
+                    {
+                        var logMessage = string.Format(
+                            LocalizationBS.Composer_WrongTypeFound,
+                            valueProperty.GetType().FullName,
+                            field.FieldInfo.FieldType.FullName);
+
+                        Log.TheLog.LogEntry(new LogEntry(
+                            logMessage,
+                            LogLevel.Fatal));
+                    }
+                    else
+                    {
+                        field.FieldInfo.SetValue(value, valueProperty);
+                    }
                 }
             }
 

@@ -33,7 +33,7 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Gets the container, storing the object
         /// </summary>
-        public ObjectContainer ObjectContainer
+        internal ObjectContainer ObjectContainer
         {
             get { return this.objectContainer; }
         }

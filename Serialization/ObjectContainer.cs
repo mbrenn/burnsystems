@@ -17,7 +17,7 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// The object container stores the objects, which have already been registered
     /// </summary>
-    public class ObjectContainer
+    internal class ObjectContainer
     {
         /// <summary>
         /// Stores the object and associates them to a number
