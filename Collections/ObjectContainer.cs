@@ -35,7 +35,7 @@ namespace BurnSystems.Collections
         /// <param name="key">Name of requested object</param>
         /// <returns>Value of requested object or null, if object
         /// is not found</returns>
-        public T GetObject<T>(string key) where T : class
+        public T GetObject<T>(string key) 
         {
             object result;
 
@@ -44,7 +44,7 @@ namespace BurnSystems.Collections
                 return (T)result;
             }
 
-            return null;
+            return default(T);
         }
 
         /// <summary>
