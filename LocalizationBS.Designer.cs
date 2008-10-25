@@ -187,7 +187,7 @@ namespace BurnSystems {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Der Knoten &apos;{0}&apos; wurde nicht gefunden..
+        ///   Looks up a localized string similar to Die Selektion &apos;{0}&apos; ausgehend von &apos;{1}&apos; lieferte kein Ergebnis..
         /// </summary>
         internal static string XmlHelper_NodeNotFound {
             get {

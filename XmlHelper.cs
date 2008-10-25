@@ -15,6 +15,8 @@ namespace BurnSystems
     using System.Globalization;
     using System.Xml;
     using BurnSystems.Test;
+using System.Collections.Generic;
+    using System.Text;
 
     /// <summary>
     /// Helperclass for improving access to xml documents
@@ -94,11 +96,51 @@ namespace BurnSystems
             {
                 throw new InvalidOperationException(String.Format(
                     CultureInfo.CurrentUICulture,
-                    LocalizationBS.XmlHelper_NodeNotFound, 
-                    xpathQuery));
+                    LocalizationBS.XmlHelper_NodeNotFound,
+                    xpathQuery,
+                    GetPath(xmlNode)));
             }
 
             return xmlFoundNode;
+        }
+
+        /// <summary>
+        /// Gets the parent elements of the xmlnode as a stack. 
+        /// The element on top of the stack is the root element
+        /// </summary>
+        /// <param name="xmlNode">Node to be queried</param>
+        /// <returns></returns>
+        public static Stack<XmlNode> GetParentElements(XmlNode xmlNode)
+        {
+            var result = new Stack<XmlNode>();
+            
+            var current = xmlNode;
+            while (current != null)
+            {
+                result.Push(current);
+                current = current.ParentNode;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the path to the xmlnode from the root node. 
+        /// The result looks like /node/other/xmlnode
+        /// </summary>
+        /// <param name="xmlNode">Xmlnode to be evaluated</param>
+        /// <returns>Path to node</returns>
+        public static string GetPath(XmlNode xmlNode)
+        {
+            var stack = GetParentElements(xmlNode);
+            var result = new StringBuilder();
+
+            while (stack.Count > 0)
+            {
+                result.AppendFormat("/{0}", stack.Pop().Name);
+            }
+
+            return result.ToString();
         }
     }
 }

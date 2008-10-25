@@ -160,7 +160,7 @@
     <value>Das Attribut '{0}' wurde nicht gefunden.</value>
   </data>
   <data name="XmlHelper_NodeNotFound" xml:space="preserve">
-    <value>Der Knoten '{0}' wurde nicht gefunden.</value>
+    <value>Die Selektion '{0}' ausgehend von '{1}' lieferte kein Ergebnis.</value>
   </data>
   <data name="XmlWebResponse_CredentialsAreMissing" xml:space="preserve">
     <value>Es wurden keine Anmeldaten übermittelt.</value>
