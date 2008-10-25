@@ -746,7 +746,7 @@ namespace BurnSystems.Collections
 
             foreach (var element in list)
             {
-                var value = function ( element );
+                var value = function(element);
                 if (first
                     || smallestValue.CompareTo(value) > 0)
                 {

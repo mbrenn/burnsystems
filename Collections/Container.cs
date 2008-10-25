@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AllianceSystemPlugin.cs" company="Martin Brenn">
+// <copyright file="Container.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
 //     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
@@ -19,15 +19,6 @@ namespace BurnSystems.Collections
     public class Container<T>
     {
         /// <summary>
-        /// Gets or sets the item to be stored
-        /// </summary>
-        public T Item
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Initializes a new instance of the Container class.
         /// </summary>
         public Container()
@@ -41,6 +32,15 @@ namespace BurnSystems.Collections
         public Container(T item)
         {
             this.Item = item;
+        }
+
+        /// <summary>
+        /// Gets or sets the item to be stored
+        /// </summary>
+        public T Item
+        {
+            get;
+            set;
         }
     }
 }

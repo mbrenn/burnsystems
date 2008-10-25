@@ -32,8 +32,8 @@ namespace BurnSystems.Serialization
         /// Stores the translation table for translating 
         /// a type name to the corresponding type
         /// </summary>
-        private Dictionary<string, Type> typeTranslation = 
-            new Dictionary<string,Type>();
+        private Dictionary<string, Type> typeTranslation =
+            new Dictionary<string, Type>();
 
         /// <summary>
         /// Initializes a new instance of the Deserializer class.

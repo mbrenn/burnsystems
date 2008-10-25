@@ -29,6 +29,24 @@ namespace BurnSystems.Collections
             new Dictionary<string, object>();
 
         /// <summary>
+        /// Gets or sets an untyped variable of the object container. 
+        /// </summary>
+        /// <param name="key">Key of required object</param>
+        /// <returns>Object with the key</returns>
+        public object this[string key]
+        {
+            get
+            {
+                return this.objects[key];
+            }
+
+            set
+            {
+                this.objects[key] = value;
+            }
+        }
+
+        /// <summary>
         /// Gets an object by key
         /// </summary>
         /// <typeparam name="T">Type of requested object</typeparam>
@@ -56,23 +74,6 @@ namespace BurnSystems.Collections
         public void SetObject<T>(string key, T value)
         {
             this.objects[key] = value;
-        }
-
-        /// <summary>
-        /// Gets or sets an untyped variable of the object container. 
-        /// </summary>
-        /// <param name="key">Key of required object</param>
-        /// <returns>Object with the key</returns>
-        public object this[string key]
-        {
-            get
-            {
-                return this.objects[key];
-            }
-            set
-            {
-                this.objects[key] = value;
-            }
         }
 
         /// <summary>

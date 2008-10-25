@@ -31,19 +31,19 @@ namespace BurnSystems.Serialization
         private TypeContainer typeContainer = new TypeContainer();
 
         /// <summary>
-        /// Gets the container, storing the object
-        /// </summary>
-        internal ObjectContainer ObjectContainer
-        {
-            get { return this.objectContainer; }
-        }
-
-        /// <summary>
         /// Gets the typecontainer
         /// </summary>
         public TypeContainer TypeContainer
         {
             get { return this.typeContainer; }
+        }
+
+        /// <summary>
+        /// Gets the container, storing the object
+        /// </summary>
+        internal ObjectContainer ObjectContainer
+        {
+            get { return this.objectContainer; }
         }
 
         /// <summary>

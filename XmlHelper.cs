@@ -12,11 +12,11 @@
 namespace BurnSystems
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Text;
     using System.Xml;
     using BurnSystems.Test;
-using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// Helperclass for improving access to xml documents
@@ -109,7 +109,7 @@ using System.Collections.Generic;
         /// The element on top of the stack is the root element
         /// </summary>
         /// <param name="xmlNode">Node to be queried</param>
-        /// <returns></returns>
+        /// <returns>Stack of xmlnodes beginning with the root element.</returns>
         public static Stack<XmlNode> GetParentElements(XmlNode xmlNode)
         {
             var result = new Stack<XmlNode>();

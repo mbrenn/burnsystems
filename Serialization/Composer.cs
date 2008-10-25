@@ -14,8 +14,8 @@ namespace BurnSystems.Serialization
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using BurnSystems.Logging;
     using BurnSystems.Test;
-using BurnSystems.Logging;
 
     /// <summary>
     /// The composer class helps to recompose the object
