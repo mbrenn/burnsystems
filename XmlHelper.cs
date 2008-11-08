@@ -29,8 +29,8 @@ namespace BurnSystems
         /// </summary>
         /// <param name="xmlNode">Requested xmlnode</param>
         /// <param name="attributeName">Requested Attributename</param>
-        /// <param name="defaultvalue">Standardwert, der zurückgegeben wird, 
-        /// wenn der Knoten nicht gefunden wird. </param>
+        /// <param name="defaultvalue">Defaultvalue, which will be returned
+        /// if the attribute was not found. </param>
         /// <returns>Defaultvalue or found Xml-Attribute</returns>
         public static string QueryXmlAttributeText(
             XmlNode xmlNode, 
@@ -48,6 +48,18 @@ namespace BurnSystems
             }
 
             return xmlAttribute.InnerText;
+        }
+
+        /// <summary>
+        /// Returns the content of an xml-Attribute. If the requested attribute
+        /// is not found, <c>string.Empty</c> will be returned.
+        /// </summary>
+        /// <param name="xmlNode">Requested xmlnode</param>
+        /// <param name="attributeName">Requested Attributename</param>
+        /// <returns>Defaultvalue or found Xml-Attribute</returns>
+        public static string QueryXmlAttributeText(XmlNode xmlNode, string attributeName)
+        {
+            return QueryXmlAttributeText(xmlNode, attributeName, string.Empty);
         }
 
         /// <summary>
