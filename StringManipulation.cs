@@ -246,12 +246,22 @@ namespace BurnSystems
             {
                 return null;
             }
-
-            var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                        
             var utf8 = new System.Text.UTF8Encoding();
 
             var bytes = utf8.GetBytes(data);
+            return Sha1(bytes);
+        }
+
+        /// <summary>
+        /// Hashes a bytebuffer with Sha1
+        /// </summary>
+        /// <param name="bytes">Buffer to be hashed</param>
+        /// <returns>Hash as string</returns>
+        public static string Sha1(byte[] bytes)
+        {
             byte[] result;
+            var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
             result = sha1.ComputeHash(bytes);
 
             return ToHexString(result);
