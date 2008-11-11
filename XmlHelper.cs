@@ -117,6 +117,25 @@ namespace BurnSystems
         }
 
         /// <summary>
+        /// Queries a single xmlnode and returns the <c>InnerText</c> of the node or 
+        /// <c>defaultValue</c>, if node is not found
+        /// </summary>
+        /// <param name="xmlNode">Note to be queries</param>
+        /// <param name="query">Used Query to xmlNode</param>
+        /// <param name="defaultValue">Default value, of node not found</param>
+        /// <returns>Found string or <c>defaultValue</c></returns>
+        public static string QuerySingleXmlNodeText(XmlNode xmlNode, string query, string defaultValue)
+        {
+            var node = xmlNode.SelectSingleNode(query);
+            if (node == null)
+            {
+                return defaultValue;
+            }
+
+            return node.InnerText;
+        }
+
+        /// <summary>
         /// Gets the parent elements of the xmlnode as a stack. 
         /// The element on top of the stack is the root element
         /// </summary>
