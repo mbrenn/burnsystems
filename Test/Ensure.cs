@@ -744,5 +744,21 @@ namespace BurnSystems.Test
                 }
             }
         }
+
+        /// <summary>
+        /// Checks if a value is between the given values. 
+        /// The border are inclusive. 
+        /// This means <c>min &lt;= value &lt;= max</c> is OK
+        /// </summary>
+        /// <param name="value">Value to be checked</param>
+        /// <param name="min">Minimum value</param>
+        /// <param name="max">Maximum value</param>
+        public static void IsBetween(int value, int min, int max)
+        {
+            if (!(min <= value && value <= max))
+            {
+                throw new EnsureFailedException();
+            }
+        }
     }
 }
