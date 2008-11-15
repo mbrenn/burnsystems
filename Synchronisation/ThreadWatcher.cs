@@ -97,6 +97,7 @@ namespace BurnSystems.Synchronisation
                     watchLoop = new Thread(WatchLoop);
                     watchLoop.IsBackground = true;
                     watchLoop.Priority = ThreadPriority.AboveNormal;
+                    watchLoop.Name = "BurnSystems.ThreadWatcher";
                     watchLoop.Start();
                 }
             }
