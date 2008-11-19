@@ -71,6 +71,12 @@
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
+    <Compile Include="Net\Json\IJsonObject.cs" />
+    <Compile Include="Net\Json\JsonBoolean.cs" />
+    <Compile Include="Net\Json\JsonList.cs" />
+    <Compile Include="Net\Json\JsonNumber.cs" />
+    <Compile Include="Net\Json\JsonObject.cs" />
+    <Compile Include="Net\Json\JsonString.cs" />
     <Compile Include="Serialization\ArrayHeader.cs" />
     <Compile Include="Serialization\BinaryReader.cs" />
     <Compile Include="Serialization\BinaryWriter.cs" />
