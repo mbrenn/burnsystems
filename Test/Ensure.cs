@@ -92,7 +92,20 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException("IsTrue");
             }
-        } 
+        }
+
+        /// <summary>
+        /// Checks value is true. If value is not true, the action will be executed
+        /// </summary>
+        /// <param name="value">Value to be checked</param>
+        /// <param name="action">Action to be executed.</param>
+        public static void IsTrue(bool value, Procedure action)
+        {
+            if (!value)
+            {
+                action();
+            }
+        }
         
         /// <summary>
         /// Prüft, ob der angegebene Wert true ist
