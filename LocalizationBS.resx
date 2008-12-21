@@ -157,7 +157,7 @@
     <value>Unbegrenzt</value>
   </data>
   <data name="XmlHelper_AttributeNotFound" xml:space="preserve">
-    <value>Das Attribut '{0}' wurde nicht gefunden.</value>
+    <value>Das Attribut '{0}' ausgehend von '{1}' wurde nicht gefunden.</value>
   </data>
   <data name="XmlHelper_NodeNotFound" xml:space="preserve">
     <value>Die Auswahl '{0}' ausgehend von '{1}' lieferte kein Ergebnis.</value>

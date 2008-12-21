@@ -178,7 +178,7 @@ namespace BurnSystems {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Das Attribut &apos;{0}&apos; wurde nicht gefunden..
+        ///   Looks up a localized string similar to Das Attribut &apos;{0}&apos; ausgehend von &apos;{1}&apos; wurde nicht gefunden..
         /// </summary>
         internal static string XmlHelper_AttributeNotFound {
             get {

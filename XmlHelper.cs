@@ -83,8 +83,9 @@ namespace BurnSystems
             {
                 throw new InvalidOperationException(String.Format(
                     CultureInfo.CurrentUICulture,
-                    LocalizationBS.XmlHelper_AttributeNotFound, 
-                    attributeName));
+                    LocalizationBS.XmlHelper_AttributeNotFound,
+                    attributeName,
+                    GetPath(xmlNode)));
             }
 
             return xmlAttribute;
