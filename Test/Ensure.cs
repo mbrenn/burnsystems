@@ -164,7 +164,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} == {1}", value.ToString(), reference.ToString()));
+                        "Is: {0}, Should: {1}", value.ToString(), reference.ToString()));
             }
         }
 
@@ -186,7 +186,7 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} == {1}: {2}", value.ToString(), reference.ToString(), text));
+                        "Is: {0}, Should: {1}", value.ToString(), reference.ToString(), text));
             }
         }
 
