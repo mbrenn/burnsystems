@@ -17,6 +17,7 @@ namespace BurnSystems
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird
@@ -99,6 +100,8 @@ namespace BurnSystems
         /// <returns>Converted decimal string</returns>
         public static int HexToInt(string hexString)
         {
+            Ensure.IsNotNull(hexString);
+
             var result = 0;
             for (var counter = 0; counter < hexString.Length; counter++)
             {
@@ -435,6 +438,8 @@ namespace BurnSystems
         /// <returns>Array mit Stringinhalten</returns>
         public static string[] WordWrap(string value, int lineLength)
         {
+            Ensure.IsGreaterOrEqual(lineLength, 0);
+
             var lines = new List<string>();
 
             int currentPos = 0;
