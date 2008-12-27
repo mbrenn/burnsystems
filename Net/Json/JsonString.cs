@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="JsonObject.cs" company="Martin Brenn">
+// <copyright file="JsonString.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
 //     Die Inhalte dieser Datei sind ebenfalls automatisch unter 

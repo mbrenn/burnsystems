@@ -165,6 +165,15 @@ namespace BurnSystems.Collections
             return this.elements.GetEnumerator();
         }
 
+        /// <summary>
+        /// Resorts the priorityqueue
+        /// </summary>
+        public void Resort()
+        {
+            // Resort in inverse order because the smallest objects are at the end
+            this.elements.Sort((x, y) => this.comparer(y, x));
+        }
+
         #endregion
 
         #region IEnumerable Members
@@ -226,14 +235,5 @@ namespace BurnSystems.Collections
         }
 
         #endregion
-
-        /// <summary>
-        /// Resorts the priorityqueue
-        /// </summary>
-        public void Resort()
-        {
-            // Resort in inverse order because the smallest objects are at the end
-            this.elements.Sort((x, y) => this.comparer(y, x));
-        }
     }
 }

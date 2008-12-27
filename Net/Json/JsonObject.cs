@@ -27,6 +27,24 @@ namespace BurnSystems.Net.Json
             new Dictionary<string, IJsonObject>();
 
         /// <summary>
+        /// Gets or sets the property of a certain key
+        /// </summary>
+        /// <param name="key">Key to be set</param>
+        /// <returns>Value behind the key</returns>
+        public object this[string key]
+        {
+            get
+            {
+                return this.properties[key];
+            }
+
+            set
+            {
+                this.properties[key] = ConvertObject(value);
+            }
+        }
+
+        /// <summary>
         /// Creates a json object by providing an instance of 
         /// supported object
         /// </summary>
@@ -72,24 +90,6 @@ namespace BurnSystems.Net.Json
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Gets or sets the property of a certain key
-        /// </summary>
-        /// <param name="key">Key to be set</param>
-        /// <returns>Value behind the key</returns>
-        public object this[string key]
-        {
-            get
-            {
-                return this.properties[key];
-            }
-
-            set
-            {
-                this.properties[key] = ConvertObject(value);
-            }
         }
 
         /// <summary>

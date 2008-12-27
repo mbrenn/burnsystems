@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SingleBuildungOnTownFieldMapPage.cs" company="Martin Brenn">
+// <copyright file="IJsonObject.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
 //     Die Inhalte dieser Datei sind ebenfalls automatisch unter 

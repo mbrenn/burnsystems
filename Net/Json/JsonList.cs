@@ -50,7 +50,8 @@ namespace BurnSystems.Net.Json
             {
                 stringBuilder.AppendFormat(
                     "{0}{1}",
-                    komma, item.ToString());
+                    komma, 
+                    item.ToString());
                 komma = ",";
             }
 
