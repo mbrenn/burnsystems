@@ -797,7 +797,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumeration of integers</returns>
         public static IEnumerable<int> Range(int start, int end)
         {
-            if ( end < start )
+            if (end < start)
             {
                 yield break;
             }
