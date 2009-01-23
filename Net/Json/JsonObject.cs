@@ -52,6 +52,12 @@ namespace BurnSystems.Net.Json
         /// <returns>Converted json object</returns>
         public static IJsonObject ConvertObject(object value)
         {
+            if (value == null)
+            {
+                // Null
+                return null;
+            }
+
             if (value is IJsonObject)
             {
                 return value as IJsonObject;
@@ -122,6 +128,11 @@ namespace BurnSystems.Net.Json
             var komma = string.Empty;
             foreach (var pair in this.properties)
             {
+                if (pair.Value == null)
+                {
+                    continue;
+                }
+
                 result.AppendFormat(
                     "{0}{1}: {2}",
                     komma,
