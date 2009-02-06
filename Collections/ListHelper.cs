@@ -14,6 +14,7 @@ namespace BurnSystems.Collections
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Defines the delegate for the procedure
@@ -447,7 +448,7 @@ namespace BurnSystems.Collections
         /// <param name="list">Zu sortierende Liste</param>
         /// <param name="comparer">Comparer to be used for sorting</param>
         /// <returns>Sortet list</returns>
-        public static IEnumerable<T> Sort<T>(
+        public static IList<T> Sort<T>(
             IEnumerable<T> list, 
             Comparison<T> comparer)
         {
@@ -786,6 +787,39 @@ namespace BurnSystems.Collections
             }
 
             return smallest;
+        }
+
+        /// <summary>
+        /// Creates a range of the given list. 
+        /// </summary>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <param name="list">List to be evaluated</param>
+        /// <param name="start">Startposition of the range</param>
+        /// <param name="end">Exclusive endposition of range</param>
+        /// <returns>List, containing no, some or all elements of <c>list</c>.</returns>
+        public static IList<T> Range<T>(IList<T> list, int start, int end)
+        {
+            Ensure.IsGreaterOrEqual(start, 0);
+            Ensure.IsGreaterOrEqual(end, 0);
+
+            var result = new List<T>();
+
+            // Checks boundaries
+            if (end <= start || start >= list.Count || end == 0)
+            {
+                return result;
+            }
+
+            // Truncate end
+            end = Math.Min(end, list.Count);
+
+            // Copy
+            for (var n = start; n < end; n++)
+            {
+                result.Add(list[n]);
+            }
+
+            return result;
         }
 
         /// <summary>
