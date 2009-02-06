@@ -81,6 +81,19 @@ namespace BurnSystems.Collections
     public delegate TResult Function<TResult, T1, T2>(T1 o1, T2 o2);
 
     /// <summary>
+    /// Backports delegate <c>Func</c> of System.Core
+    /// </summary>
+    /// <param name="o1">First parameter</param>
+    /// <param name="o2">Second parameter</param>
+    /// <param name="o3">Third parameter</param>
+    /// <typeparam name="TResult">Type of result</typeparam>
+    /// <typeparam name="T1">Type of first parameter</typeparam>
+    /// <typeparam name="T2">Type of second parameter</typeparam>    
+    /// <typeparam name="T3">Type of third parameter</typeparam>
+    /// <returns>Result of function</returns>
+    public delegate TResult Function<TResult, T1, T2, T3>(T1 o1, T2 o2, T3 o3);
+
+    /// <summary>
     /// Diese Listenhelferklasse stellt ein paar Funktionen für die
     /// unterschiedlichen Listenklassen zur Verfügung. 
     /// </summary>
