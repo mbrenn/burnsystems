@@ -50,8 +50,6 @@ namespace BurnSystems.Synchronisation
             return new WriterLock(this);
         }
 
-        #region Hilfsklassen für die einfache Freigabe des Lese-/Schreibzugriffes
-
         /// <summary>
         /// Helperclass for readerlock
         /// </summary>
@@ -80,8 +78,6 @@ namespace BurnSystems.Synchronisation
                 this.Dispose(false);
             }
 
-            #region IDisposable Member
-
             /// <summary>
             /// Disposes the object
             /// </summary>
@@ -102,8 +98,6 @@ namespace BurnSystems.Synchronisation
                 this.Dispose(true);
                 GC.SuppressFinalize(this);
             }
-
-            #endregion
         }
 
         /// <summary>
@@ -134,8 +128,6 @@ namespace BurnSystems.Synchronisation
                 this.Dispose(false);
             }
 
-            #region IDisposable Member
-
             /// <summary>
             /// Disposes the object
             /// </summary>
@@ -156,10 +148,6 @@ namespace BurnSystems.Synchronisation
                 this.Dispose(true);
                 GC.SuppressFinalize(this);
             }
-
-            #endregion
         }
-
-        #endregion
     }
 }
