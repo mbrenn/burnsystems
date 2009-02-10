@@ -25,8 +25,8 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Native lockstructure
         /// </summary>
-        private System.Threading.ReaderWriterLock nativeLock 
-            = new System.Threading.ReaderWriterLock();
+        private System.Threading.ReaderWriterLockSlim nativeLock
+            = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
 
         /// <summary>
         /// Locks object for readaccess. If returned structure
@@ -35,7 +35,7 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of readlock</returns>
         public IDisposable GetReadLock()
         {
-            this.nativeLock.AcquireReaderLock(-1);
+            this.nativeLock.EnterReadLock();
             return new ReaderLock(this);
         }
 
@@ -46,7 +46,7 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of writelock</returns>
         public IDisposable GetWriteLock()
         {
-            this.nativeLock.AcquireWriterLock(-1);
+            this.nativeLock.EnterWriteLock();
             return new WriterLock(this);
         }
 
@@ -90,7 +90,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLock.ReleaseReaderLock();
+                    this.readWriteLock.nativeLock.ExitReadLock();
                 }
             }
 
@@ -144,7 +144,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLock.ReleaseWriterLock();
+                    this.readWriteLock.nativeLock.ExitWriteLock();
                 }
             }
             
