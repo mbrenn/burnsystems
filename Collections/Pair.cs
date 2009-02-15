@@ -13,6 +13,8 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Globalization;
+    using BurnSystems.Interfaces;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Stores a pair of two object
@@ -20,17 +22,14 @@ namespace BurnSystems.Collections
     /// <typeparam name="TFirst">Datatype of first value</typeparam>
     /// <typeparam name="TSecond">Datatype of second value</typeparam>
     [Serializable]
-    public class Pair<TFirst, TSecond>
+    public class Pair<TFirst, TSecond> : IParserObject
     {
         /// <summary>
-        /// First value
+        /// Initializes a new instance of the Pair class.
         /// </summary>
-        private TFirst first;
-
-        /// <summary>
-        /// Second value
-        /// </summary>
-        private TSecond second;
+        public Pair()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the Pair class.
@@ -39,8 +38,8 @@ namespace BurnSystems.Collections
         /// <param name="second">Second value to be stored</param>
         public Pair(TFirst first, TSecond second)
         {
-            this.first = first;
-            this.second = second;
+            this.First = first;
+            this.Second = second;
         }
 
         /// <summary>
@@ -48,8 +47,8 @@ namespace BurnSystems.Collections
         /// </summary>
         public TFirst First
         {
-            get { return this.first; }
-            set { this.first = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -57,8 +56,8 @@ namespace BurnSystems.Collections
         /// </summary>
         public TSecond Second
         {
-            get { return this.second; }
-            set { this.second = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -70,8 +69,37 @@ namespace BurnSystems.Collections
             return string.Format(
                 CultureInfo.CurrentUICulture,
                 "{0}, {1}", 
-                this.first.ToString(), 
-                this.second.ToString());
+                this.First.ToString(), 
+                this.Second.ToString());
+        }
+
+        /// <summary>
+        /// This function returns a specific property, which is accessed by name
+        /// </summary>
+        /// <param name="name">Name of requested property</param>
+        /// <returns>Property behind this object</returns>
+        public object GetProperty(string name)
+        {
+            switch (name)
+            {
+                case "First":
+                    return this.First;
+                case "Second":
+                    return this.Second;
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// This function has to execute a function and to return an object
+        /// </summary>
+        /// <param name="functionName">Name of function</param>
+        /// <param name="parameters">Parameters for the function</param>
+        /// <returns>Return of function</returns>
+        public object ExecuteFunction(string functionName, IList<object> parameters)
+        {
+            return null;
         }
     }
 }

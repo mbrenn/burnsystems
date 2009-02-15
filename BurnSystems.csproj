@@ -71,6 +71,8 @@
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
+    <Compile Include="Interfaces\IParserDictionary.cs" />
+    <Compile Include="Interfaces\IParserObject.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
     <Compile Include="Net\Json\JsonList.cs" />
