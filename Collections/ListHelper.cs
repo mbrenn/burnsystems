@@ -159,6 +159,46 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
+        /// Checks, whether the item is contained in the given list
+        /// </summary>
+        /// <typeparam name="T">Type of the queried item</typeparam>
+        /// <param name="list">List to be looked up</param>
+        /// <param name="item">Item to be checked</param>
+        /// <returns>true, if item is found in list</returns>
+        public static bool Contains<T>(IEnumerable<T> list, T item)
+        {
+            foreach (var currentItem in list)
+            {
+                if (currentItem.Equals(item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks, whether the given predicate becomes true in the list
+        /// </summary>
+        /// <typeparam name="T">Type of the queried item</typeparam>
+        /// <param name="list">List to be looked up</param>
+        /// <param name="predicate">Predicate to be used</param>
+        /// <returns>true, if item is found in list</returns>
+        public static bool Contains<T>(IEnumerable<T> list, Predicate<T> predicate)
+        {
+            foreach (var currentItem in list)
+            {
+                if (predicate(currentItem))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Converts an enumeration to an array
         /// </summary>
         /// <typeparam name="T">Type of element in enumeration</typeparam>
