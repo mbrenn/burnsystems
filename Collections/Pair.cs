@@ -12,9 +12,9 @@
 namespace BurnSystems.Collections
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using BurnSystems.Interfaces;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Stores a pair of two object
