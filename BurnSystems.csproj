@@ -129,13 +129,6 @@
     <Compile Include="Synchronisation\ThreadWatcher.cs" />
     <Compile Include="Synchronisation\ThreadWatcherItem.cs" />
     <Compile Include="Test\EnsureFailedException.cs" />
-    <Compile Include="Test\Result.cs" />
-    <Compile Include="Test\TestClassAttribute.cs" />
-    <Compile Include="Test\Executor.cs" />
-    <Compile Include="Test\TestMethodAttribute.cs" />
-    <Compile Include="UnitTests\ListHelperTest.cs" />
-    <Compile Include="UnitTests\MathTest.cs" />
-    <Compile Include="UnitTests\PriorityQueueTests.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -179,5 +172,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BurnSystems_AGPL.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UnitTests\" />
   </ItemGroup>
 </Project>
