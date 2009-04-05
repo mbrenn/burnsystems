@@ -13,15 +13,26 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
     using BurnSystems.Logging;
     using BurnSystems.Test;
+using BurnSystems.Collections;
 
     /// <summary>
     /// The composer class helps to recompose the object
     /// </summary>
     public class Composer
-    {        
+    {
+        /// <summary>
+        /// These translations are used to translate the
+        /// read values into the target type. 
+        /// The dictionary stores in the key the pair of source and target-Type
+        /// and in the value the transformation from source to targetobject
+        /// </summary>
+        public Dictionary<Pair<Type, Type>, Func<object, object>> translations =
+            new Dictionary<Pair<Type, Type>, Func<object, object>>();
+
         /// <summary>
         /// Initializes a new instance of the Composer class.
         /// </summary>
@@ -31,6 +42,8 @@ namespace BurnSystems.Serialization
         {
             this.Deserializer = deserializer;
             this.BinaryReader = binaryReader;
+
+            this.AddDefaultTranslations();
         }
 
         /// <summary>
@@ -49,6 +62,20 @@ namespace BurnSystems.Serialization
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Adds a translation to the composer
+        /// </summary>
+        /// <typeparam name="source">Type of the source object</typeparam>
+        /// <typeparam name="target">Type of the target object</typeparam>
+        /// <param name="translation">Translation function from source
+        /// to target function</param>
+        public void AddTranslation<source, target>(Func<source, target> translation)
+        {
+            this.translations[
+                    new Pair<Type, Type>(typeof(source), typeof(target))]
+                = x => translation((source)x);
         }
 
         /// <summary>
@@ -133,6 +160,17 @@ namespace BurnSystems.Serialization
         }
 
         /// <summary>
+        /// Adds the default translations
+        /// </summary>
+        private void AddDefaultTranslations()
+        {
+            this.AddTranslation<long, int>(x => Convert.ToInt32(x));
+            this.AddTranslation<int, long>(x => Convert.ToInt64(x));
+            this.AddTranslation<float, double>(x => Convert.ToDouble(x));
+            this.AddTranslation<double, float>(x => Convert.ToSingle(x));
+        }
+
+        /// <summary>
         /// Reads an enumeration
         /// </summary>
         /// <returns>Read enumeration</returns>
@@ -178,14 +216,36 @@ namespace BurnSystems.Serialization
                     if (valueProperty != null &&
                         !field.FieldInfo.FieldType.IsAssignableFrom(valueProperty.GetType()))
                     {
-                        var logMessage = string.Format(
-                            LocalizationBS.Composer_WrongTypeFound,
-                            valueProperty.GetType().FullName,
-                            field.FieldInfo.FieldType.FullName);
+                        // Try to convert. 
+                        var pair = new Pair<Type, Type>(
+                            valueProperty.GetType(),
+                            field.FieldInfo.FieldType);
+                        Func<object, object> translator;
+                        if (this.translations.TryGetValue(pair, out translator))
+                        {
+                            field.FieldInfo.SetValue(value,
+                                translator(valueProperty));
 
-                        Log.TheLog.LogEntry(new LogEntry(
-                            logMessage,
-                            LogLevel.Fatal));
+                            var logMessage = string.Format(
+                                LocalizationBS.Composer_WrongTypeTransformed,
+                                valueProperty.GetType().FullName,
+                                field.FieldInfo.FieldType.FullName);
+
+                            Log.TheLog.LogEntry(new LogEntry(
+                                logMessage,
+                                LogLevel.Message));
+                        }
+                        else
+                        {
+                            var logMessage = string.Format(
+                                LocalizationBS.Composer_WrongTypeFound,
+                                valueProperty.GetType().FullName,
+                                field.FieldInfo.FieldType.FullName);
+
+                            Log.TheLog.LogEntry(new LogEntry(
+                                logMessage,
+                                LogLevel.Fatal));
+                        }
                     }
                     else
                     {

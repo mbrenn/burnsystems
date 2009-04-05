@@ -101,5 +101,32 @@ namespace BurnSystems.Collections
         {
             return null;
         }
+
+        /// <summary>
+        /// Checks, whether the instance is equal
+        /// </summary>
+        /// <param name="obj">Object to be checked</param>
+        /// <returns>true, if it is equal</returns>
+        public override bool Equals(object obj)
+        {
+            var pair = obj as Pair<TFirst, TSecond>;
+
+            if ( pair == null )
+            {
+                return false;
+            }
+
+            return pair.First.Equals(this.First)
+                && pair.Second.Equals(this.Second);
+        }
+
+        /// <summary>
+        /// Gets the hashcose
+        /// </summary>
+        /// <returns>Hashcode of the pair</returns>
+        public override int GetHashCode()
+        {
+            return this.First.GetHashCode() ^ this.Second.GetHashCode();
+        }
     }
 }
