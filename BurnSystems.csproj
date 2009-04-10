@@ -71,6 +71,7 @@
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
+    <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Interfaces\IParserDictionary.cs" />
     <Compile Include="Interfaces\IParserObject.cs" />
@@ -172,8 +173,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BurnSystems_AGPL.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UnitTests\" />
   </ItemGroup>
 </Project>
