@@ -14,19 +14,43 @@ namespace BurnSystems.Synchronisation
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading;
 
     /// <summary>
-    /// Diese Hilfsklasse vereinfacht den Zugriff auf einen lesenden 
-    /// und schreibenden Sperrzugriff, der zur Synchronisation von 
-    /// Threads genutzt werden kann. 
+    /// This helperclass supports the use of readwrite locks
+    /// as a disposable pattern. 
+    /// In .Net ReaderWriterLockSlim is used, in Mono ReaderWriterLock, because
+    /// Mono does not support recursions in the slim lock.
     /// </summary>
     public class ReadWriteLock
     {
         /// <summary>
         /// Native lockstructure
         /// </summary>
-        private System.Threading.ReaderWriterLockSlim nativeLock
-            = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
+        private readonly System.Threading.ReaderWriterLockSlim nativeLockSlim;
+
+        /// <summary>
+        /// Native lockstructure for mono
+        /// </summary>
+        private readonly System.Threading.ReaderWriterLock nativeLock;
+
+        /// <summary>
+        /// Initializes a new instance of the ReadWriteLock class.
+        /// If this readwritelock runs within mono, a simple lock will be used
+        /// </summary>
+        public ReadWriteLock()
+        {
+            if (EnvironmentHelper.IsMono)
+            {
+                this.nativeLock =
+                    new ReaderWriterLock();
+            }
+            else
+            {
+                this.nativeLockSlim
+                    = new ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
+            }
+        }
 
         /// <summary>
         /// Locks object for readaccess. If returned structure
@@ -35,8 +59,16 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of readlock</returns>
         public IDisposable GetReadLock()
         {
-            this.nativeLock.EnterReadLock();
-            return new ReaderLock(this);
+            if (this.nativeLockSlim != null)
+            {
+                this.nativeLockSlim.EnterReadLock();
+                return new ReaderLockSlim(this);
+            }
+            else
+            {
+                this.nativeLock.AcquireReaderLock(-1);
+                return new ReaderLock(this);
+            }
         }
 
         /// <summary>
@@ -46,12 +78,70 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of writelock</returns>
         public IDisposable GetWriteLock()
         {
-            this.nativeLock.EnterWriteLock();
-            return new WriterLock(this);
+            if (this.nativeLockSlim != null)
+            {
+                this.nativeLockSlim.EnterWriteLock();
+                return new WriterLockSlim(this);
+            }
+            else
+            {
+                this.nativeLock.AcquireWriterLock(-1);
+                return new WriterLock(this);
+            }
         }
 
         /// <summary>
-        /// Helperclass for readerlock
+        /// Helper class for disposing the readlock
+        /// </summary>
+        private class ReaderLockSlim : IDisposable
+        {
+            /// <summary>
+            /// Reference to readwritelock-object
+            /// </summary>
+            private ReadWriteLock readWriteLock;
+
+            /// <summary>
+            /// Initializes a new instance of the ReaderLockSlim class.
+            /// </summary>
+            /// <param name="readWriteLock">Read locked structure,
+            /// which should be controlled by this lock.</param>
+            public ReaderLockSlim(ReadWriteLock readWriteLock)
+            {
+                this.readWriteLock = readWriteLock;
+            }
+
+            /// <summary>
+            /// Finalizes an instance of the ReaderLockSlim class.
+            /// </summary>
+            ~ReaderLockSlim()
+            {
+                this.Dispose(false);
+            }
+
+            /// <summary>
+            /// Disposes the object
+            /// </summary>
+            /// <param name="disposing">Flag, if Dispose() has been called</param>
+            public void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    this.readWriteLock.nativeLockSlim.ExitReadLock();
+                }
+            }
+
+            /// <summary>
+            /// Disposes the object
+            /// </summary>
+            public void Dispose()
+            {
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        /// <summary>
+        /// Helper class for disposing the readlock
         /// </summary>
         private class ReaderLock : IDisposable
         {
@@ -86,7 +176,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLock.ExitReadLock();
+                    this.readWriteLock.nativeLock.ReleaseReaderLock();
                 }
             }
 
@@ -101,7 +191,57 @@ namespace BurnSystems.Synchronisation
         }
 
         /// <summary>
-        /// Hilfsklasse für den Schreibzugriff
+        /// Helper class for disposing the writelock
+        /// </summary>
+        private class WriterLockSlim : IDisposable
+        {
+            /// <summary>
+            /// Reference to readwritelock-object
+            /// </summary>
+            private ReadWriteLock readWriteLock;
+
+            /// <summary>
+            /// Initializes a new instance of the WriterLockSlim class.
+            /// </summary>
+            /// <param name="readWriteLock">Read locked structure,
+            /// which should be controlled by this lock.</param>
+            public WriterLockSlim(ReadWriteLock readWriteLock)
+            {
+                this.readWriteLock = readWriteLock;
+            }
+
+            /// <summary>
+            /// Finalizes an instance of the WriterLockSlim class.
+            /// </summary>
+            ~WriterLockSlim()
+            {
+                this.Dispose(false);
+            }
+
+            /// <summary>
+            /// Disposes the object
+            /// </summary>
+            /// <param name="disposing">Flag, if Dispose() has been called</param>
+            public void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    this.readWriteLock.nativeLockSlim.ExitWriteLock();
+                }
+            }
+            
+            /// <summary>
+            /// Dispoeses the object
+            /// </summary>
+            public void Dispose()
+            {
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        /// <summary>
+        /// Helper class for disposing the writelock
         /// </summary>
         private class WriterLock : IDisposable
         {
@@ -136,10 +276,10 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLock.ExitWriteLock();
+                    this.readWriteLock.nativeLock.ReleaseWriterLock();
                 }
             }
-            
+
             /// <summary>
             /// Dispoeses the object
             /// </summary>

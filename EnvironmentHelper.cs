@@ -24,7 +24,26 @@ namespace BurnSystems
         /// <summary>
         /// Stores, whether the environment is currently running under mono
         /// </summary>
-        private static bool? isMono;
+        private readonly static bool isMono;
+
+        /// <summary>
+        /// Initializes static members of the EnvironmentHelper class.
+        /// </summary>
+        static EnvironmentHelper()
+        {
+            // Gets the type, only implemented by mono
+            var t = Type.GetType("Mono.Runtime");
+            isMono = (t != null);
+
+            if (isMono)
+            {
+                Console.WriteLine("Running under Mono");
+            }
+            else
+            {
+                Console.WriteLine("Not Running under Mono");
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the environment is currently running
@@ -34,16 +53,7 @@ namespace BurnSystems
         {
             get
             {
-                if (isMono.HasValue)
-                {
-                    return isMono.Value;
-                }
-
-                // Gets the type, only implemented by mono
-                var t = Type.GetType("Mono.Runtime");
-                isMono = (t != null);
-
-                return isMono.Value;
+                return isMono;
             }
         }
     }
