@@ -24,7 +24,7 @@ namespace BurnSystems
         /// <summary>
         /// Stores, whether the environment is currently running under mono
         /// </summary>
-        private readonly static bool isMono;
+        private static readonly bool isMono;
 
         /// <summary>
         /// Initializes static members of the EnvironmentHelper class.
