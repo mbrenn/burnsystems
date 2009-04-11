@@ -13,11 +13,10 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
+    using BurnSystems.Collections;
     using BurnSystems.Logging;
     using BurnSystems.Test;
-using BurnSystems.Collections;
 
     /// <summary>
     /// The composer class helps to recompose the object
@@ -30,7 +29,7 @@ using BurnSystems.Collections;
         /// The dictionary stores in the key the pair of source and target-Type
         /// and in the value the transformation from source to targetobject
         /// </summary>
-        public Dictionary<Pair<Type, Type>, Func<object, object>> translations =
+        private Dictionary<Pair<Type, Type>, Func<object, object>> translations =
             new Dictionary<Pair<Type, Type>, Func<object, object>>();
 
         /// <summary>
@@ -73,8 +72,7 @@ using BurnSystems.Collections;
         /// to target function</param>
         public void AddTranslation<source, target>(Func<source, target> translation)
         {
-            this.translations[
-                    new Pair<Type, Type>(typeof(source), typeof(target))]
+            this.translations[new Pair<Type, Type>(typeof(source), typeof(target))]
                 = x => translation((source)x);
         }
 
@@ -223,7 +221,8 @@ using BurnSystems.Collections;
                         Func<object, object> translator;
                         if (this.translations.TryGetValue(pair, out translator))
                         {
-                            field.FieldInfo.SetValue(value,
+                            field.FieldInfo.SetValue(
+                                value,
                                 translator(valueProperty));
 
                             var logMessage = string.Format(

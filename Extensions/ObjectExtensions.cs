@@ -1,9 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using BurnSystems.Interfaces;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ObjectExtensions.cs" company="Martin Brenn">
+//     Alle Rechte vorbehalten. 
+// 
+//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
+//     der AGPL lizenziert. 
+//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
+//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace BurnSystems.Extensions
 {
+    using System.Collections.Generic;
+    using System.Reflection;
+    using BurnSystems.Interfaces;
+
     /// <summary>
     /// This static class stores the extension methods for every object.
     /// </summary>
@@ -126,6 +137,6 @@ namespace BurnSystems.Extensions
                     this.Name,
                     this.ValueText);
             }
-        };
+        }
     }
 }

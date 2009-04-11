@@ -111,7 +111,7 @@ namespace BurnSystems.Collections
         {
             var pair = obj as Pair<TFirst, TSecond>;
 
-            if ( pair == null )
+            if (pair == null)
             {
                 return false;
             }
