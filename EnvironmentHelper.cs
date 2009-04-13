@@ -34,15 +34,6 @@ namespace BurnSystems
             // Gets the type, only implemented by mono
             var t = Type.GetType("Mono.Runtime");
             isMono = (t != null);
-
-            if (isMono)
-            {
-                Console.WriteLine("Running under Mono");
-            }
-            else
-            {
-                Console.WriteLine("Not Running under Mono");
-            }
         }
 
         /// <summary>
