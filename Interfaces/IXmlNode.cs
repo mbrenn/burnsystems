@@ -17,22 +17,22 @@ namespace BurnSystems.Interfaces
     using System.Xml;
 
     /// <summary>
-    /// Dieses Interface muss von allen Objekten implementiert werden,
-    /// die sich irgendwie in einem Xml-Knoten speichern künnen.
+    /// This interface is implemented by all classes, whose
+    /// state shall be read from an xml node or shall be written to 
+    /// an xml node
     /// </summary>
     public interface IXmlNode
     {
         /// <summary>
-        /// Liest die Eigenschaften und Attribute aus einem Xml-Knoten
+        /// Reads properties and attributes from an xml node
         /// </summary>
-        /// <param name="xmlNode">Xml-Knoten aus dem gelesen werden soll.</param>
+        /// <param name="xmlNode">Xmlnode, which should be read.</param>
         void ReadFromXmlNode(XmlNode xmlNode);
 
         /// <summary>
-        /// Speichert die Eigenschaften des Objektes in dem übergebenen Xml-Knoten
+        /// Stores the properties of the object into the xml node
         /// </summary>
-        /// <param name="xmlNode">Xml-Knoten in dem die aktuellen 
-        /// Objekte gespeichert werden sollen. </param>
+        /// <param name="xmlNode">Xmlnode, where properties are stored</param>
         void WriteIntoXmlNode(XmlNode xmlNode);
     }
 }
