@@ -551,6 +551,8 @@ namespace BurnSystems
         /// <returns>Gesäuberter String</returns>
         public static string RemoveInvalidFilenameChars(string filename)
         {
+            Ensure.IsNotNull(filename);
+
             foreach (var invalidChar in Path.GetInvalidFileNameChars())
             {
                 filename = filename.Replace(new string(invalidChar, 1), ((int)invalidChar).ToString());
