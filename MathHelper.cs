@@ -12,6 +12,7 @@
 namespace BurnSystems
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Globalization;
     using BurnSystems.Test;
@@ -105,6 +106,26 @@ namespace BurnSystems
             {
                 return dateTime1;
             }
+        }
+
+        /// <summary>
+        /// Gets the minimum value of all parameters
+        /// </summary>
+        /// <param name="values">Array of parameters</param>
+        /// <returns>Minimum value of all parameter</returns>
+        public static double Min(params double[] values)
+        {
+            return values.Min();
+        }
+
+        /// <summary>
+        /// Gets the minimum value of all parameters
+        /// </summary>
+        /// <param name="values">Array of parameters</param>
+        /// <returns>Minimum value of all parameter</returns>
+        public static double Max(params double[] values)
+        {
+            return values.Max();
         }
 
         /// <summary>
