@@ -894,5 +894,25 @@ namespace BurnSystems.Collections
                 yield return n;
             }
         }
+
+        /// <summary>
+        /// Returns an enumeration of integer starting by <c>start</c> and ending by
+        /// <c>end</c>
+        /// </summary>
+        /// <param name="start">Inclusive start</param>
+        /// <param name="end">Inclusive end</param>
+        /// <returns>Enumeration of integers</returns>
+        public static IEnumerable<long> Range(long start, long end)
+        {
+            if (end < start)
+            {
+                yield break;
+            }
+
+            for (var n = start; n <= end; n++)
+            {
+                yield return n;
+            }
+        }
     }
 }
