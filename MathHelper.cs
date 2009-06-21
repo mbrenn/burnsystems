@@ -12,9 +12,9 @@
 namespace BurnSystems
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using BurnSystems.Test;
 
     /// <summary>
