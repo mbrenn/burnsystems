@@ -154,8 +154,6 @@ namespace BurnSystems.Collections
                 x => x);
         }
 
-        #region IEnumerable<T> Members
-
         /// <summary>
         /// Gets an enumerator for the class.
         /// </summary>
@@ -173,10 +171,6 @@ namespace BurnSystems.Collections
             // Resort in inverse order because the smallest objects are at the end
             this.elements.Sort((x, y) => this.comparer(y, x));
         }
-
-        #endregion
-
-        #region IEnumerable Members
 
         /// <summary>
         /// Gets an enumerator for the class.
@@ -233,7 +227,5 @@ namespace BurnSystems.Collections
                 return current;
             }
         }
-
-        #endregion
     }
 }
