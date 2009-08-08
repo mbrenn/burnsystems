@@ -14,19 +14,35 @@ namespace BurnSystems.Collections
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using BurnSystems.Interfaces;
 
     /// <summary>
     /// The objectcontainer stores the objects
     /// and offers a method to get an access to the objects
     /// </summary>
     [Serializable]
-    public class ObjectContainer
+    public class ObjectContainer : IParserObject
     {
         /// <summary>
         /// Stores the objects
         /// </summary>
-        private Dictionary<string, object> objects =
-            new Dictionary<string, object>();
+        private Dictionary<string, object> objects;
+        /// <summary>
+        /// Initializes a new instance of the ObjectContainer class.
+        /// </summary>
+        public ObjectContainer()
+        {
+            this.objects = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ObjectContainer class.
+        /// </summary>
+        /// <param name="copy">Objectcontainer to be copied</param>
+        public ObjectContainer(ObjectContainer copy)
+        {
+            this.objects = new Dictionary<string, object>(copy.objects);
+        }
 
         /// <summary>
         /// Gets or sets an untyped variable of the object container. 
@@ -85,6 +101,27 @@ namespace BurnSystems.Collections
         public bool TryGetValue(string key, out object result)
         {
             return this.objects.TryGetValue(key, out result);
+        }
+
+        /// <summary>
+        /// This function returns a specific property, which is accessed by name
+        /// </summary>
+        /// <param name="name">Name of requested property</param>
+        /// <returns>Property behind this object</returns>
+        public object GetProperty(string name)
+        {
+            return this[name];
+        }
+
+        /// <summary>
+        /// This function has to execute a function and to return an object
+        /// </summary>
+        /// <param name="functionName">Name of function</param>
+        /// <param name="parameters">Parameters for the function</param>
+        /// <returns>Return of function</returns>
+        public object ExecuteFunction(string functionName, IList<object> parameters)
+        {
+            return null;
         }
     }
 }
