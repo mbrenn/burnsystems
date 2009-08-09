@@ -33,7 +33,7 @@ namespace BurnSystems
         {
             // Gets the type, only implemented by mono
             var t = Type.GetType("Mono.Runtime");
-            isMono = (t != null);
+            isMono = t != null;
         }
 
         /// <summary>

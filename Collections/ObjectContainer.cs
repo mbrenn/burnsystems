@@ -27,6 +27,7 @@ namespace BurnSystems.Collections
         /// Stores the objects
         /// </summary>
         private Dictionary<string, object> objects;
+
         /// <summary>
         /// Initializes a new instance of the ObjectContainer class.
         /// </summary>
