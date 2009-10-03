@@ -40,7 +40,7 @@ namespace BurnSystems.Synchronisation
         /// </summary>
         public ReadWriteLock()
         {
-            if (EnvironmentHelper.IsMono)
+            if (EnvironmentHelper.IsMono || true)
             {
                 this.nativeLock =
                     new ReaderWriterLock();
