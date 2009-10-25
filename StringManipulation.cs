@@ -345,7 +345,7 @@ namespace BurnSystems
         /// <param name="paddingChar">Zeichen, das hinzugefügt werden soll. </param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>length</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingRight(string value, int length, char paddingChar)
+        public static string PaddingRight(this string value, int length, char paddingChar)
         {
             var stringLength = value.Length;
 
@@ -377,7 +377,7 @@ namespace BurnSystems
         /// <param name="length">Länge des Strings</param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>length</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingRight(string value, int length)
+        public static string PaddingRight(this string value, int length)
         {
             return PaddingRight(value, length, ' ');
         }
@@ -391,7 +391,7 @@ namespace BurnSystems
         /// <param name="paddingChar">Zeichen, das hinzugefügt werden soll. </param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>nLength</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingLeft(string value, int length, char paddingChar)
+        public static string PaddingLeft(this string value, int length, char paddingChar)
         {
             var stringLength = value.Length;
 
@@ -424,9 +424,38 @@ namespace BurnSystems
         /// <param name="length">Länge des Strings</param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>length</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingLeft(string value, int length)
+        public static string PaddingLeft(this string value, int length)
         {
             return PaddingLeft(value, length, ' ');
+        }
+
+        /// <summary>
+        /// Repeats a specific character severalt times and returns
+        /// its result
+        /// </summary>
+        /// <param name="character">Character to be repeated</param>
+        /// <param name="repetitions">Number of required repetitions</param>
+        /// <returns></returns>
+        public static string Repeat(this char character, int repetitions)
+        {
+            Ensure.IsGreaterOrEqual(repetitions, 0);
+
+            // Check for empty strings
+            if (repetitions == 0)
+            {
+                return string.Empty;
+            }
+
+            // Creates the string builder
+            var result = new StringBuilder();
+            result.EnsureCapacity(repetitions);
+
+            for (var n = 0; n < repetitions; n++)
+            {
+                result.Append(character);
+            }
+
+            return result.ToString();
         }
 
         /// <summary>
@@ -569,7 +598,7 @@ namespace BurnSystems
         /// <param name="line">String to be added to list</param>
         private static void AddLineToArray(IList<string> list, string line)
         {
-            if (!String.IsNullOrEmpty(line))
+            if (!string.IsNullOrEmpty(line))
             {
                 list.Add(line);
             }
