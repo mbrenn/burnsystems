@@ -435,7 +435,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="character">Character to be repeated</param>
         /// <param name="repetitions">Number of required repetitions</param>
-        /// <returns></returns>
+        /// <returns>String with <c>repetitions</c> Characters of <c>character</c>.</returns>
         public static string Repeat(this char character, int repetitions)
         {
             Ensure.IsGreaterOrEqual(repetitions, 0);
