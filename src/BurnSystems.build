@@ -12,13 +12,16 @@
 	
     <Reference Include="System.Drawing.dll" />
     <Reference Include="System.Web.dll" />
+    <Reference Include="System.Core.dll" />
 	
     <Resx Include="LocalizationBS.resx" />
 	
     <Resource Include="BurnSystems.LocalizationBS.resources" />
   </ItemGroup>
   
-  <Target Name="Compile">
+  <Target Name="Compile"
+		Inputs="@(CSFile);@(Resx)"
+		Outputs="$(BuiltDir)$(CompiledFile);@(Resource)">
     <MakeDir Directories="$(BuiltDir)" />
     <GenerateResource Sources="@(Resx)"
                       OutputResources="@(Resource)" />
