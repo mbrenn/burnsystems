@@ -251,11 +251,9 @@ namespace BurnSystems
 
             return digit.ToString(CultureInfo.InvariantCulture);
         }
-        
-        #region Threadsafe Implementation of random
 
         /// <summary>
-        /// Threadsichere Klasse von Random
+        /// Threadsafe class of random. 
         /// </summary>
         private class RandomThreadSafe : Random
         {
@@ -327,7 +325,5 @@ namespace BurnSystems
                 }
             }
         }
-
-        #endregion
     }
 }
