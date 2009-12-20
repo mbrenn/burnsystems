@@ -48,7 +48,7 @@ namespace BurnSystems.Synchronisation
             else
             {
                 this.nativeLockSlim
-                    = new ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
+                    = new ReaderWriterLockSlim();
             }
         }
 
