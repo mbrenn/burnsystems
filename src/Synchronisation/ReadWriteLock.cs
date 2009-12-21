@@ -40,7 +40,7 @@ namespace BurnSystems.Synchronisation
         /// </summary>
         public ReadWriteLock()
         {
-            if (EnvironmentHelper.IsMono || true)
+            if (EnvironmentHelper.IsMono)
             {
                 this.nativeLock =
                     new ReaderWriterLock();
@@ -48,7 +48,7 @@ namespace BurnSystems.Synchronisation
             else
             {
                 this.nativeLockSlim
-                    = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
+                    = new ReaderWriterLockSlim();
             }
         }
 
