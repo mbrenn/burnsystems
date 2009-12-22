@@ -37,11 +37,11 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Gibt das kleinere der beiden Timespans zurück
+        /// Gets the earliest of both timespans
         /// </summary>
-        /// <param name="timeSpan1">Das Timespan 1</param>
-        /// <param name="timeSpan2">Das Timespan 2</param>
-        /// <returns>Die kleinere Zeitspanne</returns>
+        /// <param name="timeSpan1">The first timespan</param>
+        /// <param name="timeSpan2">The second timespan</param>
+        /// <returns>The earliest timespan</returns>
         public static TimeSpan Min(TimeSpan timeSpan1, TimeSpan timeSpan2)
         {
             if (timeSpan1.TotalMilliseconds > timeSpan2.TotalMilliseconds)
@@ -55,11 +55,11 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Gibt das kleinere der beiden Timespans zurück
+        /// Gets the latest of both timespans
         /// </summary>
-        /// <param name="timeSpan1">Das Timespan 1</param>
-        /// <param name="timeSpan2">Das Timespan 2</param>
-        /// <returns>Die kleinere Zeitspanne</returns>
+        /// <param name="timeSpan1">The first timespan</param>
+        /// <param name="timeSpan2">The second timespan</param>
+        /// <returns>The latest timespan</returns>
         public static TimeSpan Max(TimeSpan timeSpan1, TimeSpan timeSpan2)
         {
             if (timeSpan1.TotalMilliseconds < timeSpan2.TotalMilliseconds)
@@ -73,11 +73,11 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Gibt den früheren der beiden Zeitpunkte zurück
+        /// Gets the earliest of both timestamps
         /// </summary>
-        /// <param name="dateTime1">Der erste Zeitpunkt 1</param>
-        /// <param name="dateTime2">Der zweite Zeitpunkt 2</param>
-        /// <returns>Die früheren Zeitpunkt</returns>
+        /// <param name="dateTime1">The first timestamp</param>
+        /// <param name="dateTime2">The second timestamp</param>
+        /// <returns>The earlier timestamp</returns>
         public static DateTime Min(DateTime dateTime1, DateTime dateTime2)
         {
             if (dateTime1.Ticks > dateTime2.Ticks)
@@ -91,11 +91,11 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Gibt den spüteren der beiden Zeitpunkte zurück
+        /// Gets the latest of both timestamps
         /// </summary>
-        /// <param name="dateTime1">Der erste Zeitpunkt 1</param>
-        /// <param name="dateTime2">Der zweite Zeitpunkt 2</param>
-        /// <returns>Die spüteren Zeitpunkt</returns>
+        /// <param name="dateTime1">The first timestamp</param>
+        /// <param name="dateTime2">The second timestamp</param>
+        /// <returns>The later timespamp</returns>
         public static DateTime Max(DateTime dateTime1, DateTime dateTime2)
         {
             if (dateTime1.Ticks < dateTime2.Ticks)
@@ -129,11 +129,12 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Ermittelt das kleinste Objekt, das in der Auflistung übergeben wurde
+        /// Gets the smallest object in enumeration.
         /// </summary>
-        /// <typeparam name="T">Auflistung von Objekten</typeparam>
-        /// <param name="objects">Objekte, die zu vergleichen sind</param>
-        /// <returns>Das kleinste Objekt in der Auflistung</returns>
+        /// <typeparam name="T">Type of objects to be enumerated</typeparam>
+        /// <param name="objects">Objects to be compared</param>
+        /// <returns>The smallest object in enumeration or <c>default(T)</c>, 
+        /// if there are no values in enumeration</returns>
         public static T Min<T>(IEnumerable<T> objects) where T : IComparable<T>
         {
             bool first = true;
@@ -156,14 +157,15 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Ermittelt das grüüte Objekt, das in der Auflistung übergeben wurde
+        /// Gets the biggest object in enumeration.
         /// </summary>
-        /// <typeparam name="T">Auflistung von Objekten</typeparam>
-        /// <param name="objects">Objekte, die zu vergleichen sind</param>
-        /// <returns>The biggest object in enumeration</returns>
+        /// <typeparam name="T">Type of objects to be enumerated</typeparam>
+        /// <param name="objects">Objects to be compared</param>
+        /// <returns>The biggest object in enumeration or <c>default(T)</c>, 
+        /// if there are no values in enumeration</returns>
         public static T Max<T>(IEnumerable<T> objects) where T : IComparable<T>
         {
-            bool first = true;
+            var first = true;
             T result = default(T);
 
             foreach (var obj in objects)
@@ -183,28 +185,28 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Gibt eine zufüllige Zahl zurück
+        /// Returns random number with gaussian propabilty
         /// </summary>
-        /// <param name="average">Erwarteter Durchschnitt</param>
-        /// <param name="variance">Erwartete Varianz</param>
-        /// <returns>Ermittelte Zufallszahl</returns>
+        /// <param name="average">Expected average</param>
+        /// <param name="variance">Expected variance</param>
+        /// <returns>Determined random number</returns>
         public static double GetNextGaussian(double average, double variance)
         {
             while (true)
             {
                 Ensure.IsGreaterOrEqual(variance, 0.0);
-                double d1 = Random.NextDouble();
-                double d2 = Random.NextDouble();
+                var d1 = Random.NextDouble();
+                var d2 = Random.NextDouble();
 
                 // Algorithmus aus http://de.wikipedia.org/wiki/Normalverteilung
-                double dV = (((2 * d1) - 1) * ((2 * d1) - 1))
+                var dV = (((2 * d1) - 1) * ((2 * d1) - 1))
                     + (((2 * d2) - 1) * ((2 * d2) - 1));
                 if (dV >= 1)
                 {
                     continue;
                 }
 
-                double randomNumber = ((2 * d1) - 1) * Math.Sqrt(-2 * Math.Log(dV) / dV);
+                var randomNumber = ((2 * d1) - 1) * Math.Sqrt(-2 * Math.Log(dV) / dV);
                 randomNumber *= Math.Sqrt(variance);
                 return randomNumber + average;                
             }
@@ -251,11 +253,9 @@ namespace BurnSystems
 
             return digit.ToString(CultureInfo.InvariantCulture);
         }
-        
-        #region Threadsafe Implementation of random
 
         /// <summary>
-        /// Threadsichere Klasse von Random
+        /// Threadsafe class of random. 
         /// </summary>
         private class RandomThreadSafe : Random
         {
@@ -327,7 +327,5 @@ namespace BurnSystems
                 }
             }
         }
-
-        #endregion
     }
 }

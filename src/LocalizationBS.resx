@@ -138,6 +138,9 @@
   <data name="Composer_WrongTypeTransformed" xml:space="preserve">
     <value>Datentyp {0} wurde in Datentyp {1} transformiert.</value>
   </data>
+  <data name="EnvironmentHelper_AssemblyNotFound" xml:space="preserve">
+    <value>Das Assembly '{0}' wurde nicht gefunden.</value>
+  </data>
   <data name="Executor_InvalidParameterCount" xml:space="preserve">
     <value>Die Methode, die das Attribut 'TestMethod' enthält, besitzt mehr als einen Parameter. </value>
   </data>

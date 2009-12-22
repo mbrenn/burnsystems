@@ -15,6 +15,8 @@ namespace BurnSystems
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Reflection;
+    using System.IO;
 
     /// <summary>
     /// This helper class offers some method to determine environment information
@@ -46,6 +48,46 @@ namespace BurnSystems
             {
                 return isMono;
             }
+        }
+        
+        /// <summary>
+        /// Gets or loads an assembly. If assembly is already loaded by process, 
+        /// it will be directly returned. If it is not available, it will be loaded
+        /// by <c>Assembly.LoadFile</c>.
+        /// </summary>
+        /// <param name="assemblyPath">Path to assembly</param>
+        /// <returns>Loaded or already loaded assembly.</returns>
+        public static Assembly GetOrLoadAssembly(string assemblyPath)
+        {
+            Assembly assembly = null;
+
+            // Checks whether the assembly has already been loaded
+            var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var loadedAssembly in currentAssemblies)
+            {
+                var fullPath = Path.GetFullPath(loadedAssembly.Location);
+                if (Path.GetFileName(fullPath) == Path.GetFileName(assemblyPath))
+                {
+                    assembly = loadedAssembly;
+                    break;
+                }
+            }
+
+            // Loads assembly
+            if (assembly == null)
+            {
+                assembly = Assembly.LoadFile(assemblyPath);
+            }
+
+            if (assembly == null)
+            {
+                // Assembly not found
+                throw new InvalidOperationException(
+                    String.Format(
+                        LocalizationBS.EnvironmentHelper_AssemblyNotFound, assemblyPath));
+            }
+
+            return assembly;
         }
     }
 }
