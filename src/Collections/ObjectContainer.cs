@@ -54,12 +54,18 @@ namespace BurnSystems.Collections
         {
             get
             {
-                return this.objects[key];
+                lock (this.objects)
+                {
+                    return this.objects[key];
+                }
             }
 
             set
             {
-                this.objects[key] = value;
+                lock (this.objects)
+                {
+                    this.objects[key] = value;
+                }
             }
         }
 
@@ -72,14 +78,17 @@ namespace BurnSystems.Collections
         /// is not found</returns>
         public T GetObject<T>(string key) 
         {
-            object result;
-
-            if (this.objects.TryGetValue(key, out result))
+            lock (this.objects)
             {
-                return (T)result;
-            }
+                object result;
 
-            return default(T);
+                if (this.objects.TryGetValue(key, out result))
+                {
+                    return (T)result;
+                }
+
+                return default(T);
+            }
         }
 
         /// <summary>
@@ -90,7 +99,10 @@ namespace BurnSystems.Collections
         /// <param name="value">Value of object</param>
         public void SetObject<T>(string key, T value)
         {
-            this.objects[key] = value;
+            lock (this.objects)
+            {
+                this.objects[key] = value;
+            }
         }
 
         /// <summary>
@@ -101,7 +113,10 @@ namespace BurnSystems.Collections
         /// <returns>true, if the object was found</returns>
         public bool TryGetValue(string key, out object result)
         {
-            return this.objects.TryGetValue(key, out result);
+            lock (this.objects)
+            {
+                return this.objects.TryGetValue(key, out result);
+            }
         }
 
         /// <summary>
