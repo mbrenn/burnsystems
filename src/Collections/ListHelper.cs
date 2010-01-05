@@ -110,6 +110,8 @@ namespace BurnSystems.Collections
             IEnumerable<T> list, 
             Action<T> action)
         {
+            Ensure.IsNotNull(list);
+
             foreach (T element in list)
             {
                 action(element);
@@ -127,6 +129,8 @@ namespace BurnSystems.Collections
         /// <returns>true, wenn eines der Elemente zutrifft</returns>
         public static bool Exists<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
+            Ensure.IsNotNull(list);
+
             foreach (var element in list)
             {
                 if (predicate(element))
@@ -147,6 +151,8 @@ namespace BurnSystems.Collections
         /// <returns>Gefundenes Objekt</returns>
         public static T Find<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
+            Ensure.IsNotNull(list);
+
             foreach (T element in list)
             {
                 if (predicate(element))
@@ -167,6 +173,8 @@ namespace BurnSystems.Collections
         /// <returns>true, if item is found in list</returns>
         public static bool Contains<T>(IEnumerable<T> list, T item)
         {
+            Ensure.IsNotNull(list);
+
             foreach (var currentItem in list)
             {
                 if (currentItem.Equals(item))
@@ -187,6 +195,8 @@ namespace BurnSystems.Collections
         /// <returns>true, if item is found in list</returns>
         public static bool Contains<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
+            Ensure.IsNotNull(list);
+
             foreach (var currentItem in list)
             {
                 if (predicate(currentItem))
@@ -206,6 +216,8 @@ namespace BurnSystems.Collections
         /// <returns>Array with elements</returns>
         public static T[] ToArray<T>(IEnumerable<T> list)
         {
+            Ensure.IsNotNull(list);
+
             var listTemp = new List<T>(list);
             return listTemp.ToArray();
         }
@@ -218,6 +230,8 @@ namespace BurnSystems.Collections
         /// <returns>Array with elements</returns>
         public static T[] ToArray<T>(ICollection<T> list)
         {
+            Ensure.IsNotNull(list);
+
             var listTemp = new T[list.Count];
             var n = 0; 
             foreach (var item in list)
@@ -238,6 +252,8 @@ namespace BurnSystems.Collections
         /// <returns>The elements matching the predicate</returns>
         public static IEnumerable<T> Where<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
+            Ensure.IsNotNull(list);
+
             foreach (var item in list)
             {
                 if (predicate(item))
@@ -259,6 +275,8 @@ namespace BurnSystems.Collections
             IEnumerable<T> list, 
             Predicate<T> predicate)
         {
+            Ensure.IsNotNull(list);
+
             foreach (var element in list)
             {
                 if (predicate(element))
@@ -281,6 +299,8 @@ namespace BurnSystems.Collections
             IEnumerable<TSource> source, 
             Converter<TSource, TResult> converter)
         {
+            Ensure.IsNotNull(source);
+
             var result = new List<TResult>();
 
             foreach (var element in source)
@@ -304,6 +324,8 @@ namespace BurnSystems.Collections
             IEnumerable<TSource> source, 
             Converter<TSource, TResult> converter)
         {
+            Ensure.IsNotNull(source);
+
             var result = new List<TResult>();
 
             foreach (var element in source)
@@ -324,6 +346,8 @@ namespace BurnSystems.Collections
         public static IEnumerable<T> Distinct<T>(
             IEnumerable<T> source)
         {
+            Ensure.IsNotNull(source);
+
             var found = new List<T>();
 
             foreach (var element in source)
@@ -347,6 +371,8 @@ namespace BurnSystems.Collections
         /// <returns>Anzahl der gefundenen Elemente</returns>
         public static int Count<T>(IEnumerable<T> source, Predicate<T> predicate)
         {
+            Ensure.IsNotNull(source);
+
             var result = 0;
             foreach (var element in source)
             {
@@ -367,6 +393,8 @@ namespace BurnSystems.Collections
         /// <returns>First element of list, or <c>default(T)</c> if no element exists</returns>
         public static T GetFirstElement<T>(IEnumerable<T> source)
         {
+            Ensure.IsNotNull(source);
+
             foreach (var item in source)
             {
                 return item;
@@ -383,6 +411,8 @@ namespace BurnSystems.Collections
         /// <returns>First element of list, or <c>default(T)</c> if no element exists</returns>
         public static T GetFirstElement<T>(IList<T> source)
         {
+            Ensure.IsNotNull(source);
+
             if (source.Count == 0)
             {
                 return default(T);
@@ -399,6 +429,8 @@ namespace BurnSystems.Collections
         /// <returns>Last element of list, or <c>default(T)</c> if no element exists</returns>
         public static T GetLastElement<T>(IEnumerable<T> source)
         {
+            Ensure.IsNotNull(source);
+
             var result = default(T);
             foreach (var item in source)
             {
@@ -416,6 +448,8 @@ namespace BurnSystems.Collections
         /// <returns>Last element of list, or <c>default(T)</c> if no element exists</returns>
         public static T GetLastElement<T>(IList<T> source)
         {
+            Ensure.IsNotNull(source);
+
             if (source.Count == 0)
             {
                 return default(T);
@@ -436,6 +470,8 @@ namespace BurnSystems.Collections
             IEnumerable<T> source, 
             Converter<T, long> converter)
         {
+            Ensure.IsNotNull(source);
+
             var result = 0L;
 
             foreach (var element in source)
@@ -458,6 +494,8 @@ namespace BurnSystems.Collections
             IEnumerable<T> source, 
             Converter<T, double> converter)
         {
+            Ensure.IsNotNull(source);
+
             var result = 0.0;
 
             foreach (var element in source)
@@ -483,6 +521,8 @@ namespace BurnSystems.Collections
             T itemToBeAdded, 
             Function<bool, T, T> testFunction)
         {
+            Ensure.IsNotNull(list);
+
             foreach (var element in list)
             {
                 if (testFunction(itemToBeAdded, element))
@@ -505,6 +545,8 @@ namespace BurnSystems.Collections
             IEnumerable<T> list, 
             Comparison<T> comparer)
         {
+            Ensure.IsNotNull(list);
+
             var copiedList = new List<T>(list);
             copiedList.Sort(comparer);
             return copiedList;
@@ -521,6 +563,8 @@ namespace BurnSystems.Collections
         /// <returns>Anzahl der entfernten Elemente</returns>
         public static int Remove<T>(IList<T> list, Predicate<T> predicate)
         {
+            Ensure.IsNotNull(list);
+
             var copiedList = new List<T>(list);
             var position = 0;
             int removed = 0;
@@ -552,6 +596,9 @@ namespace BurnSystems.Collections
         /// <returns>Position of first occurance</returns>
         public static int IndexOf<T>(T[] hayStick, T[] needle, int startPosition)
         {
+            Ensure.IsNotNull(hayStick);
+            Ensure.IsNotNull(needle);
+
             // Do standard error checking here.
             if (hayStick == null)
             {
@@ -610,6 +657,8 @@ namespace BurnSystems.Collections
         /// for sorting</param>
         public static void InsertionSort<T>(IList<T> list, Comparison<T> comparison)
         {
+            Ensure.IsNotNull(list);
+
             if (list == null)
             {
                 throw new ArgumentNullException("list");
@@ -643,6 +692,8 @@ namespace BurnSystems.Collections
         /// <returns>Kopiertes Array</returns>
         public static T[,] Copy<T>(T[,] source)
         {
+            Ensure.IsNotNull(source);
+
             int height = source.GetLength(0);
             int width = source.GetLength(1);
 
@@ -667,6 +718,8 @@ namespace BurnSystems.Collections
         /// <returns>true, if all items fulfill the predicate</returns>
         public static bool ForAll<T>(IEnumerable<T> items, Predicate<T> predicate)
         {
+            Ensure.IsNotNull(items);
+
             foreach (var element in items)
             {
                 if (!predicate(element))
@@ -688,6 +741,8 @@ namespace BurnSystems.Collections
         /// <param name="action">Action, which should be executed</param>
         public static void ForeachParallel<T>(IEnumerable<T> items, Action<T> action)
         {
+            Ensure.IsNotNull(items);
+
             ForeachParallel(
                 items, 
                 action, 
@@ -709,6 +764,8 @@ namespace BurnSystems.Collections
             Action<T> action,
             int numberOfThreads)
         {
+            Ensure.IsNotNull(items);
+
             // One thread, simple execution
             if (numberOfThreads == 1)
             {
@@ -769,6 +826,8 @@ namespace BurnSystems.Collections
         /// <returns>Index of item matching the predicate or -1 if not found. </returns>
         public static int IndexOf<T>(ICollection<T> list, Predicate<T> predicate)
         {
+           Ensure.IsNotNull(list);
+
             var result = 0;
 
             foreach (var item in list)
@@ -823,6 +882,8 @@ namespace BurnSystems.Collections
         /// <returns>The minimum element</returns>
         public static T FindMax<T>(IEnumerable<T> list, Function<IComparable, T> function)
         {
+            Ensure.IsNotNull(list);
+
             T smallest = default(T);
             IComparable smallestValue = null;
             bool first = true;
@@ -852,6 +913,8 @@ namespace BurnSystems.Collections
         /// <returns>List, containing no, some or all elements of <c>list</c>.</returns>
         public static IList<T> Range<T>(IList<T> list, int start, int end)
         {
+            Ensure.IsNotNull(list);
+
             Ensure.IsGreaterOrEqual(start, 0);
             Ensure.IsGreaterOrEqual(end, 0);
 
