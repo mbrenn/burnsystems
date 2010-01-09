@@ -13,6 +13,7 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using BurnSystems.Interfaces;
 
@@ -21,7 +22,7 @@ namespace BurnSystems.Collections
     /// and offers a method to get an access to the objects
     /// </summary>
     [Serializable]
-    public class ObjectContainer : IParserObject
+    public class ObjectContainer : IParserObject, IEnumerable<KeyValuePair<string, object>>
     {
         /// <summary>
         /// Stores the objects
@@ -123,6 +124,32 @@ namespace BurnSystems.Collections
         public object ExecuteFunction(string functionName, IList<object> parameters)
         {
             return null;
+        }
+
+        /// <summary>
+        /// Gets the items as an enumeration
+        /// </summary>
+        /// <returns>Items of the enumeration</returns>
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            List<KeyValuePair<string, object>> copy;
+
+            copy = this.objects.ToList();
+
+            return copy.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the items of the enumeration
+        /// </summary>
+        /// <returns>Items of the enumeration</returns>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            List<KeyValuePair<string, object>> copy;
+
+            copy = this.objects.ToList();
+
+            return copy.GetEnumerator();
         }
     }
 }
