@@ -11,9 +11,12 @@
 
 namespace BurnSystems.Extensions
 {
+    using System.Linq;
     using System.Collections.Generic;
     using System.Reflection;
     using BurnSystems.Interfaces;
+    using System.Text;
+    using System;
 
     /// <summary>
     /// This static class stores the extension methods for every object.
@@ -61,6 +64,24 @@ namespace BurnSystems.Extensions
             }            
 
             return result;
+        }
+
+        /// <summary>
+        /// Converts an object to a string value
+        /// </summary>
+        /// <param name="value">Value to be converted to a string</param>
+        /// <returns>String value</returns>
+        public static string ConvertToString(this object value)
+        {
+            return string.Join(
+                Environment.NewLine,
+                GetFieldValues(value)
+                    .Select(x => string.Format(
+                            "{0}: {1}", 
+                            x.Name, 
+                            x.ValueText))
+                    .ToArray());
+                
         }
 
         /// <summary>
