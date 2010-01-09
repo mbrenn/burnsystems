@@ -102,7 +102,14 @@ namespace BurnSystems.Collections
         {
             lock (this.objects)
             {
-                this.objects[key] = value;
+                if (value == null)
+                {
+                    this.objects.Remove(key);
+                }
+                else
+                {
+                    this.objects[key] = value;
+                }
             }
         }
 
