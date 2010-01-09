@@ -162,7 +162,11 @@ namespace BurnSystems.Collections
         {
             List<KeyValuePair<string, object>> copy;
 
-            copy = this.objects.ToList();
+            lock (this.objects)
+            {
+                // Copies the items in synchronisation
+                copy = this.objects.ToList();
+            }
 
             return copy.GetEnumerator();
         }
