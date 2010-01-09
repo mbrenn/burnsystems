@@ -65,7 +65,7 @@ namespace BurnSystems.Collections
             {
                 lock (this.objects)
                 {
-                    this.objects[key] = value;
+                    this.SetObject(key, value);
                 }
             }
         }
