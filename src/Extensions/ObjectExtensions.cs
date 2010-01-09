@@ -17,6 +17,7 @@ namespace BurnSystems.Extensions
     using BurnSystems.Interfaces;
     using System.Text;
     using System;
+    using System.Collections;
 
     /// <summary>
     /// This static class stores the extension methods for every object.
@@ -44,6 +45,24 @@ namespace BurnSystems.Extensions
                     if (value == null)
                     {
                         valueText = "null";
+                    }
+                    else if (value is IEnumerable)
+                    {
+                        var enumeration = value as IEnumerable;
+                        var builder = new StringBuilder();
+                        builder.Append('{');
+
+                        var komma = string.Empty;
+                        foreach (var subItem in enumeration)
+                        {
+                            builder.Append(subItem.ToString());
+                            builder.Append(komma);
+                            komma = ", ";
+                        }
+
+                        builder.Append('}');
+
+                        valueText = builder.ToString();
                     }
                     else
                     {
