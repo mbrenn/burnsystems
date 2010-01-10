@@ -13,6 +13,7 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -149,9 +150,7 @@ namespace BurnSystems.Collections
         /// <returns>Array of elements</returns>
         public T[] GetElements()
         {
-            return ListHelper.ConvertToArray(
-                this.elements,
-                x => x);
+            return this.elements.ToArray();
         }
 
         /// <summary>
