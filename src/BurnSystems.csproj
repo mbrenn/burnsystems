@@ -88,6 +88,7 @@
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
+    <Compile Include="DateTimeHelper.cs" />
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Interfaces\IParserDictionary.cs" />
