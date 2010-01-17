@@ -79,15 +79,23 @@ namespace BurnSystems.Collections
         /// is not found</returns>
         public T GetObject<T>(string key) 
         {
-            lock (this.objects)
+            try
             {
-                object result;
-
-                if (this.objects.TryGetValue(key, out result))
+                lock (this.objects)
                 {
-                    return (T)result;
-                }
+                    object result;
 
+                    if (this.objects.TryGetValue(key, out result))
+                    {
+                        return (T)result;
+                    }
+
+                    return default(T);
+                }
+            }
+            catch (InvalidCastException)
+            {
+                // Invalid casting
                 return default(T);
             }
         }
