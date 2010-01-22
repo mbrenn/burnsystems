@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="IHasIndex.cs" company="Martin Brenn">
+// <copyright file="IHasWritableIndex.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
 //     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
@@ -13,11 +13,11 @@ namespace BurnSystems.Interfaces
 {
     /// <summary>
     /// This interface is used for all objects having a
-    /// readable index which can not be written.
+    /// readable and writable index.
     /// </summary>
     /// <typeparam name="TKey">Type of key storing a value</typeparam>
     /// <typeparam name="TValue">Type of value behind a key</typeparam>
-    public interface IHasIndex<TKey, TValue>
+    public interface IHasWritableIndex<TKey, TValue>
     {
         /// <summary>
         /// Über diesen Indexer findet der Zugriff auf das Objekt statt
@@ -27,6 +27,7 @@ namespace BurnSystems.Interfaces
         TValue this[TKey key]
         {
             get;
+            set;
         }
     }
 }

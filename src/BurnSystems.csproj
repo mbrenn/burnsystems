@@ -91,6 +91,7 @@
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Interfaces\IHasWritableIndex.cs" />
     <Compile Include="Interfaces\IParserDictionary.cs" />
     <Compile Include="Interfaces\IParserObject.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
