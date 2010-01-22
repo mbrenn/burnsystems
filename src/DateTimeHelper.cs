@@ -28,6 +28,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="time">Time to be resumed</param>
         /// <param name="hour">Requested hour</param>
+        /// <returns>Time in the past with matching hour</returns>
         public static DateTime GoBackToHour(this DateTime time, int hour)
         {
             if (time.Hour >= hour)
