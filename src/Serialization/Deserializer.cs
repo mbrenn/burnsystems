@@ -14,6 +14,7 @@ namespace BurnSystems.Serialization
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using BurnSystems.Collections;
     using BurnSystems.Test;
@@ -91,9 +92,9 @@ namespace BurnSystems.Serialization
             // Gets generic arguments
             if (typeEntry.GenericArguments.Count > 0)
             {
-                var genericTypes = ListHelper.ConvertToArray(
-                    typeEntry.GenericArguments,
-                    x => this.TypeContainer.FindType(x).Type);
+                var genericTypes = typeEntry.GenericArguments
+                    .Select(x => this.TypeContainer.FindType(x).Type)
+                    .ToArray();
 
                 type = type.MakeGenericType(genericTypes);
             }

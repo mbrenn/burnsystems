@@ -214,6 +214,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Type of element in enumeration</typeparam>
         /// <param name="list">List with elements</param>
         /// <returns>Array with elements</returns>
+        [Obsolete("System.Linq.Enumerable.ToArray()")]
         public static T[] ToArray<T>(IEnumerable<T> list)
         {
             Ensure.IsNotNull(list);
@@ -228,6 +229,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Type of element in enumeration</typeparam>
         /// <param name="list">List with elements</param>
         /// <returns>Array with elements</returns>
+        [Obsolete("System.Linq.Enumerable.ToArray()")]
         public static T[] ToArray<T>(ICollection<T> list)
         {
             Ensure.IsNotNull(list);
@@ -250,6 +252,7 @@ namespace BurnSystems.Collections
         /// <param name="list">List to be evaluated</param>
         /// <param name="predicate">Predicate for items</param>
         /// <returns>The elements matching the predicate</returns>
+        [Obsolete("System.Linq.Enumerable.Where()")]
         public static IEnumerable<T> Where<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
             Ensure.IsNotNull(list);
@@ -271,6 +274,7 @@ namespace BurnSystems.Collections
         /// <param name="list">Liste mit den Elementen, die zu überprüfen sind</param>
         /// <param name="predicate">Gefordertes Prädikat</param>
         /// <returns>Aufzählung mit passenden Elementen</returns>
+        [Obsolete("System.Linq.Enumerable.Where()")]
         public static IEnumerable<T> FindAll<T>(
             IEnumerable<T> list, 
             Predicate<T> predicate)
@@ -295,6 +299,7 @@ namespace BurnSystems.Collections
         /// <param name="source">Array mit den Quellelementen</param>
         /// <param name="converter">Konverter mit dem Resultat</param>
         /// <returns>Liste mit dem konvertierten Elementen</returns>
+        [Obsolete("System.Linq.Enumerable.Select()")]
         public static IList<TResult> Convert<TSource, TResult>(
             IEnumerable<TSource> source, 
             Converter<TSource, TResult> converter)
@@ -320,6 +325,7 @@ namespace BurnSystems.Collections
         /// <param name="source">Array mit den Quellelementen</param>
         /// <param name="converter">Konverter mit dem Resultat</param>
         /// <returns>Array mit dem konvertierten Elementen</returns>
+        [Obsolete("System.Linq.Enumerable.Select().ToArray()")]
         public static TResult[] ConvertToArray<TSource, TResult>(
             IEnumerable<TSource> source, 
             Converter<TSource, TResult> converter)
@@ -369,6 +375,7 @@ namespace BurnSystems.Collections
         /// <param name="source">Elemente, die zu prüfen sind</param>
         /// <param name="predicate">Das zu erfüllende Prädikat</param>
         /// <returns>Anzahl der gefundenen Elemente</returns>
+        [Obsolete("System.Linq.Enumerable.Count()")]
         public static int Count<T>(IEnumerable<T> source, Predicate<T> predicate)
         {
             Ensure.IsNotNull(source);
@@ -391,6 +398,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Type of elements in source</typeparam>
         /// <param name="source">Source, from which the last element should be get</param>
         /// <returns>First element of list, or <c>default(T)</c> if no element exists</returns>
+        [Obsolete("System.Linq.Enumerable.FirstOrDefault()")]
         public static T GetFirstElement<T>(IEnumerable<T> source)
         {
             Ensure.IsNotNull(source);
@@ -409,6 +417,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Type of elements in source</typeparam>
         /// <param name="source">Source, from which the last element should be get</param>
         /// <returns>First element of list, or <c>default(T)</c> if no element exists</returns>
+        [Obsolete("System.Linq.Enumerable.FirstOrDefault()")]
         public static T GetFirstElement<T>(IList<T> source)
         {
             Ensure.IsNotNull(source);
@@ -427,6 +436,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Type of elements in source</typeparam>
         /// <param name="source">Source, from which the last element should be get</param>
         /// <returns>Last element of list, or <c>default(T)</c> if no element exists</returns>
+        [Obsolete("System.Linq.Enumerable.LastOrDefault()")]        
         public static T GetLastElement<T>(IEnumerable<T> source)
         {
             Ensure.IsNotNull(source);
@@ -446,6 +456,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Type of elements in source</typeparam>
         /// <param name="source">Source, from which the last element should be get</param>
         /// <returns>Last element of list, or <c>default(T)</c> if no element exists</returns>
+        [Obsolete("System.Linq.Enumerable.LastOrDefault()")]
         public static T GetLastElement<T>(IList<T> source)
         {
             Ensure.IsNotNull(source);
@@ -466,6 +477,7 @@ namespace BurnSystems.Collections
         /// <param name="converter">Delegate used for conversion of an 
         /// element to a long-value</param>
         /// <returns>Summe der Rückgabewerte</returns>
+        [Obsolete("System.Linq.Enumerable.Sum()")]
         public static long Sum<T>(
             IEnumerable<T> source, 
             Converter<T, long> converter)
@@ -490,6 +502,7 @@ namespace BurnSystems.Collections
         /// <param name="converter">Delegate used for conversion of an 
         /// element to a double-value</param>
         /// <returns>Summe der Rückgabewerte</returns>
+        [Obsolete("System.Linq.Enumerable.Sum()")]
         public static double Sum<T>(
             IEnumerable<T> source, 
             Converter<T, double> converter)
@@ -716,6 +729,7 @@ namespace BurnSystems.Collections
         /// <param name="items">Items, which should be checked. </param>
         /// <param name="predicate">Predicate, which should be fulfilled</param>
         /// <returns>true, if all items fulfill the predicate</returns>
+        [Obsolete("System.Linq.Enumerable.All()")]
         public static bool ForAll<T>(IEnumerable<T> items, Predicate<T> predicate)
         {
             Ensure.IsNotNull(items);
