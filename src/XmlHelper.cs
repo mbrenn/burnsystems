@@ -17,6 +17,7 @@ namespace BurnSystems
     using System.Text;
     using System.Xml;
     using BurnSystems.Test;
+    using System.Xml.Linq;
 
     /// <summary>
     /// Helperclass for improving access to xml documents
@@ -49,6 +50,32 @@ namespace BurnSystems
 
             return xmlAttribute.InnerText;
         }
+        /// <summary>
+        /// Returns the content of an xml-Attribute. If the requested attribute
+        /// is not found, the <c>defaultvalue</c> will be returned.
+        /// </summary>
+        /// <param name="xmlNode">Requested xmlnode</param>
+        /// <param name="attributeName">Requested Attributename</param>
+        /// <param name="defaultvalue">Defaultvalue, which will be returned
+        /// if the attribute was not found. </param>
+        /// <returns>Defaultvalue or found Xml-Attribute</returns>
+        public static string QueryXmlAttributeText(
+            XElement xmlNode,
+            string attributeName,
+            string defaultvalue)
+        {
+            Ensure.IsNotNull(xmlNode);
+            Ensure.IsNotNull(attributeName);
+
+            var xmlAttribute = xmlNode.Attribute(attributeName);
+
+            if (xmlAttribute == null)
+            {
+                return defaultvalue;
+            }
+
+            return xmlAttribute.Value;
+        }
 
         /// <summary>
         /// Returns the content of an xml-Attribute. If the requested attribute
@@ -58,6 +85,18 @@ namespace BurnSystems
         /// <param name="attributeName">Requested Attributename</param>
         /// <returns>Defaultvalue or found Xml-Attribute</returns>
         public static string QueryXmlAttributeText(XmlNode xmlNode, string attributeName)
+        {
+            return QueryXmlAttributeText(xmlNode, attributeName, string.Empty);
+        }
+
+        /// <summary>
+        /// Returns the content of an xml-Attribute. If the requested attribute
+        /// is not found, <c>string.Empty</c> will be returned.
+        /// </summary>
+        /// <param name="xmlNode">Requested xmlnode</param>
+        /// <param name="attributeName">Requested Attributename</param>
+        /// <returns>Defaultvalue or found Xml-Attribute</returns>
+        public static string QueryXmlAttributeText(XElement xmlNode, string attributeName)
         {
             return QueryXmlAttributeText(xmlNode, attributeName, string.Empty);
         }
@@ -78,6 +117,34 @@ namespace BurnSystems
             Ensure.IsNotNull(xmlNode.Attributes);
 
             XmlAttribute xmlAttribute = xmlNode.Attributes[attributeName];
+
+            if (xmlAttribute == null)
+            {
+                throw new InvalidOperationException(String.Format(
+                    CultureInfo.CurrentUICulture,
+                    LocalizationBS.XmlHelper_AttributeNotFound,
+                    attributeName,
+                    GetPath(xmlNode)));
+            }
+
+            return xmlAttribute;
+        }
+
+        /// <summary>
+        /// Returns the content of an xml-Attribute. If the requested attribute
+        /// is not found, an exception will be thrown. 
+        /// </summary>
+        /// <param name="xmlNode">Requested xmlnode</param>
+        /// <param name="attributeName">Requested Attributname</param>
+        /// <returns>Found attribute as <c>XmlAttribute</c>-Structure</returns>
+        public static XAttribute QueryXmlAttribute(
+            XElement xmlNode,
+            string attributeName)
+        {
+            Ensure.IsNotNull(xmlNode);
+            Ensure.IsNotNull(attributeName);
+
+            var xmlAttribute = xmlNode.Attribute(attributeName);
 
             if (xmlAttribute == null)
             {
@@ -157,12 +224,51 @@ namespace BurnSystems
         }
 
         /// <summary>
+        /// Gets the parent elements of the xmlnode as a stack. 
+        /// The element on top of the stack is the root element
+        /// </summary>
+        /// <param name="xmlNode">Node to be queried</param>
+        /// <returns>Stack of xmlnodes beginning with the root element.</returns>
+        public static Stack<XElement> GetParentElements(XElement xmlNode)
+        {
+            var result = new Stack<XElement>();
+
+            var current = xmlNode;
+            while (current != null)
+            {
+                result.Push(current);
+                current = current.Parent;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Gets the path to the xmlnode from the root node. 
         /// The result looks like /node/other/xmlnode
         /// </summary>
         /// <param name="xmlNode">Xmlnode to be evaluated</param>
         /// <returns>Path to node</returns>
         public static string GetPath(XmlNode xmlNode)
+        {
+            var stack = GetParentElements(xmlNode);
+            var result = new StringBuilder();
+
+            while (stack.Count > 0)
+            {
+                result.AppendFormat("/{0}", stack.Pop().Name);
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Gets the path to the xmlnode from the root node. 
+        /// The result looks like /node/other/xmlnode
+        /// </summary>
+        /// <param name="xmlNode">Xmlnode to be evaluated</param>
+        /// <returns>Path to node</returns>
+        public static string GetPath(XElement xmlNode)
         {
             var stack = GetParentElements(xmlNode);
             var result = new StringBuilder();

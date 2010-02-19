@@ -14,6 +14,7 @@ namespace BurnSystems.Logging
     using System;
     using System.Globalization;
     using System.Xml;
+    using System.Xml.Linq;
 
     /// <summary>
     /// Dies ist eine Klasse mit dessen Hilfe 
@@ -77,6 +78,33 @@ namespace BurnSystems.Logging
                     case "file":
                         string strPath =
                             xmlProvider.Attributes["path"].InnerText;
+                        log.AddLogProvider(new FileProvider(strPath));
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds logproviders to a log by xml-Configuration
+        /// </summary>
+        /// <param name="log">Log, der erweitert werden soll.</param>
+        /// <param name="xmlNode">Xmlnode, storing the configuration of
+        /// logproviders</param>
+        public static void AddLogProviders(Log log, XElement xmlNode)
+        {
+            // Erzeugt die Logprovider
+            foreach (var xmlProvider in xmlNode.Elements("logprovider"))
+            {
+                string type = xmlProvider.Attribute("type").Value;
+
+                switch (type)
+                {
+                    case "console":
+                        log.AddLogProvider(new ConsoleProvider());
+                        break;
+                    case "file":
+                        string strPath =
+                            xmlProvider.Attribute("path").Value;
                         log.AddLogProvider(new FileProvider(strPath));
                         break;
                 }
