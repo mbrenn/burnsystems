@@ -16,8 +16,8 @@ namespace BurnSystems
     using System.Globalization;
     using System.Text;
     using System.Xml;
-    using BurnSystems.Test;
     using System.Xml.Linq;
+    using BurnSystems.Test;
 
     /// <summary>
     /// Helperclass for improving access to xml documents
@@ -50,6 +50,7 @@ namespace BurnSystems
 
             return xmlAttribute.InnerText;
         }
+
         /// <summary>
         /// Returns the content of an xml-Attribute. If the requested attribute
         /// is not found, the <c>defaultvalue</c> will be returned.
