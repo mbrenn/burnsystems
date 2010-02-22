@@ -13,6 +13,7 @@
     <Reference Include="System.Drawing.dll" />
     <Reference Include="System.Web.dll" />
     <Reference Include="System.Core.dll" />
+    <Reference Include="System.Xml.Linq.dll" />
 	
     <Resx Include="LocalizationBS.resx" />
 	
