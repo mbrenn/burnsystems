@@ -30,7 +30,7 @@ namespace BurnSystems.Logging
         {
             this.Message = message;
             this.LogLevel = logLevel;
-            this.Catagories = string.Empty;
+            this.Categories = string.Empty;
             this.Created = DateTime.Now;
         }
 
@@ -44,7 +44,7 @@ namespace BurnSystems.Logging
         {
             this.Message = message;
             this.LogLevel = logLevel;
-            this.Catagories = categories;
+            this.Categories = categories;
             this.Created = DateTime.Now;
         }
 
@@ -78,7 +78,7 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Gets or sets a comma separated list of categories
         /// </summary>
-        public string Catagories
+        public string Categories
         {
             get;
             set;

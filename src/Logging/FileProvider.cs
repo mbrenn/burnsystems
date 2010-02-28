@@ -82,7 +82,7 @@ namespace BurnSystems.Logging
                         "{0};{1};{2};{3}",
                         entry.Created, 
                         entry.LogLevel, 
-                        entry.Catagories,
+                        entry.Categories,
                         message);
                 }
             }
@@ -110,7 +110,7 @@ namespace BurnSystems.Logging
                         "{0};{1};{2};{3}",
                         entry.Created, 
                         entry.LogLevel, 
-                        entry.Catagories, 
+                        entry.Categories, 
                         message);
                 }
             }

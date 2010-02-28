@@ -89,9 +89,9 @@ namespace BurnSystems.Logging
 
             if (this.SimpleOutput)
             {
-                if (!string.IsNullOrEmpty(entry.Catagories))
+                if (!string.IsNullOrEmpty(entry.Categories))
                 {
-                    Console.Write(entry.Catagories + ": ");
+                    Console.Write(entry.Categories + ": ");
                 }
 
                 Console.WriteLine(entry.Message);
