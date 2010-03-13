@@ -55,8 +55,17 @@ namespace BurnSystems.Extensions
                         var komma = string.Empty;
                         foreach (var subItem in enumeration)
                         {
-                            builder.Append(subItem.ToString());
                             builder.Append(komma);
+
+                            if (subItem != null)
+                            {
+                                builder.Append(subItem.ToString());
+                            }
+                            else
+                            {
+                                builder.Append("null");
+                            }
+
                             komma = ", ";
                         }
 
