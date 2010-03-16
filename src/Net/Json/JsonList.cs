@@ -11,10 +11,9 @@
 
 namespace BurnSystems.Net.Json
 {
-    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Text;
-using System.Collections;
     
     /// <summary>
     /// Stores a list of json entries
@@ -26,14 +25,6 @@ using System.Collections;
         /// </summary>
         private List<IJsonObject> list =
             new List<IJsonObject>();
-
-        /// <summary>
-        /// Gets a list of json objects
-        /// </summary>
-        public List<IJsonObject> List
-        {
-            get { return this.list; }
-        }
 
         /// <summary>
         /// Initializes a new instance of the JsonList class.
@@ -53,6 +44,14 @@ using System.Collections;
                 this.List.Add(
                     JsonObject.ConvertObject(value));
             }
+        }
+
+        /// <summary>
+        /// Gets a list of json objects
+        /// </summary>
+        public List<IJsonObject> List
+        {
+            get { return this.list; }
         }
 
         /// <summary>
