@@ -97,6 +97,7 @@
     <Compile Include="Interfaces\IParserObject.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
+    <Compile Include="Net\Json\JsonDocument.cs" />
     <Compile Include="Net\Json\JsonList.cs" />
     <Compile Include="Net\Json\JsonNumber.cs" />
     <Compile Include="Net\Json\JsonObject.cs" />
