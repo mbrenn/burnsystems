@@ -38,7 +38,11 @@ namespace BurnSystems.Net.Json
         {
             return string.Format(
                 "\"{0}\"",
-                this.value);
+                this.value
+                    .Replace("\\", "\\\\")
+                    .Replace("\"", "\\\"")
+                    .Replace("\r", "\\r")
+                    .Replace("\n", "\\n"));
         }
     }
 }
