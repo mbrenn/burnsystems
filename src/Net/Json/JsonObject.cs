@@ -134,7 +134,7 @@ namespace BurnSystems.Net.Json
                 }
 
                 result.AppendFormat(
-                    "{0}{1}: {2}",
+                    "{0}\"{1}\": {2}",
                     komma,
                     pair.Key,
                     pair.Value.ToString());
