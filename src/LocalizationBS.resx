@@ -141,6 +141,12 @@
   <data name="EnvironmentHelper_AssemblyNotFound" xml:space="preserve">
     <value>Das Assembly '{0}' wurde nicht gefunden.</value>
   </data>
+  <data name="EnvironmentHelper_PathOrStrongname" xml:space="preserve">
+    <value>Weder ein Pfad, noch ein starker Name wurde angegeben.</value>
+  </data>
+  <data name="EnvironmentHelper_TypeNotFound" xml:space="preserve">
+    <value>Der Typ '{0}' wurde nicht gefunden.</value>
+  </data>
   <data name="Executor_InvalidParameterCount" xml:space="preserve">
     <value>Die Methode, die das Attribut 'TestMethod' enthält, besitzt mehr als einen Parameter. </value>
   </data>

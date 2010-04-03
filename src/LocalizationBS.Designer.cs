@@ -133,6 +133,24 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Weder ein Pfad, noch ein starker Name wurde angegeben..
+        /// </summary>
+        internal static string EnvironmentHelper_PathOrStrongname {
+            get {
+                return ResourceManager.GetString("EnvironmentHelper_PathOrStrongname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Der Typ &apos;{0}&apos; wurde nicht gefunden..
+        /// </summary>
+        internal static string EnvironmentHelper_TypeNotFound {
+            get {
+                return ResourceManager.GetString("EnvironmentHelper_TypeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Die Methode, die das Attribut &apos;TestMethod&apos; enthält, besitzt mehr als einen Parameter. .
         /// </summary>
         internal static string Executor_InvalidParameterCount {
