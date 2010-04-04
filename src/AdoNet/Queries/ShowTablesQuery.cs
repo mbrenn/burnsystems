@@ -9,7 +9,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace BurnSystems.Database.Query
+namespace BurnSystems.Adonet.Queries
 {
     using System.Data.Common;
 
