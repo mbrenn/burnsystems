@@ -29,8 +29,8 @@ namespace BurnSystems.Extensions
         /// <param name="value">Value, which shall be assigned to key</param>
         /// <returns>The same dictionary. </returns>
         public static Dictionary<T, W> With<T, W>(
-            this Dictionary<T,W> dict, 
-            T key, 
+            this Dictionary<T, W> dict,
+            T key,
             W value)
         {
             dict[key] = value;
