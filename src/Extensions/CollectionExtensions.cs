@@ -11,10 +11,7 @@
 
 namespace BurnSystems.Extensions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// These collection extensions are used to ease the use
