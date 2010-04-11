@@ -36,5 +36,26 @@ namespace BurnSystems.Extensions
             dict[key] = value;
             return dict;
         }
+
+        /// <summary>
+        /// Sets an enumeration of key value pairs into the
+        /// dictionary
+        /// </summary>
+        /// <typeparam name="T">Type of the key</typeparam>
+        /// <typeparam name="W">Type of the value</typeparam>
+        /// <param name="dict">Dictionary to be updated</param>
+        /// <param name="values">Values to be set</param>
+        /// <returns>The modified dictionary</returns>
+        public static Dictionary<T, W> With<T, W>(
+            this Dictionary<T, W> dict,
+            IEnumerable<KeyValuePair<T, W>> values)
+        {
+            foreach (var pair in values)
+            {
+                dict[pair.Key] = pair.Value;
+            }
+
+            return dict;
+        }
     }
 }
