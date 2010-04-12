@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BinaryReader_InvalidHeader" xml:space="preserve">
     <value>Unerwarteter Header im serialisierten Strom.</value>
@@ -137,6 +137,9 @@
   </data>
   <data name="Composer_WrongTypeTransformed" xml:space="preserve">
     <value>Datentyp {0} wurde in Datentyp {1} transformiert.</value>
+  </data>
+  <data name="EnvironmentHelper_AssemblyLoadFailed" xml:space="preserve">
+    <value>Assembly '{0}' konnte nicht geladen werden: {1}</value>
   </data>
   <data name="EnvironmentHelper_AssemblyNotFound" xml:space="preserve">
     <value>Das Assembly '{0}' wurde nicht gefunden.</value>

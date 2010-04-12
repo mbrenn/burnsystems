@@ -124,6 +124,15 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assembly &apos;{0}&apos; konnte nicht geladen werden: {1}.
+        /// </summary>
+        internal static string EnvironmentHelper_AssemblyLoadFailed {
+            get {
+                return ResourceManager.GetString("EnvironmentHelper_AssemblyLoadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Das Assembly &apos;{0}&apos; wurde nicht gefunden..
         /// </summary>
         internal static string EnvironmentHelper_AssemblyNotFound {

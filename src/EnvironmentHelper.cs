@@ -134,8 +134,19 @@ namespace BurnSystems
             if (xmlPath != null)
             {
                 // Path
-                var path = Path.GetFullPath(xmlPath.Value);
-                assembly = GetOrLoadAssembly(path);
+                try
+                {
+                    var path = Path.GetFullPath(xmlPath.Value);
+                    assembly = GetOrLoadAssembly(path);
+                }
+                catch (Exception exc)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            LocalizationBS.EnvironmentHelper_AssemblyLoadFailed,
+                            xmlPath.Value,
+                            exc.Message));
+                }
             }
             else
             {
