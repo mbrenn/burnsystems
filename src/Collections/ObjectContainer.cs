@@ -16,6 +16,7 @@ namespace BurnSystems.Collections
     using System.Linq;
     using System.Text;
     using BurnSystems.Interfaces;
+    using BurnSystems.Extensions;
 
     /// <summary>
     /// The objectcontainer stores the objects
@@ -153,6 +154,16 @@ namespace BurnSystems.Collections
         /// <returns>Return of function</returns>
         public object ExecuteFunction(string functionName, IList<object> parameters)
         {
+            switch (functionName)
+            {
+                case "GetSummary":
+                    return StringManipulation.Join(
+                        this.objects.Select(
+                            x => string.Format("{0}: {1}",
+                                x.Key,
+                                x.Value.ConvertToString())),
+                        "\n");
+            }
             return null;
         }
 
