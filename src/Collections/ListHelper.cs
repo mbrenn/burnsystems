@@ -343,14 +343,13 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
-        /// Identifiziert Duplikate in der Liste und gibt nur die eindeutigen
-        /// Elemente zurück. Dazu wird die Funktion 'Equals' genutzt. 
+        /// Identifies Duplicates in list and only returns unique elements
         /// </summary>
         /// <typeparam name="T">Type of elements in list</typeparam>
         /// <param name="source">List with elements</param>
-        /// <returns>Eindeutige Objekte</returns>
+        /// <returns>Enumeration of unique elements</returns>
         public static IEnumerable<T> Distinct<T>(
-            IEnumerable<T> source)
+            this IEnumerable<T> source)
         {
             Ensure.IsNotNull(source);
 
@@ -363,6 +362,35 @@ namespace BurnSystems.Collections
                     // Noch nicht in der Liste, hinzufügen und zurückgeben
                     yield return element;
                     found.Add(element);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Identifies duplicates in list and only returns unique elements. 
+        /// The Selector is used to get the unique property of the element
+        /// </summary>
+        /// <typeparam name="T">Type of elements in list</typeparam>
+        /// <typeparam name="V">Type of the selected key</typeparam>
+        /// <param name="source">List with elements</param>
+        /// <param name="selector">Selector to find unique element</param>
+        /// <returns>Enumeration of unique elements</returns>
+        public static IEnumerable<T> Distinct<T, V>(
+            this IEnumerable<T> source,
+            Func<T, V> selector)
+        {
+            Ensure.IsNotNull(source);
+
+            var found = new List<V>();
+
+            foreach (var element in source)
+            {
+                var key = selector(element);
+                if (found.IndexOf(key) == -1)
+                {
+                    // Noch nicht in der Liste, hinzufügen und zurückgeben
+                    yield return element;
+                    found.Add(key);
                 }
             }
         }
