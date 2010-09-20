@@ -87,6 +87,7 @@
     <Compile Include="AdoNet\Queries\FreeQuery.cs" />
     <Compile Include="AdoNet\Queries\InsertQuery.cs" />
     <Compile Include="AdoNet\Queries\Query.cs" />
+    <Compile Include="AdoNet\Queries\QueryExtensions.cs" />
     <Compile Include="AdoNet\Queries\SelectQuery.cs" />
     <Compile Include="AdoNet\Queries\ShowColumnsQuery.cs" />
     <Compile Include="AdoNet\Queries\ShowTablesQuery.cs" />
