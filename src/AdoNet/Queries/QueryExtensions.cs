@@ -11,9 +11,10 @@
 
 namespace BurnSystems.AdoNet.Queries
 {
-    using System.Data.Common;
     using System;
+    using System.Collections.Generic;
     using System.Data;
+    using System.Data.Common;
 
     /// <summary>
     /// This extension class adds several methods to the query 
@@ -56,6 +57,27 @@ namespace BurnSystems.AdoNet.Queries
             using (var command = query.GetCommand(connection))
             {
                 return command.ExecuteReader();
+            }
+        }
+
+        /// <summary>
+        /// Executes a query on the given database connection and returns a reader
+        /// object with cursor on correct position
+        /// </summary>
+        /// <param name="query">Query to be executed</param>
+        /// <param name="connection">Connection to be used</param>
+        /// <returns>Enumeration of datareader</returns>
+        public static IEnumerable<IDataReader> ExecuteEnumeration(this DbConnection connection, Query query)
+        {
+            using (var command = query.GetCommand(connection))
+            {
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        yield return reader;
+                    }
+                }
             }
         }
     }
