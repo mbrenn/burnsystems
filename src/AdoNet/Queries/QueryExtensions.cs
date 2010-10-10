@@ -26,11 +26,11 @@ namespace BurnSystems.AdoNet.Queries
         /// </summary>
         /// <param name="query">Query to be executed</param>
         /// <param name="connection">Connection to be used</param>
-        public static void ExecuteNonQuery(this DbConnection connection, Query query)
+        public static int ExecuteNonQuery(this DbConnection connection, Query query)
         {
             using (var command = query.GetCommand(connection))
             {
-                command.ExecuteNonQuery();
+                return command.ExecuteNonQuery();
             }
         }
 
