@@ -46,6 +46,10 @@ namespace BurnSystems.Extensions
                     {
                         valueText = "null";
                     }
+                    else if (value is string)
+                    {
+                        valueText = value.ToString();
+                    }
                     else if (value is IEnumerable)
                     {
                         var enumeration = value as IEnumerable;
