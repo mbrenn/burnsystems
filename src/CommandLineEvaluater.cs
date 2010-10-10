@@ -46,7 +46,22 @@ namespace BurnSystems
                     continue;
                 }
 
-                if (argument[0] == '-')
+                if (argument.StartsWith("--"))
+                {
+                    int pos = argument.IndexOf('=');
+                    if (pos == -1)
+                    {
+                        this.namedArguments[argument] = "1";
+                    }
+                    else
+                    {
+                        this.namedArguments[argument.Substring(2, pos - 2)] =
+                            argument.Substring(pos + 1);
+                    }
+
+                    continue;
+                }
+                else if (argument[0] == '-')
                 {
                     int pos = argument.IndexOf('=');
                     if (pos == -1)
