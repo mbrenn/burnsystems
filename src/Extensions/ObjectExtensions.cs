@@ -39,56 +39,7 @@ namespace BurnSystems.Extensions
                 foreach (var property in type.GetFields(
                     BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
                 {
-                    var value = property.GetValue(item);
-                    string valueText;
-
-                    if (value == null)
-                    {
-                        valueText = "null";
-                    }
-                    else if (value is string)
-                    {
-                        valueText = value.ToString();
-                    }
-                    else if (value is IEnumerable)
-                    {
-                        var enumeration = value as IEnumerable;
-                        var builder = new StringBuilder();
-                        builder.Append('{');
-
-                        var komma = string.Empty;
-                        foreach (var subItem in enumeration)
-                        {
-                            builder.Append(komma);
-
-                            if (subItem != null)
-                            {
-                                builder.Append(subItem.ToString());
-                            }
-                            else
-                            {
-                                builder.Append("null");
-                            }
-
-                            komma = ", ";
-                        }
-
-                        builder.Append('}');
-
-                        valueText = builder.ToString();
-                    }
-                    else
-                    {
-                        valueText = value.ToString();
-                    }
-
-                    result.Add(
-                        new Property()
-                        {
-                            Name = property.Name,
-                            Value = value,
-                            ValueText = valueText
-                        });
+                    result.Add(ConvertToProperty(item, property));
                 }
 
                 // Gets basetype
@@ -96,6 +47,115 @@ namespace BurnSystems.Extensions
             }            
 
             return result;
+        }
+        /// <summary>
+        /// Gets all properties of an object, 
+        /// </summary>
+        /// <param name="item">Object to be converted to the property table</param>
+        /// <returns>List of properties</returns>
+        public static IList<Property> GetPropertyValues(this object item)
+        {
+            List<Property> result = new List<Property>();
+
+            var type = item.GetType();
+            while (type != null)
+            {
+                foreach (var property in
+                    type.GetProperties(
+                        BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                    .Where(x => x.CanRead))
+                {
+                    result.Add(ConvertToProperty(item, property));
+                }
+
+                // Gets basetype
+                type = type.BaseType;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts the property or field of an item to a Property object
+        /// </summary>
+        /// <param name="item">Item to be looked up</param>
+        /// <param name="field">Property or field to be looked up</param>
+        /// <remarks>Resulting property</remarks>
+        private static Property ConvertToProperty(object item, FieldInfo field)
+        {
+            var value = field.GetValue(item);
+            return ConvertToProperty(value, field.Name);
+        }
+
+        /// <summary>
+        /// Converts the property or field of an item to a Property object
+        /// </summary>
+        /// <param name="item">Item to be looked up</param>
+        /// <param name="property">Property or field to be looked up</param>
+        /// <remarks>Resulting property</remarks>
+        private static Property ConvertToProperty(object item, PropertyInfo property)
+        {
+            var value = property.GetValue(item, null);
+            return ConvertToProperty(value, property.Name);
+        }
+
+        /// <summary>
+        /// Converts a value to a property object
+        /// </summary>
+        /// <param name="value">Value to be converted</param>
+        /// <param name="name">Name of the property</param>
+        /// <returns>Resulting property</returns>
+        private static Property ConvertToProperty(object value, string name)
+        {
+            string valueText;
+
+            if (value == null)
+            {
+                valueText = "null";
+            }
+            else if (value is string)
+            {
+                valueText = value.ToString();
+            }
+            else if (value is IEnumerable)
+            {
+                var enumeration = value as IEnumerable;
+                var builder = new StringBuilder();
+                builder.Append('{');
+
+                var komma = string.Empty;
+                foreach (var subItem in enumeration)
+                {
+                    builder.Append(komma);
+
+                    if (subItem != null)
+                    {
+                        builder.Append(subItem.ToString());
+                    }
+                    else
+                    {
+                        builder.Append("null");
+                    }
+
+                    komma = ", ";
+                }
+
+                builder.Append('}');
+
+                valueText = builder.ToString();
+            }
+            else
+            {
+                valueText = value.ToString();
+            }
+
+            return
+                new Property()
+                {
+                    Name = name,
+                    Value = value,
+                    ValueText = valueText
+                };
         }
 
         /// <summary>
@@ -115,6 +175,25 @@ namespace BurnSystems.Extensions
             return string.Join(
                 Environment.NewLine,
                 values);                
+        }
+
+        /// <summary>
+        /// Converts an object to a string value
+        /// </summary>
+        /// <param name="value">Value to be converted to a string</param>
+        /// <returns>String value</returns>
+        public static string ConvertPropertiesToString(this object value)
+        {
+            var values = GetPropertyValues(value)
+                    .Select(x => string.Format(
+                            "{0}: {1}",
+                            x.Name,
+                            x.ValueText))
+                    .ToArray();
+
+            return string.Join(
+                Environment.NewLine,
+                values);
         }
 
         /// <summary>
