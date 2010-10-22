@@ -9,14 +9,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
 namespace BurnSystems
 {
+    using System.IO;
+
     /// <summary>
     /// This class contains several helper methods affecting the filesystem
     /// </summary>
