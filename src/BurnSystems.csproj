@@ -104,6 +104,7 @@
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="FileHelper.cs" />
     <Compile Include="Interfaces\IXElement.cs" />
     <Compile Include="Interfaces\IHasWritableIndex.cs" />
     <Compile Include="Interfaces\IParserDictionary.cs" />
