@@ -17,6 +17,7 @@ namespace BurnSystems
     using System.Reflection;
     using System.Xml.Linq;
     using BurnSystems.Test;
+    using System.Globalization;
 
     /// <summary>
     /// This helper class offers some method to determine environment information
@@ -84,6 +85,7 @@ namespace BurnSystems
                 // Assembly not found
                 throw new InvalidOperationException(
                     String.Format(
+                        CultureInfo.InvariantCulture,
                         LocalizationBS.EnvironmentHelper_AssemblyNotFound, assemblyPath));
             }
 
@@ -143,6 +145,7 @@ namespace BurnSystems
                 {
                     throw new InvalidOperationException(
                         string.Format(
+                            CultureInfo.InvariantCulture,
                             LocalizationBS.EnvironmentHelper_AssemblyLoadFailed,
                             xmlPath.Value,
                             exc.Message));
@@ -166,6 +169,7 @@ namespace BurnSystems
                 {
                     throw new InvalidOperationException(
                         string.Format(
+                            CultureInfo.InvariantCulture,
                             LocalizationBS.EnvironmentHelper_AssemblyNotFound,
                             strongName));
                 }
@@ -180,6 +184,7 @@ namespace BurnSystems
             {
                 throw new InvalidOperationException(
                     string.Format(
+                        CultureInfo.InvariantCulture,
                         LocalizationBS.EnvironmentHelper_TypeNotFound,
                         xmlFullname.Value));
             }

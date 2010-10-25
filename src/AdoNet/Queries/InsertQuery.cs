@@ -11,10 +11,10 @@
 
 namespace BurnSystems.AdoNet.Queries
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
+    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -105,6 +105,7 @@ namespace BurnSystems.AdoNet.Queries
             if (!this.UseReplaceSyntax)
             {
                 queryText = string.Format(
+                    CultureInfo.InvariantCulture,
                     "INSERT {3} INTO {0} ({1}) VALUES ({2})",
                     this.tablename,
                     leftPart.ToString(),
@@ -114,6 +115,7 @@ namespace BurnSystems.AdoNet.Queries
             else
             {
                 queryText = string.Format(
+                    CultureInfo.InvariantCulture,
                     "REPLACE {3} INTO {0} ({1}) VALUES ({2})",
                     this.tablename,
                     leftPart.ToString(),

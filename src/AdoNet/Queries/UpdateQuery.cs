@@ -15,6 +15,7 @@ namespace BurnSystems.AdoNet.Queries
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
+    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -65,12 +66,15 @@ namespace BurnSystems.AdoNet.Queries
 
             var statement = new StringBuilder();
 
-            statement.AppendFormat("UPDATE {0} SET ", this.tablename);
+            statement.AppendFormat(
+                    CultureInfo.InvariantCulture, 
+                    "UPDATE {0} SET ", 
+                    this.tablename);
 
             // Check, if data is empty
             if (this.data.Count == 0)
             {
-                throw new ArgumentException("Data is empty", "m_ahData");
+                throw new InvalidOperationException("Data is empty: this.data.Count");
             }
 
             bool isFirstLoop = true;
@@ -82,6 +86,7 @@ namespace BurnSystems.AdoNet.Queries
                 }
 
                 statement.AppendFormat(
+                    CultureInfo.InvariantCulture,
                     "{0}.{1}=@set{1}",
                     this.tablename,
                     pair.Key);
@@ -100,6 +105,7 @@ namespace BurnSystems.AdoNet.Queries
             if (this.where != null)
             {
                 statement.AppendFormat(
+                    CultureInfo.InvariantCulture,
                     " WHERE {0}",
                     MakeWhereStatement(command, this.where));
             }

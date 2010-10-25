@@ -12,6 +12,7 @@
 namespace BurnSystems.AdoNet.Queries
 {
     using System.Data.Common;
+    using System.Globalization;
 
     /// <summary>
     /// Drops a column from database
@@ -47,8 +48,9 @@ namespace BurnSystems.AdoNet.Queries
         public override System.Data.IDbCommand GetCommand(DbConnection connection)
         {
             var command = connection.CreateCommand();
-            command.CommandText = 
+            command.CommandText =
                 string.Format(
+                    CultureInfo.InvariantCulture,
                     "ALTER TABLE {0} DROP COLUMN {1}", 
                     this.tablename,
                     this.columnname);

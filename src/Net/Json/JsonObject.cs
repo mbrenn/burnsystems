@@ -14,6 +14,7 @@ namespace BurnSystems.Net.Json
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Globalization;
 
     /// <summary>
     /// Stores the information about a json object
@@ -58,14 +59,16 @@ namespace BurnSystems.Net.Json
                 return null;
             }
 
-            if (value is IJsonObject)
+            var jsonValue = value as IJsonObject;
+            if (jsonValue != null)
             {
-                return value as IJsonObject;
+                return jsonValue;
             }
-        
-            if (value is string)
+
+            var stringValue = value as string;
+            if (stringValue != null)
             {
-                return new JsonString((string) value);
+                return new JsonString(stringValue);
             }
 
             if (value is bool)
@@ -75,7 +78,7 @@ namespace BurnSystems.Net.Json
 
             if (value is int || value is long || value is double)
             {
-                return new JsonNumber(Convert.ToDouble(value));
+                return new JsonNumber(Convert.ToDouble(value, CultureInfo.InvariantCulture));
             }
 
             throw new NotSupportedException(value.GetType().FullName);
@@ -134,6 +137,7 @@ namespace BurnSystems.Net.Json
                 }
 
                 result.AppendFormat(
+                    CultureInfo.InvariantCulture,
                     "{0}\"{1}\": {2}",
                     komma,
                     pair.Key,

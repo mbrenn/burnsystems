@@ -18,6 +18,7 @@ namespace BurnSystems
     using System.IO;
     using System.Text;
     using BurnSystems.Test;
+    using System.Globalization;
 
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird
@@ -96,16 +97,16 @@ namespace BurnSystems
         /// <summary>
         /// Converts hexadecimal value to string. The string can be 'AFC9' or 'afc9'
         /// </summary>
-        /// <param name="hexString">Hexadecimal string</param>
+        /// <param name="hexValue">Hexadecimal string</param>
         /// <returns>Converted decimal string</returns>
-        public static int HexToInt(string hexString)
+        public static int HexToInt(string hexValue)
         {
-            Ensure.IsNotNull(hexString);
+            Ensure.IsNotNull(hexValue);
 
             var result = 0;
-            for (var counter = 0; counter < hexString.Length; counter++)
+            for (var counter = 0; counter < hexValue.Length; counter++)
             {
-                var current = hexString[counter];
+                var current = hexValue[counter];
                 var currentValue = 0;
                 switch (current)
                 {
@@ -337,15 +338,15 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Fügt an das Ende des Strings solange Zeichen von <c>paddingChar</c>
+        /// Fügt an das Ende des Strings solange Zeichen von <c>paddingValue</c>
         /// hinzu bis der String die Länge <c>length</c> erreicht.
         /// </summary>
         /// <param name="value">String, der geändert werden soll</param>
         /// <param name="length">Länge des Strings</param>
-        /// <param name="paddingChar">Zeichen, das hinzugefügt werden soll. </param>
+        /// <param name="paddingValue">Zeichen, das hinzugefügt werden soll. </param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>length</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingRight(this string value, int length, char paddingChar)
+        public static string PaddingRight(this string value, int length, char paddingValue)
         {
             var stringLength = value.Length;
 
@@ -362,7 +363,7 @@ namespace BurnSystems
             var builder = new StringBuilder(value, length);
             while (stringLength < length)
             {
-                builder.Append(paddingChar);
+                builder.Append(paddingValue);
                 stringLength++;
             }
 
@@ -383,15 +384,15 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Fügt an den Anfang des Strings solange Zeichen von <c>paddingChar</c>
+        /// Fügt an den Anfang des Strings solange Zeichen von <c>paddingValue</c>
         /// hinzu bis der String die Länge <c>length</c> erreicht.
         /// </summary>
         /// <param name="value">String, der geändert werden soll</param>
         /// <param name="length">Länge des Strings</param>
-        /// <param name="paddingChar">Zeichen, das hinzugefügt werden soll. </param>
+        /// <param name="paddingValue">Zeichen, das hinzugefügt werden soll. </param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>nLength</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingLeft(this string value, int length, char paddingChar)
+        public static string PaddingLeft(this string value, int length, char paddingValue)
         {
             var stringLength = value.Length;
 
@@ -408,7 +409,7 @@ namespace BurnSystems
             var builder = new StringBuilder(length);
             while (stringLength < length)
             {
-                builder.Append(paddingChar);
+                builder.Append(paddingValue);
                 stringLength++;
             }
 
@@ -576,18 +577,18 @@ namespace BurnSystems
         /// <summary>
         /// Entfernt alle Zeichen aus dem Dateinamen, die ungültig sind 
         /// </summary>
-        /// <param name="filename">Filename to be cleaned</param>
+        /// <param name="fileName">Filename to be cleaned</param>
         /// <returns>Gesäuberter String</returns>
-        public static string RemoveInvalidFilenameChars(string filename)
+        public static string RemoveInvalidFileNameChars(string fileName)
         {
-            Ensure.IsNotNull(filename);
+            Ensure.IsNotNull(fileName);
 
             foreach (var invalidChar in Path.GetInvalidFileNameChars())
             {
-                filename = filename.Replace(new string(invalidChar, 1), ((int)invalidChar).ToString());
+                fileName = fileName.Replace(new string(invalidChar, 1), ((int)invalidChar).ToString(CultureInfo.InvariantCulture));
             }
 
-            return filename;
+            return fileName;
         }
 
         /// <summary>

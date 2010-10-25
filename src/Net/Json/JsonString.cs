@@ -9,6 +9,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Globalization;
 namespace BurnSystems.Net.Json
 {
     /// <summary>
@@ -37,6 +38,7 @@ namespace BurnSystems.Net.Json
         public override string ToString()
         {
             return string.Format(
+                CultureInfo.InvariantCulture,
                 "\"{0}\"",
                 this.value
                     .Replace("\\", "\\\\")

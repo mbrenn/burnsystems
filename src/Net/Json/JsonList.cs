@@ -14,6 +14,7 @@ namespace BurnSystems.Net.Json
     using System.Collections;
     using System.Collections.Generic;
     using System.Text;
+    using System.Globalization;
     
     /// <summary>
     /// Stores a list of json entries
@@ -69,6 +70,7 @@ namespace BurnSystems.Net.Json
             foreach (var item in this.List)
             {
                 stringBuilder.AppendFormat(
+                    CultureInfo.InvariantCulture,
                     "{0}{1}",
                     komma, 
                     item.ToString());

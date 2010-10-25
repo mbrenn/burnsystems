@@ -15,6 +15,7 @@ namespace BurnSystems.AdoNet.Queries
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
+    using System.Globalization;
 
     /// <summary>
     /// This extension class adds several methods to the query 
@@ -43,7 +44,10 @@ namespace BurnSystems.AdoNet.Queries
         {
             using (var command = query.GetCommand(connection))
             {
-                return (T) Convert.ChangeType(command.ExecuteScalar(), typeof(T));
+                return (T) Convert.ChangeType(
+                    command.ExecuteScalar(),
+                    typeof(T),
+                    CultureInfo.InvariantCulture);
             }
         }
 

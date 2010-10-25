@@ -14,6 +14,7 @@ namespace BurnSystems.AdoNet.Queries
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
+    using System.Globalization;
 
     /// <summary>
     /// Query, that deletes data from table. The rows that should
@@ -61,6 +62,7 @@ namespace BurnSystems.AdoNet.Queries
             var command = connection.CreateCommand();
 
             command.CommandText = string.Format(
+                CultureInfo.InvariantCulture,
                 "DELETE FROM {0} WHERE {1}",
                 this.tablename,
                 MakeWhereStatement(command, this.where));

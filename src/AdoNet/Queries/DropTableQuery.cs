@@ -12,6 +12,7 @@
 namespace BurnSystems.AdoNet.Queries
 {
     using System.Data.Common;
+    using System.Globalization;
 
     /// <summary>
     /// Creates an SQL-command, which drops a complete table
@@ -41,6 +42,7 @@ namespace BurnSystems.AdoNet.Queries
         {
             var command = connection.CreateCommand();
             command.CommandText = string.Format(
+                CultureInfo.InvariantCulture,
                 "DROP TABLE {0}",
                 this.tablename);
 

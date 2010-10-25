@@ -22,7 +22,7 @@ namespace BurnSystems.Synchronisation
     /// In .Net ReaderWriterLockSlim is used, in Mono ReaderWriterLock, because
     /// Mono does not support recursions in the slim lock.
     /// </summary>
-    public class ReadWriteLock
+    public class ReadWriteLock : IDisposable
     {
         /// <summary>
         /// Native lockstructure
@@ -87,6 +87,27 @@ namespace BurnSystems.Synchronisation
             {
                 this.nativeLock.AcquireWriterLock(-1);
                 return new WriterLock(this);
+            }
+        }
+
+        /// <summary>
+        /// Disposes the nativelockslim
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the instance
+        /// </summary>
+        /// <param name="disposing">True, if called by dispose</param>
+        private void Dispose(bool disposing)
+        {
+            if (disposing && this.nativeLockSlim != null)
+            {
+                this.nativeLockSlim.Dispose();
             }
         }
 

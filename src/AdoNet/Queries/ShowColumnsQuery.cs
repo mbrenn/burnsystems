@@ -12,6 +12,7 @@
 namespace BurnSystems.AdoNet.Queries
 {
     using System.Data.Common;
+    using System.Globalization;
 
     /// <summary>
     /// This class creates a query, which lets the user show all columns of a table
@@ -41,6 +42,7 @@ namespace BurnSystems.AdoNet.Queries
         {
             var command = connection.CreateCommand();
             command.CommandText = string.Format(
+                CultureInfo.InvariantCulture,
                 "SHOW COLUMNS FROM {0}", 
                 this.tablename);
             return command;

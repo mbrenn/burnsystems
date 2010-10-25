@@ -99,7 +99,7 @@ namespace BurnSystems.Test
         /// </summary>
         /// <param name="value">Value to be checked</param>
         /// <param name="action">Action to be executed.</param>
-        public static void IsTrue(bool value, Procedure action)
+        public static void IsTrue(bool value, Action action)
         {
             if (!value)
             {
@@ -164,7 +164,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "Is: {0}, Should: {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "Is: {0}, Should: {1}", 
+                        value.ToString(), 
+                        reference.ToString()));
             }
         }
 
@@ -186,7 +189,11 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "Is: {0}, Should: {1}", value.ToString(), reference.ToString(), text));
+                        CultureInfo.InvariantCulture,
+                        "Is: {0}, Should: {1}", 
+                        value.ToString(), 
+                        reference.ToString(), 
+                        text));
             }
         }
 
@@ -211,7 +218,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} != {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} != {1}", 
+                        value.ToString(), 
+                        reference.ToString()));
             }
         }
 
@@ -235,7 +245,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} > {1}", 
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -255,7 +268,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} > {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -275,7 +291,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} > {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -295,7 +314,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} > {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -315,7 +337,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} > {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -335,7 +360,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} > {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} > {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -359,7 +387,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} >= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -379,7 +410,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} >= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -399,7 +433,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} >= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -419,7 +456,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} >= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -439,7 +479,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} >= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -459,7 +502,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} >= {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} >= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -483,7 +529,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} < {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -503,7 +552,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} < {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -523,7 +575,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} < {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -543,7 +598,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} < {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -563,7 +621,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} < {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -583,7 +644,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} < {1}", value.ToString(), reference.ToString()));
+                        CultureInfo.InvariantCulture,
+                        "{0} < {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -607,7 +671,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", value.ToString(), reference.ToString()));  
+                        CultureInfo.InvariantCulture,
+                        "{0} <= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));  
             }
         }
 
@@ -627,7 +694,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", value.ToString(), reference.ToString()));  
+                        CultureInfo.InvariantCulture,
+                        "{0} <= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
@@ -647,7 +717,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", value.ToString(), reference.ToString()));  
+                        CultureInfo.InvariantCulture,
+                        "{0} <= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));  
             }
         }
 
@@ -667,7 +740,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", value.ToString(), reference.ToString()));  
+                        CultureInfo.InvariantCulture,
+                        "{0} <= {1}", 
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));  
             }
         }
 
@@ -687,7 +763,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", value.ToString(), reference.ToString()));  
+                        CultureInfo.InvariantCulture,
+                        "{0} <= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));  
             }
         }
 
@@ -707,7 +786,10 @@ namespace BurnSystems.Test
             {
                 throw new EnsureFailedException(
                     String.Format(
-                        "{0} <= {1}", value.ToString(), reference.ToString()));  
+                        CultureInfo.InvariantCulture,
+                        "{0} <= {1}",
+                        value.ToString(CultureInfo.CurrentCulture),
+                        reference.ToString(CultureInfo.CurrentCulture)));  
             }
         }
 
@@ -719,7 +801,7 @@ namespace BurnSystems.Test
         /// <typeparam name="T">Typ der zu werfenden Ausnahme</typeparam>
         /// <param name="function">Function, which is called. The 
         /// Exception is expected to be thrown from the function</param>
-        public static void ThrowsException<T>(Function function) where T : Exception
+        public static void ThrowsException<T>(Action function) where T : Exception
         {
             try
             {
@@ -733,9 +815,9 @@ namespace BurnSystems.Test
 
             throw new EnsureFailedException(
                 string.Format(
-                CultureInfo.InvariantCulture,
-                "ThrowsException<{0}>",
-                typeof(T).FullName));
+                    CultureInfo.InvariantCulture,
+                    "ThrowsException<{0}>",
+                    typeof(T).FullName));
         }
 
         /// <summary>

@@ -15,6 +15,7 @@ namespace BurnSystems.Serialization
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using System.Globalization;
 
     /// <summary>
     /// This class is an implementation of a binary writer for serialization.
@@ -105,6 +106,7 @@ namespace BurnSystems.Serialization
 
             throw new InvalidOperationException(
                 string.Format(
+                    CultureInfo.InvariantCulture,
                     LocalizationBS.BinaryWriter_ObjectNotConverted,
                     value.GetType()));
         }        
@@ -124,6 +126,7 @@ namespace BurnSystems.Serialization
                 (byte) Helper.StreamVersion.Build,
                 (byte) Helper.StreamVersion.Revision
             };
+
             this.stream.Write(versionBytes, 0, versionBytes.Length);
         }
 

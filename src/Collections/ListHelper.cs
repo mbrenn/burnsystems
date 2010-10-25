@@ -18,7 +18,8 @@ namespace BurnSystems.Collections
 
     /// <summary>
     /// Defines the delegate for the procedure
-    /// </summary>    
+    /// </summary>
+    [Obsolete("Use Action")]
     public delegate void Procedure();
 
     /// <summary>
@@ -26,6 +27,7 @@ namespace BurnSystems.Collections
     /// </summary>    
     /// <typeparam name="T">Type of first argument</typeparam>
     /// <param name="arg">First argument</param>
+    [Obsolete("Use Action")]
     public delegate void Procedure<T>(T arg);
 
     /// <summary>
@@ -35,6 +37,7 @@ namespace BurnSystems.Collections
     /// <typeparam name="T2">Type of second argument</typeparam>
     /// <param name="arg1">First argument</param>
     /// <param name="arg2">Second argument</param>
+    [Obsolete("Use Action")]
     public delegate void Procedure<T1, T2>(T1 arg1, T2 arg2);
 
     /// <summary>
@@ -46,11 +49,13 @@ namespace BurnSystems.Collections
     /// <param name="arg1">First argument</param>
     /// <param name="arg2">Second argument</param>
     /// <param name="arg3">Third argument</param>
+    [Obsolete("Use Action")]
     public delegate void Procedure<T1, T2, T3>(T1 arg1, T2 arg2, T3 arg3);
 
     /// <summary>
     /// Backports delegate <c>Action</c> of System.Core
     /// </summary>
+    [Obsolete("Use Func")]
     public delegate void Function();
 
     /// <summary>
@@ -58,6 +63,7 @@ namespace BurnSystems.Collections
     /// </summary>
     /// <typeparam name="TResult">Type of result</typeparam>
     /// <returns>Result of function</returns>
+    [Obsolete("Use Func")]
     public delegate TResult Function<TResult>();
 
     /// <summary>
@@ -67,6 +73,7 @@ namespace BurnSystems.Collections
     /// <typeparam name="T">Type of first parameter</typeparam>
     /// <param name="parameter">Parameter of function</param>
     /// <returns>Result of function</returns>
+    [Obsolete("Use Func")]
     public delegate TResult Function<TResult, T>(T parameter);
 
     /// <summary>
@@ -78,6 +85,7 @@ namespace BurnSystems.Collections
     /// <typeparam name="T1">Type of first parameter</typeparam>
     /// <typeparam name="T2">Type of second parameter</typeparam>    
     /// <returns>Result of function</returns>
+    [Obsolete("Use Func")]
     public delegate TResult Function<TResult, T1, T2>(T1 o1, T2 o2);
 
     /// <summary>
@@ -91,6 +99,7 @@ namespace BurnSystems.Collections
     /// <typeparam name="T2">Type of second parameter</typeparam>    
     /// <typeparam name="T3">Type of third parameter</typeparam>
     /// <returns>Result of function</returns>
+    [Obsolete("Use Func")]
     public delegate TResult Function<TResult, T1, T2, T3>(T1 o1, T2 o2, T3 o3);
 
     /// <summary>
@@ -371,17 +380,17 @@ namespace BurnSystems.Collections
         /// The Selector is used to get the unique property of the element
         /// </summary>
         /// <typeparam name="T">Type of elements in list</typeparam>
-        /// <typeparam name="V">Type of the selected key</typeparam>
+        /// <typeparam name="TValue">Type of the selected key</typeparam>
         /// <param name="source">List with elements</param>
         /// <param name="selector">Selector to find unique element</param>
         /// <returns>Enumeration of unique elements</returns>
-        public static IEnumerable<T> Distinct<T, V>(
+        public static IEnumerable<T> Distinct<T, TValue>(
             this IEnumerable<T> source,
-            Func<T, V> selector)
+            Func<T, TValue> selector)
         {
             Ensure.IsNotNull(source);
 
-            var found = new List<V>();
+            var found = new List<TValue>();
 
             foreach (var element in source)
             {
@@ -560,7 +569,7 @@ namespace BurnSystems.Collections
         public static void AddIfNotExists<T>(
             IList<T> list, 
             T itemToBeAdded, 
-            Function<bool, T, T> testFunction)
+            Func<T, T, bool> testFunction)
         {
             Ensure.IsNotNull(list);
 
@@ -893,7 +902,7 @@ namespace BurnSystems.Collections
         /// <param name="function">Function, which converts an 
         /// element to a comparable value</param>
         /// <returns>The minimum element</returns>
-        public static T FindMin<T>(IEnumerable<T> list, Function<IComparable, T> function)
+        public static T FindMin<T>(IEnumerable<T> list, Func<T, IComparable> function)
         {
             T smallest = default(T);
             IComparable smallestValue = null;
@@ -922,7 +931,7 @@ namespace BurnSystems.Collections
         /// <param name="function">Function, which converts an 
         /// element to a comparable value</param>
         /// <returns>The minimum element</returns>
-        public static T FindMax<T>(IEnumerable<T> list, Function<IComparable, T> function)
+        public static T FindMax<T>(IEnumerable<T> list, Func<T, IComparable> function)
         {
             Ensure.IsNotNull(list);
 

@@ -90,7 +90,7 @@ namespace BurnSystems.Logging
         /// <param name="log">Log, der erweitert werden soll.</param>
         /// <param name="xmlNode">Xmlnode, storing the configuration of
         /// logproviders</param>
-        public static void AddLogProviders(Log log, XElement xmlNode)
+        public static void AddLogProviders(Log log, XContainer xmlNode)
         {
             // Erzeugt die Logprovider
             foreach (var xmlProvider in xmlNode.Elements("logprovider"))

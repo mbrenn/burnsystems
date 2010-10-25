@@ -23,15 +23,15 @@ namespace BurnSystems.Extensions
         /// Sets a key-value pair in the dictionary
         /// </summary>
         /// <typeparam name="T">Type of the key</typeparam>
-        /// <typeparam name="W">Type of the value</typeparam>
+        /// <typeparam name="TValue">Type of the value</typeparam>
         /// <param name="dict">Dictionary to be modified</param>
         /// <param name="key">Key to be set</param>
         /// <param name="value">Value, which shall be assigned to key</param>
         /// <returns>The same dictionary. </returns>
-        public static Dictionary<T, W> With<T, W>(
-            this Dictionary<T, W> dict,
+        public static Dictionary<T, TValue> With<T, TValue>(
+            this Dictionary<T, TValue> dict,
             T key,
-            W value)
+            TValue value)
         {
             dict[key] = value;
             return dict;
@@ -42,13 +42,13 @@ namespace BurnSystems.Extensions
         /// dictionary
         /// </summary>
         /// <typeparam name="T">Type of the key</typeparam>
-        /// <typeparam name="W">Type of the value</typeparam>
+        /// <typeparam name="TValue">Type of the value</typeparam>
         /// <param name="dict">Dictionary to be updated</param>
         /// <param name="values">Values to be set</param>
         /// <returns>The modified dictionary</returns>
-        public static Dictionary<T, W> With<T, W>(
-            this Dictionary<T, W> dict,
-            IEnumerable<KeyValuePair<T, W>> values)
+        public static Dictionary<T, TValue> With<T, TValue>(
+            this Dictionary<T, TValue> dict,
+            IEnumerable<KeyValuePair<T, TValue>> values)
         {
             foreach (var pair in values)
             {

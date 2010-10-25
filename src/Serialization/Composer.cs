@@ -17,6 +17,7 @@ namespace BurnSystems.Serialization
     using BurnSystems.Collections;
     using BurnSystems.Logging;
     using BurnSystems.Test;
+    using System.Globalization;
 
     /// <summary>
     /// The composer class helps to recompose the object
@@ -66,14 +67,14 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Adds a translation to the composer
         /// </summary>
-        /// <typeparam name="source">Type of the source object</typeparam>
-        /// <typeparam name="target">Type of the target object</typeparam>
+        /// <typeparam name="TSource">Type of the source object</typeparam>
+        /// <typeparam name="TTarget">Type of the target object</typeparam>
         /// <param name="translation">Translation function from source
         /// to target function</param>
-        public void AddTranslation<source, target>(Func<source, target> translation)
+        public void AddTranslation<TSource, TTarget>(Func<TSource, TTarget> translation)
         {
-            this.translations[new Pair<Type, Type>(typeof(source), typeof(target))]
-                = x => translation((source)x);
+            this.translations[new Pair<Type, Type>(typeof(TSource), typeof(TTarget))]
+                = x => translation((TSource)x);
         }
 
         /// <summary>
@@ -226,6 +227,7 @@ namespace BurnSystems.Serialization
                                 translator(valueProperty));
 
                             var logMessage = string.Format(
+                                CultureInfo.InvariantCulture,
                                 LocalizationBS.Composer_WrongTypeTransformed,
                                 valueProperty.GetType().FullName,
                                 field.FieldInfo.FieldType.FullName);
@@ -237,6 +239,7 @@ namespace BurnSystems.Serialization
                         else
                         {
                             var logMessage = string.Format(
+                                CultureInfo.InvariantCulture,
                                 LocalizationBS.Composer_WrongTypeFound,
                                 valueProperty.GetType().FullName,
                                 field.FieldInfo.FieldType.FullName);

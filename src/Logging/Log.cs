@@ -159,7 +159,7 @@ namespace BurnSystems.Logging
 
             if (position == -1)
             {
-                throw new ArgumentException("logprovider is not in internal list", "iLogProvider");
+                throw new ArgumentException("logprovider is not in internal list", "logProvider");
             }
 
             logProvider.Shutdown();

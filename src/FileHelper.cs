@@ -57,7 +57,7 @@ namespace BurnSystems
                 var newSourcePath = Path.Combine(sourcePath, file);
                 var newTargetPath = Path.Combine(targetPath, Path.GetFileName(file));
 
-                File.Copy(newSourcePath, newTargetPath, true);
+                File.Copy(newSourcePath, newTargetPath, doOverwrite);
             }
         }
     }

@@ -11,10 +11,10 @@
 
 namespace BurnSystems.AdoNet.Queries
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
+    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -139,6 +139,7 @@ namespace BurnSystems.AdoNet.Queries
 
             // SELECT * FROM Tablename
             statement.AppendFormat(
+                CultureInfo.InvariantCulture,
                 "SELECT {0} FROM {1}",
                 this.columns,
                 this.tablename);

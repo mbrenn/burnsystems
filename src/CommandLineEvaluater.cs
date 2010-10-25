@@ -13,7 +13,6 @@ namespace BurnSystems
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using BurnSystems.Collections;
 
     /// <summary>
@@ -46,7 +45,7 @@ namespace BurnSystems
                     continue;
                 }
 
-                if (argument.StartsWith("--"))
+                if (argument.StartsWith("--", StringComparison.Ordinal))
                 {
                     int pos = argument.IndexOf('=');
                     if (pos == -1)

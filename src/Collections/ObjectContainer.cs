@@ -13,10 +13,10 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
-    using System.Text;
-    using BurnSystems.Interfaces;
     using BurnSystems.Extensions;
+    using BurnSystems.Interfaces;
 
     /// <summary>
     /// The objectcontainer stores the objects
@@ -128,11 +128,22 @@ namespace BurnSystems.Collections
         /// <param name="key">Key of the requested object.</param>
         /// <param name="result">Result of the object</param>
         /// <returns>true, if the object was found</returns>
-        public bool TryGetValue(string key, out object result)
+        public bool TryGetValue<T>(string key, out T result)
         {
             lock (this.objects)
             {
-                return this.objects.TryGetValue(key, out result);
+                object temp;
+                var exists = this.objects.TryGetValue(key, out temp);
+                if (exists && temp is T)
+                {
+                    result = (T)temp;
+                }
+                else
+                {
+                    result = default(T);
+                }
+
+                return exists;
             }
         }
 
@@ -159,7 +170,9 @@ namespace BurnSystems.Collections
                 case "GetSummary":
                     return StringManipulation.Join(
                         this.objects.Select(
-                            x => string.Format("{0}: {1}",
+                            x => string.Format(
+                                CultureInfo.InvariantCulture,
+                                "{0}: {1}",
                                 x.Key,
                                 x.Value.ConvertToString())),
                         "\n");

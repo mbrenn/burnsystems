@@ -23,8 +23,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Basisklasse für BurnSystems-Applikationen")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BurnSystems")]
-[assembly: AssemblyProduct("BurnSystems.Properties")]
-[assembly: AssemblyCopyright("(c) by BurnSystems '05")]
+[assembly: AssemblyProduct("BurnSystems Library")]
+[assembly: AssemblyCopyright("(c) by BurnSystems '10")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
