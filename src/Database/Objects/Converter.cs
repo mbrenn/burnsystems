@@ -9,7 +9,7 @@ namespace BurnSystems.Database.Objects
     /// This class maps the C# instance type to a database table and offers methods
     /// the insert, update, delete or get items. 
     /// </summary>
-    public class Converter<T> where T : class, new()
+    public class Converter<T> where T : new()
     {
         /// <summary>
         /// Stores the assignments 
@@ -33,6 +33,14 @@ namespace BurnSystems.Database.Objects
         {
             get { return primaryKey; }
             set { primaryKey = value; }
+        }
+
+        /// <summary>
+        /// Gets the columnname of the primary key
+        /// </summary>
+        public string PrimaryKeyName
+        {
+            get { return primaryKey.ColumnName; }
         }
 
         /// <summary>
@@ -100,12 +108,15 @@ namespace BurnSystems.Database.Objects
         /// Converts the instance to a databaseobject
         /// </summary>
         /// <param name="item">Instance to be converted</param>
+        /// <param name="includingPrimaryKey">true, if the primary key shall also be converted</param>
         /// <returns>Dictionary of properties of the item</returns>
-        public Dictionary<string, object> ConvertToDatabaseObject(T item)
+        public Dictionary<string, object> ConvertToDatabaseObject(T item, bool includingPrimaryKey)
         {
             var result = new Dictionary<string, object>();
+            
+            var list = includingPrimaryKey ? assignments : assignmentsWithoutKey;
 
-            foreach (var pair in assignments)
+            foreach (var pair in list)
             {
                 var rawValue = pair.PropertyInfo.GetGetMethod().Invoke(item, null);
                 var databaseValue = pair.ConvertToDatabaseProperty(rawValue);
@@ -132,6 +143,29 @@ namespace BurnSystems.Database.Objects
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the primary key id of the given object
+        /// </summary>
+        /// <param name="t">Object, whose primary key is required</param>
+        /// <returns>Id of the object</returns>
+        public long GetId(T t)
+        {
+            var rawValue = primaryKey.PropertyInfo.GetGetMethod().Invoke(t, null);
+            var value = primaryKey.ConvertToDatabaseProperty(rawValue);
+            return Convert.ToInt64(value);
+        }
+
+        /// <summary>
+        /// Sets the primary key of the given object
+        /// </summary>
+        /// <param name="t">Object, whose primary key shall be set</param>
+        /// <param name="id">Id of the object</param>
+        public void SetId(T t, long id)
+        {
+            var value = primaryKey.ConvertToInstanceProperty(id);
+            primaryKey.PropertyInfo.GetSetMethod().Invoke(t, new object[] { value });
         }
 
         /// <summary>

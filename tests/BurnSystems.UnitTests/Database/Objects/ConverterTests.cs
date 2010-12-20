@@ -80,7 +80,7 @@ namespace BurnSystems.UnitTests.Database.Objects
             person.Obsolete = "ABC";
 
             var mapper = new Converter<Person>();
-            var data = mapper.ConvertToDatabaseObject(person);
+            var data = mapper.ConvertToDatabaseObject(person, true);
 
             Assert.That(data["Id"], Is.EqualTo(12));
             Assert.That(data["Prename"], Is.EqualTo("Karl"));
@@ -149,67 +149,6 @@ namespace BurnSystems.UnitTests.Database.Objects
             /// </summary>
             [DatabaseProperty("Prename")]
             public string Prename
-            {
-                get;
-                set;
-            }
-        }
-
-        public enum Sex
-        {
-            Male,
-            Female
-        }
-
-        [DatabaseClass]
-        public class Person
-        {
-            [DatabaseKey("Id")]
-            public int Id
-            {
-                get;
-                set;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            [DatabaseProperty("Prename")]
-            public string Prename
-            {
-                get;
-                set;
-            }
-
-            [DatabaseProperty("Name")]
-            public string Name
-            {
-                get;
-                set;
-            }
-
-            [DatabaseProperty("Age")]
-            public int Age_Temp
-            {
-                get;
-                set;
-            }
-
-            [DatabaseProperty("Weight")]
-            public double Weight
-            {
-                get;
-                set;
-            }
-
-            [DatabaseProperty("Sex")]
-            public Sex Sex
-            {
-                get;
-                set;
-            }
-
-            public string Obsolete
             {
                 get;
                 set;
