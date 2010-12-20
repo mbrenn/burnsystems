@@ -12,7 +12,7 @@ namespace BurnSystems.UnitTests.Database.Objects
     /// These tests don't need database access
     /// </summary>
     [TestFixture]
-    public class MapperTests
+    public class ConverterTests
     {
         [Test]
         public void TestNoDatabaseClassAttribute()
