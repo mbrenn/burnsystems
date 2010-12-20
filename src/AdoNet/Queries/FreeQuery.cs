@@ -75,5 +75,14 @@ namespace BurnSystems.AdoNet.Queries
         {
             this.parameters[parametername] = value;
         }
+
+        /// <summary>
+        /// Returns the query text
+        /// </summary>
+        /// <returns>The query text</returns>
+        public override string ToString()
+        {
+            return this.QueryText;
+        }
     }
 }
