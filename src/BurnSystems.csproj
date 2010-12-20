@@ -100,6 +100,11 @@
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
+    <Compile Include="Database\Objects\AssignmentInfo.cs" />
+    <Compile Include="Database\Objects\DatabaseClassAttribute.cs" />
+    <Compile Include="Database\Objects\DatabaseKeyAttribute.cs" />
+    <Compile Include="Database\Objects\DatabasePropertyAttribute.cs" />
+    <Compile Include="Database\Objects\Mapper.cs" />
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
@@ -222,4 +227,5 @@
   <ItemGroup>
     <None Include="BurnSystems_AGPL.snk" />
   </ItemGroup>
+  <ItemGroup />
 </Project>

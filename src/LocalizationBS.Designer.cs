@@ -214,6 +214,60 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der übergebene Typ ist nicht mit dem Attribut &apos;DatabaseClassAttribute&apos; markiert.  ähnelt.
+        /// </summary>
+        internal static string Mapper_AttributeDatabaseClassNotSet {
+            get {
+                return ResourceManager.GetString("Mapper_AttributeDatabaseClassNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Einer Eigenschaft kann entweder das &apos;DatabaseKeyAttribute&apos; oder das &apos;DatabasePropertyAttribute&apos; zugewiesen werden.  ähnelt.
+        /// </summary>
+        internal static string Mapper_KeyAndPropertyAttributeSet {
+            get {
+                return ResourceManager.GetString("Mapper_KeyAndPropertyAttributeSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Nur eine Eigenschaft innerhalb eines Typs darf ein &apos;DatabaseKeyAttribute&apos; besitzen.  ähnelt.
+        /// </summary>
+        internal static string Mapper_MultipleDatabaseKeyAttribute {
+            get {
+                return ResourceManager.GetString("Mapper_MultipleDatabaseKeyAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mindestens eine Eigenschaft muss ein &apos;DatabaseKeyAttribute&apos; besitzen. ähnelt.
+        /// </summary>
+        internal static string Mapper_NoDatabaseKeyAttribute {
+            get {
+                return ResourceManager.GetString("Mapper_NoDatabaseKeyAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Typ &apos;{0}&apos; wird nicht unterstützt. ähnelt.
+        /// </summary>
+        internal static string Mapper_NotSupportedType {
+            get {
+                return ResourceManager.GetString("Mapper_NotSupportedType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Eigenschaft mit dem Attribut &apos;DatabaseKeyAttribute&apos; muss vom Typ System.Int32 oder System.Int64 sein.  ähnelt.
+        /// </summary>
+        internal static string Mapper_WrongTypeForDatabaseKeyAttribute {
+            get {
+                return ResourceManager.GetString("Mapper_WrongTypeForDatabaseKeyAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Unbegrenzt ähnelt.
         /// </summary>
         internal static string TimeSpan_MaxValue {

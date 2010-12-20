@@ -168,6 +168,24 @@
   <data name="Log_UnknownFilter" xml:space="preserve">
     <value>Der Filter '{0}' ist unbekannt.</value>
   </data>
+  <data name="Mapper_AttributeDatabaseClassNotSet" xml:space="preserve">
+    <value>Der übergebene Typ ist nicht mit dem Attribut 'DatabaseClassAttribute' markiert. </value>
+  </data>
+  <data name="Mapper_KeyAndPropertyAttributeSet" xml:space="preserve">
+    <value>Einer Eigenschaft kann entweder das 'DatabaseKeyAttribute' oder das 'DatabasePropertyAttribute' zugewiesen werden. </value>
+  </data>
+  <data name="Mapper_MultipleDatabaseKeyAttribute" xml:space="preserve">
+    <value>Nur eine Eigenschaft innerhalb eines Typs darf ein 'DatabaseKeyAttribute' besitzen. </value>
+  </data>
+  <data name="Mapper_NoDatabaseKeyAttribute" xml:space="preserve">
+    <value>Mindestens eine Eigenschaft muss ein 'DatabaseKeyAttribute' besitzen.</value>
+  </data>
+  <data name="Mapper_NotSupportedType" xml:space="preserve">
+    <value>Der Typ '{0}' wird nicht unterstützt.</value>
+  </data>
+  <data name="Mapper_WrongTypeForDatabaseKeyAttribute" xml:space="preserve">
+    <value>Die Eigenschaft mit dem Attribut 'DatabaseKeyAttribute' muss vom Typ System.Int32 oder System.Int64 sein. </value>
+  </data>
   <data name="TimeSpan_MaxValue" xml:space="preserve">
     <value>Unbegrenzt</value>
   </data>
