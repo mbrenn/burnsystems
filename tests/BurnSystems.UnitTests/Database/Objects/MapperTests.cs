@@ -17,6 +17,14 @@ namespace BurnSystems.UnitTests.Database.Objects
         {
             if (EnvironmentHelper.IsMono)
             {
+                /*var mysqlConnection = new MySql.Data.MySqlClient.MySqlConnection("Server=127.0.0.1;Database=mb_test;Uid=test;Pwd=test");
+                mysqlConnection.Open();
+
+                var deleteQuery = new DeleteQuery("persons");
+                mysqlConnection.ExecuteNonQuery(deleteQuery);
+
+                return mysqlConnection;*/
+
                 NUnit.Framework.Assert.Inconclusive("Mono not supported");
                 return null;
             }
@@ -82,8 +90,9 @@ namespace BurnSystems.UnitTests.Database.Objects
 
                 Assert.That(karl.Name, Is.EqualTo("Heinz"));
                 Assert.That(karl.Age_Temp, Is.EqualTo(12));
-                Assert.That(karl.Weight, Is.EqualTo(12.34));
+                Assert.That(karl.Weight, Is.EqualTo(12.34).Within(0.005));
                 Assert.That(karl.Sex, Is.EqualTo(Sex.Male));
+                Assert.That(karl.Marriage, Is.EqualTo(new DateTime(1998, 9, 11, 3, 4, 5)));
             }
         }
 
@@ -106,7 +115,7 @@ namespace BurnSystems.UnitTests.Database.Objects
 
                 Assert.That(karl.Name, Is.EqualTo("Heinz"));
                 Assert.That(karl.Age_Temp, Is.EqualTo(12));
-                Assert.That(karl.Weight, Is.EqualTo(12.34));
+                Assert.That(karl.Weight, Is.EqualTo(12.34).Within(0.005));
                 Assert.That(karl.Sex, Is.EqualTo(Sex.Male));
             }
         }
@@ -227,6 +236,7 @@ namespace BurnSystems.UnitTests.Database.Objects
             person.Weight = 12.34;
             person.Sex = Sex.Male;
             person.Obsolete = "ABC";
+            person.Marriage = new DateTime(1998, 9, 11, 3, 4, 5);
 
             mapper.Add(person);
 
@@ -237,6 +247,7 @@ namespace BurnSystems.UnitTests.Database.Objects
             person2.Weight = 56.78;
             person2.Sex = Sex.Male;
             person2.Obsolete = "DEF";
+            person2.Marriage = new DateTime(1999, 10, 12, 2, 3, 4);
 
             mapper.Add(person2);
 
@@ -247,6 +258,7 @@ namespace BurnSystems.UnitTests.Database.Objects
             person3.Weight = 90.12;
             person3.Sex = Sex.Female;
             person3.Obsolete = "ABC";
+            person3.Marriage = new DateTime(2000, 11, 13, 1, 2, 3);
 
             mapper.Add(person3);
         }

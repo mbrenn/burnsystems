@@ -54,6 +54,7 @@ namespace BurnSystems.UnitTests.Database.Objects
             data["Age"] = 54;
             data["Weight"] = 76.54;
             data["Sex"] = "Male";
+            data["Marriage"] = new DateTime(1998, 9, 11, 3, 4, 5);
 
             var mapper = new Converter<Person>();
             var person = mapper.ConvertToInstance(data);

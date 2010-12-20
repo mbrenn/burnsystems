@@ -79,5 +79,12 @@ namespace BurnSystems.UnitTests.Database.Objects
             get;
             set;
         }
+
+        [DatabaseProperty("Marriage")]
+        public DateTime Marriage
+        {
+            get;
+            set;
+        }
     }
 }
