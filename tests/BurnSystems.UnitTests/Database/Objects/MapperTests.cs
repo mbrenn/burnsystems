@@ -17,31 +17,31 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestNoDatabaseClassAttribute()
         {
-            Assert.Throws<TypeInitializationException>(() => new Mapper<NoDatabaseClassAttribute>());
+            Assert.Throws<TypeInitializationException>(() => new Converter<NoDatabaseClassAttribute>());
         }
 
         [Test]
         public void TestMultipleDatabaseKeyAttributes()
         {
-            Assert.Throws<TypeInitializationException>(() => new Mapper<MultipleDatabaseKeyAttributes>());
+            Assert.Throws<TypeInitializationException>(() => new Converter<MultipleDatabaseKeyAttributes>());
         }
 
         [Test]
         public void TestNoDatabaseKeyAttributes()
         {
-            Assert.Throws<TypeInitializationException>(() => new Mapper<NoDatabaseKeyAttributes>());
+            Assert.Throws<TypeInitializationException>(() => new Converter<NoDatabaseKeyAttributes>());
         }
 
         [Test]
         public void TestInvalidDatabaseKeyType()
         {
-            Assert.Throws<TypeInitializationException>(() => new Mapper<InvalidDatabaseKeyType>());
+            Assert.Throws<TypeInitializationException>(() => new Converter<InvalidDatabaseKeyType>());
         }
 
         [Test]
         public void TestValidClassMapperCreation()
         {
-            var mapper = new Mapper<Person>();
+            var mapper = new Converter<Person>();
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace BurnSystems.UnitTests.Database.Objects
             data["Weight"] = 76.54;
             data["Sex"] = "Male";
 
-            var mapper = new Mapper<Person>();
+            var mapper = new Converter<Person>();
             var person = mapper.ConvertToInstance(data);
 
             Assert.That(person.Id, Is.EqualTo(12));
@@ -79,7 +79,7 @@ namespace BurnSystems.UnitTests.Database.Objects
             person.Sex = Sex.Male;
             person.Obsolete = "ABC";
 
-            var mapper = new Mapper<Person>();
+            var mapper = new Converter<Person>();
             var data = mapper.ConvertToDatabaseObject(person);
 
             Assert.That(data["Id"], Is.EqualTo(12));

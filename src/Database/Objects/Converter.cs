@@ -9,7 +9,7 @@ namespace BurnSystems.Database.Objects
     /// This class maps the C# instance type to a database table and offers methods
     /// the insert, update, delete or get items. 
     /// </summary>
-    public class Mapper<T> where T : class, new()
+    public class Converter<T> where T : class, new()
     {
         /// <summary>
         /// Stores the assignments 
@@ -39,7 +39,7 @@ namespace BurnSystems.Database.Objects
         /// Static constructor which is used to update internal table about
         /// properties
         /// </summary>
-        static Mapper()
+        static Converter()
         {
             var type = typeof(T);
 
