@@ -104,7 +104,7 @@
     <Compile Include="Database\Objects\DatabaseClassAttribute.cs" />
     <Compile Include="Database\Objects\DatabaseKeyAttribute.cs" />
     <Compile Include="Database\Objects\DatabasePropertyAttribute.cs" />
-    <Compile Include="Database\Objects\Mapper.cs" />
+    <Compile Include="Database\Objects\Converter.cs" />
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
