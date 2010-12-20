@@ -15,13 +15,21 @@ namespace BurnSystems.UnitTests.Database.Objects
     {
         public DbConnection GetDatabaseConnection()
         {
-            var sqlConnection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=mb_test;Trusted_Connection=True;");
-            sqlConnection.Open();
+            if (EnvironmentHelper.IsMono)
+            {
+                NUnit.Framework.Assert.Inconclusive("Mono not supported");
+                return null;
+            }
+            else
+            {
+                var sqlConnection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=mb_test;Trusted_Connection=True;");
+                sqlConnection.Open();
 
-            var deleteQuery = new DeleteQuery("persons");
-            sqlConnection.ExecuteNonQuery(deleteQuery);
+                var deleteQuery = new DeleteQuery("persons");
+                sqlConnection.ExecuteNonQuery(deleteQuery);
 
-            return sqlConnection;
+                return sqlConnection;
+            }
         }
 
         [Test]
