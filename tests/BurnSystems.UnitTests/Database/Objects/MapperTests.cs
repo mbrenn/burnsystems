@@ -167,6 +167,22 @@ namespace BurnSystems.UnitTests.Database.Objects
         }
 
         [Test]
+        public void TestSelectPersonByWrongId()
+        {
+            using (var sqlConnection = this.GetDatabaseConnection())
+            {
+                var mapper = new Mapper<Person>("persons", sqlConnection);
+                Person p1;
+                Person p2;
+                Person p3;
+                InsertPersons(mapper, out p1, out p2, out p3);
+
+                var karl = mapper.Get(p1.Id + p2.Id + p3.Id);
+                Assert.That(karl, Is.Null);
+            }
+        }
+
+        [Test]
         public void TestDeletePersonByInstance()
         {
             using (var sqlConnection = this.GetDatabaseConnection())
