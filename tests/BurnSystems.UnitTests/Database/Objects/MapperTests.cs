@@ -232,6 +232,30 @@ namespace BurnSystems.UnitTests.Database.Objects
             }
         }
 
+        [Test]
+        public void TestUpdatePersonWithNullValues()
+        {
+            using (var sqlConnection = this.GetDatabaseConnection())
+            {
+                var mapper = new Mapper<Person>("persons", sqlConnection);
+                InsertPersons(mapper);
+
+                var persons = mapper.GetAll();
+
+                var karl = persons.Where(x => x.Prename == "Karl").FirstOrDefault();
+                Assert.That(karl, Is.Not.Null);
+                Assert.That(karl.Name, Is.EqualTo("Heinz"));
+
+                karl.Name = null;
+                mapper.Update(karl);
+
+                persons = mapper.GetAll();
+                karl = persons.Where(x => x.Prename == "Karl").FirstOrDefault();
+                Assert.That(karl, Is.Not.Null);
+                Assert.That(karl.Name, Is.Null);
+            }
+        }
+
         /// <summary>
         /// Inserts three persons into database
         /// </summary>

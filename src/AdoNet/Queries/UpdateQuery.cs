@@ -93,7 +93,7 @@ namespace BurnSystems.AdoNet.Queries
 
                 var parameter = command.CreateParameter();
                 parameter.ParameterName = "@set" + pair.Key;
-                parameter.Value = pair.Value;
+                parameter.Value = pair.Value ?? DBNull.Value;
                 parameter.DbType = GetDbType(pair.Value);
 
                 command.Parameters.Add(parameter);
