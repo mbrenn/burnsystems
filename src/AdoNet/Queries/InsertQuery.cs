@@ -16,6 +16,7 @@ namespace BurnSystems.AdoNet.Queries
     using System.Data.Common;
     using System.Globalization;
     using System.Text;
+    using System;
 
     /// <summary>
     /// Insert query, that stores a set of data into table
@@ -90,7 +91,7 @@ namespace BurnSystems.AdoNet.Queries
 
                 var parameter = command.CreateParameter();
                 parameter.ParameterName = pair.Key;
-                parameter.Value = pair.Value;
+                parameter.Value = pair.Value ?? DBNull.Value;
                 parameter.DbType = Query.GetDbType(pair.Value);
 
                 command.Parameters.Add(parameter);

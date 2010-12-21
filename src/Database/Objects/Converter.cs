@@ -138,7 +138,17 @@ namespace BurnSystems.Database.Objects
             foreach (var pair in assignments)
             {
                 var rawValue = item[pair.ColumnName];
-                var instanceValue = pair.ConvertToInstanceProperty(rawValue);
+                object instanceValue;
+
+                if (rawValue == DBNull.Value)
+                {
+                    instanceValue = null;
+                }
+                else
+                {
+                    instanceValue = pair.ConvertToInstanceProperty(rawValue);
+                }
+
                 pair.PropertyInfo.GetSetMethod().Invoke(result, new object[] { instanceValue });
             }
 

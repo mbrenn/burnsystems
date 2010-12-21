@@ -70,6 +70,30 @@ namespace BurnSystems.UnitTests.Database.Objects
         }
 
         [Test]
+        public void TestInsertPersonWithNullValues()
+        {
+            using (var sqlConnection = this.GetDatabaseConnection())
+            {
+                var mapper = new Mapper<Person>("persons", sqlConnection);
+
+                var person = new Person();
+                person.Prename = "Karl";
+                person.Name = null;
+                person.Age_Temp = 12;
+                person.Weight = 12.34;
+                person.Sex = Sex.Male;
+                person.Obsolete = "ABC";
+                person.Marriage = new DateTime(1998, 9, 11, 3, 4, 5);
+
+                mapper.Add(person);
+
+                var persons = mapper.GetAll();
+                Assert.That(persons.Length, Is.EqualTo(1));
+                Assert.That(persons[0].Name, Is.Null);
+            }
+        }
+
+        [Test]
         public void TestSelectPerson()
         {
             using (var sqlConnection = this.GetDatabaseConnection())
