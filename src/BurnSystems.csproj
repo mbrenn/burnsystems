@@ -128,6 +128,7 @@
     <Compile Include="Interfaces\IHasWritableIndex.cs" />
     <Compile Include="Interfaces\IParserDictionary.cs" />
     <Compile Include="Interfaces\IParserObject.cs" />
+    <Compile Include="Logging\DebugProvider.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
     <Compile Include="Net\Json\JsonList.cs" />
