@@ -1,11 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
+﻿//-----------------------------------------------------------------------
+// <copyright file="AssignmentInfo.cs" company="Martin Brenn">
+//     Alle Rechte vorbehalten. 
+// 
+//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
+//     der AGPL lizenziert. 
+//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
+//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace BurnSystems.Database.Objects
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+
     /// <summary>
     /// This class stores information which is used to map between the C#-Type and the databaseobject
     /// </summary>
@@ -39,7 +50,7 @@ namespace BurnSystems.Database.Objects
         }
 
         /// <summary>
-        /// Converts an object retrieved from database to an object that shall be stores in the C#-instance
+        /// Gets or sets the conversion of an object retrieved from database to an object that shall be stores in the C#-instance
         /// </summary>
         public Func<object, object> ConvertToInstanceProperty
         {
@@ -48,7 +59,7 @@ namespace BurnSystems.Database.Objects
         }
 
         /// <summary>
-        /// Converts an object in C#-Instance to an object that shall be stored into database
+        /// Gets or sets the conversion of an object in C#-Instance to an object that shall be stored into database
         /// </summary>
         public Func<object, object> ConvertToDatabaseProperty
         {

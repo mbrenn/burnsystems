@@ -13,8 +13,8 @@ namespace BurnSystems.Net.Json
 {
     using System.Collections;
     using System.Collections.Generic;
-    using System.Text;
     using System.Globalization;
+    using System.Text;
     
     /// <summary>
     /// Stores a list of json entries

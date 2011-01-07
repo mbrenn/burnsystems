@@ -14,11 +14,11 @@ namespace BurnSystems.Extensions
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Text;
     using BurnSystems.Interfaces;
-    using System.Globalization;
 
     /// <summary>
     /// This static class stores the extension methods for every object.
@@ -49,6 +49,7 @@ namespace BurnSystems.Extensions
 
             return result;
         }
+        
         /// <summary>
         /// Gets all properties of an object, 
         /// </summary>
@@ -77,11 +78,51 @@ namespace BurnSystems.Extensions
         }
 
         /// <summary>
+        /// Converts an object to a string value
+        /// </summary>
+        /// <param name="value">Value to be converted to a string</param>
+        /// <returns>String value</returns>
+        public static string ConvertToString(this object value)
+        {
+            var values = GetFieldValues(value)
+                    .Select(x => string.Format(
+                            CultureInfo.InvariantCulture,
+                            "{0}: {1}",
+                            x.Name,
+                            x.ValueText))
+                    .ToArray();
+
+            return string.Join(
+                Environment.NewLine,
+                values);
+        }
+
+        /// <summary>
+        /// Converts an object to a string value
+        /// </summary>
+        /// <param name="value">Value to be converted to a string</param>
+        /// <returns>String value</returns>
+        public static string ConvertPropertiesToString(this object value)
+        {
+            var values = GetPropertyValues(value)
+                    .Select(x => string.Format(
+                            CultureInfo.InvariantCulture,
+                            "{0}: {1}",
+                            x.Name,
+                            x.ValueText))
+                    .ToArray();
+
+            return string.Join(
+                Environment.NewLine,
+                values);
+        }
+
+        /// <summary>
         /// Converts the property or field of an item to a Property object
         /// </summary>
         /// <param name="item">Item to be looked up</param>
         /// <param name="field">Property or field to be looked up</param>
-        /// <remarks>Resulting property</remarks>
+        /// <returns>Resulting property</returns>
         private static ObjectProperty ConvertToProperty(object item, FieldInfo field)
         {
             var value = field.GetValue(item);
@@ -93,7 +134,7 @@ namespace BurnSystems.Extensions
         /// </summary>
         /// <param name="item">Item to be looked up</param>
         /// <param name="property">Property or field to be looked up</param>
-        /// <remarks>Resulting property</remarks>
+        /// <returns>Resulting property</returns>
         private static ObjectProperty ConvertToProperty(object item, PropertyInfo property)
         {
             var value = property.GetValue(item, null);
@@ -157,46 +198,6 @@ namespace BurnSystems.Extensions
                     Value = value,
                     ValueText = valueText
                 };
-        }
-
-        /// <summary>
-        /// Converts an object to a string value
-        /// </summary>
-        /// <param name="value">Value to be converted to a string</param>
-        /// <returns>String value</returns>
-        public static string ConvertToString(this object value)
-        {
-            var values = GetFieldValues(value)
-                    .Select(x => string.Format(
-                            CultureInfo.InvariantCulture,
-                            "{0}: {1}",
-                            x.Name,
-                            x.ValueText))
-                    .ToArray();
-
-            return string.Join(
-                Environment.NewLine,
-                values);
-        }
-
-        /// <summary>
-        /// Converts an object to a string value
-        /// </summary>
-        /// <param name="value">Value to be converted to a string</param>
-        /// <returns>String value</returns>
-        public static string ConvertPropertiesToString(this object value)
-        {
-            var values = GetPropertyValues(value)
-                    .Select(x => string.Format(
-                            CultureInfo.InvariantCulture,
-                            "{0}: {1}",
-                            x.Name,
-                            x.ValueText))
-                    .ToArray();
-
-            return string.Join(
-                Environment.NewLine,
-                values);
         }
     }
 }

@@ -12,12 +12,12 @@
 namespace BurnSystems
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Xml.Linq;
     using BurnSystems.Test;
-    using System.Globalization;
 
     /// <summary>
     /// This helper class offers some method to determine environment information
@@ -86,7 +86,8 @@ namespace BurnSystems
                 throw new InvalidOperationException(
                     String.Format(
                         CultureInfo.InvariantCulture,
-                        LocalizationBS.EnvironmentHelper_AssemblyNotFound, assemblyPath));
+                        LocalizationBS.EnvironmentHelper_AssemblyNotFound, 
+                        assemblyPath));
             }
 
             return assembly;

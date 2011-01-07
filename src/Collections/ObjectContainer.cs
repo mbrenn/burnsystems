@@ -125,6 +125,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Tries to get an untyped value 
         /// </summary>
+        /// <typeparam name="T">Type of the object that shall be converted between object and dictionary</typeparam>
         /// <param name="key">Key of the requested object.</param>
         /// <param name="result">Result of the object</param>
         /// <returns>true, if the object was found</returns>
@@ -177,6 +178,7 @@ namespace BurnSystems.Collections
                                 x.Value.ConvertToString())),
                         "\n");
             }
+            
             return null;
         }
 

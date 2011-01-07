@@ -13,11 +13,11 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Runtime.Serialization;
     using BurnSystems.Collections;
     using BurnSystems.Logging;
     using BurnSystems.Test;
-    using System.Globalization;
 
     /// <summary>
     /// The composer class helps to recompose the object

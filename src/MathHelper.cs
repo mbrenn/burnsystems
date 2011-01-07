@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="MathHelper.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
@@ -226,7 +226,7 @@ namespace BurnSystems
                 return LocalizationBS.TimeSpan_MaxValue;
             }
 
-            int totalSeconds = (int) Math.Round(timeSpan.TotalSeconds);
+            int totalSeconds = (int)Math.Round(timeSpan.TotalSeconds);
             int seconds = totalSeconds % 60;
             int minutes = (totalSeconds / 60) % 60;
             int hours = totalSeconds / 3600;
