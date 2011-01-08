@@ -66,7 +66,7 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Singleton storing the only log
         /// </summary>
-        private static Log singleton;        
+        private static Log singleton;
 
         /// <summary>
         /// Liste von Logprovider
