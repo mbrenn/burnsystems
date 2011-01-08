@@ -86,7 +86,7 @@ using System.Security;
             // Loads assembly
             if (assembly == null)
             {
-                assembly = Assembly.LoadFile(assemblyPath);
+                assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
             }
 
             if (assembly == null)
