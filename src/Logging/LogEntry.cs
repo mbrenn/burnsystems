@@ -83,5 +83,20 @@ namespace BurnSystems.Logging
             get;
             set;
         }
+
+        /// <summary>
+        /// Creates a new LogEntry and formats the given message with the parameters via the 
+        /// String.Format-Method. 
+        /// </summary>
+        /// <param name="logLevel">Used loglevel</param>
+        /// <param name="message">Message with placeholders according String.Format</param>
+        /// <param name="arguments">Arguments to be inserted into placeholder</param>
+        /// <returns>Created logentry</returns>
+        public static LogEntry Format(LogLevel logLevel, string message, params string[] arguments)
+        {
+            return new LogEntry(
+                string.Format(message, arguments),
+                logLevel);
+        }
     }
 }
