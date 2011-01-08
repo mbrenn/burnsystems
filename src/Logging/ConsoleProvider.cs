@@ -12,12 +12,19 @@
 namespace BurnSystems.Logging
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This provider writes all data on the console
     /// </summary>
     public class ConsoleProvider : ILogProvider
     {
+        /// <summary>
+        /// Stores the mapping of console colors
+        /// </summary>
+        private Dictionary<LogLevel, ConsoleColor> consoleColors =
+            new Dictionary<LogLevel, ConsoleColor>();
+
         /// <summary>
         /// Initializes a new instance of the ConsoleProvider class.
         /// </summary>
@@ -35,6 +42,13 @@ namespace BurnSystems.Logging
         public ConsoleProvider(bool simpleOutput)
         {
             this.SimpleOutput = simpleOutput;
+
+            consoleColors[LogLevel.Verbose] = ConsoleColor.DarkGray;
+            consoleColors[LogLevel.Notify] = ConsoleColor.DarkGreen;
+            consoleColors[LogLevel.Message] = ConsoleColor.Green;
+            consoleColors[LogLevel.Fail] = ConsoleColor.Yellow;
+            consoleColors[LogLevel.Critical] = ConsoleColor.Red;
+            consoleColors[LogLevel.Fatal] = ConsoleColor.Magenta;
         }
 
         /// <summary>
@@ -70,22 +84,14 @@ namespace BurnSystems.Logging
         public void DoLog(LogEntry entry)
         {
             var color = Console.ForegroundColor;
+            ConsoleColor newColor;
 
-            switch (entry.LogLevel)
+            if (!this.consoleColors.TryGetValue(entry.LogLevel, out newColor))
             {
-                case LogLevel.Message:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    break;
-                case LogLevel.Fail:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case LogLevel.Critical:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case LogLevel.Fatal:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
+                newColor = ConsoleColor.White;
             }
+
+            Console.ForegroundColor = newColor;
 
             if (this.SimpleOutput)
             {
