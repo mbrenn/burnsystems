@@ -224,6 +224,10 @@ namespace BurnSystems.Database.Objects
             {
                 info.ConvertToInstanceProperty = (x) => Convert.ToDateTime(x);
             }
+            else if (info.Type == typeof(System.Boolean))
+            {
+                info.ConvertToInstanceProperty = (x) => Convert.ToBoolean(x);
+            }
             else if (info.Type.IsEnum)
             {
                 info.ConvertToDatabaseProperty = (x) => x.ToString();
