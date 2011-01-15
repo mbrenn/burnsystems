@@ -25,7 +25,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="sourcePath">Path containing the source</param>
         /// <param name="targetPath">Path containing the target</param>
-        static public void CopyDirectory(string sourcePath, string targetPath)
+        public static void CopyDirectory(string sourcePath, string targetPath)
         {
             CopyDirectory(sourcePath, targetPath, false);
         }
@@ -37,7 +37,7 @@ namespace BurnSystems
         /// <param name="sourcePath">Path containing the source</param>
         /// <param name="targetPath">Path containing the target</param>
         /// <param name="doOverwrite">Flag, if file shall be overwritte</param>
-        static public void CopyDirectory(string sourcePath, string targetPath, bool doOverwrite)
+        public static void CopyDirectory(string sourcePath, string targetPath, bool doOverwrite)
         {
             if (!Directory.Exists(targetPath))
             {
@@ -48,6 +48,7 @@ namespace BurnSystems
             {
                 var newSourcePath = Path.Combine(sourcePath, directory);
                 var newTargetPath = Path.Combine(targetPath, directory);
+                
                 // Copy recursively
                 CopyDirectory(newSourcePath, newTargetPath);
             }

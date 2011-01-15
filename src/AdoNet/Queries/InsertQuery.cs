@@ -11,12 +11,12 @@
 
 namespace BurnSystems.AdoNet.Queries
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
     using System.Globalization;
     using System.Text;
-    using System;
 
     /// <summary>
     /// Insert query, that stores a set of data into table

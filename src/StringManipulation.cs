@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="StringManipulation.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
@@ -15,10 +15,10 @@ namespace BurnSystems
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Text;
     using BurnSystems.Test;
-    using System.Globalization;
 
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird

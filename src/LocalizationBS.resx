@@ -180,6 +180,12 @@
   <data name="Mapper_NoDatabaseKeyAttribute" xml:space="preserve">
     <value>Mindestens eine Eigenschaft muss ein 'DatabaseKeyAttribute' besitzen.</value>
   </data>
+  <data name="Mapper_NoPublicGetMethod" xml:space="preserve">
+    <value>Eigenschaft '{0}' besitzt keinen öffentlichen Getter.</value>
+  </data>
+  <data name="Mapper_NoPublicSetMethod" xml:space="preserve">
+    <value>Eigenschaft '{0}' besitzt keinen öffentlichen Setter.</value>
+  </data>
   <data name="Mapper_NotSupportedType" xml:space="preserve">
     <value>Der Typ '{0}' wird nicht unterstützt.</value>
   </data>

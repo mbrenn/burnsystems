@@ -13,9 +13,9 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Text;
-    using System.Globalization;
 
     /// <summary>
     /// This class is an implementation of a binary writer for serialization.
@@ -121,10 +121,10 @@ namespace BurnSystems.Serialization
 
             byte[] versionBytes = new[]
             {
-                (byte) Helper.StreamVersion.Major,
-                (byte) Helper.StreamVersion.Minor,
-                (byte) Helper.StreamVersion.Build,
-                (byte) Helper.StreamVersion.Revision
+                (byte)Helper.StreamVersion.Major,
+                (byte)Helper.StreamVersion.Minor,
+                (byte)Helper.StreamVersion.Build,
+                (byte)Helper.StreamVersion.Revision
             };
 
             this.stream.Write(versionBytes, 0, versionBytes.Length);

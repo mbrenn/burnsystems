@@ -9,9 +9,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System.Globalization;
 namespace BurnSystems.Net.Json
 {
+    using System.Globalization;
+
     /// <summary>
     /// Stores a string
     /// </summary>

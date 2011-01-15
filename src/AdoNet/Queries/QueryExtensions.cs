@@ -25,8 +25,9 @@ namespace BurnSystems.AdoNet.Queries
         /// <summary>
         /// Executes a query on the given database connection
         /// </summary>
-        /// <param name="query">Query to be executed</param>
         /// <param name="connection">Connection to be used</param>
+        /// <param name="query">Query to be executed</param>
+        /// <returns>Returns the number of affected lines</returns>
         public static int ExecuteNonQuery(this DbConnection connection, Query query)
         {
             using (var command = query.GetCommand(connection))
@@ -38,13 +39,15 @@ namespace BurnSystems.AdoNet.Queries
         /// <summary>
         /// Executes a query on the given database connection
         /// </summary>
-        /// <param name="query">Query to be executed</param>
+        /// <typeparam name="T">Type of the object that shall be converted between object and dictionary</typeparam>
         /// <param name="connection">Connection to be used</param>
+        /// <param name="query">Query to be executed</param>
+        /// <returns>Returns the object that has been queried</returns>
         public static T ExecuteScalar<T>(this DbConnection connection, Query query)
         {
             using (var command = query.GetCommand(connection))
             {
-                return (T) Convert.ChangeType(
+                return (T)Convert.ChangeType(
                     command.ExecuteScalar(),
                     typeof(T),
                     CultureInfo.InvariantCulture);
@@ -54,8 +57,9 @@ namespace BurnSystems.AdoNet.Queries
         /// <summary>
         /// Executes a query on the given database connection
         /// </summary>
-        /// <param name="query">Query to be executed</param>
         /// <param name="connection">Connection to be used</param>
+        /// <param name="query">Query to be executed</param>
+        /// <returns>Datareader created by the SQL-statement</returns>
         public static IDataReader ExecuteReader(this DbConnection connection, Query query)
         {
             using (var command = query.GetCommand(connection))
@@ -68,8 +72,8 @@ namespace BurnSystems.AdoNet.Queries
         /// Executes a query on the given database connection and returns a reader
         /// object with cursor on correct position
         /// </summary>
-        /// <param name="query">Query to be executed</param>
         /// <param name="connection">Connection to be used</param>
+        /// <param name="query">Query to be executed</param>
         /// <returns>Enumeration of datareader</returns>
         public static IEnumerable<IDataReader> ExecuteEnumeration(this DbConnection connection, Query query)
         {

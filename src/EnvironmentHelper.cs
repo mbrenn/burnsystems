@@ -12,12 +12,12 @@
 namespace BurnSystems
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Xml.Linq;
     using BurnSystems.Test;
-    using System.Globalization;
 using System.Security;
 
     /// <summary>
@@ -95,7 +95,8 @@ using System.Security;
                 throw new InvalidOperationException(
                     String.Format(
                         CultureInfo.InvariantCulture,
-                        LocalizationBS.EnvironmentHelper_AssemblyNotFound, assemblyPath));
+                        LocalizationBS.EnvironmentHelper_AssemblyNotFound, 
+                        assemblyPath));
             }
 
             return assembly;

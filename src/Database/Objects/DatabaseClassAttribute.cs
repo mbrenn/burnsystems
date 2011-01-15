@@ -1,10 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="DatabaseClassAttribute.cs" company="Martin Brenn">
+//     Alle Rechte vorbehalten. 
+// 
+//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
+//     der AGPL lizenziert. 
+//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
+//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace BurnSystems.Database.Objects
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     /// <summary>
     /// This attribute indicates that the class can be stored into database
     /// </summary>

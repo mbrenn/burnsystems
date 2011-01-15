@@ -1,21 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.Common;
-using BurnSystems.AdoNet.Queries;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Mapper.cs" company="Martin Brenn">
+//     Alle Rechte vorbehalten. 
+// 
+//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
+//     der AGPL lizenziert. 
+//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
+//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace BurnSystems.Database.Objects
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Common;
+    using System.Linq;
+    using System.Text;
+    using BurnSystems.AdoNet.Queries;
+
     /// <summary>
     /// This class is responsible for the database access
     /// </summary>
+    /// <typeparam name="T">Type of the object that shall be mapped to database</typeparam>
     public class Mapper<T> where T : new()
     {
         /// <summary>
         /// Used converter for the mapping
         /// </summary>
         private Converter<T> converter = new Converter<T>();
+
+        /// <summary>
+        /// Initializes a new instance of the Mapper class.
+        /// </summary>
+        /// <param name="tableName">Name of the table to be used</param>
+        /// <param name="connection">Databaseconnection to be used</param>
+        public Mapper(string tableName, DbConnection connection)
+        {
+            this.TableName = tableName;
+            this.Connection = connection;
+        }
 
         /// <summary>
         /// Gets or sets the tablename
@@ -33,17 +56,6 @@ namespace BurnSystems.Database.Objects
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Mapper class.
-        /// </summary>
-        /// <param name="tableName">Name of the table to be used</param>
-        /// <param name="connection">Databaseconnection to be used</param>
-        public Mapper(string tableName, DbConnection connection)
-        {
-            this.TableName = tableName;
-            this.Connection = connection;
         }
 
         /// <summary>
@@ -83,7 +95,7 @@ namespace BurnSystems.Database.Objects
         /// <param name="t">Item to be removed</param>
         public void Delete(T t)
         {
-            Delete(this.converter.GetId(t));
+            this.Delete(this.converter.GetId(t));
         }
 
         /// <summary>

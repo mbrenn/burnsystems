@@ -1,14 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Converter.cs" company="Martin Brenn">
+//     Alle Rechte vorbehalten. 
+// 
+//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
+//     der AGPL lizenziert. 
+//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
+//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace BurnSystems.Database.Objects
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     /// <summary>
     /// This class maps the C# instance type to a database table and offers methods
     /// the insert, update, delete or get items. 
     /// </summary>
+    /// <typeparam name="T">Type of the object that shall be converted between object and dictionary</typeparam>
     public class Converter<T> where T : new()
     {
         /// <summary>
@@ -27,23 +39,7 @@ namespace BurnSystems.Database.Objects
         private static AssignmentInfo primaryKey = null;
 
         /// <summary>
-        /// Gets or sets the information about the primary key
-        /// </summary>
-        private static AssignmentInfo PrimaryKey
-        {
-            get { return primaryKey; }
-            set { primaryKey = value; }
-        }
-
-        /// <summary>
-        /// Gets the columnname of the primary key
-        /// </summary>
-        public string PrimaryKeyName
-        {
-            get { return primaryKey.ColumnName; }
-        }
-
-        /// <summary>
+        /// Initializes static members of the Converter class. 
         /// Static constructor which is used to update internal table about
         /// properties
         /// </summary>
@@ -77,11 +73,23 @@ namespace BurnSystems.Database.Objects
                     {
                         throw new InvalidOperationException(LocalizationBS.Mapper_MultipleDatabaseKeyAttribute);
                     }
+
+                    // Check, if we have a getter
+                    if (property.GetGetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NoPublicGetMethod, property.Name));
+                    }
+
+                    // Check, if we have a setter
+                    if (property.GetSetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NoPublicSetMethod, property.Name));
+                    }
                     
                     PrimaryKey = ConvertPropertyInfo(databaseKeyAttribute.ColumnName, property);
 
                     // Check if databasekey is correct
-                    if (PrimaryKey.Type != typeof(System.Int32) && PrimaryKey.Type != typeof(System.Int64))
+                    if (PrimaryKey.Type != typeof(int) && PrimaryKey.Type != typeof(long))
                     {
                         throw new InvalidOperationException(LocalizationBS.Mapper_WrongTypeForDatabaseKeyAttribute);
                     }
@@ -92,6 +100,18 @@ namespace BurnSystems.Database.Objects
                 // If this property shall be stored into database
                 if (databasePropertyAttribute != null)
                 {
+                    // Check, if we have a getter
+                    if (property.GetGetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format (LocalizationBS.Mapper_NoPublicGetMethod, property.Name));
+                    }
+
+                    // Check, if we have a setter
+                    if (property.GetSetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NoPublicSetMethod, property.Name));
+                    }
+
                     var assignment = ConvertPropertyInfo(databasePropertyAttribute.ColumnName, property);
                     assignments.Add(assignment);
                     assignmentsWithoutKey.Add(assignment);
@@ -102,6 +122,23 @@ namespace BurnSystems.Database.Objects
             {
                 throw new InvalidOperationException(LocalizationBS.Mapper_NoDatabaseKeyAttribute);
             }
+        }
+
+        /// <summary>
+        /// Gets the columnname of the primary key
+        /// </summary>
+        public string PrimaryKeyName
+        {
+            get { return primaryKey.ColumnName; }
+        }
+
+        /// <summary>
+        /// Gets or sets the information about the primary key
+        /// </summary>
+        private static AssignmentInfo PrimaryKey
+        {
+            get { return primaryKey; }
+            set { primaryKey = value; }
         }
 
         /// <summary>
@@ -196,27 +233,27 @@ namespace BurnSystems.Database.Objects
             {
                 info.ConvertToInstanceProperty = (x) => x.ToString();
             }
-            else if (info.Type == typeof(System.Int16))
+            else if (info.Type == typeof(short))
             {
                 info.ConvertToInstanceProperty = (x) => Convert.ToInt16(x);
             }
-            else if (info.Type == typeof(System.Int32))
+            else if (info.Type == typeof(int))
             {
                 info.ConvertToInstanceProperty = (x) => Convert.ToInt32(x);
             }
-            else if (info.Type == typeof(System.Int64))
+            else if (info.Type == typeof(long))
             {
                 info.ConvertToInstanceProperty = (x) => Convert.ToInt64(x);
             }
-            else if (info.Type == typeof(System.Single))
+            else if (info.Type == typeof(float))
             {
                 info.ConvertToInstanceProperty = (x) => Convert.ToSingle(x);
             }
-            else if (info.Type == typeof(System.Double))
+            else if (info.Type == typeof(double))
             {
                 info.ConvertToInstanceProperty = (x) => Convert.ToDouble(x);
             }
-            else if (info.Type == typeof(System.Decimal))
+            else if (info.Type == typeof(decimal))
             {
                 info.ConvertToInstanceProperty = (x) => Convert.ToDecimal(x);
             }

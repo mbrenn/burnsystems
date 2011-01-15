@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="DirectTextReader.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
@@ -59,7 +59,7 @@ namespace BurnSystems.IO
                         break;
                     }
 
-                    memoryStream.WriteByte((byte) currentByte);
+                    memoryStream.WriteByte((byte)currentByte);
                 }
 
                 var bytes = memoryStream.GetBuffer();
