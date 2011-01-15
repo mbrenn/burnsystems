@@ -18,6 +18,7 @@ namespace BurnSystems
     using System.Reflection;
     using System.Xml.Linq;
     using BurnSystems.Test;
+using System.Security;
 
     /// <summary>
     /// This helper class offers some method to determine environment information
@@ -66,18 +67,26 @@ namespace BurnSystems
             var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (var loadedAssembly in currentAssemblies)
             {
-                var fullPath = Path.GetFullPath(loadedAssembly.Location);
-                if (Path.GetFileName(fullPath) == Path.GetFileName(assemblyPath))
+                try
                 {
-                    assembly = loadedAssembly;
-                    break;
+                    var fullPath = loadedAssembly.Location;
+                    if (Path.GetFileName(fullPath) == Path.GetFileName(assemblyPath))
+                    {
+                        assembly = loadedAssembly;
+                        break;
+                    }
                 }
+                catch (SecurityException)
+                {
+                    // loadedAssembly.Location may throw an exception, if AppDomain does not have permission for the root path
+                }
+
             }
 
             // Loads assembly
             if (assembly == null)
             {
-                assembly = Assembly.LoadFile(assemblyPath);
+                assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
             }
 
             if (assembly == null)
@@ -139,7 +148,7 @@ namespace BurnSystems
                 // Path
                 try
                 {
-                    var path = Path.GetFullPath(xmlPath.Value);
+                    var path = xmlPath.Value;
                     assembly = GetOrLoadAssembly(path);
                 }
                 catch (Exception exc)
