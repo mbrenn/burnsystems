@@ -11,6 +11,7 @@
 
 namespace BurnSystems.Logging
 {
+	using System;
     using System.Diagnostics;
 
     /// <summary>
@@ -46,10 +47,11 @@ namespace BurnSystems.Logging
         public void DoLog(LogEntry entry)
         {
             Debug.WriteLine(
-                "{0} {1} {2}",
-                entry.Created,
-                entry.LogLevel.ToString(),
-                entry.Message);
+			    String.Format(
+	                "{0} {1} {2}",
+	                entry.Created,
+	                entry.LogLevel.ToString(),
+	                entry.Message));
         }
     }
 }

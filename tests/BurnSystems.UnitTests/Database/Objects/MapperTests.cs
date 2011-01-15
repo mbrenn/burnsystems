@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Linq;
 using BurnSystems.AdoNet.Queries;
 using BurnSystems.Database.Objects;
 using NUnit.Framework;
+using System.Reflection;
 
 namespace BurnSystems.UnitTests.Database.Objects
 {
@@ -15,16 +17,28 @@ namespace BurnSystems.UnitTests.Database.Objects
         {
             if (EnvironmentHelper.IsMono)
             {
-                /*var mysqlConnection = new MySql.Data.MySqlClient.MySqlConnection("Server=127.0.0.1;Database=mb_test;Uid=test;Pwd=test");
-                mysqlConnection.Open();
+				var assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d");				
+				if(assembly == null)
+				{
+					Assert.Inconclusive("No MySql.Data.dll installed");
+				}
+				
+				var mysqlType = assembly.GetType("MySql.Data.MySqlClient.MySqlConnection");
+				if(mysqlType == null)
+				{
+					Assert.Inconclusive("MySql-Type not found");
+				}
+				
+				var mySqlConstructor = mysqlType.GetConstructor(new Type[]{typeof(string)});
+				var mySqlConnection = mySqlConstructor.Invoke(null, new object[]{"Server=127.0.0.1;Database=unittest;Uid=unittest;Pwd=unittest"})
+					as DbConnection;
+				
+                mySqlConnection.Open();
 
                 var deleteQuery = new DeleteQuery("persons");
-                mysqlConnection.ExecuteNonQuery(deleteQuery);
+                mySqlConnection.ExecuteNonQuery(deleteQuery);
 
-                return mysqlConnection;*/
-
-                NUnit.Framework.Assert.Inconclusive("Mono not supported");
-                return null;
+                return mySqlConnection;
             }
             else
             {
