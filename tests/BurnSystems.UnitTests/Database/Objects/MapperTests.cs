@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using System.Data.SqlClient;
 using System.Data.Common;
+using System.Data.SqlClient;
 using BurnSystems.AdoNet.Queries;
 using BurnSystems.Database.Objects;
+using NUnit.Framework;
 
 namespace BurnSystems.UnitTests.Database.Objects
 {
