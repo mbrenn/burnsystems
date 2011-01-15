@@ -14,7 +14,6 @@ namespace BurnSystems.Database.Objects
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// This class maps the C# instance type to a database table and offers methods
