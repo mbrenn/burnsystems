@@ -13,7 +13,6 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// This interface has to be implemented by all objects, having a certain

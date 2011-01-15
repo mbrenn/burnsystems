@@ -13,8 +13,6 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Implements a priority queue, in which the element with 
