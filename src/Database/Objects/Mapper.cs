@@ -165,6 +165,17 @@ namespace BurnSystems.Database.Objects
         }
 
         /// <summary>
+        /// Converts the reader to an object
+        /// </summary>
+        /// <param name="reader">Reader, which cursor is set to the current item</param>
+        /// <returns>Converted instance</returns>
+        public T ConvertToInstance(System.Data.IDataReader reader)
+        {
+            var data = ConvertToDictionary(reader);
+            return this.converter.ConvertToInstance(data);
+        }
+
+        /// <summary>
         /// Just a minor helper methods, which converts the object at database cursor to a dictionary
         /// </summary>
         /// <param name="reader">Reader to be used</param>
