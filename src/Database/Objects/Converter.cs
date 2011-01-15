@@ -73,6 +73,18 @@ namespace BurnSystems.Database.Objects
                     {
                         throw new InvalidOperationException(LocalizationBS.Mapper_MultipleDatabaseKeyAttribute);
                     }
+
+                    // Check, if we have a getter
+                    if (property.GetGetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NoPublicGetMethod, property.Name));
+                    }
+
+                    // Check, if we have a setter
+                    if (property.GetSetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NoPublicSetMethod, property.Name));
+                    }
                     
                     PrimaryKey = ConvertPropertyInfo(databaseKeyAttribute.ColumnName, property);
 
@@ -88,6 +100,18 @@ namespace BurnSystems.Database.Objects
                 // If this property shall be stored into database
                 if (databasePropertyAttribute != null)
                 {
+                    // Check, if we have a getter
+                    if (property.GetGetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format (LocalizationBS.Mapper_NoPublicGetMethod, property.Name));
+                    }
+
+                    // Check, if we have a setter
+                    if (property.GetSetMethod() == null)
+                    {
+                        throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NoPublicSetMethod, property.Name));
+                    }
+
                     var assignment = ConvertPropertyInfo(databasePropertyAttribute.ColumnName, property);
                     assignments.Add(assignment);
                     assignmentsWithoutKey.Add(assignment);

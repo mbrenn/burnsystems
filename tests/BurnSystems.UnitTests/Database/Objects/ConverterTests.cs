@@ -39,6 +39,12 @@ namespace BurnSystems.UnitTests.Database.Objects
         }
 
         [Test]
+        public void TestNoPublicSetMethod()
+        {
+            Assert.Throws<TypeInitializationException>(() => new Converter<NoPublicSetMethod>());
+        }
+
+        [Test]
         public void TestValidClassMapperCreation()
         {
             var mapper = new Converter<Person>();
@@ -153,6 +159,27 @@ namespace BurnSystems.UnitTests.Database.Objects
             {
                 get;
                 set;
+            }
+        }
+
+        [DatabaseClass]
+        public class NoPublicSetMethod
+        {
+            [DatabaseKey("Id")]
+            public int Id
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [DatabaseProperty("Prename")]
+            public string Prename
+            {
+                get;
+                internal set;
             }
         }
     }

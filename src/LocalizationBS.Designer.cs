@@ -250,6 +250,24 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Eigenschaft &apos;{0}&apos; besitzt keinen öffentlichen Getter. ähnelt.
+        /// </summary>
+        internal static string Mapper_NoPublicGetMethod {
+            get {
+                return ResourceManager.GetString("Mapper_NoPublicGetMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Eigenschaft &apos;{0}&apos; besitzt keinen öffentlichen Setter. ähnelt.
+        /// </summary>
+        internal static string Mapper_NoPublicSetMethod {
+            get {
+                return ResourceManager.GetString("Mapper_NoPublicSetMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Der Typ &apos;{0}&apos; wird nicht unterstützt. ähnelt.
         /// </summary>
         internal static string Mapper_NotSupportedType {
