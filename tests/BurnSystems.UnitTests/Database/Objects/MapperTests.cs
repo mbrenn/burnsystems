@@ -13,8 +13,11 @@ namespace BurnSystems.UnitTests.Database.Objects
     [TestFixture]
     public class MapperTests
     {
-        public DbConnection GetDatabaseConnection()
+        public void ExecuteDatabaseAction(Action<DbConnection> action)
         {
+			DbConnection dbConnection = null;
+			
+			// Gets the database connection
             if (EnvironmentHelper.IsMono)
             {
 				var assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d");				
@@ -30,40 +33,46 @@ namespace BurnSystems.UnitTests.Database.Objects
 				}
 				
 				var mySqlConstructor = mysqlType.GetConstructor(new Type[]{typeof(string)});
-				var mySqlConnection = mySqlConstructor.Invoke(null, new object[]{"Server=127.0.0.1;Database=unittest;Uid=unittest;Pwd=unittest"})
+				dbConnection = mySqlConstructor.Invoke(null, new object[]{"Server=127.0.0.1;Database=unittest;Uid=unittest;Pwd=unittest"})
 					as DbConnection;
 				
-                mySqlConnection.Open();
-
-                var deleteQuery = new DeleteQuery("persons");
-                mySqlConnection.ExecuteNonQuery(deleteQuery);
-
-                return mySqlConnection;
+                dbConnection.Open();
             }
             else
             {
-                var sqlConnection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=mb_test;Trusted_Connection=True;");
-                sqlConnection.Open();
-
-                var deleteQuery = new DeleteQuery("persons");
-                sqlConnection.ExecuteNonQuery(deleteQuery);
-
-                return sqlConnection;
+                dbConnection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=mb_test;Trusted_Connection=True;");
+                dbConnection.Open();
             }
+			
+			Assert.That(dbConnection, Is.Not.Null);			
+				
+			var query = Resources_UnitTest.install;
+			var createQuery = new FreeQuery(query);
+			dbConnection.ExecuteNonQuery(createQuery);
+			
+			try
+			{
+				// Do what has to be done
+				action(dbConnection);
+			}
+			finally
+			{
+				// Cleans the database 
+            	var deleteQuery = new FreeQuery("DROP TABLE persons");
+            	dbConnection.ExecuteNonQuery(deleteQuery);
+			}
         }
 
         [Test]
         public void TestDatabaseConnection()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
-            {
-            }
+            this.ExecuteDatabaseAction((dbConnection) => {});
         }
 
         [Test]
         public void TestInsertPerson()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
 
@@ -78,13 +87,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 Assert.That(person.Id, Is.Not.EqualTo(person2.Id));
                 Assert.That(person2.Id, Is.Not.EqualTo(person3.Id));
                 Assert.That(person.Id, Is.Not.EqualTo(person3.Id));
-            }
+            });
         }
 
         [Test]
         public void TestInsertPersonWithNullValues()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) => 
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
 
@@ -102,13 +111,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 var persons = mapper.GetAll();
                 Assert.That(persons.Length, Is.EqualTo(1));
                 Assert.That(persons[0].Name, Is.Null);
-            }
+            });
         }
 
         [Test]
         public void TestSelectPerson()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -129,13 +138,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 Assert.That(karl.Weight, Is.EqualTo(12.34).Within(0.005));
                 Assert.That(karl.Sex, Is.EqualTo(Sex.Male));
                 Assert.That(karl.Marriage, Is.EqualTo(new DateTime(1998, 9, 11, 3, 4, 5)));
-            }
+            });
         }
 
         [Test]
         public void TestSelectPersonByWhere()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -153,13 +162,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 Assert.That(karl.Age_Temp, Is.EqualTo(12));
                 Assert.That(karl.Weight, Is.EqualTo(12.34).Within(0.005));
                 Assert.That(karl.Sex, Is.EqualTo(Sex.Male));
-            }
+            });
         }
 
         [Test]
         public void TestSelectPersonById()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -175,13 +184,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 Assert.That(karl2.Age_Temp, Is.EqualTo(karl.Age_Temp));
                 Assert.That(karl2.Weight, Is.EqualTo(karl.Weight));
                 Assert.That(karl2.Sex, Is.EqualTo(karl.Sex));
-            }
+            });
         }
 
         [Test]
         public void TestSelectPersonByWrongId()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 Person p1;
@@ -191,13 +200,13 @@ namespace BurnSystems.UnitTests.Database.Objects
 
                 var karl = mapper.Get(p1.Id + p2.Id + p3.Id);
                 Assert.That(karl, Is.Null);
-            }
+            });
         }
 
         [Test]
         public void TestDeletePersonByInstance()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -212,13 +221,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 persons = mapper.GetAll();
                 karl = persons.Where(x => x.Prename == "Karl").FirstOrDefault();
                 Assert.That(karl, Is.Null);
-            }
+            });
         }
 
         [Test]
         public void TestDeletePersonById()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -233,13 +242,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 persons = mapper.GetAll();
                 karl = persons.Where(x => x.Prename == "Karl").FirstOrDefault();
                 Assert.That(karl, Is.Null);
-            }
+            });
         }
 
         [Test]
         public void TestUpdatePerson()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -257,13 +266,13 @@ namespace BurnSystems.UnitTests.Database.Objects
                 karl = persons.Where(x => x.Prename == "Karl").FirstOrDefault();
                 Assert.That(karl, Is.Not.Null);
                 Assert.That(karl.Name, Is.EqualTo("Mommenschatz"));
-            }
+            });
         }
 
         [Test]
         public void TestUpdatePersonWithNullValues()
         {
-            using (var sqlConnection = this.GetDatabaseConnection())
+            this.ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -281,7 +290,7 @@ namespace BurnSystems.UnitTests.Database.Objects
                 karl = persons.Where(x => x.Prename == "Karl").FirstOrDefault();
                 Assert.That(karl, Is.Not.Null);
                 Assert.That(karl.Name, Is.Null);
-            }
+            });
         }
 
         /// <summary>
