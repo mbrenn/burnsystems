@@ -50,7 +50,8 @@ namespace BurnSystems.Database.Objects
         /// Adds an item to database
         /// </summary>
         /// <param name="t">Item to be added</param>
-        public void Add(T t)
+        /// <returns>Id of the new item</returns>
+        public long Add(T t)
         {
             var data = this.converter.ConvertToDatabaseObject(t, false);
             var insertQuery = new InsertQuery(this.TableName, data);
@@ -59,6 +60,8 @@ namespace BurnSystems.Database.Objects
             var freeQuery = new FreeQuery(string.Format("SELECT MAX({0}) FROM {1}", this.converter.PrimaryKeyName, this.TableName));
             var id = this.Connection.ExecuteScalar<long>(freeQuery);
             this.converter.SetId(t, id);
+
+            return id;
         }
 
         /// <summary>
