@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSystems", "src\BurnSystems.csproj", "{42023D16-AFD1-4D99-BC39-9EF46982EB54}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSystems.UnitTests", "tests\BurnSystems.UnitTests\BurnSystems.UnitTests.csproj", "{FCC18E68-AF8F-4527-AF60-9A601BE16560}"
@@ -27,6 +27,9 @@ Global
 		{FCC18E68-AF8F-4527-AF60-9A601BE16560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCC18E68-AF8F-4527-AF60-9A601BE16560}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCC18E68-AF8F-4527-AF60-9A601BE16560}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = src\BurnSystems.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
