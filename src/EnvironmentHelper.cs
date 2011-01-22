@@ -16,9 +16,9 @@ namespace BurnSystems
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Security;
     using System.Xml.Linq;
     using BurnSystems.Test;
-using System.Security;
 
     /// <summary>
     /// This helper class offers some method to determine environment information
@@ -80,7 +80,6 @@ using System.Security;
                 {
                     // loadedAssembly.Location may throw an exception, if AppDomain does not have permission for the root path
                 }
-
             }
 
             // Loads assembly
