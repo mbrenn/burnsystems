@@ -88,5 +88,25 @@ namespace BurnSystems.AdoNet.Queries
                 }
             }
         }
+
+        /// <summary>
+        /// Returns true, if the given database connection is a mysql connection
+        /// </summary>
+        /// <param name="connection">Connection to be checked</param>
+        /// <returns>True, if connection is a MySqlConnection</returns>
+        public static bool IsMySqlConnection(this DbConnection connection)
+        {
+            return connection.GetType().FullName == "MySql.Data.MySqlClient.MySqlConnection";
+        }
+
+        /// <summary>
+        /// Returns true, if the given database connection is an sqlserver connection
+        /// </summary>
+        /// <param name="connection">Connection to be checked</param>
+        /// <returns>True, if connection is a SqlServer Connection</returns>
+        public static bool IsSqlServerConnection(this DbConnection connection)
+        {
+            return connection is System.Data.SqlClient.SqlConnection;
+        }
     }
 }
