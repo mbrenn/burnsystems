@@ -125,6 +125,7 @@
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
+    <Compile Include="Database\ConnectionFactory.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />
     <Compile Include="Database\Objects\DatabaseClassAttribute.cs" />
     <Compile Include="Database\Objects\DatabaseKeyAttribute.cs" />
