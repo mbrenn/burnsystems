@@ -25,6 +25,11 @@ namespace BurnSystems.Database
     public enum DatabaseType
     {
         /// <summary>
+        /// Unknown database type
+        /// </summary>
+        Unknown, 
+
+        /// <summary>
         /// MySql shall be used
         /// </summary>
         MySql,
@@ -42,6 +47,37 @@ namespace BurnSystems.Database
     public static class ConnectionFactory
     {
         /// <summary>
+        /// Gets the Type MySql.Data.MySqlClient.MySqlConnection
+        /// </summary>
+        /// <returns>The type MySql.Data.MySqlClient.MySqlConnection/returns>
+        public static Type GetMySqlConnectionType()
+        {
+            Assembly assembly = null;
+
+            try
+            {
+                assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL");
+            }
+            catch
+            {
+                throw new InvalidOperationException("No MySql.Data.dll installed");
+            }
+
+            if (assembly == null)
+            {
+                throw new InvalidOperationException("No MySql.Data.dll installed");
+            }
+
+            var mysqlType = assembly.GetType("MySql.Data.MySqlClient.MySqlConnection");
+            if (mysqlType == null)
+            {
+                throw new InvalidOperationException("MySql-Type not found");
+            }
+
+            return mysqlType;
+        }
+
+        /// <summary>
         /// Creates a connection string
         /// </summary>
         /// <param name="type">Type of database to be created</param>
@@ -58,27 +94,7 @@ namespace BurnSystems.Database
             }
             else if (type == DatabaseType.MySql)
             {
-                Assembly assembly = null;
-
-                try
-                {
-                    assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL");
-                }
-                catch
-                {
-                    throw new InvalidOperationException("No MySql.Data.dll installed");
-                }
-
-                if (assembly == null)
-                {
-                    throw new InvalidOperationException("No MySql.Data.dll installed");
-                }
-
-                var mysqlType = assembly.GetType("MySql.Data.MySqlClient.MySqlConnection");
-                if (mysqlType == null)
-                {
-                    throw new InvalidOperationException("MySql-Type not found");
-                }
+                var mysqlType = GetMySqlConnectionType();
 
                 var dbConnection = Activator.CreateInstance(mysqlType, new object[] { connectionString }) as DbConnection;
                 if (dbConnection == null)
