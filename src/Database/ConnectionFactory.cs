@@ -49,7 +49,7 @@ namespace BurnSystems.Database
         /// <summary>
         /// Gets the Type MySql.Data.MySqlClient.MySqlConnection
         /// </summary>
-        /// <returns>The type MySql.Data.MySqlClient.MySqlConnection/returns>
+        /// <returns>The type MySql.Data.MySqlClient.MySqlConnection</returns>
         public static Type GetMySqlConnectionType()
         {
             Assembly assembly = null;
