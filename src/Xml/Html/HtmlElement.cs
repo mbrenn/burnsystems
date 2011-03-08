@@ -29,5 +29,18 @@ namespace BurnSystems.Xml.Html
             : base(HtmlDocument.XHtml5Namespace + htmlTag, contents)
         {
         }
+
+        /// <summary>
+        /// Creates a new instance of the HtmlElement and sets the html tag and includes the content
+        /// </summary>
+        /// <param name="htmlTag">Html Tag to be created</param>
+        /// <param name="contents">Contents of the new html tag</param>
+        /// <returns>Created html tag</returns>
+        public static HtmlElement Create(
+            string htmlTag,
+            params object[] contents)
+        {
+            return new HtmlElement(htmlTag, contents);
+        }
     }
 }
