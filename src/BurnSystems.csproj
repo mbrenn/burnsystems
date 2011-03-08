@@ -199,6 +199,8 @@
     <Compile Include="Synchronisation\ThreadWatcherItem.cs" />
     <Compile Include="Test\EnsureFailedException.cs" />
     <Compile Include="XmlHelper.cs" />
+    <Compile Include="Xml\Html\HtmlDocument.cs" />
+    <Compile Include="Xml\Html\HtmlElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
