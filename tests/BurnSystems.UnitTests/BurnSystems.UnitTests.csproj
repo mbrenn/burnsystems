@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Collections\AutoDictionaryTests.cs" />
     <Compile Include="Collections\NiceDictionaryTests.cs" />
+    <Compile Include="Collections\TypedContainerTests.cs" />
     <Compile Include="Database\Objects\ConverterTests.cs" />
     <Compile Include="Database\Objects\MapperTests.cs" />
     <Compile Include="Database\Objects\Person.cs" />

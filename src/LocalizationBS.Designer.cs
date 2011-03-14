@@ -295,6 +295,15 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mehrfache Instanz mit diesem Typ verfügbar.  ähnelt.
+        /// </summary>
+        internal static string TypedContainer_MultipleInstance {
+            get {
+                return ResourceManager.GetString("TypedContainer_MultipleInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Das Attribut &apos;{0}&apos; ausgehend von &apos;{1}&apos; wurde nicht gefunden. ähnelt.
         /// </summary>
         internal static string XmlHelper_AttributeNotFound {

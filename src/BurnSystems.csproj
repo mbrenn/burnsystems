@@ -120,6 +120,7 @@
     <Compile Include="Collections\ObjectContainer.cs" />
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
+    <Compile Include="Collections\TypedContainer.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />
     <Compile Include="Database\Objects\DatabaseClassAttribute.cs" />

@@ -195,6 +195,9 @@
   <data name="TimeSpan_MaxValue" xml:space="preserve">
     <value>Unbegrenzt</value>
   </data>
+  <data name="TypedContainer_MultipleInstance" xml:space="preserve">
+    <value>Mehrfache Instanz mit diesem Typ verfügbar. </value>
+  </data>
   <data name="XmlHelper_AttributeNotFound" xml:space="preserve">
     <value>Das Attribut '{0}' ausgehend von '{1}' wurde nicht gefunden.</value>
   </data>
