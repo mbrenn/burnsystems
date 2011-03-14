@@ -27,7 +27,7 @@ namespace BurnSystems.UnitTests.Collections
             dictionary.Add(itemB_2);
             dictionary.Add(itemB_3);
             dictionary.Add(itemC_2);
-
+			
             Assert.That(dictionary.Count, Is.EqualTo(3));
             Assert.That(dictionary["A"].Value, Is.EqualTo("1"));
             Assert.That(dictionary["B"].Value, Is.EqualTo("3"));

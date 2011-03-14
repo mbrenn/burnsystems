@@ -12,10 +12,7 @@
 namespace BurnSystems.Database.Objects
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
-    using System.Text;
 
     /// <summary>
     /// This class stores information which is used to map between the C#-Type and the databaseobject

@@ -10,8 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BurnSystems</RootNamespace>
     <AssemblyName>BurnSystems</AssemblyName>
-    <StartupObject>
-    </StartupObject>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>BurnSystems_AGPL.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
@@ -63,6 +61,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -71,6 +71,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -82,6 +83,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -92,6 +95,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -122,6 +126,7 @@
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Collections\TypedContainer.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
+    <Compile Include="Database\ConnectionFactory.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />
     <Compile Include="Database\Objects\DatabaseClassAttribute.cs" />
     <Compile Include="Database\Objects\DatabaseKeyAttribute.cs" />
@@ -195,18 +200,18 @@
     <Compile Include="Synchronisation\ThreadWatcherItem.cs" />
     <Compile Include="Test\EnsureFailedException.cs" />
     <Compile Include="XmlHelper.cs" />
+    <Compile Include="Xml\Html\HtmlDocument.cs" />
+    <Compile Include="Xml\Html\HtmlElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>

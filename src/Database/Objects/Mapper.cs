@@ -11,11 +11,8 @@
 
 namespace BurnSystems.Database.Objects
 {
-    using System;
     using System.Collections.Generic;
     using System.Data.Common;
-    using System.Linq;
-    using System.Text;
     using BurnSystems.AdoNet.Queries;
 
     /// <summary>

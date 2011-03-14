@@ -12,9 +12,6 @@
 namespace BurnSystems.Database.Objects
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// This attributes indicates that the property shall be stored into database

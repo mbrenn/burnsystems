@@ -48,6 +48,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         public void TestValidClassMapperCreation()
         {
             var mapper = new Converter<Person>();
+			Assert.That(mapper, Is.Not.Null);
         }
 
         [Test]
