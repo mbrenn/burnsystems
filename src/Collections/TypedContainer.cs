@@ -47,7 +47,7 @@ namespace BurnSystems.Collections
             T found = default(T);
             var alreadyFound = false;
 
-            foreach (var instance in instances)
+            foreach (var instance in this.instances)
             {
                 if (instance is T)
                 {
@@ -62,6 +62,18 @@ namespace BurnSystems.Collections
             }
 
             return found;
+        }
+
+        /// <summary>
+        /// Gets all objects matching to a certain type
+        /// </summary>
+        /// <typeparam name="T">Type to be requested</typeparam>
+        /// <returns>Enumeration of found types</returns>
+        public IEnumerable<T> GetAll<T>()
+        {
+            return this.instances.
+                Where(x => x is T)
+                .Cast<T>();
         }
     }
 }
