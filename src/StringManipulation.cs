@@ -604,5 +604,33 @@ namespace BurnSystems
                 list.Add(line);
             }
         }
+        
+        /// <summary>
+        /// Converts the number of the length of a file to a short string, 
+        /// which contains the filesize as a number and a SI-Prefix
+        /// </summary>
+        /// <param name="fileLength">Filelength to be converted</param>
+        /// <param name="decimals">Number of decimals to be shown</param>
+        /// <returns>String containing the length</returns>
+        public static string GetFileLengthInfo(long fileLength, int decimals)
+        {
+            var doubleFileLength = (double) fileLength;
+            var prefix = new[] { "Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB" };
+            var prefixNumber = 0;
+            while (doubleFileLength > 1024 && prefixNumber < (prefix.Length - 1))
+            {
+                doubleFileLength /= 1024;
+                prefixNumber++;
+            }
+
+            if (prefixNumber == 0)
+            {
+                return string.Format("{0:n0} {1}", doubleFileLength, prefix[0]);
+            }
+            else
+            {
+                return string.Format("{0:n" + decimals + "} {1}", doubleFileLength, prefix[prefixNumber]);
+            }
+        }
     }
 }
