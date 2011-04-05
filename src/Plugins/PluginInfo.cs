@@ -20,7 +20,7 @@ namespace BurnSystems.Plugins
     /// <summary>
     /// Stores the information about a plugin
     /// </summary>
-    public class PluginInfo<T> where T: class
+    public class PluginInfo<T> where T : class
     {
         /// <summary>
         /// Stores a list of dependencies
