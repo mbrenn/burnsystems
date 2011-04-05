@@ -149,6 +149,9 @@
     <Compile Include="Net\Json\JsonNumber.cs" />
     <Compile Include="Net\Json\JsonObject.cs" />
     <Compile Include="Net\Json\JsonString.cs" />
+    <Compile Include="Plugins\PluginDependencyAttribute.cs" />
+    <Compile Include="Plugins\PluginInfo.cs" />
+    <Compile Include="Plugins\PluginLoader.cs" />
     <Compile Include="Serialization\ArrayHeader.cs" />
     <Compile Include="Serialization\BinaryReader.cs" />
     <Compile Include="Serialization\BinaryWriter.cs" />

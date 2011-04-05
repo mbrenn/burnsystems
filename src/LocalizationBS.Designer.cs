@@ -286,6 +286,69 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Das Assembly &apos;{0}&apos; wurde nicht gefunden. ähnelt.
+        /// </summary>
+        internal static string PluginLoader_AssemblyNotFound {
+            get {
+                return ResourceManager.GetString("PluginLoader_AssemblyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ist abhängig von &apos;{0}&apos; ähnelt.
+        /// </summary>
+        internal static string PluginLoader_Dependent {
+            get {
+                return ResourceManager.GetString("PluginLoader_Dependent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Laden des Plugins &apos;{1}&apos; der Assembly &apos;{0}&apos; fehlgeschlagen. ähnelt.
+        /// </summary>
+        internal static string PluginLoader_FailedToLoadPlugin {
+            get {
+                return ResourceManager.GetString("PluginLoader_FailedToLoadPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Das Plugin &apos;{0}&apos; konnte wegen eines Abhängigkeitsproblem nicht geladen werden.  ähnelt.
+        /// </summary>
+        internal static string PluginLoader_InvalidDependency {
+            get {
+                return ResourceManager.GetString("PluginLoader_InvalidDependency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Typ &apos;{0}&apos; ist nicht von der Schnittstelle IPlugin abgeleitet. ähnelt.
+        /// </summary>
+        internal static string PluginLoader_NoPlugin {
+            get {
+                return ResourceManager.GetString("PluginLoader_NoPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Plugin: {0} ähnelt.
+        /// </summary>
+        internal static string PluginLoader_StartingPlugin {
+            get {
+                return ResourceManager.GetString("PluginLoader_StartingPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Typ &apos;{0}&apos; wurd in Assembly &apos;{1}&apos; nicht gefunden. ähnelt.
+        /// </summary>
+        internal static string PluginLoader_TypeNotFound {
+            get {
+                return ResourceManager.GetString("PluginLoader_TypeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Unbegrenzt ähnelt.
         /// </summary>
         internal static string TimeSpan_MaxValue {
