@@ -192,6 +192,27 @@
   <data name="Mapper_WrongTypeForDatabaseKeyAttribute" xml:space="preserve">
     <value>Die Eigenschaft mit dem Attribut 'DatabaseKeyAttribute' muss vom Typ System.Int32 oder System.Int64 sein. </value>
   </data>
+  <data name="PluginLoader_AssemblyNotFound" xml:space="preserve">
+    <value>Das Assembly '{0}' wurde nicht gefunden.</value>
+  </data>
+  <data name="PluginLoader_Dependent" xml:space="preserve">
+    <value>ist abhängig von '{0}'</value>
+  </data>
+  <data name="PluginLoader_FailedToLoadPlugin" xml:space="preserve">
+    <value>Laden des Plugins '{1}' der Assembly '{0}' fehlgeschlagen.</value>
+  </data>
+  <data name="PluginLoader_InvalidDependency" xml:space="preserve">
+    <value>Das Plugin '{0}' konnte wegen eines Abhängigkeitsproblem nicht geladen werden. </value>
+  </data>
+  <data name="PluginLoader_NoPlugin" xml:space="preserve">
+    <value>Der Typ '{0}' ist nicht von der Schnittstelle IPlugin abgeleitet.</value>
+  </data>
+  <data name="PluginLoader_StartingPlugin" xml:space="preserve">
+    <value>Plugin: {0}</value>
+  </data>
+  <data name="PluginLoader_TypeNotFound" xml:space="preserve">
+    <value>Der Typ '{0}' wurd in Assembly '{1}' nicht gefunden.</value>
+  </data>
   <data name="TimeSpan_MaxValue" xml:space="preserve">
     <value>Unbegrenzt</value>
   </data>
