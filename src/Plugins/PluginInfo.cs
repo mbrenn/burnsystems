@@ -67,10 +67,12 @@ namespace BurnSystems.Plugins
         /// </summary>
         /// <param name="assembly">Assembly of the plugin</param>
         /// <param name="type">Type of the plugin</param>
-        public PluginInfo(Assembly assembly, Type type)
+        /// <param name="instance">Instance of the object that has been created</param>
+        public PluginInfo(Assembly assembly, Type type, T instance)
         {
             this.Assembly = assembly;
             this.Type = type;
+            this.Instance = instance;
             this.UpdateDependencies();
         }
 

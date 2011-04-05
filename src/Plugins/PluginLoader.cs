@@ -73,10 +73,7 @@ namespace BurnSystems.Plugins
                         .Where(x => x.GetInterfaces().Any(y => y.FullName == typeof(T).FullName)))
                     {
                         var plugin = Activator.CreateInstance(type) as T;
-                        var pluginInfo = new PluginInfo<T>(assembly, type)
-                        {
-                            Instance = plugin
-                        };
+                        var pluginInfo = new PluginInfo<T>(assembly, type, plugin);
 
                         this.plugins.Add(pluginInfo);
                     }
@@ -130,10 +127,7 @@ namespace BurnSystems.Plugins
 
                 // Creates the plugin and adds the plugin info
                 var plugin = Activator.CreateInstance(typeOfPlugin) as T;
-                var pluginInfo = new PluginInfo<T>(assembly, typeOfPlugin)
-                {
-                    Instance = plugin
-                };
+                var pluginInfo = new PluginInfo<T>(assembly, typeOfPlugin, plugin);
 
                 this.plugins.Add(pluginInfo);
             }
