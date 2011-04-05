@@ -96,7 +96,7 @@ namespace BurnSystems.Plugins
         /// </summary>
         /// <param name="assemblyPath">Path tho assembly</param>
         /// <param name="typeName">Name of class, which should be loaded</param>
-        public void AddPlugin(string assemblyPath, string typeName)
+        public T AddPlugin(string assemblyPath, string typeName)
         {
             try
             {
@@ -130,6 +130,8 @@ namespace BurnSystems.Plugins
                 var pluginInfo = new PluginInfo<T>(assembly, typeOfPlugin, plugin);
 
                 this.plugins.Add(pluginInfo);
+
+                return plugin;
             }
             catch (Exception exc)
             {
@@ -149,7 +151,7 @@ namespace BurnSystems.Plugins
             // First sort the plugins
             // Source of order... After sorting, this class has to be empty
             var source = this.plugins.ToList();
-            var target = new List<PluginInfo<T>>();
+            this.Plugins.Clear();
 
             bool hasSorted;
             do
@@ -159,9 +161,9 @@ namespace BurnSystems.Plugins
                 {
                     var element = source[n];
                     if (element.Dependencies.All(
-                        x => target.Exists(y => y.Type == x)))
+                        x => this.Plugins.Exists(y => y.Type == x)))
                     {
-                        target.Add(element);
+                        this.Plugins.Add(element);
                         source.RemoveAt(n);
                         n--;
 
