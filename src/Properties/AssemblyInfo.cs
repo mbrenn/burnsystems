@@ -22,9 +22,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BurnSystems")]
 [assembly: AssemblyDescription("Basisklasse für BurnSystems-Applikationen")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Martin Brenn")]
+[assembly: AssemblyCompany("Depon.Net")]
 [assembly: AssemblyProduct("BurnSystems Library")]
-[assembly: AssemblyCopyright("(c) by Martin Brenn '10")]
+[assembly: AssemblyCopyright("(c) by Depon.Net '10-'11")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
