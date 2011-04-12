@@ -93,5 +93,19 @@ namespace BurnSystems.Plugins
                 this.Dependencies.Add(attribute.Type);
             }
         }
+
+        /// <summary>
+        /// Converts the plugininfo to a string
+        /// </summary>
+        /// <returns>Name of the associated type</returns>
+        public override string ToString()
+        {
+            if (this.Type != null)
+            {
+                return this.Type.FullName;
+            }
+
+            return "PluginInfo, Unknown Type";
+        }
     }
 }
