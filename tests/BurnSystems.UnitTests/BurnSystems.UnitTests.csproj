@@ -41,6 +41,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>./nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\AutoDictionaryTests.cs" />
@@ -57,6 +59,7 @@
       <DependentUpon>Resources_UnitTest.resx</DependentUpon>
     </Compile>
     <Compile Include="StringManipulationTests.cs" />
+    <Compile Include="XmlHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

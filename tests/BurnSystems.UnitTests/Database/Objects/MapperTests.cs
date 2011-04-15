@@ -13,29 +13,34 @@ namespace BurnSystems.UnitTests.Database.Objects
     [TestFixture]
     public class MapperTests
     {
+        /// <summary>
+        /// Stores a value indicating that mysql shall be used
+        /// </summary>
+        private static bool useMySql = true;
+
         public void ExecuteDatabaseAction(Action<DbConnection> action)
         {
-			DbConnection dbConnection = null;
-			
-			// Gets the database connection
-            if (EnvironmentHelper.IsMono)
+            DbConnection dbConnection = null;
+
+            // Gets the database connection
+            if (EnvironmentHelper.IsMono || useMySql)
             {
-				var assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d");				
-				if(assembly == null)
-				{
-					Assert.Inconclusive("No MySql.Data.dll installed");
-				}
-				
-				var mysqlType = assembly.GetType("MySql.Data.MySqlClient.MySqlConnection");
-				if(mysqlType == null)
-				{
-					Assert.Inconclusive("MySql-Type not found");
-				}
-				
-				var mySqlConstructor = mysqlType.GetConstructor(new Type[]{typeof(string)});
-				dbConnection = mySqlConstructor.Invoke(null, new object[]{"Server=127.0.0.1;Database=unittest;Uid=unittest;Pwd=unittest"})
-					as DbConnection;
-				
+                var assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d");
+                if (assembly == null)
+                {
+                    Assert.Inconclusive("No MySql.Data.dll installed");
+                }
+
+                var mysqlType = assembly.GetType("MySql.Data.MySqlClient.MySqlConnection");
+                if (mysqlType == null)
+                {
+                    Assert.Inconclusive("MySql-Type not found");
+                }
+
+                var mySqlConstructor = mysqlType.GetConstructor(new Type[] { typeof(string) });
+                dbConnection = mySqlConstructor.Invoke(new object[] { "Server=127.0.0.1;Database=unittest;Uid=unittest;Pwd=unittest" })
+                    as DbConnection;
+
                 dbConnection.Open();
             }
             else
@@ -43,24 +48,24 @@ namespace BurnSystems.UnitTests.Database.Objects
                 dbConnection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=mb_test;Trusted_Connection=True;");
                 dbConnection.Open();
             }
-			
-			Assert.That(dbConnection, Is.Not.Null);			
-				
-			var query = Resources_UnitTest.install;
-			var createQuery = new FreeQuery(query);
-			dbConnection.ExecuteNonQuery(createQuery);
-			
-			try
-			{
-				// Do what has to be done
-				action(dbConnection);
-			}
-			finally
-			{
-				// Cleans the database 
-            	var deleteQuery = new FreeQuery("DROP TABLE persons");
-            	dbConnection.ExecuteNonQuery(deleteQuery);
-			}
+
+            Assert.That(dbConnection, Is.Not.Null);
+
+            var query = Resources_UnitTest.install;
+            var createQuery = new FreeQuery(query);
+            dbConnection.ExecuteNonQuery(createQuery);
+
+            try
+            {
+                // Do what has to be done
+                action(dbConnection);
+            }
+            finally
+            {
+                // Cleans the database 
+                var deleteQuery = new FreeQuery("DROP TABLE persons");
+                dbConnection.ExecuteNonQuery(deleteQuery);
+            }
         }
 
         [Test]
