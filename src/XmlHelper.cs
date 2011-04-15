@@ -15,6 +15,7 @@ namespace BurnSystems
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text;
+    using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
     using BurnSystems.Test;
@@ -280,6 +281,58 @@ namespace BurnSystems
             }
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Gets the last element available in the enumeration or creates a new element in 
+        /// the XNode element if this element is not available.
+        /// </summary>
+        /// <param name="nodes">List of nodes</param>
+        /// <param name="elementName">Name of the element</param>
+        /// <returns>Found node or created and attached element with <c>elementName</c></returns>
+        public static XElement GetOrCreateLastElement(this IEnumerable<XContainer> nodes, string elementName)
+        {
+            var foundElement = nodes.Elements(elementName).LastOrDefault();
+            if (foundElement == null)
+            {
+                // We have to create an element
+                foundElement = new XElement(elementName);
+                nodes.Last().Add(foundElement);
+            }
+
+            return foundElement;
+        }
+
+        /// <summary>
+        /// Gets the last attribute available in the enumeration or creates a new attribute
+        /// in the last element if no attribute with the name has been found
+        /// </summary>
+        /// <param name="elements">Elements to be queried</param>
+        /// <param name="attributeName">Name of the attribute</param>
+        /// <param name="defaultValue">Defaultvalue of the attribute, if the attribute has to be created</param>
+        /// <returns>Found attribute or created and attached attribute with <c>attributeName</c></returns>
+        public static XAttribute GetOrCreateLastAttribute(this IEnumerable<XElement> elements, string attributeName, object defaultValue)
+        {
+            var foundAttribute = elements.Attributes(attributeName).LastOrDefault();
+            if (foundAttribute == null)
+            {
+                foundAttribute = new XAttribute(attributeName, defaultValue);
+                elements.Last().Add(foundAttribute);
+            }
+
+            return foundAttribute;
+        }
+
+        /// <summary>
+        /// Gets the last attribute available in the enumeration or creates a new attribute
+        /// in the last element if no attribute with the name has been found.
+        /// </summary>
+        /// <param name="elements">Elements to be queried</param>
+        /// <param name="attributeName">Name of the attribute</param>
+        /// <returns>Found attribute or created and attached attribute with <c>attributeName</c></returns>
+        public static XAttribute GetOrCreateLastAttribute(this IEnumerable<XElement> elements, string attributeName)
+        {
+            return GetOrCreateLastAttribute(elements, attributeName, string.Empty);
         }
     }
 }
