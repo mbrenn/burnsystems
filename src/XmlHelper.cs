@@ -285,7 +285,7 @@ namespace BurnSystems
 
         /// <summary>
         /// Gets the last element available in the enumeration or creates a new element in 
-        /// the XNode element if this element is not available.
+        /// the last XContainer element if this element is not available.
         /// </summary>
         /// <param name="nodes">List of nodes</param>
         /// <param name="elementName">Name of the element</param>
@@ -301,6 +301,46 @@ namespace BurnSystems
             }
 
             return foundElement;
+        }
+
+        /// <summary>
+        /// Gets the an enumeration of elements stored in the nodes. 
+        /// If no node is existing, a new element will be created
+        /// </summary>
+        /// <param name="nodes">List of nodes</param>
+        /// <param name="elementName">Name of the element</param>
+        /// <returns>Found node or created and attached element with <c>elementName</c></returns>
+        public static IEnumerable<XElement> GetOrCreateElements(this IEnumerable<XContainer> nodes, string elementName)
+        {
+            var found = false;
+            var foundElements = nodes.Elements(elementName);
+
+            foreach (var foundElement in foundElements)
+            {
+                found = true;
+                yield return foundElement;
+            }
+
+            if (!found)
+            {
+                // We have to create an element
+                var foundElement = new XElement(elementName);
+                nodes.Last().Add(foundElement);
+
+                yield return foundElement;
+            }
+        }
+
+        /// <summary>
+        /// Gets the last element available in the enumeration or creates a new element in 
+        /// the XContainer element if this element is not available.
+        /// </summary>
+        /// <param name="node">Contaioner, which shall be looked up</param>
+        /// <param name="elementName">Name of the element</param>
+        /// <returns>Found node or created and attached element with <c>elementName</c></returns>
+        public static XElement GetOrCreateLastElement(this XContainer node, string elementName)
+        {
+            return GetOrCreateLastElement(new[] { node }, elementName);
         }
 
         /// <summary>
@@ -324,15 +364,81 @@ namespace BurnSystems
         }
 
         /// <summary>
+        /// Gets the an enumeration of attributes stored in the elements. 
+        /// If no attribute is existing, a new attribute will be created
+        /// </summary>
+        /// <param name="elements">List of elements</param>
+        /// <param name="attributeName">Name of the attribute</param>
+        /// <param name="defaultValue">Stores the default value</param>
+        /// <returns>Found node or created and attached element with <c>elementName</c></returns>
+        public static IEnumerable<XAttribute> GetOrCreateAttributes(this IEnumerable<XElement> elements, string attributeName, string defaultValue)
+        {
+            var found = false;
+            var foundElements = elements.Attributes(attributeName);
+
+            foreach (var foundElement in foundElements)
+            {
+                found = true;
+                yield return foundElement;
+            }
+
+            if (!found)
+            {
+                // We have to create an element
+                var foundElement = new XAttribute(attributeName, defaultValue);
+                elements.Last().Add(foundElement);
+
+                yield return foundElement;
+            }
+        }
+
+        /// <summary>
+        /// Gets the an enumeration of attributes stored in the elements. 
+        /// If no attribute is existing, a new attribute will be created
+        /// </summary>
+        /// <param name="elements">List of elements</param>
+        /// <param name="attributeName">Name of the attribute</param>
+        /// <returns>Found node or created and attached element with <c>elementName</c></returns>
+        public static IEnumerable<XAttribute> GetOrCreateAttributes(this IEnumerable<XElement> elements, string attributeName)
+        {
+            return GetOrCreateAttributes(elements, attributeName, string.Empty);
+        }
+
+        /// <summary>
         /// Gets the last attribute available in the enumeration or creates a new attribute
         /// in the last element if no attribute with the name has been found.
         /// </summary>
         /// <param name="elements">Elements to be queried</param>
         /// <param name="attributeName">Name of the attribute</param>
         /// <returns>Found attribute or created and attached attribute with <c>attributeName</c></returns>
-        public static XAttribute GetOrCreateLastAttribute(this IEnumerable<XElement> elements, string attributeName)
+        public static XAttribute GetOrCreateAttribute(this IEnumerable<XElement> elements, string attributeName)
         {
             return GetOrCreateLastAttribute(elements, attributeName, string.Empty);
+        }
+
+        /// <summary>
+        /// Gets the last attribute available in the enumeration or creates a new attribute
+        /// in the element if no attribute with the name has been found
+        /// </summary>
+        /// <param name="elements">Elements to be queried</param>
+        /// <param name="attributeName">Name of the attribute</param>
+        /// <param name="defaultValue">Defaultvalue of the attribute, if the attribute has to be created</param>
+        /// <returns>Found attribute or created and attached attribute with <c>attributeName</c></returns>
+        public static XAttribute GetOrCreateAttribute(this XElement elements, string attributeName, object defaultValue)
+        {
+            return GetOrCreateLastAttribute(new[] { elements }, attributeName, defaultValue);
+        }
+
+        /// <summary>
+        /// Gets the last attribute available in the enumeration or creates a new attribute
+        /// in the last element if no attribute with the name has been found.
+        /// </summary>
+        /// <param name="elements">Elements to be queried</param>
+        /// <param name="attributeName">Name of the attribute</param>
+        /// <returns>Found attribute or created and attached attribute with <c>attributeName</c></returns>
+        public static XAttribute GetOrCreateAttribute(this XElement elements, string attributeName)
+        {
+            return GetOrCreateAttribute(new[] { elements }, attributeName);
         }
     }
 }
