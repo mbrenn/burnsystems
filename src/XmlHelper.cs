@@ -364,6 +364,18 @@ namespace BurnSystems
         }
 
         /// <summary>
+        /// Gets the last attribute available in the enumeration or creates a new attribute
+        /// in the last element if no attribute with the name has been found
+        /// </summary>
+        /// <param name="elements">Elements to be queried</param>
+        /// <param name="attributeName">Name of the attribute</param>
+        /// <returns>Found attribute or created and attached attribute with <c>attributeName</c></returns>
+        public static XAttribute GetOrCreateLastAttribute(this IEnumerable<XElement> elements, string attributeName)
+        {
+            return GetOrCreateAttribute(elements, attributeName);
+        }
+
+        /// <summary>
         /// Gets the an enumeration of attributes stored in the elements. 
         /// If no attribute is existing, a new attribute will be created
         /// </summary>

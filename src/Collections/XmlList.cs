@@ -53,6 +53,8 @@ namespace BurnSystems.Collections
                 {
                     return pos;
                 }
+
+                pos++;
             }
 
             return -1;
@@ -84,7 +86,7 @@ namespace BurnSystems.Collections
         /// <param name="index">Index of the item</param>
         public void RemoveAt(int index)
         {
-            var element = this.container.Elements().ElementAtOrDefault(index - 1);
+            var element = this.container.Elements().ElementAtOrDefault(index);
             if (element != null)
             {
                 element.Remove();
@@ -100,12 +102,12 @@ namespace BurnSystems.Collections
         {
             get
             {
-                var element = this.container.Elements().ElementAt(index - 1);
+                var element = this.container.Elements().ElementAt(index);
                 return converter.Convert(element);
             }
             set
             {
-                var element = this.container.Elements().ElementAtOrDefault(index - 1);
+                var element = this.container.Elements().ElementAtOrDefault(index);
                 if (element != null)
                 {
                     element.ReplaceWith(converter.Convert(value));
