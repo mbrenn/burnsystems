@@ -99,6 +99,46 @@ namespace BurnSystems.UnitTests.Collections
             }
         }
 
+        public static XElement AttributeListDocument
+        {
+            get
+            {
+                var document = new XDocument(
+                    new XElement("elements",
+                        new XElement(
+                            "item",
+                            new XAttribute("value", 12)),
+                        new XElement(
+                            "item",
+                            new XAttribute("value", 25)),
+                        new XElement(
+                            "item",
+                            new XAttribute("value", 68))));
+
+                return document.Element("elements");
+            }
+        }
+
+        public static XElement ElementListDocument
+        {
+            get
+            {
+                var document = new XDocument(
+                    new XElement("elements",
+                        new XElement(
+                            "item",
+                            12),
+                        new XElement(
+                            "item",
+                            25),
+                        new XElement(
+                            "item",
+                            68)));
+
+                return document.Element("elements");
+            }
+        }
+
         public Entity Person1
         {
             get
@@ -336,6 +376,40 @@ namespace BurnSystems.UnitTests.Collections
             Assert.That(array[3], Is.EqualTo(this.Person1));
             Assert.That(array[4], Is.EqualTo(this.Person2));
             Assert.That(array[5], Is.EqualTo(this.Person3));
+        }
+
+        /// <summary>
+        /// Tests whether the list for attributes is working
+        /// </summary>
+        [Test]
+        public void TestListForAttributes()
+        {
+            var element = AttributeListDocument;
+            var values = XmlList<int>.GetListForAttributes(element, "item", "value");
+
+            Assert.That(values.Sum(), Is.EqualTo(105));
+            Assert.That(values.Count, Is.EqualTo(3));
+
+            values.Add(10);
+            Assert.That(values.Sum(), Is.EqualTo(115));
+            Assert.That(values.Count, Is.EqualTo(4));
+        }
+
+        /// <summary>
+        /// Tests whether the list for attributes is working
+        /// </summary>
+        [Test]
+        public void TestListForElements()
+        {
+            var element = ElementListDocument;
+            var values = XmlList<int>.GetListForElements(element, "item");
+
+            Assert.That(values.Sum(), Is.EqualTo(105));
+            Assert.That(values.Count, Is.EqualTo(3));
+
+            values.Add(10);
+            Assert.That(values.Sum(), Is.EqualTo(115));
+            Assert.That(values.Count, Is.EqualTo(4));
         }
     }
 }

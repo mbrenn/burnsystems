@@ -233,5 +233,143 @@ namespace BurnSystems.Collections
         {
             return this.GetEnumerator();
         }
+
+        /// <summary>
+        /// Creates an xml-List whose values matches to a specific attribute of all subnodes
+        /// </summary>
+        /// <param name="container">Container element containing values of all subnodes</param>
+        /// <param name="nodeName">Name of the node containing the information</param>
+        /// <param name="attributeName">Name of the attribute that is requested</param>
+        /// <returns>List of information</returns>
+        public static IList<T> GetListForAttributes(XContainer container, string nodeName, string attributeName)
+        {
+            var converter = new AttributeEntityConverter<T>(nodeName, attributeName);
+
+            return new XmlList<T>(
+                container,
+                converter);
+        }
+
+        /// <summary>
+        /// Creates an xml-List whose values matches to a specific element of all subnodes
+        /// </summary>
+        /// <param name="container">Container element containing values of all subnodes</param>
+        /// <param name="nodeName">Name of the node containing the information</param>
+        /// <returns>List of information</returns>
+        public static IList<T> GetListForElements(XContainer container, string nodeName)
+        {
+            var converter = new ElementEntityConverter<T>(nodeName);
+
+            return new XmlList<T>(
+                container,
+                converter);
+        }
+
+        /// <summary>
+        /// Converts an attribute of all subelements to a specific type
+        /// </summary>
+        private class AttributeEntityConverter<Q> : IXElementConverter<Q>
+        {
+            /// <summary>
+            /// Name of the node
+            /// </summary>
+            private string nodeName;
+            
+            /// <summary>
+            /// Name of the attribute
+            /// </summary>
+            private string attributeName;
+
+            /// <summary>
+            /// Initializes a new instance of the AttributeEntityConverter class
+            /// </summary>
+            /// <param name="nodeName">Name of the node</param>
+            /// <param name="attributeName">Name of the attribute</param>
+            public AttributeEntityConverter(string nodeName, string attributeName)
+            {
+                this.nodeName = nodeName;
+                this.attributeName = attributeName;
+            }
+
+            /// <summary>
+            /// Converts the element to the type
+            /// </summary>
+            /// <param name="element"></param>
+            /// <returns></returns>
+            public Q Convert(XElement element)
+            {
+                if (element.Name != this.nodeName)
+                {
+                    return default(Q);
+                }
+
+                var attribute = element.Attribute(this.attributeName);
+                if (attribute == null)
+                {
+                    return default(Q);
+                }
+
+                return (Q)System.Convert.ChangeType(attribute.Value, typeof(Q));
+            }
+
+            /// <summary>
+            /// Converts an entity to the element
+            /// </summary>
+            /// <param name="entity">Entity to be converted</param>
+            /// <returns>Entity as an XElement</returns>
+            public XElement Convert(Q entity)
+            {
+                return new XElement(
+                    this.nodeName,
+                    new XAttribute(attributeName, entity.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Converts an element of all subelements to a specific type
+        /// </summary>
+        private class ElementEntityConverter<Q> : IXElementConverter<Q>
+        {
+            /// <summary>
+            /// Name of the node
+            /// </summary>
+            private string nodeName;
+
+            /// <summary>
+            /// Initializes a new instance of the AttributeEntityConverter class
+            /// </summary>
+            /// <param name="nodeName">Name of the node</param>
+            public ElementEntityConverter(string nodeName)
+            {
+                this.nodeName = nodeName;
+            }
+
+            /// <summary>
+            /// Converts the element to the type
+            /// </summary>
+            /// <param name="element"></param>
+            /// <returns></returns>
+            public Q Convert(XElement element)
+            {
+                if (element.Name != this.nodeName)
+                {
+                    return default(Q);
+                }
+
+                return (Q)System.Convert.ChangeType(element.Value, typeof(Q));
+            }
+
+            /// <summary>
+            /// Converts an entity to the element
+            /// </summary>
+            /// <param name="entity">Entity to be converted</param>
+            /// <returns>Entity as an XElement</returns>
+            public XElement Convert(Q entity)
+            {
+                return new XElement(
+                    this.nodeName,
+                    entity.ToString());
+            }
+        }
     }
 }
