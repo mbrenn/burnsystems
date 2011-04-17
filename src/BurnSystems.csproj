@@ -126,6 +126,7 @@
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Collections\TypedContainer.cs" />
     <Compile Include="Collections\XmlList.cs" />
+    <Compile Include="Collections\XmlSetList.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
     <Compile Include="Database\ConnectionFactory.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />

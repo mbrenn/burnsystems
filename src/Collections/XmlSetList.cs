@@ -13,7 +13,7 @@ namespace BurnSystems.Collections
     /// on the element
     /// </summary>
     /// <typeparam name="T">Type of the entity</typeparam>
-    public class XmlList<T> : IList<T>
+    public class XmlSetList<T> : IList<T>
     {
         /// <summary>
         /// Stores the converter
@@ -23,16 +23,16 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Container node being associated the list
         /// </summary>
-        private XContainer container;
+        private IEnumerable<XContainer> containers;
 
         /// <summary>
         /// Initializes a new instance of the XmlList class.
         /// </summary>
-        /// <param name="container">Xml-Container storing the elements</param>
+        /// <param name="containers">Xml-Container storing the elements</param>
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
-        public XmlList(XContainer container, IXElementConverter<T> converter)
+        public XmlSetList(IEnumerable<XContainer> containers, IXElementConverter<T> converter)
         {
-            this.container = container;
+            this.containers = containers;
             this.converter = converter;
         }
 
@@ -46,7 +46,7 @@ namespace BurnSystems.Collections
             var pos = 0;
 
             foreach (var entity in
-                this.container.Elements()
+                this.containers.Elements()
                     .Select(x => converter.Convert(x)))
             {
                 if (entity != null && entity.Equals(item))
@@ -67,17 +67,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Insert(int index, T item)
         {
-            var element = this.container.Elements()
-                .ElementAtOrDefault(index - 1);
-
-            if (element == null)
-            {
-                this.container.Add(converter.Convert(item));
-            }
-            else
-            {
-                element.AddAfterSelf(converter.Convert(item));
-            }
+            throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -86,7 +76,7 @@ namespace BurnSystems.Collections
         /// <param name="index">Index of the item</param>
         public void RemoveAt(int index)
         {
-            var element = this.container.Elements().ElementAtOrDefault(index);
+            var element = this.containers.Elements().ElementAtOrDefault(index);
             if (element != null)
             {
                 element.Remove();
@@ -102,19 +92,19 @@ namespace BurnSystems.Collections
         {
             get
             {
-                var element = this.container.Elements().ElementAt(index);
+                var element = this.containers.Elements().ElementAt(index);
                 return converter.Convert(element);
             }
             set
             {
-                var element = this.container.Elements().ElementAtOrDefault(index);
+                var element = this.containers.Elements().ElementAtOrDefault(index);
                 if (element != null)
                 {
                     element.ReplaceWith(converter.Convert(value));
                 }
                 else
                 {
-                    this.container.Add(converter.Convert(value));
+                    this.containers.Last().Add(converter.Convert(value));
                 }
             }
         }
@@ -125,7 +115,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            this.container.Add(converter.Convert(item));
+            this.containers.Last().Add(converter.Convert(item));
         }
 
         /// <summary>
@@ -133,7 +123,10 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Clear()
         {
-            this.container.RemoveNodes();
+            foreach (var container in this.containers)
+            {
+                container.RemoveNodes();
+            }
         }
 
         /// <summary>
@@ -181,7 +174,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public int Count
         {
-            get { return this.container.Elements().Count(); }
+            get { return this.containers.Elements().Count(); }
         }
 
         /// <summary>
@@ -216,7 +209,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator for the list</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var item in this.container.Elements()
+            foreach (var item in this.containers.Elements()
                 .Select(x => converter.Convert(x))
                 .Where(x => x != null))
             {
@@ -241,11 +234,11 @@ namespace BurnSystems.Collections
         /// <param name="nodeName">Name of the node containing the information</param>
         /// <param name="attributeName">Name of the attribute that is requested</param>
         /// <returns>List of information</returns>
-        public static IList<T> GetListForAttributes(XContainer container, string nodeName, string attributeName)
+        public static IList<T> GetListForAttributes(IEnumerable<XContainer> container, string nodeName, string attributeName)
         {
-            var converter = new AttributeEntityConverter<T>(nodeName, attributeName);
+            var converter = new XmlList<T>.AttributeEntityConverter<T>(nodeName, attributeName);
 
-            return new XmlList<T>(
+            return new XmlSetList<T>(
                 container,
                 converter);
         }
@@ -256,120 +249,13 @@ namespace BurnSystems.Collections
         /// <param name="container">Container element containing values of all subnodes</param>
         /// <param name="nodeName">Name of the node containing the information</param>
         /// <returns>List of information</returns>
-        public static IList<T> GetListForElements(XContainer container, string nodeName)
+        public static IList<T> GetListForElements(IEnumerable<XContainer> container, string nodeName)
         {
-            var converter = new ElementEntityConverter<T>(nodeName);
+            var converter = new XmlList<T>.ElementEntityConverter<T>(nodeName);
 
-            return new XmlList<T>(
+            return new XmlSetList<T>(
                 container,
                 converter);
-        }
-
-        /// <summary>
-        /// Converts an attribute of all subelements to a specific type
-        /// </summary>
-        internal class AttributeEntityConverter<Q> : IXElementConverter<Q>
-        {
-            /// <summary>
-            /// Name of the node
-            /// </summary>
-            private string nodeName;
-            
-            /// <summary>
-            /// Name of the attribute
-            /// </summary>
-            private string attributeName;
-
-            /// <summary>
-            /// Initializes a new instance of the AttributeEntityConverter class
-            /// </summary>
-            /// <param name="nodeName">Name of the node</param>
-            /// <param name="attributeName">Name of the attribute</param>
-            public AttributeEntityConverter(string nodeName, string attributeName)
-            {
-                this.nodeName = nodeName;
-                this.attributeName = attributeName;
-            }
-
-            /// <summary>
-            /// Converts the element to the type
-            /// </summary>
-            /// <param name="element"></param>
-            /// <returns></returns>
-            public Q Convert(XElement element)
-            {
-                if (element.Name != this.nodeName)
-                {
-                    return default(Q);
-                }
-
-                var attribute = element.Attribute(this.attributeName);
-                if (attribute == null)
-                {
-                    return default(Q);
-                }
-
-                return (Q)System.Convert.ChangeType(attribute.Value, typeof(Q));
-            }
-
-            /// <summary>
-            /// Converts an entity to the element
-            /// </summary>
-            /// <param name="entity">Entity to be converted</param>
-            /// <returns>Entity as an XElement</returns>
-            public XElement Convert(Q entity)
-            {
-                return new XElement(
-                    this.nodeName,
-                    new XAttribute(attributeName, entity.ToString()));
-            }
-        }
-
-        /// <summary>
-        /// Converts an element of all subelements to a specific type
-        /// </summary>
-        internal class ElementEntityConverter<Q> : IXElementConverter<Q>
-        {
-            /// <summary>
-            /// Name of the node
-            /// </summary>
-            private string nodeName;
-
-            /// <summary>
-            /// Initializes a new instance of the AttributeEntityConverter class
-            /// </summary>
-            /// <param name="nodeName">Name of the node</param>
-            public ElementEntityConverter(string nodeName)
-            {
-                this.nodeName = nodeName;
-            }
-
-            /// <summary>
-            /// Converts the element to the type
-            /// </summary>
-            /// <param name="element"></param>
-            /// <returns></returns>
-            public Q Convert(XElement element)
-            {
-                if (element.Name != this.nodeName)
-                {
-                    return default(Q);
-                }
-
-                return (Q)System.Convert.ChangeType(element.Value, typeof(Q));
-            }
-
-            /// <summary>
-            /// Converts an entity to the element
-            /// </summary>
-            /// <param name="entity">Entity to be converted</param>
-            /// <returns>Entity as an XElement</returns>
-            public XElement Convert(Q entity)
-            {
-                return new XElement(
-                    this.nodeName,
-                    entity.ToString());
-            }
         }
     }
 }
