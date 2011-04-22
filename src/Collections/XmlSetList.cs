@@ -50,7 +50,7 @@ namespace BurnSystems.Collections
                     .Select(x => converter.Convert(x)))
             {
                 if ((item == null && entity == null)
-                    && (entity != null && entity.Equals(item)))
+                    || (entity != null && entity.Equals(item)))
                 {
                     return pos;
                 }
