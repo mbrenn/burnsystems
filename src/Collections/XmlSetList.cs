@@ -49,7 +49,8 @@ namespace BurnSystems.Collections
                 this.containers.Elements()
                     .Select(x => converter.Convert(x)))
             {
-                if (entity != null && entity.Equals(item))
+                if ((item == null && entity == null)
+                    && (entity != null && entity.Equals(item)))
                 {
                     return pos;
                 }
@@ -67,7 +68,17 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Insert(int index, T item)
         {
-            throw new InvalidOperationException();
+            var element = this.containers.Elements()
+                .ElementAtOrDefault(index - 1);
+
+            if (element == null)
+            {
+                this.containers.Last().Add(converter.Convert(item));
+            }
+            else
+            {
+                element.AddAfterSelf(converter.Convert(item));
+            }
         }
 
         /// <summary>
@@ -162,7 +173,7 @@ namespace BurnSystems.Collections
                 array[pos] = element;
                 pos++;
 
-                if (pos >= array.Length)
+                if (pos > array.Length)
                 {
                     throw new ArgumentException();
                 }
@@ -174,7 +185,11 @@ namespace BurnSystems.Collections
         /// </summary>
         public int Count
         {
-            get { return this.containers.Elements().Count(); }
+            get
+            {
+                var count = this.containers.Elements().Count();
+                return count;
+            }
         }
 
         /// <summary>
@@ -210,8 +225,7 @@ namespace BurnSystems.Collections
         public IEnumerator<T> GetEnumerator()
         {
             foreach (var item in this.containers.Elements()
-                .Select(x => converter.Convert(x))
-                .Where(x => x != null))
+                .Select(x => converter.Convert(x)))
             {
                 yield return item;
             }
