@@ -153,10 +153,10 @@ namespace BurnSystems.Plugins
             var source = this.plugins.ToList();
             this.Plugins.Clear();
 
-            bool hasSorted;
+            bool hasAdded;
             do
             {
-                hasSorted = false;
+                hasAdded = false;
                 for (var n = 0; n < source.Count; n++)
                 {
                     var element = source[n];
@@ -167,15 +167,15 @@ namespace BurnSystems.Plugins
                         source.RemoveAt(n);
                         n--;
 
-                        hasSorted = true;
+                        hasAdded = true;
                     }
                 }
             }
-            while (hasSorted);
+            while (hasAdded);
 
             if (source.Count != 0)
             {
-                // Some plugins were not added... Dependency problem. 
+                // Some plugins were not added... Dependency problem.
                 foreach (var sourceEntry in source)
                 {
                     var message = string.Format(
@@ -194,7 +194,8 @@ namespace BurnSystems.Plugins
                     }
                 }
 
-                throw new InvalidOperationException();
+                var types = source.Select(x => x.Type.FullName).Aggregate((x, y) => string.Format("{0}, {1}", x, y));
+                throw new InvalidOperationException(types);
             }
         }
     }
