@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ListHelper.cs" company="Martin Brenn">
+// <copyright file="TypedContainer.cs" company="Martin Brenn">
 //     Alle Rechte vorbehalten. 
 // 
 //     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
@@ -14,7 +14,6 @@ namespace BurnSystems.Collections
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Implements a container, that stores the instances according to their type. 

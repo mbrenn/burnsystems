@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BurnSystems.Interfaces;
-using System.Xml.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="XmlSetList.cs" company="Martin Brenn">
+//     Alle Rechte vorbehalten. 
+// 
+//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
+//     der AGPL lizenziert. 
+//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
+//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace BurnSystems.Collections
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml.Linq;
+    using BurnSystems.Interfaces;
+
     /// <summary>
     /// This implements the IList interface on an XContainer element. 
     /// All addings, deletions, changes on this container will be directly done
