@@ -140,7 +140,6 @@ namespace BurnSystems.Collections
             this.OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(
                     NotifyCollectionChangedAction.Reset));
-
         }
 
         /// <summary>
