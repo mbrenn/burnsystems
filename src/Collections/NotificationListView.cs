@@ -78,7 +78,7 @@ namespace BurnSystems.Collections
         public void RemoveAt(int index)
         {
             var item = this[index];
-            this.RemoveAt(index);
+            this.container.RemoveAt(index);
             this.OnPropertyChanged("Count");
             this.OnPropertyChanged("Item[]");
             this.OnCollectionChanged(
@@ -107,8 +107,8 @@ namespace BurnSystems.Collections
                 this.OnCollectionChanged(
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Replace,
-                        oldItem,
                         value,
+                        oldItem,
                         index));
             }
         }
@@ -126,7 +126,7 @@ namespace BurnSystems.Collections
                 new NotifyCollectionChangedEventArgs(
                     NotifyCollectionChangedAction.Add,
                     item,
-                    this.Count));
+                    this.Count - 1));
         }
 
         /// <summary>
@@ -137,6 +137,9 @@ namespace BurnSystems.Collections
             this.container.Clear();
             this.OnPropertyChanged("Count");
             this.OnPropertyChanged("Item[]");
+            this.OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(
+                    NotifyCollectionChangedAction.Reset));
 
         }
 

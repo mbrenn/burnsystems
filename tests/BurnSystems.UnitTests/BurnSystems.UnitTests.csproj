@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Collections\AutoDictionaryTests.cs" />
     <Compile Include="Collections\NiceDictionaryTests.cs" />
+    <Compile Include="Collections\NotificationListViewTests.cs" />
     <Compile Include="Collections\TypedContainerTests.cs" />
     <Compile Include="Collections\XmlListTests.cs" />
     <Compile Include="Database\Objects\ConverterTests.cs" />
