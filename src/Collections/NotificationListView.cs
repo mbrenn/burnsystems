@@ -11,17 +11,23 @@
 
 namespace BurnSystems.Collections
 {
-    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System;
 
     /// <summary>
     /// This listview encapsulates a container and throws all necessary 
     /// events fot the INotifyPropertyChanged and INotifyCollectionChanged interfaces.
     /// </summary>
-    public class NotificationListView<T> : IList<T>, INotifyPropertyChanged, INotifyCollectionChanged
+    public class NotificationListView<T> : IList<T>, IList, INotifyPropertyChanged, INotifyCollectionChanged
     {
+        /// <summary>
+        /// Stores the synchronisation root
+        /// </summary>
+        private object syncRoot = new object();
+
         /// <summary>
         /// Stores the list that has been abstracted
         /// </summary>
@@ -249,5 +255,140 @@ namespace BurnSystems.Collections
         /// Called, when a collection has been changed
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        #region Implementation of the IList interface
+
+        /// <summary>
+        /// Adds an item to list
+        /// </summary>
+        /// <param name="value">Value to be added</param>
+        /// <returns>Position of recently added item</returns>
+        public int Add(object value)
+        {
+            if (!(value is T))
+            {
+                throw new InvalidCastException("value");
+            }
+
+            this.Add((T)value);
+            return this.Count - 1;
+        }
+
+        /// <summary>
+        /// Checks whether the list contains the value
+        /// </summary>
+        /// <param name="value">Value to be checked</param>
+        /// <returns>True, if item is available</returns>
+        public bool Contains(object value)
+        {
+            if (!(value is T))
+            {
+                return false;
+            }
+
+            return this.Contains((T)value);
+        }
+
+        /// <summary>
+        /// Gets the position of the value
+        /// </summary>
+        /// <param name="value">Value to be checked</param>
+        /// <returns>Position of value</returns>
+        public int IndexOf(object value)
+        {
+            if (!(value is T))
+            {
+                return -1;
+            }
+
+            return this.IndexOf((T)value);
+        }
+
+        /// <summary>
+        /// Inserts an item to database
+        /// </summary>
+        /// <param name="index">Index of the item</param>
+        /// <param name="value">Value to be added</param>
+        public void Insert(int index, object value)
+        {
+            if (!(value is T))
+            {
+                throw new InvalidCastException("value");
+            }
+
+            this.Insert(index, (T)value);
+        }
+
+        /// <summary>
+        /// Returns false
+        /// </summary>
+        public bool IsFixedSize
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Removes an item
+        /// </summary>
+        /// <param name="value">Value to be removed</param>
+        public void Remove(object value)
+        {
+            if (!(value is T))
+            {
+                return;
+            }
+
+            this.Remove((T)value);
+        }
+
+        /// <summary>
+        /// Gets an object
+        /// </summary>
+        /// <param name="index">Index of the object</param>
+        /// <returns>Found object</returns>
+        object IList.this[int index]
+        {
+            get
+            {
+                return this[index];
+            }
+            set
+            {
+                if (!(value is T))
+                {
+                    throw new InvalidCastException("value");
+                }
+
+                this[index] = (T)value;
+            }
+        }
+
+        /// <summary>
+        /// Copies the items to the array
+        /// </summary>
+        /// <param name="array">Array to be filled</param>
+        /// <param name="index">Index where to start</param>
+        public void CopyTo(System.Array array, int index)
+        {
+            ((IList)this.container).CopyTo(array, index);
+        }
+
+        /// <summary>
+        /// Gets the information whether the list is synchronized
+        /// </summary>
+        public bool IsSynchronized
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets the synchronisation object
+        /// </summary>
+        public object SyncRoot
+        {
+            get { return this.syncRoot; }
+        }
+
+        #endregion
     }
 }
