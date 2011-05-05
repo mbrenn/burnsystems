@@ -120,6 +120,7 @@
     <Compile Include="Collections\AutoDictionary.cs" />
     <Compile Include="Collections\Container.cs" />
     <Compile Include="Collections\ListHelper.cs" />
+    <Compile Include="Collections\ListTransformView.cs" />
     <Compile Include="Collections\NiceDictionary.cs" />
     <Compile Include="Collections\NotificationListView.cs" />
     <Compile Include="Collections\ObjectContainer.cs" />
