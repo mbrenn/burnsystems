@@ -53,6 +53,17 @@ namespace BurnSystems.Collections
             this.list = list;
             this.selector = selector;
         }
+
+        /// <summary>
+        /// This method detaches the events from the original list
+        /// </summary>
+        public void Detach()
+        {
+            var notifyPropertyChanged = this.list as INotifyPropertyChanged;
+            var notifyCollectionChanged = this.list as INotifyCollectionChanged;
+            notifyPropertyChanged.PropertyChanged -= new PropertyChangedEventHandler(OnPropertyChanged);
+            notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+        }
         
         /// <summary>
         /// Called, if a property has been changed
@@ -73,7 +84,8 @@ namespace BurnSystems.Collections
                                 NotifyCollectionChangedAction.Add,
                                 e.NewItems
                                     .OfType<T>()
-                                    .Select(x => this.selector(x)),
+                                    .Select(x => this.selector(x))
+                                    .ToList(),
                                 e.NewStartingIndex));
                         break;
                     case NotifyCollectionChangedAction.Move:
@@ -83,7 +95,8 @@ namespace BurnSystems.Collections
                                 NotifyCollectionChangedAction.Move,
                                 e.NewItems
                                     .OfType<T>()
-                                    .Select(x => this.selector(x)),
+                                    .Select(x => this.selector(x))
+                                    .ToList(),
                                 e.NewStartingIndex,
                                 e.OldStartingIndex));
                         break;
@@ -94,7 +107,8 @@ namespace BurnSystems.Collections
                                 NotifyCollectionChangedAction.Remove,
                                 e.OldItems
                                     .OfType<T>()
-                                    .Select(x => this.selector(x)),
+                                    .Select(x => this.selector(x))
+                                    .ToList(),
                                 e.OldStartingIndex));
                         break;
                     case NotifyCollectionChangedAction.Replace:
@@ -104,10 +118,12 @@ namespace BurnSystems.Collections
                                 NotifyCollectionChangedAction.Replace,
                                 e.OldItems
                                     .OfType<T>()
-                                    .Select(x => this.selector(x)),
+                                    .Select(x => this.selector(x))
+                                    .ToList(),
                                 e.NewItems
                                     .OfType<T>()
-                                    .Select(x => this.selector(x))));
+                                    .Select(x => this.selector(x))
+                                    .ToList()));
                         break;
                     case NotifyCollectionChangedAction.Reset:
                         ev(
