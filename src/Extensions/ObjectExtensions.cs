@@ -65,7 +65,8 @@ namespace BurnSystems.Extensions
                 foreach (var property in
                     type.GetProperties(
                         BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(x => x.CanRead))
+                    .Where(x => x.CanRead)
+                    .Where(x => !result.Any(y => x.Name == y.Name)))
                 {
                     result.Add(ConvertToProperty(item, property));
                 }
