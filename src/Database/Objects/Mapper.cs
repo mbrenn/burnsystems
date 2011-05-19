@@ -96,6 +96,16 @@ namespace BurnSystems.Database.Objects
         }
 
         /// <summary>
+        /// Deletes all items from table by dictionary
+        /// </summary>
+        /// <param name="where">Dictionary containing where constraint</param>
+        public void Delete(Dictionary<string, object> where)
+        {
+            var deleteQuery = new DeleteQuery(this.TableName, where);
+            this.Connection.ExecuteNonQuery(deleteQuery);
+        }
+
+        /// <summary>
         /// Writes changes of the item to database
         /// </summary>
         /// <param name="t">Item to be updated</param>
@@ -160,7 +170,26 @@ namespace BurnSystems.Database.Objects
         public T[] Get(Dictionary<string, object> where)
         {
             var selectQuery = new SelectQuery(this.TableName, where);
+            return Get(selectQuery);
+        }
 
+        /// <summary>
+        /// Gets all items matching to the query
+        /// </summary>
+        /// <param name="query">Query to be executed</param>
+        /// <returns>Array of items to be returned</returns>
+        public T[] Get(string query)
+        {
+            return this.Get(new FreeQuery(query));
+        }
+
+        /// <summary>
+        /// Gets all items matchint to the query
+        /// </summary>
+        /// <param name="selectQuery">Query to be executed</param>
+        /// <returns>Array of items to be returned</returns>
+        public T[] Get(Query selectQuery)
+        {
             var result = new List<T>();
 
             foreach (var reader in this.Connection.ExecuteEnumeration(selectQuery))
