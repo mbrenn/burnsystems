@@ -100,6 +100,10 @@ namespace BurnSystems.AdoNet.Queries
             {
                 return DbType.Double;
             }
+            else if (value is byte[])
+            {
+                return DbType.Binary;
+            }
             else if (value == null)
             {
                 return DbType.String;
