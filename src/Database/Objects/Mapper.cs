@@ -74,6 +74,15 @@ namespace BurnSystems.Database.Objects
         }
 
         /// <summary>
+        /// Deletes the complete table
+        /// </summary>
+        public void Clear()
+        {
+            var deleteQuery = new DeleteQuery(this.TableName);
+            this.Connection.ExecuteNonQuery(deleteQuery);
+        }
+
+        /// <summary>
         /// Removes an item from database
         /// </summary>
         /// <param name="id">Id of the item to be removed</param>
