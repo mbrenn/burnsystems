@@ -332,8 +332,14 @@ namespace BurnSystems
         /// </summary>
         /// <param name="value">String to be converted</param>
         /// <returns>String being converted</returns>
-        public static string Nl2Br(string value)
+        public static string Nl2Br(this string value)
         {
+            // Returns null for null strings
+            if (value == null)
+            {
+                return null;
+            }
+        
             return value.Replace("\n", "<br />").Replace("\r", string.Empty);
         }
 
