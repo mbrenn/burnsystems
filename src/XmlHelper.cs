@@ -332,6 +332,30 @@ namespace BurnSystems
         }
 
         /// <summary>
+        /// Gets the an enumeration of elements stored in the nodes. 
+        /// If no node is existing, a new element will be created
+        /// </summary>
+        /// <param name="nodes">List of nodes</param>
+        /// <param name="elementName">Name of the element</param>
+        /// <returns>Found node or created and attached element with <c>elementName</c></returns>
+        public static IEnumerable<XElement> GetOrCreateElements(this IEnumerable<XElement> nodes, string elementName)
+		{
+			return GetOrCreateElements(nodes.Cast<XContainer>(), elementName);
+		}
+
+        /// <summary>
+        /// Gets the an enumeration of elements stored in the nodes. 
+        /// If no node is existing, a new element will be created
+        /// </summary>
+        /// <param name="nodes">List of nodes</param>
+        /// <param name="elementName">Name of the element</param>
+        /// <returns>Found node or created and attached element with <c>elementName</c></returns>
+        public static IEnumerable<XElement> GetOrCreateElements(this IEnumerable<XDocument> nodes, string elementName)
+		{
+			return GetOrCreateElements(nodes.Cast<XContainer>(), elementName);
+		}
+
+        /// <summary>
         /// Gets the last element available in the enumeration or creates a new element in 
         /// the XContainer element if this element is not available.
         /// </summary>
