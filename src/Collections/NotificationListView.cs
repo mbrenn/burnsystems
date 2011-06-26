@@ -21,7 +21,7 @@ namespace BurnSystems.Collections
     /// This listview encapsulates a container and throws all necessary 
     /// events fot the INotifyPropertyChanged and INotifyCollectionChanged interfaces.
     /// </summary>
-    public class NotificationListView<T> : IList<T>, IList, INotifyPropertyChanged, INotifyCollectionChanged
+	public class NotificationListView<T> : IList<T>, IList, INotifyPropertyChanged
     {
         /// <summary>
         /// Stores the synchronisation root

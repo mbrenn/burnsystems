@@ -25,10 +25,25 @@ namespace BurnSystems.UnitTests.Database.Objects
             // Gets the database connection
             if (EnvironmentHelper.IsMono || useMySql)
             {
-                var assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d");
+				Assembly assembly = null;
+				try
+				{
+                	assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d");
+				}
+				catch { }
+				
                 if (assembly == null)
                 {
-                    Assert.Inconclusive("No MySql.Data.dll installed");
+					try
+					{
+						assembly = Assembly.Load("MySql.Data, Version=6.1.3.0, Culture=neutral, PublicKeyToken=20449f9ba87f7ae2");
+					}
+					catch { }
+					
+					if (assembly == null)
+					{
+                    	Assert.Inconclusive("No MySql.Data.dll installed");
+					}
                 }
 
                 var mysqlType = assembly.GetType("MySql.Data.MySqlClient.MySqlConnection");

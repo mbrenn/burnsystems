@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 
 namespace BurnSystems.UnitTests.Collections
 {
+	/*
     /// <summary>
     /// This class contains some tests for the NotificationListView class
     /// </summary>
@@ -174,6 +175,7 @@ namespace BurnSystems.UnitTests.Collections
             public List<string> PropertyNames = new List<string>();
         }
 
+		/*
         /// <summary>
         /// Stores the last information about collection changes
         /// </summary>
@@ -184,5 +186,6 @@ namespace BurnSystems.UnitTests.Collections
             /// </summary>
             public List<NotifyCollectionChangedEventArgs> Arguments = new List<NotifyCollectionChangedEventArgs>();
         }
-    }
+		
+    }*/
 }

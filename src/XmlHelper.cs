@@ -290,7 +290,7 @@ namespace BurnSystems
         /// <param name="nodes">List of nodes</param>
         /// <param name="elementName">Name of the element</param>
         /// <returns>Found node or created and attached element with <c>elementName</c></returns>
-        public static XElement GetOrCreateLastElement(this IEnumerable<XContainer> nodes, string elementName)
+        public static XElement GetOrCreateLastElement(this IEnumerable<XElement> nodes, string elementName)
         {
             var foundElement = nodes.Elements(elementName).LastOrDefault();
             if (foundElement == null)
@@ -338,7 +338,7 @@ namespace BurnSystems
         /// <param name="node">Contaioner, which shall be looked up</param>
         /// <param name="elementName">Name of the element</param>
         /// <returns>Found node or created and attached element with <c>elementName</c></returns>
-        public static XElement GetOrCreateLastElement(this XContainer node, string elementName)
+        public static XElement GetOrCreateLastElement(this XElement node, string elementName)
         {
             return GetOrCreateLastElement(new[] { node }, elementName);
         }

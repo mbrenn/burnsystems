@@ -17,8 +17,8 @@ namespace BurnSystems.Collections
     /// This list is read-only because the original list has to be modified
     /// </summary>
     /// <typeparam name="T">Type of the elements of the list that is the source type</typeparam>
-    /// <typeparam name="Q">Type of the elements of the list, that shall be delivered</typeparam>
-    public class ListTransformView<T, Q> : IList<Q>, IList, INotifyPropertyChanged, INotifyCollectionChanged
+    /// <typeparam name="Q">Type of the elements of the list, that shall be delivered</typeparam>    
+	public class ListTransformView<T, Q> : IList<Q>, IList, INotifyPropertyChanged //, INotifyCollectionChanged
     {
         /// <summary>
         /// Stores the synchronization root
@@ -65,6 +65,7 @@ namespace BurnSystems.Collections
             notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(OnCollectionChanged);
         }
         
+		
         /// <summary>
         /// Called, if a property has been changed
         /// </summary>
@@ -72,6 +73,9 @@ namespace BurnSystems.Collections
         /// <param name="e">Arguments of event</param>
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+			return; 
+			
+			/*
             var ev = this.CollectionChanged;
             if (ev != null)
             {
@@ -135,6 +139,7 @@ namespace BurnSystems.Collections
                         break;
                 }
             }
+            */
         }
 
         /// <summary>
@@ -459,8 +464,9 @@ namespace BurnSystems.Collections
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// This event is called, when a collection has been changed
+        /// This event is called, when a collection has been changed.
+        /// This method is not implemented in Mono
         /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        //public event NotifyCollectionChangedEventHandler CollectionChanged;
     }
 }
