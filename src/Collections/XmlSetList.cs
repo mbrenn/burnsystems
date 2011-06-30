@@ -49,7 +49,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Initializes a new instance of the XmlList class.
         /// </summary>
-        /// <param name="containers">Xml-Container storing the elements</param>
+        /// <param name="elements">Xml-Container storing the elements</param>
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
         public XmlSetList(IEnumerable<XElement> elements, IXElementConverter<T> converter)
         {
@@ -286,9 +286,9 @@ namespace BurnSystems.Collections
         /// <param name="attributeName">Name of the attribute that is requested</param>
         /// <returns>List of information</returns>
         public static IList<T> GetListForAttributes(IEnumerable<XElement> container, string nodeName, string attributeName)
-		{
-			return GetListForAttributes(container.Cast<XContainer>(), nodeName, attributeName);
-		}
+        {
+            return GetListForAttributes(container.Cast<XContainer>(), nodeName, attributeName);
+        }
 
         /// <summary>
         /// Creates an xml-List whose values matches to a specific element of all subnodes
@@ -306,15 +306,14 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
-        /// Creates an xml-List whose values matches to a specific attribute of all subnodes
+        /// Creates an xml-List whose values matches to a specific element of all subnodes
         /// </summary>
         /// <param name="container">Container element containing values of all subnodes</param>
         /// <param name="nodeName">Name of the node containing the information</param>
-        /// <param name="attributeName">Name of the attribute that is requested</param>
         /// <returns>List of information</returns>
-        public static IList<T> GetListForAttributes(IEnumerable<XElement> container, string nodeName)
-		{
-			return GetListForElements(container.Cast<XContainer>(), nodeName);
-		}
+        public static IList<T> GetListForElements(IEnumerable<XElement> container, string nodeName)
+        {
+            return GetListForElements(container.Cast<XContainer>(), nodeName);
+        }
     }
 }
