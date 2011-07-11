@@ -16,6 +16,7 @@ namespace BurnSystems.AdoNet.Queries
     using System.Data;
     using System.Data.Common;
     using System.Globalization;
+    using System.Linq;
 
     /// <summary>
     /// This extension class adds several methods to the query 
@@ -107,6 +108,23 @@ namespace BurnSystems.AdoNet.Queries
         public static bool IsSqlServerConnection(this DbConnection connection)
         {
             return connection is System.Data.SqlClient.SqlConnection;
+        }
+
+        /// <summary>
+        /// Executes multiple queries, separated by a colon. 
+        /// At the moment, this method does only a simple splitting and no check for quotes. 
+        /// </summary>
+        /// <param name="connection">Connection to be used</param>
+        /// <param name="multipleLines">Lines separated by colons</param>
+        public static void ExecuteMultipleQueries(this DbConnection connection, string multipleLines)
+        {
+            foreach (var queryText in multipleLines.Split(';')
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrEmpty(x)))
+            {
+                // No empty queries and remove last ';'
+                connection.ExecuteNonQuery(new FreeQuery(queryText));
+            }
         }
     }
 }
