@@ -44,6 +44,7 @@ namespace BurnSystems.Net.Json
                 this.value
                     .Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
+                    .Replace("\t", "\\t")
                     .Replace("\r", "\\r")
                     .Replace("\n", "\\n"));
         }
