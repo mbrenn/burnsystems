@@ -476,5 +476,86 @@ namespace BurnSystems
         {
             return GetOrCreateAttribute(new[] { elements }, attributeName);
         }
+
+        /// <summary>
+        /// Gets the value if element is not null or the default value
+        /// </summary>
+        /// <param name="element">Element whose value is queried</param>
+        /// <param name="defaultValue">Default value if element is null</param>
+        /// <returns>Element's value or default value</returns>
+        public static string GetValueOr(this XElement element, string defaultValue)
+        {
+            if (element == null)
+            {
+                return defaultValue;
+            }
+
+            return element.Value;
+        }
+
+        /// <summary>
+        /// Gets the value if element is not null or the default value
+        /// </summary>
+        /// <param name="element">Element whose value is queried</param>
+        /// <param name="defaultValue">Default value if element is null</param>
+        /// <returns>Element's value or default value</returns>
+        public static int GetValueOr(this XElement element, int defaultValue)
+        {
+            if (element == null)
+            {
+                return defaultValue;
+            }
+
+            return Convert.ToInt32(element.Value);
+        }
+
+        /// <summary>
+        /// Gets the value if element is not null or the default value
+        /// </summary>
+        /// <param name="element">Element whose value is queried</param>
+        /// <param name="defaultValue">Default value if element is null</param>
+        /// <returns>Element's value or default value</returns>
+        public static bool GetValueOr(this XElement element, bool defaultValue)
+        {
+            if (element == null)
+            {
+                return defaultValue;
+            }
+
+            return Convert.ToBoolean(element.Value);
+        }
+
+        /// <summary>
+        /// Gets the value if there is an element within enumeration or the default value
+        /// </summary>
+        /// <param name="elements">Elements whose value is queried</param>
+        /// <param name="defaultValue">Default value if element is null</param>
+        /// <returns>Element's value or default value</returns>
+        public static bool GetValueOr(this IEnumerable<XElement> elements, bool defaultValue)
+        {
+            return GetValueOr(elements.FirstOrDefault(), defaultValue);
+        }
+
+        /// <summary>
+        /// Gets the value if there is an element within enumeration or the default value
+        /// </summary>
+        /// <param name="elements">Elements whose value is queried</param>
+        /// <param name="defaultValue">Default value if element is null</param>
+        /// <returns>Element's value or default value</returns>
+        public static string GetValueOr(this IEnumerable<XElement> elements, string defaultValue)
+        {
+            return GetValueOr(elements.FirstOrDefault(), defaultValue);
+        }
+
+        /// <summary>
+        /// Gets the value if there is an element within enumeration or the default value
+        /// </summary>
+        /// <param name="elements">Elements whose value is queried</param>
+        /// <param name="defaultValue">Default value if element is null</param>
+        /// <returns>Element's value or default value</returns>
+        public static int GetValueOr(this IEnumerable<XElement> elements, int defaultValue)
+        {
+            return GetValueOr(elements.FirstOrDefault(), defaultValue);
+        }
     }
 }
