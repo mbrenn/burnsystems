@@ -56,16 +56,23 @@ namespace BurnSystems.Database
 
             try
             {
-                assembly = Assembly.Load("MySql.Data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL");
+                assembly = Assembly.Load("MySql.Data, Version=6.3.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL");
             }
-            catch
+            catch(Exception exc)
             {
-                throw new InvalidOperationException("No MySql.Data.dll installed");
+                throw new InvalidOperationException(
+                    string.Format (
+                        "Invalid MySql.Data.dll installed: {0}", 
+                        Environment.CurrentDirectory), 
+                    exc);
             }
 
             if (assembly == null)
             {
-                throw new InvalidOperationException("No MySql.Data.dll installed");
+                throw new InvalidOperationException(
+                    string.Format(
+                        "No MySql.Data.dll installed: {0}",
+                        Environment.CurrentDirectory));
             }
 
             var mysqlType = assembly.GetType("MySql.Data.MySqlClient.MySqlConnection");
