@@ -48,8 +48,10 @@ namespace BurnSystems.AdoNet.Queries
         {
             using (var command = query.GetCommand(connection))
             {
+                var result = command.ExecuteScalar();
+
                 return (T)Convert.ChangeType(
-                    command.ExecuteScalar(),
+                    result,
                     typeof(T),
                     CultureInfo.InvariantCulture);
             }
@@ -125,6 +127,27 @@ namespace BurnSystems.AdoNet.Queries
                 // No empty queries and remove last ';'
                 connection.ExecuteNonQuery(new FreeQuery(queryText));
             }
+        }
+
+        /// <summary>
+        /// Gets the id of the 
+        /// </summary>
+        /// <returns></returns>
+        public static long GetIdOfLastInsertedRow(this DbConnection connection)
+        {
+            if (connection.IsMySqlConnection())
+            {
+                var freeQuery = new FreeQuery("SELECT LAST_INSERT_ID()");
+                return connection.ExecuteScalar<long>(freeQuery);
+            }
+
+            if (connection.IsSqlServerConnection())
+            {
+                var freeQuery = new FreeQuery("SELECT @@IDENTITY");
+                return connection.ExecuteScalar<long>(freeQuery);
+            }
+
+            throw new NotImplementedException("Unknown database connection: " + connection.GetType().ToString());
         }
     }
 }

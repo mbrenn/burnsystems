@@ -31,14 +31,14 @@ namespace BurnSystems.AdoNet.Queries
         /// <summary>
         /// Data to be inserted
         /// </summary>
-        private Dictionary<string, object> data;
+        private IDictionary<string, object> data;
 
         /// <summary>
         /// Initializes a new instance of the InsertQuery class.
         /// </summary>
         /// <param name="tablename">Name of the table</param>
         /// <param name="data">Data to be added</param>
-        public InsertQuery(string tablename, Dictionary<string, object> data)
+        public InsertQuery(string tablename, IDictionary<string, object> data)
         {
             this.tablename = tablename;
             this.data = data;
