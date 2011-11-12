@@ -43,7 +43,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="value">Input string</param>
         /// <returns>Output string with additional backslashes</returns>
-        public static string AddSlashes(string value)
+        public static string AddSlashes(this string value)
         {
             var result = value.Replace("\\", "\\\\");
             result = result.Replace("\"", "\\\"");
@@ -56,7 +56,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="value">String with backslashes</param>
         /// <returns>String with less backslashes</returns>
-        public static string StripSlashes(string value)
+        public static string StripSlashes(this string value)
         {
             var result = value.Replace("\\\"", "\"");
             result = result.Replace("\\\'", "\'");
@@ -69,7 +69,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="value">String to be encoded</param>
         /// <returns>Encoded string</returns>
-        public static string UrlEncode(string value)
+        public static string UrlEncode(this string value)
         {
             return System.Web.HttpUtility.UrlEncode(value).Replace("%2f", "/")
                 .Replace("%3a", ":");
@@ -80,7 +80,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="bytes">Array of bytes</param>
         /// <returns>Hexadecimal string</returns>
-        public static string ToHexString(byte[] bytes)
+        public static string ToHexString(this byte[] bytes)
         {
             // From MSDN, thx to MS
             var chars = new char[bytes.Length * 2];
@@ -99,7 +99,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="hexValue">Hexadecimal string</param>
         /// <returns>Converted decimal string</returns>
-        public static int HexToInt(string hexValue)
+        public static int HexToInt(this string hexValue)
         {
             Ensure.IsNotNull(hexValue);
 
@@ -193,7 +193,7 @@ namespace BurnSystems
         /// <param name="maxLength">Maximum length of string after calling this method. The ellipses
         /// is not counted</param>
         /// <returns>Shortened string</returns>
-        public static string ShortenString(string value, int maxLength)
+        public static string ShortenString(this string value, int maxLength)
         {
             return ShortenString(value, maxLength, "...");
         }
@@ -207,7 +207,7 @@ namespace BurnSystems
         /// is not counted</param>
         /// <param name="ellipsis">Die genutzte Ellipsis, wenn der String zu lang ist.</param>
         /// <returns>Shortened string</returns>
-        public static string ShortenString(string value, int maxLength, string ellipsis)
+        public static string ShortenString(this string value, int maxLength, string ellipsis)
         {
             if (maxLength < 0)
             {
@@ -229,7 +229,7 @@ namespace BurnSystems
         /// <param name="value">String to be shortened</param>
         /// <param name="letters">Number of letters</param>
         /// <returns>Shortened string</returns>
-        public static string FirstLetters(string value, int letters)
+        public static string FirstLetters(this string value, int letters)
         {
             if (value.Length > letters)
             {
@@ -244,7 +244,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="data">Data to be hashed</param>
         /// <returns>Result of hash</returns>
-        public static string Sha1(string data)
+        public static string Sha1(this string data)
         {
             if (data == null)
             {
@@ -262,7 +262,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="bytes">Buffer to be hashed</param>
         /// <returns>Hash as string</returns>
-        public static string Sha1(byte[] bytes)
+        public static string Sha1(this byte[] bytes)
         {
             byte[] result;
             var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
