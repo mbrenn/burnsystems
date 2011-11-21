@@ -127,6 +127,8 @@ namespace BurnSystems.Scope
                     disposable.Dispose();
                 }
             }
+
+            this.items.Clear();
         }
 
         /// <summary>

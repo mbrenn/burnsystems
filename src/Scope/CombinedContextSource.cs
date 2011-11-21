@@ -46,7 +46,9 @@ namespace BurnSystems.Scope
         }
 
         /// <summary>
-        /// Adds a factory method which can retrieved within a context
+        /// Adds a factory method which can retrieved within a context. 
+        /// This method is not supported because nothing shall be added
+        /// in a combined context source
         /// </summary>
         /// <typeparam name="T">Type of the item to be added</typeparam>
         /// <param name="factory">Factory method</param>
@@ -56,7 +58,9 @@ namespace BurnSystems.Scope
         }
 
         /// <summary>
-        /// Adds a factory method which can retrieved within a context
+        /// Adds a factory method which can retrieved within a context.
+        /// This method is not supported because nothing shall be added
+        /// in a combined context source
         /// </summary>
         /// <typeparam name="T">Type of the item to be added</typeparam>
         /// <param name="token">Token of the item</param>

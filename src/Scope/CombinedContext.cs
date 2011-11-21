@@ -94,11 +94,12 @@ namespace BurnSystems.Scope
 
         /// <summary>
         /// Disposes all items implementing the IDisposable
+        /// This method shall not be called, because this class shall be used as a helper methods. 
+        /// The methods creating the original context-variables shall dispose the context
         /// </summary>
         public void Dispose()
         {
-            this.primaryContext.Dispose();
-            this.secondaryContext.Dispose();
+            throw new NotImplementedException("DO NOT CALL ME");
         }
     }
 }
