@@ -155,9 +155,11 @@
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />
+    <Compile Include="Scope\CombinedContext.cs" />
     <Compile Include="Scope\CombinedContextSource.cs" />
     <Compile Include="Scope\Context.cs" />
     <Compile Include="Scope\ContextSource.cs" />
+    <Compile Include="Scope\ExtensionMethods.cs" />
     <Compile Include="Scope\IContext.cs" />
     <Compile Include="Scope\IContextSource.cs" />
     <Compile Include="Serialization\ArrayHeader.cs" />
