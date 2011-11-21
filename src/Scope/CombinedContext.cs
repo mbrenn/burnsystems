@@ -7,7 +7,7 @@ using BurnSystems.Test;
 namespace BurnSystems.Scope
 {
     /// <summary>
-    /// Combines a context with an existing context source
+    /// Combines a context with an existing context
     /// </summary>
     public class CombinedContext : IContext
     {
@@ -21,12 +21,17 @@ namespace BurnSystems.Scope
         /// </summary>
         private IContext secondaryContext;
 
-        public CombinedContext(IContext context, IContext source)
+        /// <summary>
+        /// Initializes a new instance of the CombinedContext class.
+        /// </summary>
+        /// <param name="first">First context</param>
+        /// <param name="second">Second text</param>
+        public CombinedContext(IContext first, IContext second)
         {
-            Ensure.IsNotNull(context);
-            Ensure.IsNotNull(source);
-            this.primaryContext = context;
-            this.secondaryContext = source;
+            Ensure.IsNotNull(first);
+            Ensure.IsNotNull(second);
+            this.primaryContext = first;
+            this.secondaryContext = second;
         }
 
         /// <summary>
