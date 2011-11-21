@@ -155,6 +155,7 @@
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />
+    <Compile Include="Scope\CombinedContextSource.cs" />
     <Compile Include="Scope\Context.cs" />
     <Compile Include="Scope\ContextSource.cs" />
     <Compile Include="Scope\IContext.cs" />

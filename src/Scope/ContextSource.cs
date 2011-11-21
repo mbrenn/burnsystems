@@ -13,9 +13,31 @@ namespace BurnSystems.Scope
     public class ContextSource : IContextSource
     {
         /// <summary>
+        /// Stores the inner context source
+        /// </summary>
+        private IContextSource innerContextSource = null;
+
+        /// <summary>
         /// Stores the list of items
         /// </summary>
         private List<Item> items = new List<Item>();
+
+        /// <summary>
+        /// Initializes a new instance of the ContextSource class.
+        /// </summary>
+        public ContextSource()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ContextSource class.
+        /// </summary>
+        /// <param name="innerContextSource">Inner context source that shall be queried, 
+        /// if this context source does not find the object</param>
+        public ContextSource(IContextSource innerContextSource)
+        {
+            this.innerContextSource = innerContextSource;
+        }
 
         /// <summary>
         /// Creates a new context
@@ -73,7 +95,12 @@ namespace BurnSystems.Scope
 
             if (item == null)
             {
-                return default(T);
+                if (this.innerContextSource == null)
+                {
+                    return default(T);
+                }
+
+                return this.innerContextSource.Create<T>();
             }
 
             return (T)item.Value();
@@ -93,7 +120,12 @@ namespace BurnSystems.Scope
 
             if (item == null)
             {
-                return default(T);
+                if (this.innerContextSource == null)
+                {
+                    return default(T);
+                }
+
+                return this.innerContextSource.Create<T>(token);
             }
 
             return (T)item.Value();
