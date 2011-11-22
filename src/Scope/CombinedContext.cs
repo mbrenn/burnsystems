@@ -25,7 +25,8 @@ namespace BurnSystems.Scope
         /// Initializes a new instance of the CombinedContext class.
         /// </summary>
         /// <param name="first">First context</param>
-        /// <param name="second">Second text</param>
+        /// <param name="second">Secondary context. 
+        /// This context will be modified, if an additional context source has been added</param>
         public CombinedContext(IContext first, IContext second)
         {
             Ensure.IsNotNull(first);
@@ -39,20 +40,9 @@ namespace BurnSystems.Scope
         /// </summary>
         /// <typeparam name="T">Type of the item to be added</typeparam>
         /// <param name="item">Item to be added</param>
-        public void Add<T>(T item)
+        public void Add(IContextSource source)
         {
-            this.primaryContext.Add<T>(item);
-        }
-
-        /// <summary>
-        /// Adds an item to context
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="token"></param>
-        /// <param name="item"></param>
-        public void Add<T>(string token, T item)
-        {
-            this.primaryContext.Add<T>(token, item);
+            this.secondaryContext.Add(source);
         }
 
         /// <summary>

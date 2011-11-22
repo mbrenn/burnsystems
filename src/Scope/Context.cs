@@ -15,7 +15,7 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Stores the source
         /// </summary>
-        private IContextSource source;
+        private List<IContextSource> sources = new List<IContextSource>();
 
         /// <summary>
         /// Stores the list of items
@@ -29,7 +29,7 @@ namespace BurnSystems.Scope
         public Context(IContextSource source)
         {
             Ensure.IsNotNull(source);
-            this.source = source;
+            this.sources.Add(source);
         }
 
         /// <summary>
@@ -37,36 +37,17 @@ namespace BurnSystems.Scope
         /// </summary>
         /// <typeparam name="T">Type of the item to be added</typeparam>
         /// <param name="item">Item to be added</param>
-        public void Add<T>(T item)
+        public void Add(IContextSource source)
         {
-            Ensure.IsNotNull(item);
-            if (this.items.Any(x => x.Value.Equals(item)))
+            Ensure.IsNotNull(source);
+            
+            if(this.sources.Any(x=>x.Equals(source)))
             {
                 // Already in
                 return;
             }
-
-            this.items.Add(new Item(item, string.Empty));
-        }
-
-        /// <summary>
-        /// Adds an item to context
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="token"></param>
-        /// <param name="item"></param>
-        public void Add<T>(string token, T item)
-        {
-            Ensure.IsNotNull(item);
-            if (this.items.Any(x => x.Token.Equals(token)))
-            {
-                // Already in
-                Log.TheLog.LogEntry(
-                    LogEntry.Format(LogLevel.Notify, LocalizationBS.Token_Existing, token));
-                return;
-            }
-
-            this.items.Add(new Item(item, token));
+            
+            this.sources.Add(source);
         }
 
         /// <summary>
@@ -86,8 +67,18 @@ namespace BurnSystems.Scope
 
             if (found == null)
             {
-                found = this.source.Create<T>();
+                found = this.sources
+                    .Select(x=>x.Create<T>())
+                    .Where(x=>x != null)
+                    .FirstOrDefault();
+                
+                if(found != null)
+                {
+                    this.items.Add(
+                        new Item(found, string.Empty));
+                }
             }
+            
 
             return found;
         }
@@ -108,7 +99,16 @@ namespace BurnSystems.Scope
 
             if (found == null)
             {
-                found = this.source.Create<T>(token);
+                found = this.sources
+                    .Select(x=>x.Create<T>(token))
+                    .Where(x=>x != null)
+                    .FirstOrDefault();
+                
+                if(found != null)
+                {
+                    this.items.Add(
+                        new Item(found, token));
+                }
             }
 
             return found;

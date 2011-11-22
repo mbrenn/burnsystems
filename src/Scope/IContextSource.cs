@@ -13,12 +13,6 @@ namespace BurnSystems.Scope
     public interface IContextSource
     {
         /// <summary>
-        /// Creates a new context
-        /// </summary>
-        /// <returns>The created context</returns>
-        IContext CreateContext();
-
-        /// <summary>
         /// Adds a factory method which can retrieved within a context
         /// </summary>
         /// <typeparam name="T">Type of the item to be added</typeparam>

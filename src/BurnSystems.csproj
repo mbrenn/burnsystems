@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -155,7 +155,6 @@
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />
-    <Compile Include="Scope\CombinedContext.cs" />
     <Compile Include="Scope\CombinedContextSource.cs" />
     <Compile Include="Scope\Context.cs" />
     <Compile Include="Scope\ContextSource.cs" />
@@ -213,6 +212,7 @@
     <Compile Include="XmlHelper.cs" />
     <Compile Include="Xml\Html\HtmlDocument.cs" />
     <Compile Include="Xml\Html\HtmlElement.cs" />
+    <Compile Include="Scope\CombinedContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

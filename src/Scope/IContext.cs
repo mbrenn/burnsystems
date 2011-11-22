@@ -12,20 +12,12 @@ namespace BurnSystems.Scope
     public interface IContext : IDisposable
     {
         /// <summary>
-        /// Adds an item to context
+        /// Adds an additional source to the context. 
         /// </summary>
-        /// <typeparam name="T">Type of the item to be added</typeparam>
-        /// <param name="item">Item to be added</param>
-        void Add<T>(T item);
-
-        /// <summary>
-        /// Adds an item to context
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="token"></param>
-        /// <param name="item"></param>
-        void Add<T>(string token, T item);
-
+        /// <param name='source'>
+        /// Source to be added to the context
+        /// </param>
+        void Add(IContextSource source);
         /// <summary>
         /// Gets an object, it is created if necessary.
         /// This method only works, if there is just one 
