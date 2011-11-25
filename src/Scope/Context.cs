@@ -35,7 +35,6 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Adds an item to context
         /// </summary>
-        /// <typeparam name="T">Type of the item to be added</typeparam>
         /// <param name="source">Source to be added</param>
         public void Add(IContextSource source)
         {
