@@ -21,6 +21,17 @@ namespace BurnSystems.Scope
         /// Stores the list of items
         /// </summary>
         private List<Item> items = new List<Item>();
+
+        /// <summary>
+        /// Gets the local context source which can be used to add additional factory methods
+        /// </summary>
+        public IContextSource LocalContextSource
+        {
+            get
+            {
+                return this.sources.First();
+            }
+        }
         
         /// <summary>
         /// Initializes a new instance of the Context class
@@ -28,6 +39,7 @@ namespace BurnSystems.Scope
         /// <param name="source">Source of the context</param>
         public Context(IContextSource source)
         {
+            this.sources.Add(new ContextSource());
             Ensure.IsNotNull(source);
             this.sources.Add(source);
         }
@@ -35,8 +47,7 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Adds an item to context
         /// </summary>
-        /// <typeparam name="T">Type of the item to be added</typeparam>
-        /// <param name="item">Item to be added</param>
+        /// <param name="source">Source to be added</param>
         public void Add(IContextSource source)
         {
             Ensure.IsNotNull(source);
@@ -48,6 +59,42 @@ namespace BurnSystems.Scope
             }
             
             this.sources.Add(source);
+        }
+
+        /// <summary>
+        /// Tries to add the context source of the given object. 
+        /// If the object implements IContextSource or IContextSourceFactory, the object
+        /// can be added
+        /// </summary>
+        /// <param name="value">Object perhaps containing a context source</param>
+        /// <returns>true, if something could be added, otherwise false</returns>
+        public bool TryToAddContextSource(object value)
+        {
+            var contextSource = value as IContextSource;
+            if (contextSource != null)
+            {
+                this.Add(contextSource);
+                return true;
+            }
+
+            var contextSourceFactory = value as IContextSourceFactory;
+            if (contextSourceFactory != null)
+            {
+                this.Add(contextSourceFactory);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Adds a contextsource created by the factory
+        /// </summary>
+        /// <param name="sourceFactory">Sourcefactory to be used</param>
+        public void Add(IContextSourceFactory sourceFactory)
+        {
+            Ensure.IsNotNull(sourceFactory);
+            this.Add(sourceFactory.CreateContextSource());
         }
 
         /// <summary>

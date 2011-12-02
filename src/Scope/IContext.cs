@@ -12,12 +12,21 @@ namespace BurnSystems.Scope
     public interface IContext : IDisposable
     {
         /// <summary>
+        /// Gets the local context source which can be used to add additional factory methods
+        /// </summary>
+        IContextSource LocalContextSource
+        {
+            get;
+        }
+
+        /// <summary>
         /// Adds an additional source to the context. 
         /// </summary>
         /// <param name='source'>
         /// Source to be added to the context
         /// </param>
         void Add(IContextSource source);
+
         /// <summary>
         /// Gets an object, it is created if necessary.
         /// This method only works, if there is just one 

@@ -20,6 +20,17 @@ namespace BurnSystems.Scope
         /// Secondary source
         /// </summary>
         private IContext secondaryContext;
+        
+        /// <summary>
+        /// Gets the local context source which can be used to add additional factory methods
+        /// </summary>
+        public IContextSource LocalContextSource
+        {
+            get
+            {
+                return this.primaryContext.LocalContextSource;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the CombinedContext class.
@@ -38,8 +49,7 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Adds an item to context
         /// </summary>
-        /// <typeparam name="T">Type of the item to be added</typeparam>
-        /// <param name="item">Item to be added</param>
+        /// <param name="source">Item to be added</param>
         public void Add(IContextSource source)
         {
             this.secondaryContext.Add(source);
