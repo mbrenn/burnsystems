@@ -158,6 +158,7 @@
     <Compile Include="Scope\CombinedContextSource.cs" />
     <Compile Include="Scope\Context.cs" />
     <Compile Include="Scope\ContextSource.cs" />
+    <Compile Include="Scope\Extensions.cs" />
     <Compile Include="Scope\IContext.cs" />
     <Compile Include="Scope\IContextSource.cs" />
     <Compile Include="Scope\IContextSourceFactory.cs" />

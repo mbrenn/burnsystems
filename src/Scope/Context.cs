@@ -62,32 +62,6 @@ namespace BurnSystems.Scope
         }
 
         /// <summary>
-        /// Tries to add the context source of the given object. 
-        /// If the object implements IContextSource or IContextSourceFactory, the object
-        /// can be added
-        /// </summary>
-        /// <param name="value">Object perhaps containing a context source</param>
-        /// <returns>true, if something could be added, otherwise false</returns>
-        public bool TryToAddContextSource(object value)
-        {
-            var contextSource = value as IContextSource;
-            if (contextSource != null)
-            {
-                this.Add(contextSource);
-                return true;
-            }
-
-            var contextSourceFactory = value as IContextSourceFactory;
-            if (contextSourceFactory != null)
-            {
-                this.Add(contextSourceFactory);
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Adds a contextsource created by the factory
         /// </summary>
         /// <param name="sourceFactory">Sourcefactory to be used</param>
