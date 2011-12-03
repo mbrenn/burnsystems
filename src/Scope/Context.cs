@@ -32,14 +32,22 @@ namespace BurnSystems.Scope
                 return this.sources.First();
             }
         }
+
+        /// <summary>
+        /// Initializes a new instance of the Context class
+        /// </summary>
+        public Context()
+        {
+            this.sources.Add(new ContextSource());
+        }
         
         /// <summary>
         /// Initializes a new instance of the Context class
         /// </summary>
         /// <param name="source">Source of the context</param>
         public Context(IContextSource source)
+            : this()
         {
-            this.sources.Add(new ContextSource());
             Ensure.IsNotNull(source);
             this.sources.Add(source);
         }
