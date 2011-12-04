@@ -49,7 +49,7 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Adds an item to context
         /// </summary>
-        /// <param name="source">Item to be added</param>
+        /// <param name="source">Source to be added</param>
         public void Add(IContextSource source)
         {
             this.secondaryContext.Add(source);
