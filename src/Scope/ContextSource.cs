@@ -146,6 +146,7 @@ namespace BurnSystems.Scope
             {
                 this.Value = value;
                 this.Token = token;
+                this.Type = type;
             }
 
             /// <summary>

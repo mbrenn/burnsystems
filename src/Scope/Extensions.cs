@@ -36,5 +36,44 @@ namespace BurnSystems.Scope
 
             return false;
         }
+
+        /// <summary>
+        /// Adds a context object, if no object is already existing at the place. 
+        /// This is done by check, if an instance can be created
+        /// </summary>
+        /// <typeparam name="T">Type of the context</typeparam>
+        /// <param name="contextSource">Contextsource to whom the object shall be added</param>
+        /// <param name="factory">Factory method</param>
+        public static void AddIfNotExisting<T>(this IContextSource contextSource, Func<T> factory)
+        {
+            using (var testContext = new Context(contextSource))
+            {
+                var value = testContext.Get<T>();
+                if (value == null)
+                {
+                    contextSource.Add<T>(factory);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a context object, if no object is already existing at the place. 
+        /// This is done by check, if an instance can be created
+        /// </summary>
+        /// <typeparam name="T">Type of the context</typeparam>
+        /// <param name="contextSource">Contextsource to whom the object shall be added</param>
+        /// <param name="token">Token of the object</param>
+        /// <param name="factory">Factory method</param>
+        public static void AddIfNotExisting<T>(this IContextSource contextSource, string token, Func<T> factory)
+        {
+            using (var testContext = new Context(contextSource))
+            {
+                var value = testContext.Get<T>(token);
+                if (value == null)
+                {
+                    contextSource.Add<T>(token, factory);
+                }
+            }
+        }
     }
 }

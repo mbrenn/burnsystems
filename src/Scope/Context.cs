@@ -32,6 +32,13 @@ namespace BurnSystems.Scope
                 return this.sources.First();
             }
         }
+
+        /// <summary>
+        /// Creates the context and everything is empty
+        /// </summary>
+        private Context()
+        {
+        }
         
         /// <summary>
         /// Initializes a new instance of the Context class
@@ -42,6 +49,21 @@ namespace BurnSystems.Scope
             this.sources.Add(new ContextSource());
             Ensure.IsNotNull(source);
             this.sources.Add(source);
+        }
+
+        /// <summary>
+        /// Creates a context not having a local context. 
+        /// This means that the request for LocalContextSource will return the original source
+        /// </summary>
+        /// <param name="source">Source to be used as local and global context</param>
+        /// <returns>Context containing the required information</returns>
+        public static Context CreateWithoutLocalContext(IContextSource source)
+        {
+            Ensure.IsNotNull(source);
+
+            var result = new Context();
+            result.Add(source);
+            return result;
         }
 
         /// <summary>
@@ -98,8 +120,7 @@ namespace BurnSystems.Scope
                     this.items.Add(
                         new Item(found, string.Empty));
                 }
-            }
-            
+            }            
 
             return found;
         }
