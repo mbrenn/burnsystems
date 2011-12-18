@@ -102,9 +102,10 @@ namespace BurnSystems.Scope
         /// <returns>Object to be created or retrieved</returns>
         public T Get<T>()
         {
-            var found = 
+            var found =
                 this.items
                     .Where(x => x.Value.GetType().Equals(typeof(T)))
+                    .Select(x => x.Value)
                     .Cast<T>()
                     .FirstOrDefault();
 
