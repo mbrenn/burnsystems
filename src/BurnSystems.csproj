@@ -162,6 +162,7 @@
     <Compile Include="Scope\IContext.cs" />
     <Compile Include="Scope\IContextSource.cs" />
     <Compile Include="Scope\IContextSourceFactory.cs" />
+    <Compile Include="Scope\NestedContext.cs" />
     <Compile Include="Serialization\ArrayHeader.cs" />
     <Compile Include="Serialization\BinaryReader.cs" />
     <Compile Include="Serialization\BinaryWriter.cs" />

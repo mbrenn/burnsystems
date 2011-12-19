@@ -43,10 +43,18 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Initializes a new instance of the Context class
         /// </summary>
-        /// <param name="source">Source of the context</param>
-        public Context(IContextSource source)
+        public Context()
         {
             this.sources.Add(new ContextSource());
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the Context class
+        /// </summary>
+        /// <param name="source">Source of the context</param>
+        public Context(IContextSource source)
+            : this()
+        {
             Ensure.IsNotNull(source);
             this.sources.Add(source);
         }
