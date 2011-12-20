@@ -93,6 +93,17 @@ namespace BurnSystems.Scope
         }
 
         /// <summary>
+        /// Gets all object matching to a specific type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Enumeration of all items matching to the type</returns>
+        public IEnumerable<T> GetAll<T>()
+        {
+            return this.primaryContext.GetAll<T>()
+                .Union(this.secondaryContext.GetAll<T>());
+        }
+
+        /// <summary>
         /// Disposes all items implementing the IDisposable
         /// This method shall not be called, because this class shall be used as a helper methods. 
         /// The methods creating the original context-variables shall dispose the context

@@ -104,5 +104,16 @@ namespace BurnSystems.Scope
 
             return result;
         }
+
+        /// <summary>
+        /// Creates all items matching to the type
+        /// </summary>
+        /// <typeparam name="T">Type to be queried</typeparam>
+        /// <returns>Enumerations of all matching types</returns>
+        public IEnumerable<T> CreateAll<T>()
+        {
+            return this.first.CreateAll<T>()
+                .Union(this.second.CreateAll<T>());
+        }
     }
 }

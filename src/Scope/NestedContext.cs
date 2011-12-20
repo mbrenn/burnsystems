@@ -90,5 +90,16 @@ namespace BurnSystems.Scope
         {
             this.subContext.Dispose();
         }
+
+        /// <summary>
+        /// Gets all object matching to a specific type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Enumeration of all items matching to the type</returns>
+        public IEnumerable<T> GetAll<T>()
+        {
+            return this.subContext.GetAll<T>()
+                .Union(this.parentContext.GetAll<T>());
+        }
     }
 }

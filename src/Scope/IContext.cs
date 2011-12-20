@@ -43,5 +43,12 @@ namespace BurnSystems.Scope
         /// <param name="token">Token to be added</param>
         /// <returns>Object to be created or retrieved</returns>
         T Get<T>(string token);
+
+        /// <summary>
+        /// Gets all object matching to a specific type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Enumeration of all items matching to the type</returns>
+        IEnumerable<T> GetAll<T>();
     }
 }

@@ -41,5 +41,12 @@ namespace BurnSystems.Scope
         /// <param name="token">Token to be queries</param>
         /// <returns>Created item</returns>
         T Create<T>(string token);
+
+        /// <summary>
+        /// Creates all items matching to the type
+        /// </summary>
+        /// <typeparam name="T">Type to be queried</typeparam>
+        /// <returns>Enumerations of all matching types</returns>
+        IEnumerable<T> CreateAll<T>();
     }
 }

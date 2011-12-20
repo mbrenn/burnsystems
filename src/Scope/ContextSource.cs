@@ -110,6 +110,30 @@ namespace BurnSystems.Scope
         /// Gets the factory method for a type
         /// </summary>
         /// <typeparam name="T">Type to be queried</typeparam>
+        /// <returns>Function creating the item</returns>
+        public IEnumerable<T> CreateAll<T>()
+        {
+            foreach (var item in this.items
+                .Where(x => typeof(T).IsAssignableFrom(x.Type)))
+            {
+                yield return (T)item.Value();
+            }
+
+            if (this.innerContextSource == null)
+            {
+                yield break;
+            }
+
+            foreach (var item in this.innerContextSource.CreateAll<T>())
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Gets the factory method for a type
+        /// </summary>
+        /// <typeparam name="T">Type to be queried</typeparam>
         /// <param name="token">Token to be queries</param>
         /// <returns></returns>
         public T Create<T>(string token)

@@ -126,6 +126,33 @@ namespace BurnSystems.Scope
             return found;
         }
 
+        /// <summary>
+        /// Gets all object matching to a specific type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Enumeration of all items matching to the type</returns>
+        public IEnumerable<T> GetAll<T>()
+        {
+            foreach (var item in this.items
+                .Where(x => x.Value.GetType().Equals(typeof(T)))
+                .Select(x => x.Value)
+                .Cast<T>())
+            {
+                yield return item;
+            }
+
+            // Go through all source
+            foreach (var item in this.sources
+                .SelectMany(x => x.CreateAll<T>())
+                .Where(x => x != null))
+            {
+                this.items.Add(
+                    new Item(item, string.Empty));
+
+                yield return item;
+            }
+        }
+
         /// <summary> 
         /// Gets an object by token. This object is created if necessary.
         /// </summary>
