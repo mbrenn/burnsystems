@@ -115,7 +115,10 @@ namespace BurnSystems.Database
             }
             else
             {
-                throw new InvalidOperationException(type.ToString());
+                throw new InvalidOperationException(
+                    string.Format(
+                        LocalizationBS.Unknown_Type,
+                        type.ToString()));
             }
         }
     }

@@ -376,6 +376,15 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unbekannter Typ: {0} ähnelt.
+        /// </summary>
+        internal static string Unknown_Type {
+            get {
+                return ResourceManager.GetString("Unknown_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Das Attribut &apos;{0}&apos; ausgehend von &apos;{1}&apos; wurde nicht gefunden. ähnelt.
         /// </summary>
         internal static string XmlHelper_AttributeNotFound {

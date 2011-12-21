@@ -222,6 +222,9 @@
   <data name="TypedContainer_MultipleInstance" xml:space="preserve">
     <value>Mehrfache Instanz mit diesem Typ verfügbar. </value>
   </data>
+  <data name="Unknown_Type" xml:space="preserve">
+    <value>Unbekannter Typ: {0}</value>
+  </data>
   <data name="XmlHelper_AttributeNotFound" xml:space="preserve">
     <value>Das Attribut '{0}' ausgehend von '{1}' wurde nicht gefunden.</value>
   </data>
