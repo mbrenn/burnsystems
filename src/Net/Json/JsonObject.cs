@@ -81,6 +81,12 @@ namespace BurnSystems.Net.Json
                 return new JsonNumber(Convert.ToDouble(value, CultureInfo.InvariantCulture));
             }
 
+            if (value is DateTime)
+            {
+                // TODO: Include JSON-DateTime value here
+                return new JsonString(value.ToString());
+            }
+
             throw new NotSupportedException(value.GetType().FullName);
         }
 
