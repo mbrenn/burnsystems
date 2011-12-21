@@ -40,9 +40,9 @@ namespace BurnSystems.Scope
         /// Creates a context
         /// </summary>
         /// <returns>Created context</returns>
-        public IContext CreateContext()
+        public IContext CreateContext(string name)
         {
-            return new Context(this);
+            return new Context(this, name);
         }
 
         /// <summary>

@@ -42,10 +42,11 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Creates a new context
         /// </summary>
+        /// <param name="name">Name of the context</param>
         /// <returns>The created context</returns>
-        public IContext CreateContext()
+        public IContext CreateContext(string name)
         {
-            return new Context(this);
+            return new Context(this, name);
         }
 
         /// <summary>

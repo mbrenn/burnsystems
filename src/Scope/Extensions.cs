@@ -46,7 +46,7 @@ namespace BurnSystems.Scope
         /// <param name="factory">Factory method</param>
         public static void AddIfNotExisting<T>(this IContextSource contextSource, Func<T> factory)
         {
-            using (var testContext = new Context(contextSource))
+            using (var testContext = new Context(contextSource, "TestContext"))
             {
                 var value = testContext.Get<T>();
                 if (value == null)
@@ -66,7 +66,7 @@ namespace BurnSystems.Scope
         /// <param name="factory">Factory method</param>
         public static void AddIfNotExisting<T>(this IContextSource contextSource, string token, Func<T> factory)
         {
-            using (var testContext = new Context(contextSource))
+            using (var testContext = new Context(contextSource, "TestContext"))
             {
                 var value = testContext.Get<T>(token);
                 if (value == null)

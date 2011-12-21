@@ -13,6 +13,11 @@ namespace BurnSystems.Scope
     public class Context : IContext
     {
         /// <summary>
+        /// Stores the name of the context
+        /// </summary>
+        private string name;
+
+        /// <summary>
         /// Stores the source
         /// </summary>
         private List<IContextSource> sources = new List<IContextSource>();
@@ -44,9 +49,24 @@ namespace BurnSystems.Scope
         /// Initializes a new instance of the Context class
         /// </summary>
         /// <param name="source">Source of the context</param>
+        [Obsolete]
         public Context(IContextSource source)
         {
             this.sources.Add(new ContextSource());
+            Ensure.IsNotNull(source);
+            this.sources.Add(source);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Context class
+        /// </summary>
+        /// <param name="source">Source of the context</param>
+        /// <param name="name">Name of the context</param>
+        public Context(IContextSource source, string name)
+        {
+            this.name = name;
+            this.sources.Add(new ContextSource());
+
             Ensure.IsNotNull(source);
             this.sources.Add(source);
         }
