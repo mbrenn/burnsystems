@@ -28,6 +28,14 @@ namespace BurnSystems.Scope
         private List<Item> items = new List<Item>();
 
         /// <summary>
+        /// Gets the name of the context
+        /// </summary>
+        public string Name
+        {
+            get { return this.name; }
+        }
+
+        /// <summary>
         /// Gets the local context source which can be used to add additional factory methods
         /// </summary>
         public IContextSource LocalContextSource
@@ -52,7 +60,7 @@ namespace BurnSystems.Scope
         [Obsolete]
         public Context(IContextSource source)
         {
-            this.sources.Add(new ContextSource());
+            this.sources.Add(new ContextSource("InnerContextSource"));
             Ensure.IsNotNull(source);
             this.sources.Add(source);
         }
@@ -65,7 +73,7 @@ namespace BurnSystems.Scope
         public Context(IContextSource source, string name)
         {
             this.name = name;
-            this.sources.Add(new ContextSource());
+            this.sources.Add(new ContextSource(name));
 
             Ensure.IsNotNull(source);
             this.sources.Add(source);

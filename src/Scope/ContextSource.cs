@@ -13,6 +13,11 @@ namespace BurnSystems.Scope
     public class ContextSource : IContextSource
     {
         /// <summary>
+        /// Stores the name
+        /// </summary>
+        private string name;
+
+        /// <summary>
         /// Stores the inner context source
         /// </summary>
         private IContextSource innerContextSource = null;
@@ -23,19 +28,30 @@ namespace BurnSystems.Scope
         private List<Item> items = new List<Item>();
 
         /// <summary>
-        /// Initializes a new instance of the ContextSource class.
+        /// Gets the name
         /// </summary>
-        public ContextSource()
+        public string Name
         {
+            get { return this.name; }
         }
 
         /// <summary>
         /// Initializes a new instance of the ContextSource class.
         /// </summary>
+        public ContextSource(string name)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ContextSource class.
+        /// </summary>
+        /// <param name="name">Name of contextsource</param>
         /// <param name="innerContextSource">Inner context source that shall be queried, 
         /// if this context source does not find the object</param>
-        public ContextSource(IContextSource innerContextSource)
+        public ContextSource(string name, IContextSource innerContextSource)
         {
+            this.name = name;
             this.innerContextSource = innerContextSource;
         }
 
