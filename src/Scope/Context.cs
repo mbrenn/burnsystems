@@ -13,6 +13,11 @@ namespace BurnSystems.Scope
     public class Context : IContext
     {
         /// <summary>
+        /// Stores whether the context already had been disposed.
+        /// </summary>
+        private bool isDisposed;
+
+        /// <summary>
         /// Stores the name of the context
         /// </summary>
         private string name;
@@ -130,6 +135,11 @@ namespace BurnSystems.Scope
         /// <returns>Object to be created or retrieved</returns>
         public T Get<T>()
         {
+            if (this.isDisposed)
+            {
+                throw new ObjectDisposedException("Context");
+            }
+
             var found =
                 this.items
                     .Where(x => x.Value.GetType().Equals(typeof(T)))
@@ -161,6 +171,11 @@ namespace BurnSystems.Scope
         /// <returns>Enumeration of all items matching to the type</returns>
         public IEnumerable<T> GetAll<T>()
         {
+            if (this.isDisposed)
+            {
+                throw new ObjectDisposedException("Context");
+            }
+
             foreach (var item in this.items
                 .Where(x => x.Value.GetType().Equals(typeof(T)))
                 .Select(x => x.Value)
@@ -189,6 +204,11 @@ namespace BurnSystems.Scope
         /// <returns>Object to be created or retrieved</returns>
         public T Get<T>(string token)
         {
+            if (this.isDisposed)
+            {
+                throw new ObjectDisposedException("Context");
+            }
+
             var found = 
                 this.items
                     .Where(x => x.Token == token)
@@ -217,7 +237,15 @@ namespace BurnSystems.Scope
         /// </summary>
         public void Dispose()
         {
-            foreach (var item in this.items)
+            if (this.isDisposed)
+            {
+                return;
+            }
+
+            var items = this.items.ToList();
+            this.items.Clear();
+
+            foreach (var item in items)
             {
                 var disposable = item.Value as IDisposable;
                 if (disposable != null)
@@ -226,7 +254,7 @@ namespace BurnSystems.Scope
                 }
             }
 
-            this.items.Clear();
+            this.isDisposed = true;
         }
 
         /// <summary>
