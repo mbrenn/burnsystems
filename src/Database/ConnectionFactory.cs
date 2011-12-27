@@ -103,7 +103,23 @@ namespace BurnSystems.Database
             {
                 var mysqlType = GetMySqlConnectionType();
 
-                var dbConnection = Activator.CreateInstance(mysqlType, new object[] { connectionString }) as DbConnection;
+                DbConnection dbConnection;
+                try
+                {
+                    dbConnection = Activator.CreateInstance(mysqlType, new object[] { connectionString }) as DbConnection;
+                }
+                catch (TargetInvocationException exc)
+                {
+                    if (exc.InnerException != null)
+                    {
+                        throw new InvalidOperationException(exc.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
                 if (dbConnection == null)
                 {
                     throw new InvalidOperationException("MySql Constructor not found");
