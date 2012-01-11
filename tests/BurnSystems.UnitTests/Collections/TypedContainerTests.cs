@@ -82,7 +82,7 @@ namespace BurnSystems.UnitTests.Collections
             var c = new C_B();
 
             var typedContainer = new TypedContainer();
-            typedContainer.Add(c);
+            typedContainer.Add(b);
             typedContainer.Add(c);
 
             Assert.Throws<InvalidOperationException>(

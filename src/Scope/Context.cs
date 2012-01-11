@@ -16,46 +16,52 @@ namespace BurnSystems.Scope
         /// Stores whether the context already had been disposed.
         /// </summary>
         private bool isDisposed;
-
         /// <summary>
         /// Stores the name of the context
         /// </summary>
         private string name;
-
         /// <summary>
         /// Stores the source
         /// </summary>
-        private List<IContextSource> sources = new List<IContextSource>();
-
+        private List<IContextSource> sources = new List<IContextSource> ();
         /// <summary>
         /// Stores the list of items
         /// </summary>
-        private List<Item> items = new List<Item>();
+        private List<Item> items = new List<Item> ();
 
         /// <summary>
         /// Gets the name of the context
         /// </summary>
-        public string Name
-        {
+        public string Name {
             get { return this.name; }
         }
 
         /// <summary>
         /// Gets the local context source which can be used to add additional factory methods
         /// </summary>
-        public IContextSource LocalContextSource
-        {
-            get
-            {
-                return this.sources.First();
+        public IContextSource LocalContextSource {
+            get {
+                return this.sources.First ();
             }
         }
 
         /// <summary>
         /// Creates the context and everything is empty
         /// </summary>
-        internal Context()
+        [Obsolete]
+        internal Context ()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BurnSystems.Scope.Context"/> class.
+        /// </summary>
+        /// <param name='name'>
+        /// Name of the context.
+        /// </param>
+        internal Context (string name)
+        {
+            this.name = name;
         }
         
         /// <summary>
@@ -63,11 +69,11 @@ namespace BurnSystems.Scope
         /// </summary>
         /// <param name="source">Source of the context</param>
         [Obsolete]
-        public Context(IContextSource source)
+        public Context (IContextSource source)
         {
-            this.sources.Add(new ContextSource("InnerContextSource"));
-            Ensure.IsNotNull(source);
-            this.sources.Add(source);
+            this.sources.Add (new ContextSource ("InnerContextSource"));
+            Ensure.IsNotNull (source);
+            this.sources.Add (source);
         }
 
         /// <summary>
@@ -75,13 +81,13 @@ namespace BurnSystems.Scope
         /// </summary>
         /// <param name="source">Source of the context</param>
         /// <param name="name">Name of the context</param>
-        public Context(IContextSource source, string name)
+        public Context (IContextSource source, string name)
         {
             this.name = name;
-            this.sources.Add(new ContextSource(name));
+            this.sources.Add (new ContextSource (name));
 
-            Ensure.IsNotNull(source);
-            this.sources.Add(source);
+            Ensure.IsNotNull (source);
+            this.sources.Add (source);
         }
 
         /// <summary>
@@ -90,12 +96,25 @@ namespace BurnSystems.Scope
         /// </summary>
         /// <param name="source">Source to be used as local and global context</param>
         /// <returns>Context containing the required information</returns>
-        public static Context CreateWithoutLocalContext(IContextSource source)
+        [Obsolete]
+        public static Context CreateWithoutLocalContext (IContextSource source)
         {
-            Ensure.IsNotNull(source);
+            return CreateWithoutLocalContext (source, "Unknown");
+        }
 
-            var result = new Context();
-            result.Add(source);
+        /// <summary>
+        /// Creates a context not having a local context. 
+        /// This means that the request for LocalContextSource will return the original source
+        /// </summary>
+        /// <param name="source">Source to be used as local and global context</param>
+        /// <param name="name">Name of the context</para>
+        /// <returns>Context containing the required information</returns>
+        public static Context CreateWithoutLocalContext (IContextSource source, string name)
+        {
+            Ensure.IsNotNull (source);
+
+            var result = new Context (name);
+            result.Add (source);
             return result;
         }
 
@@ -103,27 +122,26 @@ namespace BurnSystems.Scope
         /// Adds an item to context
         /// </summary>
         /// <param name="source">Source to be added</param>
-        public void Add(IContextSource source)
+        public void Add (IContextSource source)
         {
-            Ensure.IsNotNull(source);
+            Ensure.IsNotNull (source);
             
-            if(this.sources.Any(x=>x.Equals(source)))
-            {
+            if (this.sources.Any (x => x.Equals (source))) {
                 // Already in
                 return;
             }
             
-            this.sources.Add(source);
+            this.sources.Add (source);
         }
 
         /// <summary>
         /// Adds a contextsource created by the factory
         /// </summary>
         /// <param name="sourceFactory">Sourcefactory to be used</param>
-        public void Add(IContextSourceFactory sourceFactory)
+        public void Add (IContextSourceFactory sourceFactory)
         {
-            Ensure.IsNotNull(sourceFactory);
-            this.Add(sourceFactory.CreateContextSource());
+            Ensure.IsNotNull (sourceFactory);
+            this.Add (sourceFactory.CreateContextSource ());
         }
 
         /// <summary>
@@ -133,31 +151,28 @@ namespace BurnSystems.Scope
         /// </summary>
         /// <typeparam name="T">Type of the parameter</typeparam>
         /// <returns>Object to be created or retrieved</returns>
-        public T Get<T>()
+        public T Get<T> ()
         {
-            if (this.isDisposed)
-            {
-                throw new ObjectDisposedException("Context");
+            if (this.isDisposed) {
+                throw new ObjectDisposedException ("Context");
             }
 
             var found =
                 this.items
-                    .Where(x => x.Value.GetType().Equals(typeof(T)))
-                    .Select(x => x.Value)
-                    .Cast<T>()
-                    .FirstOrDefault();
+                    .Where (x => x.Value.GetType ().Equals (typeof(T)))
+                    .Select (x => x.Value)
+                    .Cast<T> ()
+                    .FirstOrDefault ();
 
-            if (found == null)
-            {
+            if (found == null) {
                 found = this.sources
-                    .Select(x=>x.Create<T>())
-                    .Where(x=>x != null)
-                    .FirstOrDefault();
+                    .Select (x => x.Create<T> ())
+                    .Where (x => x != null)
+                    .FirstOrDefault ();
                 
-                if(found != null)
-                {
-                    this.items.Add(
-                        new Item(found, string.Empty));
+                if (found != null) {
+                    this.items.Add (
+                        new Item (found, string.Empty));
                 }
             }            
 
@@ -169,28 +184,25 @@ namespace BurnSystems.Scope
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns>Enumeration of all items matching to the type</returns>
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll<T> ()
         {
-            if (this.isDisposed)
-            {
-                throw new ObjectDisposedException("Context");
+            if (this.isDisposed) {
+                throw new ObjectDisposedException ("Context");
             }
 
             foreach (var item in this.items
                 .Where(x => x.Value.GetType().Equals(typeof(T)))
                 .Select(x => x.Value)
-                .Cast<T>())
-            {
+                .Cast<T>()) {
                 yield return item;
             }
 
             // Go through all source
             foreach (var item in this.sources
                 .SelectMany(x => x.CreateAll<T>())
-                .Where(x => x != null))
-            {
-                this.items.Add(
-                    new Item(item, string.Empty));
+                .Where(x => x != null)) {
+                this.items.Add (
+                    new Item (item, string.Empty));
 
                 yield return item;
             }
@@ -202,30 +214,27 @@ namespace BurnSystems.Scope
         /// <typeparam name="T">Type of the parameter</typeparam>
         /// <param name="token">Token to be added</param>
         /// <returns>Object to be created or retrieved</returns>
-        public T Get<T>(string token)
+        public T Get<T> (string token)
         {
-            if (this.isDisposed)
-            {
-                throw new ObjectDisposedException("Context");
+            if (this.isDisposed) {
+                throw new ObjectDisposedException ("Context");
             }
 
             var found = 
                 this.items
-                    .Where(x => x.Token == token)
-                    .Cast<T>()
-                    .FirstOrDefault();
+                    .Where (x => x.Token == token)
+                    .Cast<T> ()
+                    .FirstOrDefault ();
 
-            if (found == null)
-            {
+            if (found == null) {
                 found = this.sources
-                    .Select(x=>x.Create<T>(token))
-                    .Where(x=>x != null)
-                    .FirstOrDefault();
+                    .Select (x => x.Create<T> (token))
+                    .Where (x => x != null)
+                    .FirstOrDefault ();
                 
-                if(found != null)
-                {
-                    this.items.Add(
-                        new Item(found, token));
+                if (found != null) {
+                    this.items.Add (
+                        new Item (found, token));
                 }
             }
 
@@ -235,22 +244,19 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Disposes all items implementing the IDisposable
         /// </summary>
-        public void Dispose()
+        public void Dispose ()
         {
-            if (this.isDisposed)
-            {
+            if (this.isDisposed) {
                 return;
             }
 
-            var items = this.items.ToList();
-            this.items.Clear();
+            var items = this.items.ToList ();
+            this.items.Clear ();
 
-            foreach (var item in items)
-            {
+            foreach (var item in items) {
                 var disposable = item.Value as IDisposable;
-                if (disposable != null)
-                {
-                    disposable.Dispose();
+                if (disposable != null) {
+                    disposable.Dispose ();
                 }
             }
 
@@ -267,7 +273,7 @@ namespace BurnSystems.Scope
             /// </summary>
             /// <param name="value">Item to be added</param>
             /// <param name="token">Token to be added</param>
-            public Item(object value, string token)
+            public Item (object value, string token)
             {
                 this.Value = value;
                 this.Token = token;
@@ -276,8 +282,7 @@ namespace BurnSystems.Scope
             /// <summary>
             /// Gets or sets the item
             /// </summary>
-            public object Value
-            {
+            public object Value {
                 get;
                 set;
             }
@@ -285,8 +290,7 @@ namespace BurnSystems.Scope
             /// <summary>
             /// Gets or sets the token
             /// </summary>
-            public string Token
-            {
+            public string Token {
                 get;
                 set;
             }

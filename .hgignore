@@ -9,3 +9,5 @@ glob:tests/TestResult.xml
 glob:tests/BurnSystems.UnitTests.VisualState.xml
 relre:(.*)pidb
 relre:(.*)test-result(.*)
+relre:(.*).userprefs
+relre:(.*).orig

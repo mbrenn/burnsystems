@@ -121,9 +121,9 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
-        /// Gets the hashcose
+        /// Gets the hashcase
         /// </summary>
-        /// <returns>Hashcode of the pair</returns>
+        /// <returns>Hashcade of the pair</returns>
         public override int GetHashCode()
         {
             return this.First.GetHashCode() ^ this.Second.GetHashCode();
