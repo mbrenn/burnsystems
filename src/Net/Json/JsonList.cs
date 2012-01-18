@@ -81,5 +81,15 @@ namespace BurnSystems.Net.Json
 
             return stringBuilder.ToString();
         }
+
+        /// <summary>
+        /// Adds an object to json list
+        /// </summary>
+        /// <param name="value">Value to be added</param>
+        public void Add(object value)
+        {
+            this.List.Add(
+                JsonObject.ConvertObject(value));
+        }
     }
 }
