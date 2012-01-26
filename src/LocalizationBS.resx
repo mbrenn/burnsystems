@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BinaryReader_InvalidHeader" xml:space="preserve">
     <value>Unerwarteter Header im serialisierten Strom.</value>
@@ -221,6 +221,9 @@
   </data>
   <data name="TypedContainer_MultipleInstance" xml:space="preserve">
     <value>Mehrfache Instanz mit diesem Typ verfügbar. </value>
+  </data>
+  <data name="UnknownTypeToDatabaseTypeConversion" xml:space="preserve">
+    <value>Zu dem angegebenen Typ '{0}' wurde keine primitive Konversion zu einem Datenbanktypen gefunden. </value>
   </data>
   <data name="Unknown_Type" xml:space="preserve">
     <value>Unbekannter Typ: {0}</value>

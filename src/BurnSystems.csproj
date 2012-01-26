@@ -33,7 +33,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Test NuGet\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\src\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -131,6 +131,7 @@
     <Compile Include="Collections\XmlSetList.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
     <Compile Include="Database\ConnectionFactory.cs" />
+    <Compile Include="Database\Helper.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />
     <Compile Include="Database\Objects\DatabaseClassAttribute.cs" />
     <Compile Include="Database\Objects\DatabaseKeyAttribute.cs" />
