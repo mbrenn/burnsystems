@@ -30,7 +30,7 @@ namespace BurnSystems.Scope
         public NestedContext(IContext parentContext)
         {
             this.parentContext = parentContext;
-            this.localContext = new Context();
+            this.localContext = new Context("UNKNOWN");
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace BurnSystems.Scope
         /// <param name='parentContext'>
         /// Parent context being used
         /// </param>
-        /// <param name="name">Name of the nested context</param>
+        /// <param name="name">Name of the Nested Context</param>
         public NestedContext(IContext parentContext, string name)
         {
             this.parentContext = parentContext;
