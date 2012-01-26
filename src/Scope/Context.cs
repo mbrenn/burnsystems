@@ -107,7 +107,7 @@ namespace BurnSystems.Scope
         /// This means that the request for LocalContextSource will return the original source
         /// </summary>
         /// <param name="source">Source to be used as local and global context</param>
-        /// <param name="name">Name of the context</para>
+        /// <param name="name">Name of the context</param>
         /// <returns>Context containing the required information</returns>
         public static Context CreateWithoutLocalContext (IContextSource source, string name)
         {
