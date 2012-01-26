@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -146,6 +146,11 @@
     <Compile Include="Interfaces\IParserDictionary.cs" />
     <Compile Include="Interfaces\IParserObject.cs" />
     <Compile Include="Interfaces\IXElementConverter.cs" />
+    <Compile Include="LocalizationBS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizationBS.resx</DependentUpon>
+    </Compile>
     <Compile Include="Logging\DebugProvider.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
@@ -189,11 +194,6 @@
     <Compile Include="Interfaces\IUserAuthentication.cs" />
     <Compile Include="Interfaces\IXmlNode.cs" />
     <Compile Include="IO\DirectTextReader.cs" />
-    <Compile Include="LocalizationBS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalizationBS.resx</DependentUpon>
-    </Compile>
     <Compile Include="Logging\ConsoleProvider.cs" />
     <Compile Include="Logging\FileProvider.cs" />
     <Compile Include="Logging\ILog.cs" />
@@ -234,7 +234,6 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LocalizationBS.Designer.cs</LastGenOutput>
-      <LogicalName>LocalizationBS.resx</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
