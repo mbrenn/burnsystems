@@ -50,7 +50,7 @@ namespace BurnSystems
                 var newTargetPath = Path.Combine(targetPath, directory);
                 
                 // Copy recursively
-                CopyDirectory(newSourcePath, newTargetPath);
+                CopyDirectory(newSourcePath, newTargetPath, doOverwrite);
             }
 
             foreach (var file in Directory.GetFiles(sourcePath))
