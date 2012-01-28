@@ -15,7 +15,7 @@ namespace BurnSystems.Scope
         /// <summary>
         /// Stores the subcontext
         /// </summary>
-        private IContext subContext = new Context();
+        private IContext localContext;
 
         /// <summary>
         /// Stores the parentcontext
@@ -26,17 +26,49 @@ namespace BurnSystems.Scope
         /// Initializes a new instance of the NestedContext class.
         /// </summary>
         /// <param name="parentContext">Context to be set</param>
+        [Obsolete]
         public NestedContext(IContext parentContext)
         {
             this.parentContext = parentContext;
+            this.localContext = new Context("UNKNOWN");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BurnSystems.Scope.NestedContext"/> class.
+        /// </summary>
+        /// <param name='parentContext'>
+        /// Parent context being used
+        /// </param>
+        /// <param name="name">Name of the nested context</param>
+        public NestedContext(IContext parentContext, string name)
+        {
+            this.parentContext = parentContext;
+            this.localContext = new Context(name);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BurnSystems.Scope.NestedContext"/> class.
+        /// </summary>
+        /// <param name='parentContext'>
+        /// Parent context.
+        /// </param>
+        /// <param name='localContextSource'>
+        /// Local context source. Objects will be searched first in local source
+        /// </param>
+        /// <param name='name'>
+        /// Name of the nested context
+        /// </param>
+        public NestedContext(IContext parentContext, IContextSource localContextSource, string name)
+        {
+            this.parentContext = parentContext;
+            this.localContext = new Context(localContextSource, name);
         }
 
         /// <summary>
         /// Gets the local context source
         /// </summary>
-        public IContextSource LocalContextSource
-        {
-            get { return subContext.LocalContextSource; }
+        public IContextSource LocalContextSource {
+            get { return localContext.LocalContextSource; }
         }
 
         /// <summary>
@@ -45,7 +77,7 @@ namespace BurnSystems.Scope
         /// <param name="source">Source to be added</param>
         public void Add(IContextSource source)
         {
-            this.subContext.Add(source);
+            this.localContext.Add(source);
         }
 
         /// <summary>
@@ -57,9 +89,8 @@ namespace BurnSystems.Scope
         /// <returns>Object to be created or retrieved</returns>
         public T Get<T>()
         {
-            var result = this.subContext.Get<T>();
-            if (result == null)
-            {
+            var result = this.localContext.Get<T>();
+            if(result == null) {
                 this.parentContext.Get<T>();
             }
 
@@ -74,9 +105,8 @@ namespace BurnSystems.Scope
         /// <returns>Object to be created or retrieved</returns>
         public T Get<T>(string token)
         {
-            var result = this.subContext.Get<T>(token);
-            if (result == null)
-            {
+            var result = this.localContext.Get<T>(token);
+            if(result == null) {
                 this.parentContext.Get<T>(token);
             }
 
@@ -88,7 +118,7 @@ namespace BurnSystems.Scope
         /// </summary>
         public void Dispose()
         {
-            this.subContext.Dispose();
+            this.localContext.Dispose();
         }
 
         /// <summary>
@@ -98,7 +128,7 @@ namespace BurnSystems.Scope
         /// <returns>Enumeration of all items matching to the type</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            return this.subContext.GetAll<T>()
+            return this.localContext.GetAll<T>()
                 .Union(this.parentContext.GetAll<T>());
         }
     }

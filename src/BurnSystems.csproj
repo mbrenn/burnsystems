@@ -17,7 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -45,6 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\BurnSystems.xml</DocumentationFile>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -130,6 +131,7 @@
     <Compile Include="Collections\XmlSetList.cs" />
     <Compile Include="CommandLineEvaluater.cs" />
     <Compile Include="Database\ConnectionFactory.cs" />
+    <Compile Include="Database\Helper.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />
     <Compile Include="Database\Objects\DatabaseClassAttribute.cs" />
     <Compile Include="Database\Objects\DatabaseKeyAttribute.cs" />
@@ -147,6 +149,11 @@
     <Compile Include="Interfaces\IParserDictionary.cs" />
     <Compile Include="Interfaces\IParserObject.cs" />
     <Compile Include="Interfaces\IXElementConverter.cs" />
+    <Compile Include="LocalizationBS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizationBS.resx</DependentUpon>
+    </Compile>
     <Compile Include="Logging\DebugProvider.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
@@ -190,11 +197,6 @@
     <Compile Include="Interfaces\IUserAuthentication.cs" />
     <Compile Include="Interfaces\IXmlNode.cs" />
     <Compile Include="IO\DirectTextReader.cs" />
-    <Compile Include="LocalizationBS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalizationBS.resx</DependentUpon>
-    </Compile>
     <Compile Include="Logging\ConsoleProvider.cs" />
     <Compile Include="Logging\FileProvider.cs" />
     <Compile Include="Logging\ILog.cs" />
@@ -273,5 +275,23 @@
     <None Include="BurnSystems_AGPL.snk" />
   </ItemGroup>
   <ItemGroup />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy RemoveTrailingWhitespace="True" EolMarker="Windows" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+          <TextStylePolicy RemoveTrailingWhitespace="True" EolMarker="Windows" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeIndexerDeclarationBracket="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" IfParentheses="False" ForParentheses="False" ForeachParentheses="False" CatchParentheses="False" SwitchParentheses="False" LockParentheses="False" UsingParentheses="False" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="Hierarchical" ResourceNamePolicy="FileName" />
+          <TextStylePolicy RemoveTrailingWhitespace="True" EolMarker="Windows" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="application/xml" />
+          <XmlFormattingPolicy inheritsSet="Mono" inheritsScope="application/xml" scope="application/xml" />
+          <ChangeLogPolicy UpdateMode="ProjectRoot" VcsIntegration="None" inheritsSet="Mono">
+            <MessageStyle LineAlign="0" />
+          </ChangeLogPolicy>
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

@@ -385,6 +385,15 @@ namespace BurnSystems {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Zu dem angegebenen Typ &apos;{0}&apos; wurde keine primitive Konversion zu einem Datenbanktypen gefunden.  ähnelt.
+        /// </summary>
+        internal static string UnknownTypeToDatabaseTypeConversion {
+            get {
+                return ResourceManager.GetString("UnknownTypeToDatabaseTypeConversion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Das Attribut &apos;{0}&apos; ausgehend von &apos;{1}&apos; wurde nicht gefunden. ähnelt.
         /// </summary>
         internal static string XmlHelper_AttributeNotFound {
