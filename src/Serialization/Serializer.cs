@@ -18,6 +18,7 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// Serializes an object into a stream
     /// </summary>
+    [Obsolete("Do not use. Serializer is not aware of binary differences between x86 and x64")]
     public class Serializer : SerializationBase
     {
         /// <summary>

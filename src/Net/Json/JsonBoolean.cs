@@ -18,6 +18,7 @@ namespace BurnSystems.Net.Json
     /// <summary>
     /// Stores a boolean value
     /// </summary>
+    [Obsolete("Use System.Web.Script.Serialization from System.Web.Extensions.dll")]
     public class JsonBoolean : IJsonObject
     {
         /// <summary>

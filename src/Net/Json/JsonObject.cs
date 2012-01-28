@@ -19,6 +19,7 @@ namespace BurnSystems.Net.Json
     /// <summary>
     /// Stores the information about a json object
     /// </summary>
+    [Obsolete("Use System.Web.Script.Serialization from System.Web.Extensions.dll")]
     public class JsonObject : IJsonObject
     {
         /// <summary>

@@ -11,6 +11,7 @@
 
 namespace BurnSystems.Net.Json
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
@@ -19,6 +20,7 @@ namespace BurnSystems.Net.Json
     /// <summary>
     /// Stores a list of json entries
     /// </summary>
+    [Obsolete("Use System.Web.Script.Serialization from System.Web.Extensions.dll")]
     public class JsonList : IJsonObject
     {
         /// <summary>

@@ -119,6 +119,17 @@ namespace BurnSystems.Extensions
         }
 
         /// <summary>
+        /// Converts an object to a JSON-String using JavaScriptSerializer class
+        /// </summary>
+        /// <param name="value">Object to be converted</param>
+        /// <returns>Converted object</returns>
+        public static string ToJson(this object value)
+        {
+            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            return serializer.Serialize(value);
+        }
+
+        /// <summary>
         /// Converts the property or field of an item to a Property object
         /// </summary>
         /// <param name="item">Item to be looked up</param>

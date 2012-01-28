@@ -19,6 +19,7 @@ namespace BurnSystems.Serialization
     /// This visitor visits an object and calls the necessary method in 
     /// Serializer and Writer to serialize the object into a stream.
     /// </summary>
+    [Obsolete]
     public class Visitor
     {
         /// <summary>
