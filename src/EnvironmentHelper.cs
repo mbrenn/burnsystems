@@ -80,6 +80,10 @@ namespace BurnSystems
                 {
                     // loadedAssembly.Location may throw an exception, if AppDomain does not have permission for the root path
                 }
+                catch (NotSupportedException)
+                {
+                    // loadedAssembly also throws an exception for dynamic assemblies
+                }
             }
 
             // Loads assembly
