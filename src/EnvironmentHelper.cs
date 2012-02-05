@@ -69,7 +69,8 @@ namespace BurnSystems
             {
                 try
                 {
-                    var fullPath = loadedAssembly.Location;
+                    // .DLL -> .dll because ASP.Net converts extension to .DLL
+                    var fullPath = loadedAssembly.Location.Replace(".DLL", ".dll");
                     if (Path.GetFileName(fullPath) == Path.GetFileName(assemblyPath))
                     {
                         assembly = loadedAssembly;
