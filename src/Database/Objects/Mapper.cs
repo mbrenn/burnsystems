@@ -43,7 +43,8 @@ namespace BurnSystems.Database.Objects
         /// </summary>
         /// <param name="tableName">Name of the table to be used</param>
         /// <param name="connection">Databaseconnection to be used</param>
-        public Mapper(string tableName, DbConnection connection, Converter<T> converter)
+        /// <param name="converter">Converter used to convert instances</param>
+        public Mapper(string tableName, DbConnection connection, IConverter<T> converter)
         {
             this.TableName = tableName;
             this.Connection = connection;
@@ -193,6 +194,19 @@ namespace BurnSystems.Database.Objects
         {
             var selectQuery = new SelectQuery(this.TableName, where);
             return Get(selectQuery);
+        }
+
+        /// <summary>
+        /// Gets by simple key
+        /// </summary>
+        /// <param name="key">Column name</param>
+        /// <param name="value">Value that is required for the column</param>
+        /// <returns>Found elements</returns>
+        public T[] Get(string key, object value)
+        {
+            var data = new Dictionary<string, object>();
+            data[key] = value;
+            return this.Get(data);
         }
 
         /// <summary>
