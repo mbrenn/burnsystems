@@ -24,7 +24,7 @@ namespace BurnSystems.Database.Objects
         /// <summary>
         /// Used converter for the mapping
         /// </summary>
-        private Converter<T> converter = new Converter<T>();
+        private IConverter<T> converter;
 
         /// <summary>
         /// Initializes a new instance of the Mapper class.
@@ -35,6 +35,19 @@ namespace BurnSystems.Database.Objects
         {
             this.TableName = tableName;
             this.Connection = connection;
+            this.converter = new Converter<T>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Mapper class.
+        /// </summary>
+        /// <param name="tableName">Name of the table to be used</param>
+        /// <param name="connection">Databaseconnection to be used</param>
+        public Mapper(string tableName, DbConnection connection, Converter<T> converter)
+        {
+            this.TableName = tableName;
+            this.Connection = connection;
+            this.converter = converter;
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace BurnSystems.Database.Objects
     /// the insert, update, delete or get items. 
     /// </summary>
     /// <typeparam name="T">Type of the object that shall be converted between object and dictionary</typeparam>
-    public class Converter<T> where T : new()
+    public class Converter<T> : IConverter<T> where T : new()
     {
         /// <summary>
         /// Stores the assignments 
