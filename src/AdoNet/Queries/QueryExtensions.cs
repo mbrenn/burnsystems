@@ -50,6 +50,11 @@ namespace BurnSystems.AdoNet.Queries
             {
                 var result = command.ExecuteScalar();
 
+                if (result == null)
+                {
+                    return default(T);
+                }
+
                 return (T)Convert.ChangeType(
                     result,
                     typeof(T),
