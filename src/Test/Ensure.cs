@@ -120,6 +120,18 @@ namespace BurnSystems.Test
         }
 
         /// <summary>
+        /// Prüft, ob der angegebene Wert true ist
+        /// </summary>
+        /// <param name="value">Zu überprüfende Wert</param>
+        public static void That(bool value, string message)
+        {
+            if (!value)
+            {
+                throw new EnsureFailedException(message);
+            }
+        }
+
+        /// <summary>
         /// Checks value is true. If value is not true, the action will be executed
         /// </summary>
         /// <param name="value">Value to be checked</param>

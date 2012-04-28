@@ -264,16 +264,35 @@ namespace BurnSystems
             /// </summary>
             private object syncObject = new object();
 
+            [ThreadStatic]
+            private static Random localRandomGenerator;
+
+            private Random LocalRandomGenerator
+            {
+                get
+                {
+                    var inst = localRandomGenerator;
+                    if (inst == null)
+                    {
+                        int seed;
+                        lock (syncObject)
+                        {
+                            seed = base.Next();
+                        }
+                        localRandomGenerator = inst = new Random(seed);
+                    }
+
+                    return inst;
+                }
+            }
+
             /// <summary>
             /// Calls Random.NextDouble()
             /// </summary>
             /// <returns>Result of Call</returns>
             public override double NextDouble()
             {
-                lock (this.syncObject)
-                {
-                    return base.NextDouble();
-                }
+                return this.LocalRandomGenerator.NextDouble();
             }
 
             /// <summary>
@@ -282,10 +301,7 @@ namespace BurnSystems
             /// <returns>Result of Call</returns>
             public override int Next()
             {
-                lock (this.syncObject)
-                {
-                    return base.Next();
-                }
+                return this.LocalRandomGenerator.Next();
             }
 
             /// <summary>
@@ -295,10 +311,7 @@ namespace BurnSystems
             /// <returns>Result of Call</returns>
             public override int Next(int maxValue)
             {
-                lock (this.syncObject)
-                {
-                    return base.Next(maxValue);
-                }
+                return this.LocalRandomGenerator.Next(maxValue);
             }
 
             /// <summary>
@@ -309,10 +322,7 @@ namespace BurnSystems
             /// <returns>Result of Call</returns>
             public override int Next(int minValue, int maxValue)
             {
-                lock (this.syncObject)
-                {
-                    return base.Next(minValue, maxValue);
-                }
+                return this.LocalRandomGenerator.Next(minValue, maxValue);
             }
 
             /// <summary>
@@ -321,10 +331,7 @@ namespace BurnSystems
             /// <param name="buffer">Parameter for buffer</param>
             public override void NextBytes(byte[] buffer)
             {
-                lock (this.syncObject)
-                {
-                    base.NextBytes(buffer);
-                }
+                this.LocalRandomGenerator.NextBytes(buffer);
             }
         }
     }
