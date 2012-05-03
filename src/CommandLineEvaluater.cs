@@ -14,11 +14,12 @@ namespace BurnSystems
     using System;
     using System.Collections.Generic;
     using BurnSystems.Collections;
+    using BurnSystems.CommandLine;
 
     /// <summary>
     /// Wertet die Kommandozeilen aus
     /// </summary>
-    public class CommandLineEvaluater
+    public class CommandLineEvaluator
     {
         /// <summary>
         /// Nichtbenannte Argument
@@ -33,10 +34,34 @@ namespace BurnSystems
             new NiceDictionary<string, string>();
 
         /// <summary>
-        /// Initializes a new instance of the CommandLineEvaluater class.
+        /// Initializes a new instance of the CommandLineEvaluator class.
         /// </summary>
         /// <param name="arguments">List of program arguments</param>
-        public CommandLineEvaluater(string[] arguments)
+        public CommandLineEvaluator(string[] arguments)
+        {
+            this.Parse(arguments);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the CommandLineEvaluator class.
+        /// </summary>
+        /// <param name="arguments">List of program arguments</param>
+        /// <param name="definitions">List of definitions, that will define the argument structure to be parsed</param>
+        public CommandLineEvaluator(string[] arguments, IEnumerable<ICommandLineDefinition> definitions)
+        {
+            foreach (var definition in definitions)
+            {
+                definition.BeforeParsing(this);                
+            }
+
+            this.Parse(arguments);
+        }
+
+        /// <summary>
+        /// Parses the arguments
+        /// </summary>
+        /// <param name="arguments">Arguments to be parsed</param>
+        private void Parse(string[] arguments)
         {
             foreach (var argument in arguments)
             {
@@ -96,6 +121,22 @@ namespace BurnSystems
         public NiceDictionary<string, string> NamedArguments
         {
             get { return this.namedArguments; }
+        }
+    }
+
+    /// <summary>
+    /// Wrong writing
+    /// </summary>
+    [Obsolete("Use CommandLineEvaluator")]
+    public class CommandLineEvaluater : CommandLineEvaluator
+    {
+        /// <summary>
+        /// Initializes a new instance of the CommandLineEvaluater class.
+        /// </summary>
+        /// <param name="arguments">List of program arguments</param>
+        public CommandLineEvaluater(string[] arguments) :
+            base(arguments)
+        {
         }
     }
 }
