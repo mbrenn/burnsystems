@@ -123,6 +123,7 @@ namespace BurnSystems.Test
         /// Prüft, ob der angegebene Wert true ist
         /// </summary>
         /// <param name="value">Zu überprüfende Wert</param>
+        /// <param name="message">Message to be shown</param>
         public static void That(bool value, string message)
         {
             if (!value)

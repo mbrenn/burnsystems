@@ -437,7 +437,7 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Repeats a specific character severalt times and returns
+        /// Repeats a specific character several times and returns
         /// its result
         /// </summary>
         /// <param name="character">Character to be repeated</param>
