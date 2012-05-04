@@ -55,6 +55,11 @@ namespace BurnSystems
             }
 
             this.Parse(arguments);
+
+            foreach (var definition in definitions)
+            {
+                definition.AfterParsing(this);
+            }
         }
 
         /// <summary>
@@ -121,6 +126,15 @@ namespace BurnSystems
         public NiceDictionary<string, string> NamedArguments
         {
             get { return this.namedArguments; }
+        }
+
+        /// <summary>
+        /// Executes the after parsing test
+        /// </summary>
+        /// <param name="definition">Test to be executed</param>
+        public void Check(ICommandLineDefinition definition)
+        {
+            definition.AfterParsing(this);
         }
     }
 

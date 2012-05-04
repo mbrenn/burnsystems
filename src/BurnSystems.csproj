@@ -132,6 +132,7 @@
     <Compile Include="CommandLineEvaluater.cs" />
     <Compile Include="CommandLine\ICommandLineDefinition.cs" />
     <Compile Include="CommandLine\OptionalArgument.cs" />
+    <Compile Include="CommandLine\RequiresArgument.cs" />
     <Compile Include="Database\ConnectionFactory.cs" />
     <Compile Include="Database\Helper.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />
