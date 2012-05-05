@@ -80,7 +80,7 @@ namespace BurnSystems
                     int pos = argument.IndexOf('=');
                     if (pos == -1)
                     {
-                        this.namedArguments[argument] = "1";
+                        this.namedArguments[argument.Substring(2)] = "1";
                     }
                     else
                     {
@@ -95,7 +95,7 @@ namespace BurnSystems
                     int pos = argument.IndexOf('=');
                     if (pos == -1)
                     {
-                        this.namedArguments[argument] = "1";
+                        this.namedArguments[argument.Substring(1)] = "1";
                     }
                     else
                     {
