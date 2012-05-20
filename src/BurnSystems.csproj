@@ -280,7 +280,6 @@
     <None Include="BurnSystems_AGPL.snk" />
   </ItemGroup>
   <ItemGroup />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
