@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -29,6 +30,21 @@ namespace BurnSystems.ObjectActivation
 		/// Contains an inner block that may already contain the required object.
 		/// </summary>
 		private ActivationBlock innerBlock;
+		
+		/// <summary>
+		/// Stores the list of activation infos
+		/// </summary>
+		private List<ActivationInfo> activationInfos = new List<ActivationInfo>();
+		
+		/// <summary>
+		/// Gets the list of activation information. 
+		/// All objects within this list will be disposed, if 
+		/// Activation Block will be disposed
+		/// </summary>
+		internal List<ActivationInfo> ActivationInfos
+		{
+			get{ return this.activationInfos; }
+		}
 		
 		/// <summary>
 		/// Initializes a new instance of the ActivationBlock class.
@@ -63,6 +79,34 @@ namespace BurnSystems.ObjectActivation
 		/// </summary>
 		public void Dispose()
 		{			
+			foreach(var value in this.activationInfos)
+			{
+				var disposable = value as IDisposable;
+				if(disposable != null)
+				{
+					disposable.Dispose();
+				}
+			}
+			
+			this.activationInfos.Clear();
+		}
+		
+		/// <summary>
+		/// Activates an object by a list of enablers
+		/// </summary>
+		/// <param name="enablers">Enabler to be used</param>
+		/// <returns>Created object</returns>
+		public object Get(IEnumerable<IEnabler> enablers)
+		{
+			foreach (var item in this.ActivationInfos)
+			{
+				if(item.CriteriaCatalogue.DoesMatch(enablers))
+				{
+					return item.FactoryActivationBlock(this);
+				}
+			}
+			
+			return null;
 		}
 	}
 }

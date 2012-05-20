@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -9,22 +10,30 @@ namespace BurnSystems.ObjectActivation
 	/// An activation container can be embedded within another activation container. 
 	/// The containers requires a name.
 	/// </summary>
-	public class ActivationContainer
+	public class ActivationContainer : IActivates
 	{
 		/// <summary>
 		/// Gets or sets the name of the activationcontainer
 		/// </summary>
-		public string Name
-		{
-			get;
-			set;
-		}
-		
+		public string Name { get; set; }
+
 		/// <summary>
 		/// Stores the instance of the inner container
 		/// </summary>
 		private ActivationContainer innerContainer;
-		
+
+		/// <summary>
+		/// Stores the list of activation infos
+		/// </summary>
+		private List<ActivationInfo> activationInfos = new List<ActivationInfo>();
+
+		/// <summary>
+		/// Gets the list of activation infos
+		/// </summary>
+		internal List<ActivationInfo> ActivationInfos {
+			get { return this.activationInfos; }
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the ActivationContainer class.
 		/// </summary>
@@ -33,7 +42,7 @@ namespace BurnSystems.ObjectActivation
 		{
 			this.Name = name;
 		}
-		
+
 		/// <summary>
 		/// Initializes a new instance of the ActivationContainer class. 
 		/// </summary>
@@ -46,7 +55,7 @@ namespace BurnSystems.ObjectActivation
 			this.Name = name;
 			this.innerContainer = innerContainer;
 		}
-		
+
 		/// <summary>
 		/// Converts the object to string.
 		/// </summary>
@@ -55,10 +64,35 @@ namespace BurnSystems.ObjectActivation
 		{
 			return this.Name;
 		}
-		
-		public void Add(CriteriaCatalogue catalogue, Func<object> factory)
+
+		/// <summary>
+		/// Adds an activation info to this block. 
+		/// It is necessary to add the factory methods for 
+		/// creation within ActivationBlock and ActivationContainer
+		/// </summary>
+		/// <param name="catalogue">Criteria Catalogue to be used</param>
+		/// <returns>The activation info</returns>
+		internal ActivationInfo Add(CriteriaCatalogue catalogue)
 		{
-		
+			var info = new ActivationInfo(catalogue);
+			this.activationInfos.Add(info);
+			return info;
+		}
+
+		/// <summary>
+		/// Activates an object by a list of enablers
+		/// </summary>
+		/// <param name="enablers">Enabler to be used</param>
+		/// <returns>Created object</returns>
+		public object Get(IEnumerable<IEnabler> enablers)
+		{
+			foreach (var item in this.ActivationInfos) {
+				if (item.CriteriaCatalogue.DoesMatch(enablers)) {
+					return item.FactoryActivationContainer(this);
+				}
+			}
+
+			return null;
 		}
 	}
 }

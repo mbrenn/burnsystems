@@ -77,6 +77,8 @@
     <Compile Include="Database\Objects\MapperTests.cs" />
     <Compile Include="Database\Objects\Person.cs" />
     <Compile Include="DateTimeHelperTests.cs" />
+    <Compile Include="ObjectActivation\ActivationBlockTests.cs" />
+    <Compile Include="ObjectActivation\ActivationContainerTests.cs" />
     <Compile Include="ObjectActivation\EnablerCriteriaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources_UnitTest.Designer.cs">

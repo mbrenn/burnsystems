@@ -167,8 +167,13 @@
     <Compile Include="Net\Json\JsonObject.cs" />
     <Compile Include="Net\Json\JsonString.cs" />
     <Compile Include="ObjectActivation\ActivationBlock.cs" />
+    <Compile Include="ObjectActivation\ActivationBlockExtensions.cs" />
     <Compile Include="ObjectActivation\ActivationContainer.cs" />
+    <Compile Include="ObjectActivation\ActivationContainerExtensions.cs" />
     <Compile Include="ObjectActivation\ActivationInfo.cs" />
+    <Compile Include="ObjectActivation\ActivationInfoExtensions.cs" />
+    <Compile Include="ObjectActivation\IActivates.cs" />
+    <Compile Include="ObjectActivation\PostActivationInfo.cs" />
     <Compile Include="ObjectActivation\Criteria\ByNameCriteria.cs" />
     <Compile Include="ObjectActivation\Criteria\ByTypeCriteria.cs" />
     <Compile Include="ObjectActivation\CriteriaCatalogue.cs" />

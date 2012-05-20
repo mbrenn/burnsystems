@@ -1,45 +1,52 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BurnSystems.ObjectActivation
 {
 	/// <summary>
-	/// Description of ActivationInfo.
+	/// This class contains the information how the object shall be
+	/// created, when the object shall be created and which additional actions shall
+	/// be performed.
 	/// </summary>
 	internal class ActivationInfo
 	{
+		private CriteriaCatalogue criteriaCatalogue;
+		
 		/// <summary>
-		/// Gets the information about the activated object
+		/// Gets the criteriacatalogue
 		/// </summary>
-		public object ActivatedObject
-		{
-			get;
-			private set;
+		public CriteriaCatalogue CriteriaCatalogue {
+			get { return criteriaCatalogue; }
 		}
 		
 		/// <summary>
-		/// Gets the information whether the activatedobject has
-		/// been created by this activation.
+		/// Stores the factory method for the object within an activationblock
 		/// </summary>
-		public bool HasBeenCreated
+		public Func<object, ActivationContainer> FactoryActivationContainer
 		{
 			get;
-			private set;
+			set;
 		}
 		
 		/// <summary>
-		/// Initializes a new instance of the ActivationInfo class
+		/// Stores the factory method for the object within an activationblock
 		/// </summary>
-		/// <param name="activatedObject">The object that has been created</param>
-		/// <param name="hasBeenCreated">true, if the object has been created
-		/// by this call.</param>
-		public ActivationInfo(object activatedObject, bool hasBeenCreated)
+		public Func<object, ActivationBlock> FactoryActivationBlock
 		{
-			if (activatedObject == null)
-				throw new ArgumentNullException("activatedObject");
+			get;
+			set;
+		}
+		
+		/// <summary>
+		/// Initializes a new instance of the ActivationInfo class.
+		/// </summary>
+		/// <param name="criteriaCatalogue">CriteriaCatalogue to be used</param>
+		public ActivationInfo(CriteriaCatalogue criteriaCatalogue)
+		{
+			if (criteriaCatalogue == null)
+				throw new ArgumentNullException("criteriaCatalogue");
 			
-			this.ActivatedObject = activatedObject;
-			this.HasBeenCreated = hasBeenCreated;
+			this.criteriaCatalogue = criteriaCatalogue;
 		}
 	}
 }
