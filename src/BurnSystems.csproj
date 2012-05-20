@@ -35,6 +35,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\src\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\uidv0898\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -165,6 +166,16 @@
     <Compile Include="Net\Json\JsonNumber.cs" />
     <Compile Include="Net\Json\JsonObject.cs" />
     <Compile Include="Net\Json\JsonString.cs" />
+    <Compile Include="ObjectActivation\ActivationBlock.cs" />
+    <Compile Include="ObjectActivation\ActivationContainer.cs" />
+    <Compile Include="ObjectActivation\ActivationInfo.cs" />
+    <Compile Include="ObjectActivation\Criteria\ByNameCriteria.cs" />
+    <Compile Include="ObjectActivation\Criteria\ByTypeCriteria.cs" />
+    <Compile Include="ObjectActivation\CriteriaCatalogue.cs" />
+    <Compile Include="ObjectActivation\Enabler\ByNameEnabler.cs" />
+    <Compile Include="ObjectActivation\Enabler\ByTypeEnabler.cs" />
+    <Compile Include="ObjectActivation\ICriteria.cs" />
+    <Compile Include="ObjectActivation\IEnabler.cs" />
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />
@@ -279,7 +290,11 @@
   <ItemGroup>
     <None Include="BurnSystems_AGPL.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ObjectActivation" />
+    <Folder Include="ObjectActivation\Criteria" />
+    <Folder Include="ObjectActivation\Enabler" />
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
