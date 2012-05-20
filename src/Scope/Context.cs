@@ -71,9 +71,9 @@ namespace BurnSystems.Scope
         [Obsolete]
         public Context (IContextSource source)
         {
+        	Ensure.IsNotNull (source);
+        	this.sources.Add (source);
             this.sources.Add (new ContextSource ("InnerContextSource"));
-            Ensure.IsNotNull (source);
-            this.sources.Add (source);
         }
 
         /// <summary>
@@ -84,10 +84,9 @@ namespace BurnSystems.Scope
         public Context (IContextSource source, string name)
         {
             this.name = name;
-            this.sources.Add (new ContextSource (name));
-
             Ensure.IsNotNull (source);
-            this.sources.Add (source);
+            this.sources.Add (source);            
+            this.sources.Add (new ContextSource (name));
         }
 
         /// <summary>
@@ -157,24 +156,26 @@ namespace BurnSystems.Scope
                 throw new ObjectDisposedException ("Context");
             }
 
-            var found =
+            var foundItems =
                 this.items
                     .Where (x => x.Value.GetType ().Equals (typeof(T)))
                     .Select (x => x.Value)
-                    .Cast<T> ()
-                    .FirstOrDefault ();
-
-            if (found == null) {
-                found = this.sources
+                    .Cast<T> ();
+            
+            var found = foundItems.FirstOrDefault();
+            
+            if (foundItems.Count() == 0) {
+                foundItems = this.sources
                     .Select (x => x.Create<T> ())
-                    .Where (x => x != null)
-                    .FirstOrDefault ();
+                    .Where (x => x != null);
                 
-                if (found != null) {
+                found = foundItems.FirstOrDefault();
+                
+                if (foundItems.Count() != 0) {
                     this.items.Add (
                         new Item (found, string.Empty));
                 }
-            }            
+            }
 
             return found;
         }

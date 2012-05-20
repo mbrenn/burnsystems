@@ -91,7 +91,7 @@ namespace BurnSystems.Scope
         {
             var result = this.localContext.Get<T>();
             if(result == null) {
-                this.parentContext.Get<T>();
+                result = this.parentContext.Get<T>();
             }
 
             return result;
@@ -128,8 +128,10 @@ namespace BurnSystems.Scope
         /// <returns>Enumeration of all items matching to the type</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            return this.localContext.GetAll<T>()
-                .Union(this.parentContext.GetAll<T>());
+        	var localItems = this.localContext.GetAll<T>();
+        	var parentItems = this.parentContext.GetAll<T>();
+            return localItems
+                .Union(parentItems);
         }
     }
 }

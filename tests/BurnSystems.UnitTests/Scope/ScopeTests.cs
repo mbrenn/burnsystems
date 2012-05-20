@@ -208,17 +208,21 @@ namespace BurnSystems.UnitTests.Scope
         
         public class Box
         {
-            public
-                int Width {
+            public int Width {
                 get;
                 set;
             }
             
-            public
-            int Height {
+            public int Height {
                 get;
                 set;
             }
+            
+            public override string ToString()
+			{
+				return string.Format("[Box Width={0}, Height={1}]", Width, Height);
+			}
+
         }
         
         public class Line
@@ -242,6 +246,12 @@ namespace BurnSystems.UnitTests.Scope
                 get;
                 set;
             }
+        	
+        	public override string ToString()
+			{
+				return string.Format("[Line X1={0}, X2={1}, Y1={2}, Y2={3}]", X1, X2, Y1, Y2);
+			}
+
         }
         
         public class DisposeTester : IDisposable
