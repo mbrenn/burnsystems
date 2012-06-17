@@ -172,6 +172,10 @@
     <Compile Include="ObjectActivation\ActivationContainerExtensions.cs" />
     <Compile Include="ObjectActivation\ActivationInfo.cs" />
     <Compile Include="ObjectActivation\ActivationInfoExtensions.cs" />
+    <Compile Include="ObjectActivation\ActiveInstance.cs" />
+    <Compile Include="ObjectActivation\ActiveInstanceCollection.cs" />
+    <Compile Include="ObjectActivation\BindingHelperExtension.cs" />
+    <Compile Include="ObjectActivation\BindingHelper.cs" />
     <Compile Include="ObjectActivation\IActivates.cs" />
     <Compile Include="ObjectActivation\PostActivationInfo.cs" />
     <Compile Include="ObjectActivation\Criteria\ByNameCriteria.cs" />

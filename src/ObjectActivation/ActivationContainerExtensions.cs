@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BurnSystems.ObjectActivation.Criteria;
 using BurnSystems.ObjectActivation.Enabler;
 
 namespace BurnSystems.ObjectActivation
@@ -11,11 +12,12 @@ namespace BurnSystems.ObjectActivation
 	public static class ActivationContainerExtensions
 	{
 		/// <summary>
-		/// Gets the object by enablers but in a 
+		/// Gets the object by enablers
 		/// </summary>
-		/// <param name="activates"></param>
-		/// <param name="enablers"></param>
-		/// <returns></returns>
+		/// <param name="activates">The container being able to activate
+		/// or reuse objects</param>
+		/// <param name="enablers">List of enablers</param>
+		/// <returns>The activated or reused object</returns>
 		public static T Get<T>(this IActivates activates, IEnumerable<IEnabler> enablers)
 		{
 			var result = activates.Get(enablers);
@@ -36,6 +38,23 @@ namespace BurnSystems.ObjectActivation
 		{
 			return activates.Get<T>(
 				new IEnabler[] { new ByTypeEnabler(typeof(T)) });
-		}		
+		}
+
+		/// <summary>
+		/// Creates a binding for a certain type.
+		/// The specific implementation of object retrieval has to be set 
+		/// with an additional call.
+		/// </summary>
+		/// <param name="container">Container, where binding occurs</param>
+		/// <returns>Helper used to add behaviour</returns>
+		public static BindingHelper Bind<T>(this ActivationContainer container)
+		{
+			var result = container.Add(
+				new CriteriaCatalogue(new ByTypeCriteria(typeof(T))));
+				
+			var helper = new BindingHelper();
+			helper.ActivationInfo = result;
+			return helper;
+		}
 	}
 }

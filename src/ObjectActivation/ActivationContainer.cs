@@ -20,18 +20,41 @@ namespace BurnSystems.ObjectActivation
 		/// <summary>
 		/// Stores the instance of the inner container
 		/// </summary>
-		private ActivationContainer innerContainer;
+		private ActivationContainer outerContainer;
 
 		/// <summary>
 		/// Stores the list of activation infos
 		/// </summary>
 		private List<ActivationInfo> activationInfos = new List<ActivationInfo>();
-
+		
+		/// <summary>
+		/// Stores the list of all active instances within this collection
+		/// </summary>
+		private ActiveInstanceCollection activeInstances = 
+			new ActiveInstanceCollection();
+		
 		/// <summary>
 		/// Gets the list of activation infos
 		/// </summary>
 		internal List<ActivationInfo> ActivationInfos {
 			get { return this.activationInfos; }
+		}
+		
+		/// <summary>
+		/// Gets the outer container or null, if no outer container
+		/// has been defined.
+		/// </summary>
+		public ActivationContainer OuterContainer
+		{
+			get { return this.outerContainer; }
+		}
+		
+		/// <summary>
+		/// Gets the active instances within the container
+		/// </summary>
+		internal ActiveInstanceCollection ActiveInstances
+		{
+			get { return this.activeInstances; }
 		}
 
 		/// <summary>
@@ -47,13 +70,13 @@ namespace BurnSystems.ObjectActivation
 		/// Initializes a new instance of the ActivationContainer class. 
 		/// </summary>
 		/// <param name="name">Name of the container class</param>
-		/// <param name="innerContainer">The innercontainer that shall be 
-		/// embedded, if this container does not have a resolution for this 
+		/// <param name="outerContainer">The outercontainer that shall be 
+		/// used as fallback, if this container does not have a resolution for this 
 		/// instance. </param>
-		public ActivationContainer(string name, ActivationContainer innerContainer)
+		public ActivationContainer(string name, ActivationContainer outerContainer)
 		{
 			this.Name = name;
-			this.innerContainer = innerContainer;
+			this.outerContainer = outerContainer;
 		}
 
 		/// <summary>
@@ -88,7 +111,7 @@ namespace BurnSystems.ObjectActivation
 		{
 			foreach (var item in this.ActivationInfos) {
 				if (item.CriteriaCatalogue.DoesMatch(enablers)) {
-					return item.FactoryActivationContainer(this);
+					return item.FactoryActivationContainer(this, enablers);
 				}
 			}
 

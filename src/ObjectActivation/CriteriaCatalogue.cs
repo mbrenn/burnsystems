@@ -15,6 +15,37 @@ namespace BurnSystems.ObjectActivation
 		private List<ICriteria> criterias = new List<ICriteria>();
 		
 		/// <summary>
+		/// Stores the unique id of the criteria catalogue
+		/// </summary>
+		private  Guid guid = Guid.NewGuid();
+		
+		/// <summary>
+		/// Gets the unique id of the criteria catalogue
+		/// </summary>
+		public Guid Guid
+		{
+			get { return this.guid; }
+		}
+	
+		/// <summary>
+		/// Initializes a new instance of the CriteriaCatalogie class
+		/// </summary>
+		public CriteriaCatalogue()
+		{
+		}
+		
+		/// <summary>
+		/// Initializes a new instance of the CriteriaCatalogie class
+		/// </summary>
+		/// <param name="criterias">Criteria to be added</param>
+		public CriteriaCatalogue(params ICriteria[] criterias)
+		{
+			foreach(var item in criterias)
+			{
+				this.Add(item);
+			}
+		}
+		/// <summary>
 		/// Adds a criteria to this object
 		/// </summary>
 		/// <param name="criteria">Criteria to be added</param>
@@ -36,5 +67,15 @@ namespace BurnSystems.ObjectActivation
 			return this.criterias.All( 
 				x => enablers.Any(y => x.DoesMatch(y)));
 		}
+		
+		/// <summary>
+		/// Converts the instance to a string
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return string.Format("[CriteriaCatalogue Guid={0}]", guid);
+		}
+
 	}
 }

@@ -11,3 +11,4 @@ relre:(.*)pidb
 relre:(.*)test-result(.*)
 relre:(.*).userprefs
 relre:(.*).orig
+glob:packages

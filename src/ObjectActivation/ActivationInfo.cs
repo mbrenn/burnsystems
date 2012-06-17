@@ -22,7 +22,7 @@ namespace BurnSystems.ObjectActivation
 		/// <summary>
 		/// Stores the factory method for the object within an activationblock
 		/// </summary>
-		public Func<object, ActivationContainer> FactoryActivationContainer
+		public Func<ActivationContainer, IEnumerable<IEnabler>, object> FactoryActivationContainer
 		{
 			get;
 			set;
@@ -31,7 +31,7 @@ namespace BurnSystems.ObjectActivation
 		/// <summary>
 		/// Stores the factory method for the object within an activationblock
 		/// </summary>
-		public Func<object, ActivationBlock> FactoryActivationBlock
+		public Func<ActivationBlock, IEnumerable<IEnabler>, object> FactoryActivationBlock
 		{
 			get;
 			set;

@@ -31,20 +31,12 @@ namespace BurnSystems.ObjectActivation
 		/// </summary>
 		private ActivationBlock innerBlock;
 		
+
 		/// <summary>
-		/// Stores the list of activation infos
+		/// Stores the list of all active instances within this collection
 		/// </summary>
-		private List<ActivationInfo> activationInfos = new List<ActivationInfo>();
-		
-		/// <summary>
-		/// Gets the list of activation information. 
-		/// All objects within this list will be disposed, if 
-		/// Activation Block will be disposed
-		/// </summary>
-		internal List<ActivationInfo> ActivationInfos
-		{
-			get{ return this.activationInfos; }
-		}
+		private ActiveInstanceCollection activeInstances = 
+			new ActiveInstanceCollection();
 		
 		/// <summary>
 		/// Initializes a new instance of the ActivationBlock class.
@@ -79,16 +71,16 @@ namespace BurnSystems.ObjectActivation
 		/// </summary>
 		public void Dispose()
 		{			
-			foreach(var value in this.activationInfos)
+			foreach(var activeInstance in this.activeInstances)
 			{
-				var disposable = value as IDisposable;
+				var disposable = activeInstance.Value as IDisposable;
 				if(disposable != null)
 				{
 					disposable.Dispose();
 				}
 			}
 			
-			this.activationInfos.Clear();
+			this.activeInstances.Clear();
 		}
 		
 		/// <summary>
@@ -98,11 +90,11 @@ namespace BurnSystems.ObjectActivation
 		/// <returns>Created object</returns>
 		public object Get(IEnumerable<IEnabler> enablers)
 		{
-			foreach (var item in this.ActivationInfos)
+			foreach (var item in this.innerContainer.ActivationInfos)
 			{
 				if(item.CriteriaCatalogue.DoesMatch(enablers))
 				{
-					return item.FactoryActivationBlock(this);
+					return item.FactoryActivationBlock(this, enablers);
 				}
 			}
 			
