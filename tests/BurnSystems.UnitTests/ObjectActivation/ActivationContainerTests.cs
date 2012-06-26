@@ -111,17 +111,17 @@ namespace BurnSystems.UnitTests.ObjectActivation
 				});
 
 			// Inner Calculator is Adder with offset = 5
-			var calculator = innerContainer.Get<ICalculator>();
-			Assert.That(calculator, Is.Not.Null);
+			var innerCalculator = innerContainer.Get<ICalculator>();
+			Assert.That(innerCalculator, Is.Not.Null);
 			
-			var result = calculator.Add(2,3);
+			var result = innerCalculator.Add(2,3);
 			Assert.That(result, Is.EqualTo(10));
 			
 			// Outer Calculator is Adder with offset = 0
-			var calculator2 = innerContainer.Get<ICalculator>();
-			Assert.That(calculator2, Is.Not.Null);
+			var outerCalculator = outerContainer.Get<ICalculator>();
+			Assert.That(outerCalculator, Is.Not.Null);
 			
-			var result2 = calculator2.Add(2,3);
+			var result2 = outerCalculator.Add(2,3);
 			Assert.That(result2, Is.EqualTo(5));
 		}
 		
