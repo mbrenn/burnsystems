@@ -118,6 +118,13 @@ namespace BurnSystems.ObjectActivation
                 }
             }
 
+            // No match...
+            // Asking parent object, if existing
+            if (this.OuterContainer != null)
+            {
+                return this.OuterContainer.Get(enablers);
+            }
+
             return null;
         }
     }
