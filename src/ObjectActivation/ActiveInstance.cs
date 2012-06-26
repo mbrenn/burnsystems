@@ -5,7 +5,7 @@ namespace BurnSystems.ObjectActivation
 {
 	/// <summary>
 	/// Stores the instance and the criterias
-	/// that has been queried before and shall be reused
+	/// that has been queried before and shall be reused.
 	/// </summary>
 	internal class ActiveInstance
 	{
@@ -19,7 +19,7 @@ namespace BurnSystems.ObjectActivation
 		}
 		
 		/// <summary>
-		/// Gets or sets the list of criteria being used
+		/// Gets or sets the list of criteria being used to create this instance. 
 		/// </summary>
 		public CriteriaCatalogue Criterias
 		{

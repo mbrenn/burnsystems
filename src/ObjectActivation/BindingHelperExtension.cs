@@ -70,8 +70,8 @@ namespace BurnSystems.ObjectActivation
 		/// <returns></returns>
 		public static BindingHelper To(this BindingHelper helper, Func<object> factory)
 		{
-			helper.ActivationInfo.FactoryActivationContainer = 
-				(x, y) => factory();
+            helper.ActivationInfo.FactoryActivationContainer =
+                (x, y) => factory();
 			
 			AddQueryInOuterContainer(helper);
 			
@@ -99,17 +99,18 @@ namespace BurnSystems.ObjectActivation
 		/// <returns>The binding helper</returns>
 		public static BindingHelper AsSingleton(this BindingHelper helper)
 		{
-			var oldContainer = helper.ActivationInfo.FactoryActivationContainer;
+			var oldContainerFactory = helper.ActivationInfo.FactoryActivationContainer;
 			
 			helper.ActivationInfo.FactoryActivationContainer = 
 				(x, y) =>
 				{
 				 	var foundInstance = 
 				 		x.ActiveInstances.Find(helper.ActivationInfo);
-				 	
+				 	                    
 				 	if(foundInstance == null)
 				 	{
-						foundInstance = oldContainer(x, y);
+                        // Singleton has not been created yet. Create new object
+						foundInstance = oldContainerFactory(x, y);
 						x.ActiveInstances.Add(
 							new ActiveInstance()
 							{ 
@@ -118,6 +119,7 @@ namespace BurnSystems.ObjectActivation
 							});
 				 	}
 				 	
+                    // Return instance
 				 	return foundInstance;
 				};
 			

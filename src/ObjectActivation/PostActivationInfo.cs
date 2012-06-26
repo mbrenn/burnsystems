@@ -18,6 +18,7 @@ namespace BurnSystems.ObjectActivation
 			get;
 			private set;
 		}
+
 		/// <summary>
 		/// Gets the information about the activated object
 		/// </summary>

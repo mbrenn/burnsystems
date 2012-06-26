@@ -143,7 +143,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
 			var outerCalculator = outerContainer.Get<ICalculator>();
 
 			var innerResult = innerCalculator.Add(5,3);
-			var outerResult = innerCalculator.Add(5,3);
+			var outerResult = outerCalculator.Add(5,3);
 			
 			Assert.That(innerResult, Is.EqualTo(13));
 			Assert.That(outerResult, Is.EqualTo(8));
@@ -155,7 +155,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
 			outerCalculator = outerContainer.Get<ICalculator>();
 
 			innerResult = innerCalculator.Add(5,3);
-			outerResult = innerCalculator.Add(5,3);
+			outerResult = outerCalculator.Add(5,3);
 			
 			Assert.That(innerResult, Is.EqualTo(18));
 			Assert.That(outerResult, Is.EqualTo(8));

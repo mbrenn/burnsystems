@@ -7,7 +7,7 @@ namespace BurnSystems.ObjectActivation
 	/// The activation block contains the objects that shall
 	/// get disposed, the activation block is disposed. 
 	/// The disposal of an included object shall only occur, if
-	/// the object has been created by this instance. .
+	/// the object has been created by this instance.
 	/// </summary>
 	public class ActivationBlock : IDisposable
 	{
