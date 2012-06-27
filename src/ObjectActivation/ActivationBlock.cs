@@ -9,12 +9,12 @@ namespace BurnSystems.ObjectActivation
     /// The disposal of an included object shall only occur, if
     /// the object has been created by this instance.
     /// </summary>
-    public class ActivationBlock : IDisposable
+    public class ActivationBlock : IDisposable, IActivates
     {
         /// <summary>
         /// Gets or sets the name of the block
         /// </summary>
-        public string name
+        public string Name
         {
             get;
             set;
@@ -31,12 +31,36 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         private ActivationBlock innerBlock;
 
-
         /// <summary>
         /// Stores the list of all active instances within this collection
         /// </summary>
         private ActiveInstanceCollection activeInstances =
             new ActiveInstanceCollection();
+
+        /// <summary>
+        /// Gets the active instances
+        /// </summary>
+        internal ActiveInstanceCollection ActiveInstances
+        {
+            get { return this.activeInstances; }
+        }
+
+        /// <summary>
+        /// Gets the container that contains the information how, when and
+        /// in which way to create the object
+        /// </summary>
+        internal ActivationContainer InnerContainer
+        {
+            get { return this.innerContainer; }
+        }
+
+        /// <summary>
+        /// Gets an inner block that may already contain the required object.
+        /// </summary>
+        internal ActivationBlock InnerBlock
+        {
+            get { return this.InnerBlock; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the ActivationBlock class.
@@ -45,7 +69,7 @@ namespace BurnSystems.ObjectActivation
         /// <param name="innerContainer">The inner container</param>
         public ActivationBlock(string name, ActivationContainer innerContainer)
         {
-            this.name = name;
+            this.Name = name;
             this.innerContainer = innerContainer;
         }
 
@@ -61,7 +85,7 @@ namespace BurnSystems.ObjectActivation
             ActivationContainer innerContainer,
             ActivationBlock innerBlock)
         {
-            this.name = name;
+            this.Name = name;
             this.innerContainer = innerContainer;
             this.innerBlock = innerBlock;
         }
@@ -71,16 +95,31 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         public void Dispose()
         {
-            foreach (var activeInstance in this.activeInstances)
+            lock (this.activeInstances)
             {
-                var disposable = activeInstance.Value as IDisposable;
-                if (disposable != null)
+                foreach (var activeInstance in this.activeInstances)
                 {
-                    disposable.Dispose();
+                    var disposable = activeInstance.Value as IDisposable;
+                    if (disposable != null)
+                    {
+                        disposable.Dispose();
+                    }
                 }
-            }
 
-            this.activeInstances.Clear();
+                this.activeInstances.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Adds an instance to the block
+        /// </summary>
+        /// <param name="activeInstance">Instance to be added</param>
+        internal void Add(ActiveInstance activeInstance)
+        {
+            lock (this.activeInstances)
+            {
+                this.activeInstances.Add(activeInstance);
+            }
         }
 
         /// <summary>

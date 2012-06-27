@@ -8,26 +8,6 @@ namespace BurnSystems.ObjectActivation
     public static class BindingHelperExtension
     {
         /// <summary>
-        /// Adds the query into the outer container
-        /// </summary>
-        /// <param name="helper"></param>
-        private static void AddQueryInOuterContainer(this BindingHelper helper)
-        {
-            var old = helper.ActivationInfo.FactoryActivationContainer;
-            helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) =>
-                {
-                    var result = old(x, y);
-                    if (result == null && x.OuterContainer != null)
-                    {
-                        x.OuterContainer.Get(y);
-                    }
-
-                    return result;
-                };
-        }
-
-        /// <summary>
         /// Binds the object to a specific class. 
         /// The class is created when necessary
         /// </summary>
@@ -41,7 +21,11 @@ namespace BurnSystems.ObjectActivation
                     return Activator.CreateInstance(typeof(T));
                 };
 
-            AddQueryInOuterContainer(helper);
+            helper.ActivationInfo.FactoryActivationBlock =
+                (x, y) =>
+                {
+                    return Activator.CreateInstance(typeof(T));
+                };
 
             return helper;
         }
@@ -57,7 +41,8 @@ namespace BurnSystems.ObjectActivation
             helper.ActivationInfo.FactoryActivationContainer =
                 (x, y) => value;
 
-            AddQueryInOuterContainer(helper);
+            helper.ActivationInfo.FactoryActivationBlock =
+                (x, y) => value;
 
             return helper;
         }
@@ -73,7 +58,9 @@ namespace BurnSystems.ObjectActivation
             helper.ActivationInfo.FactoryActivationContainer =
                 (x, y) => factory();
 
-            AddQueryInOuterContainer(helper);
+            helper.ActivationInfo.FactoryActivationBlock =
+                (x, y) => 
+                    factory();
 
             return helper;
         }
@@ -87,6 +74,22 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The binding helper</returns>
         public static BindingHelper AsTransient(this BindingHelper helper)
         {
+            // No change for activation container. 
+            // Only within activation blocks, the disposal has to be organized. 
+            var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
+            helper.ActivationInfo.FactoryActivationBlock =
+                (x, y) =>
+                {
+                    var found = oldContainerFactory(x, y);
+
+                    x.Add(
+                        new ActiveInstance()
+                        {
+                            Criterias = helper.ActivationInfo.CriteriaCatalogue,
+                            Value = found
+                        });
+                    return found;
+                };
             return helper;
         }
 
@@ -123,6 +126,14 @@ namespace BurnSystems.ObjectActivation
                     return foundInstance;
                 };
 
+            helper.ActivationInfo.FactoryActivationBlock =
+                (x, y) =>
+                {
+                    return helper.ActivationInfo.FactoryActivationContainer(
+                        x.InnerContainer, 
+                        y);
+                };
+
             return helper;
         }
 
@@ -138,6 +149,31 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The binding helper</returns>
         public static BindingHelper AsScoped(this BindingHelper helper)
         {
+            // No change for activation container. 
+            // Only within activation blocks, the disposal has to be organized. 
+            var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
+            helper.ActivationInfo.FactoryActivationBlock =
+                (x, y) =>
+                {
+
+                    var found =
+                        x.ActiveInstances.Find(helper.ActivationInfo);
+
+                    if (found == null)
+                    {
+                        found = oldContainerFactory(x, y);
+
+                        x.Add(
+                            new ActiveInstance()
+                            {
+                                Criterias = helper.ActivationInfo.CriteriaCatalogue,
+                                Value = found
+                            });
+                    }
+
+                    return found;
+                };
+
             return helper;
         }
     }
