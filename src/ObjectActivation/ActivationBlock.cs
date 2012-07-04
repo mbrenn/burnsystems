@@ -24,7 +24,7 @@ namespace BurnSystems.ObjectActivation
         /// Stores the container that contains the information how, when and
         /// in which way to create the object
         /// </summary>
-        private ActivationContainer innerContainer;
+        private ActivationContainer container;
 
         /// <summary>
         /// Contains an inner block that may already contain the required object.
@@ -49,9 +49,9 @@ namespace BurnSystems.ObjectActivation
         /// Gets the container that contains the information how, when and
         /// in which way to create the object
         /// </summary>
-        internal ActivationContainer InnerContainer
+        internal ActivationContainer Container
         {
-            get { return this.innerContainer; }
+            get { return this.container; }
         }
 
         /// <summary>
@@ -66,27 +66,27 @@ namespace BurnSystems.ObjectActivation
         /// Initializes a new instance of the ActivationBlock class.
         /// </summary>
         /// <param name="name">Name of the activation block</param>
-        /// <param name="innerContainer">The inner container</param>
-        public ActivationBlock(string name, ActivationContainer innerContainer)
+        /// <param name="container">The inner container</param>
+        public ActivationBlock(string name, ActivationContainer container)
         {
             this.Name = name;
-            this.innerContainer = innerContainer;
+            this.container = container;
         }
 
         /// <summary>
         /// Initializes a new instance of the ActivationBlock class.
         /// </summary>
         /// <param name="name">Name of the object to be created</param>
-        /// <param name="innerContainer">The container to be used</param>
+        /// <param name="container">The container to be used</param>
         /// <param name="innerBlock">The inner block containing the necessary
         /// information</param>
         public ActivationBlock(
             string name,
-            ActivationContainer innerContainer,
+            ActivationContainer container,
             ActivationBlock innerBlock)
         {
             this.Name = name;
-            this.innerContainer = innerContainer;
+            this.container = container;
             this.innerBlock = innerBlock;
         }
 
@@ -129,12 +129,24 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created object</returns>
         public object Get(IEnumerable<IEnabler> enablers)
         {
-            foreach (var item in this.innerContainer.ActivationInfos)
+            var currentContainer = this.container;
+
+            while (currentContainer != null)
             {
-                if (item.CriteriaCatalogue.DoesMatch(enablers))
+                foreach (var item in currentContainer.ActivationInfos)
                 {
-                    return item.FactoryActivationBlock(this, enablers);
+                    if (item.CriteriaCatalogue.DoesMatch(enablers))
+                    {
+                        return item.FactoryActivationBlock(this, enablers);
+                    }             
                 }
+
+                currentContainer = currentContainer.OuterContainer;
+            }
+
+            if (this.innerBlock != null)
+            {
+                this.innerBlock.Get(enablers);
             }
 
             return null;

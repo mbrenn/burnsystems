@@ -130,7 +130,7 @@ namespace BurnSystems.ObjectActivation
                 (x, y) =>
                 {
                     return helper.ActivationInfo.FactoryActivationContainer(
-                        x.InnerContainer, 
+                        x.Container, 
                         y);
                 };
 
@@ -152,6 +152,12 @@ namespace BurnSystems.ObjectActivation
             // No change for activation container. 
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
+            helper.ActivationInfo.FactoryActivationContainer =
+                (x, y) =>
+                {
+                    throw new InvalidOperationException("AsScoped cannot be created in ActivationContainer");
+                };
+
             helper.ActivationInfo.FactoryActivationBlock =
                 (x, y) =>
                 {

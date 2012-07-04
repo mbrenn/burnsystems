@@ -102,6 +102,36 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(Helper.DisposeCount, Is.EqualTo(2));
         }
 
+        [Test]
+        public void TestCreationAsTransientInParent()
+        {
+            Helper.Reset();
+
+            var outerContainer = new ActivationContainer("OuterTest");
+            var innerContainer = new ActivationContainer("InnerTest", outerContainer);
+            outerContainer.Bind<Helper>().To<Helper>().AsTransient();
+
+            using (var block = new ActivationBlock("Block", innerContainer))
+            {
+                var helper1 = block.Get<Helper>();
+                var helper2 = block.Get<Helper>();
+                var helper3 = block.Get<Helper>();
+
+                Assert.That(helper1, Is.Not.Null);
+                Assert.That(helper2, Is.Not.Null);
+                Assert.That(helper3, Is.Not.Null);
+
+                Assert.AreNotSame(helper1, helper2);
+                Assert.AreNotSame(helper2, helper3);
+                Assert.AreNotSame(helper1, helper3);
+
+                Assert.That(Helper.CreationCount, Is.EqualTo(3));
+                Assert.That(Helper.DisposeCount, Is.EqualTo(0));
+            }
+
+            Assert.That(Helper.DisposeCount, Is.EqualTo(3));
+        }
+
         /// <summary>
         /// Helper class for counting creations and disposings
         /// </summary>
