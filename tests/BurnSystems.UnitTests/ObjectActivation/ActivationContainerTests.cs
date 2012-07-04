@@ -82,6 +82,16 @@ namespace BurnSystems.UnitTests.ObjectActivation
 			Assert.That(result, Is.EqualTo(15));					
 		}
 
+        [Test]
+        public void TestTypeCreationAsScoped()
+        {
+            // Initial creation
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>().AsScoped();
+
+            Assert.Throws<InvalidOperationException>(() => activationContainer.Get<ICalculator>());
+        }
+
 		[Test]
 		public void TestTransientRetrievalFromParent()
 		{
@@ -161,5 +171,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
 			Assert.That(outerResult, Is.EqualTo(8));
 
 		}
-	}
+
+        public object Exceptionvar { get; set; }
+    }
 }

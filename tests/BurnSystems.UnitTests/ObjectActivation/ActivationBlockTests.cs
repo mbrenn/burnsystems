@@ -132,6 +132,66 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(Helper.DisposeCount, Is.EqualTo(3));
         }
 
+        [Test]
+        public void TestCreationAsSingletonInParent()
+        {
+            Helper.Reset();
+
+            var outerContainer = new ActivationContainer("OuterTest");
+            var innerContainer = new ActivationContainer("InnerTest", outerContainer);
+            outerContainer.Bind<Helper>().To<Helper>().AsSingleton();
+
+            using (var block = new ActivationBlock("Block", innerContainer))
+            {
+                var helper1 = block.Get<Helper>();
+                var helper2 = block.Get<Helper>();
+                var helper3 = block.Get<Helper>();
+
+                Assert.That(helper1, Is.Not.Null);
+                Assert.That(helper2, Is.Not.Null);
+                Assert.That(helper3, Is.Not.Null);
+
+                Assert.AreSame(helper1, helper2);
+                Assert.AreSame(helper2, helper3);
+                Assert.AreSame(helper1, helper3);
+
+                Assert.That(Helper.CreationCount, Is.EqualTo(1));
+                Assert.That(Helper.DisposeCount, Is.EqualTo(0));
+            }
+
+            Assert.That(Helper.DisposeCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TestCreationAsScopedInParent()
+        {
+            Helper.Reset();
+
+            var outerContainer = new ActivationContainer("OuterTest");
+            var innerContainer = new ActivationContainer("InnerTest", outerContainer);
+            outerContainer.Bind<Helper>().To<Helper>().AsScoped();
+
+            using (var block = new ActivationBlock("Block", innerContainer))
+            {
+                var helper1 = block.Get<Helper>();
+                var helper2 = block.Get<Helper>();
+                var helper3 = block.Get<Helper>();
+
+                Assert.That(helper1, Is.Not.Null);
+                Assert.That(helper2, Is.Not.Null);
+                Assert.That(helper3, Is.Not.Null);
+
+                Assert.AreSame(helper1, helper2);
+                Assert.AreSame(helper2, helper3);
+                Assert.AreSame(helper1, helper3);
+
+                Assert.That(Helper.CreationCount, Is.EqualTo(1));
+                Assert.That(Helper.DisposeCount, Is.EqualTo(0));
+            }
+
+            Assert.That(Helper.DisposeCount, Is.EqualTo(1));
+        }
+
         /// <summary>
         /// Helper class for counting creations and disposings
         /// </summary>
