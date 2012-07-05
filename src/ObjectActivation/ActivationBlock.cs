@@ -146,7 +146,11 @@ namespace BurnSystems.ObjectActivation
 
             if (this.innerBlock != null)
             {
-                this.innerBlock.Get(enablers);
+                var result = this.innerBlock.Get(enablers);
+                if (result != null)
+                {
+                    return result;
+                }
             }
 
             return null;
