@@ -63,6 +63,11 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Throws the event that binding has changed
+        /// </summary>
+        public event EventHandler BindingChanged;
+
+        /// <summary>
         /// Initializes a new instance of the ActivationBlock class.
         /// </summary>
         /// <param name="name">Name of the activation block</param>
@@ -71,6 +76,8 @@ namespace BurnSystems.ObjectActivation
         {
             this.Name = name;
             this.container = container;
+
+            this.container.BindingChanged += (x, y) => this.OnBindingChanged();
         }
 
         /// <summary>
@@ -78,16 +85,31 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         /// <param name="name">Name of the object to be created</param>
         /// <param name="container">The container to be used</param>
-        /// <param name="innerBlock">The inner block containing the necessary
+        /// <param name="outerBlock">The inner block containing the necessary
         /// information</param>
         public ActivationBlock(
             string name,
             ActivationContainer container,
-            ActivationBlock innerBlock)
+            ActivationBlock outerBlock)
         {
             this.Name = name;
             this.container = container;
-            this.innerBlock = innerBlock;
+            this.innerBlock = outerBlock;
+
+            this.container.BindingChanged += (x, y) => this.OnBindingChanged();
+            this.innerBlock.BindingChanged += (x, y) => this.OnBindingChanged();
+        }
+
+        /// <summary>
+        /// Calls the OnBindingChanged event
+        /// </summary>
+        protected void OnBindingChanged()
+        {
+            var e = this.BindingChanged;
+            if (e != null)
+            {
+                e(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -154,6 +176,6 @@ namespace BurnSystems.ObjectActivation
             }
 
             return null;
-        }
+        }        
     }
 }

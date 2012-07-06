@@ -59,6 +59,11 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Throws the event that binding has changed
+        /// </summary>
+        public event EventHandler BindingChanged;
+
+        /// <summary>
         /// Initializes a new instance of the ActivationContainer class.
         /// </summary>
         /// <param name="name">Name of the Container</param>
@@ -78,6 +83,8 @@ namespace BurnSystems.ObjectActivation
         {
             this.Name = name;
             this.outerContainer = outerContainer;
+
+            this.outerContainer.BindingChanged += (x, y) => this.OnBindingChanged();
         }
 
         /// <summary>
@@ -87,6 +94,18 @@ namespace BurnSystems.ObjectActivation
         public override string ToString()
         {
             return this.Name;
+        }
+
+        /// <summary>
+        /// Calls the OnBindingChanged event
+        /// </summary>
+        protected void OnBindingChanged()
+        {
+            var e = this.BindingChanged;
+            if (e != null)
+            {
+                e(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>

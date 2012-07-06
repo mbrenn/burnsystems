@@ -14,5 +14,10 @@ namespace BurnSystems.ObjectActivation
         /// <param name="enablers">Enumeration of relevant enablers</param>
         /// <returns>The enabled object or null, if no object can be enabled</returns>
         object Get(IEnumerable<IEnabler> enablers);
+
+        /// <summary>
+        /// This event is thrown when a binding has changed
+        /// </summary>
+        event EventHandler BindingChanged;
     }
 }

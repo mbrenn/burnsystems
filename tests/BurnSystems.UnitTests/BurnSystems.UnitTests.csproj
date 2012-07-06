@@ -79,9 +79,11 @@
     <Compile Include="DateTimeHelperTests.cs" />
     <Compile Include="ObjectActivation\ActivationBlockTests.cs" />
     <Compile Include="ObjectActivation\ActivationContainerTests.cs" />
+    <Compile Include="ObjectActivation\CalculationContainer.cs" />
     <Compile Include="ObjectActivation\Calculator.cs" />
     <Compile Include="ObjectActivation\EnablerCriteriaTests.cs" />
     <Compile Include="ObjectActivation\ICalculator.cs" />
+    <Compile Include="ObjectActivation\InstanceBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources_UnitTest.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -123,9 +125,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ObjectActivation" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

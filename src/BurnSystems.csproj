@@ -177,6 +177,8 @@
     <Compile Include="ObjectActivation\BindingHelperExtension.cs" />
     <Compile Include="ObjectActivation\BindingHelper.cs" />
     <Compile Include="ObjectActivation\IActivates.cs" />
+    <Compile Include="ObjectActivation\InstanceBuilder.cs" />
+    <Compile Include="ObjectActivation\InstantiationCacheEntry.cs" />
     <Compile Include="ObjectActivation\PostActivationInfo.cs" />
     <Compile Include="ObjectActivation\Criteria\ByNameCriteria.cs" />
     <Compile Include="ObjectActivation\Criteria\ByTypeCriteria.cs" />
@@ -299,11 +301,7 @@
   <ItemGroup>
     <None Include="BurnSystems_AGPL.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ObjectActivation" />
-    <Folder Include="ObjectActivation\Criteria" />
-    <Folder Include="ObjectActivation\Enabler" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
