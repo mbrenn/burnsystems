@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -43,24 +44,59 @@ namespace BurnSystems.ObjectActivation
             InstantiationCacheEntry entry;
             if (this.cache.TryGetValue(typeof(T), out entry))
             {
-                return (T)entry.FactoryMethod();
+                return (T)entry.FactoryMethod(this.container);
             }
             else
             {
+                // var result;
                 var result = Expression.Parameter(typeof(T), "result");
+                var containerExpression = Expression.Parameter(typeof(IActivates), "container");
+                var expressions = new List<Expression>();
+
+                // var result
+                // result = new "typeof(T)";
+                expressions.Add(Expression.Assign(result, Expression.New(typeof(T))));
+
+                foreach (var property in typeof(T).GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
+                {
+                    var getMethod = typeof(IActivates).GetMethod("Get");
+                    // new Enabler.ByTypeEnabler [] { new ByTypeEnabler(getMethod.GetType()); }
+                    var parameters = Expression.NewArrayInit(
+                        typeof(IEnabler),
+                        Expression.New(
+                            typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
+                            Expression.Constant(property.PropertyType)));
+
+                    expressions.Add(
+                        Expression.Assign(
+                            Expression.MakeMemberAccess(
+                                result,
+                                property),
+                            Expression.Convert(
+                                Expression.Call(
+                                    containerExpression,
+                                    getMethod,
+                                    parameters),
+                                property.PropertyType)));
+                }
+
+                // return result;
+                expressions.Add(result);
 
                 var expression = Expression.Block(
+                    // var result;
                     new[] { result },
-                    Expression.Assign(result, Expression.New(typeof(T))),
-                    result);
+                    expressions);                
 
-                var cacheEntry = new InstantiationCacheEntry();
+                // Creates cache entry containing the compiled method
+                entry = new InstantiationCacheEntry();
+                entry.FactoryMethod = Expression.Lambda<Func<IActivates, object>>(expression, containerExpression).Compile();
 
-                cacheEntry.FactoryMethod = Expression.Lambda<Func<object>>(expression).Compile();
+                // Store in dictionary
+                this.cache[typeof(T)] = entry;
 
-                this.cache[typeof(T)] = cacheEntry;
-
-                return (T) cacheEntry.FactoryMethod();
+                // Call!
+                return (T)entry.FactoryMethod(this.container);
             }
         }
     }

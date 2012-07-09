@@ -14,7 +14,7 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Gets or sets the factory method
         /// </summary>
-        public Func<object> FactoryMethod
+        public Func<IActivates, object> FactoryMethod
         {
             get;
             set;
