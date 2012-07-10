@@ -176,6 +176,7 @@
     <Compile Include="ObjectActivation\ActiveInstanceCollection.cs" />
     <Compile Include="ObjectActivation\BindingHelperExtension.cs" />
     <Compile Include="ObjectActivation\BindingHelper.cs" />
+    <Compile Include="ObjectActivation\ByNameAttribute.cs" />
     <Compile Include="ObjectActivation\IActivates.cs" />
     <Compile Include="ObjectActivation\InstanceBuilder.cs" />
     <Compile Include="ObjectActivation\InstantiationCacheEntry.cs" />

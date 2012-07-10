@@ -26,4 +26,24 @@
 			return a * b;
 		}
 	}
+    /// <summary>
+    /// Just a test class implementing ICalculator
+    /// </summary>
+    public class CalculatorAddByTwo : ICalculator
+    {
+        public int Add(int a, int b)
+        {
+            return a + b + 2;
+        }
+
+        public int Subtract(int a, int b)
+        {
+            return a - b + 2;
+        }
+
+        public int Multiply(int a, int b)
+        {
+            return a * b + 2;
+        }
+    }
 }

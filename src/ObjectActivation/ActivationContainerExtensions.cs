@@ -49,11 +49,27 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Helper used to add behaviour</returns>
         public static BindingHelper Bind<T>(this ActivationContainer container)
         {
-            var result = container.Add(
+            var criteria = container.Add(
                 new CriteriaCatalogue(new ByTypeCriteria(typeof(T))));
 
             var helper = new BindingHelper();
-            helper.ActivationInfo = result;
+            helper.ActivationInfo = criteria;
+            return helper;
+        }
+
+        /// <summary>
+        /// Creates a binding for a certain name
+        /// </summary>
+        /// <param name="container">Container to be bound</param>
+        /// <param name="name">Name of the binding</param>
+        /// <returns>Heper used to add behaviour</returns>
+        public static BindingHelper BindToName(this ActivationContainer container, string name)
+        {
+            var criteria = container.Add(
+                new CriteriaCatalogue(new ByNameCriteria(name)));
+
+            var helper = new BindingHelper();
+            helper.ActivationInfo = criteria;
             return helper;
         }
     }
