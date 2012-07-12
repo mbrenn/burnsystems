@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
+using BurnSystems.ObjectActivation.Enabler;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -53,20 +54,38 @@ namespace BurnSystems.ObjectActivation
                 var containerExpression = Expression.Parameter(typeof(IActivates), "container");
                 var expressions = new List<Expression>();
 
-                // var result
-                // result = new "typeof(T)";
+                // var result;
+                // result = new {typeof(T)}();
                 expressions.Add(Expression.Assign(result, Expression.New(typeof(T))));
 
                 foreach (var property in typeof(T).GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
                 {
+                    var byName = property.GetCustomAttributes(typeof(ByNameAttribute), false);
+                    NewExpression enablerCreation;
+
+                    if (byName != null && byName.Length != 0)
+                    {
+                        enablerCreation =
+                            Expression.New(
+                                typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
+                                Expression.Constant((byName[0] as ByNameAttribute).Name));
+                    }
+                    else
+                    {
+                        enablerCreation =
+                            Expression.New(
+                                typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
+                                Expression.Constant(property.PropertyType));
+                    }
+
+                    // OK, we found it, add expression
                     var getMethod = typeof(IActivates).GetMethod("Get");
-                    // new Enabler.ByTypeEnabler [] { new ByTypeEnabler(getMethod.GetType()); }
+                    // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
                     var parameters = Expression.NewArrayInit(
                         typeof(IEnabler),
-                        Expression.New(
-                            typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
-                            Expression.Constant(property.PropertyType)));
+                        enablerCreation);
 
+                    // result.{property} = {this.container}.Get({parameters});
                     expressions.Add(
                         Expression.Assign(
                             Expression.MakeMemberAccess(
