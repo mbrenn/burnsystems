@@ -176,6 +176,40 @@ namespace BurnSystems.ObjectActivation
             }
 
             return null;
-        }        
+        }
+
+        /// <summary>
+        /// Checks, if the container knows a binding to the specific enablers
+        /// </summary>
+        /// <param name="enablers">Enablers to be tested</param>
+        /// <returns>true, if container or block knows how to activate an object by the enablers</returns>
+        public bool Has(IEnumerable<IEnabler> enablers)
+        {
+            var currentContainer = this.container;
+
+            while (currentContainer != null)
+            {
+                foreach (var item in currentContainer.ActivationInfos)
+                {
+                    if (item.CriteriaCatalogue.DoesMatch(enablers))
+                    {
+                        return true;
+                    }
+                }
+
+                currentContainer = currentContainer.OuterContainer;
+            }
+
+            if (this.innerBlock != null)
+            {
+                var result = this.innerBlock.Get(enablers);
+                if (result != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

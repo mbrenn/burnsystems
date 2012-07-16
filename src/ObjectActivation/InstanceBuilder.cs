@@ -57,47 +57,7 @@ namespace BurnSystems.ObjectActivation
                 // var result;
                 // result = new {typeof(T)}();
                 expressions.Add(Expression.Assign(result, Expression.New(typeof(T))));
-
-                foreach (var property in typeof(T).GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
-                {
-                    var byName = property.GetCustomAttributes(typeof(ByNameAttribute), false);
-                    NewExpression enablerCreation;
-
-                    if (byName != null && byName.Length != 0)
-                    {
-                        enablerCreation =
-                            Expression.New(
-                                typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
-                                Expression.Constant((byName[0] as ByNameAttribute).Name));
-                    }
-                    else
-                    {
-                        enablerCreation =
-                            Expression.New(
-                                typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
-                                Expression.Constant(property.PropertyType));
-                    }
-
-                    // OK, we found it, add expression
-                    var getMethod = typeof(IActivates).GetMethod("Get");
-                    // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
-                    var parameters = Expression.NewArrayInit(
-                        typeof(IEnabler),
-                        enablerCreation);
-
-                    // result.{property} = {this.container}.Get({parameters});
-                    expressions.Add(
-                        Expression.Assign(
-                            Expression.MakeMemberAccess(
-                                result,
-                                property),
-                            Expression.Convert(
-                                Expression.Call(
-                                    containerExpression,
-                                    getMethod,
-                                    parameters),
-                                property.PropertyType)));
-                }
+                this.AddPropertyAssignments(typeof(T), result, containerExpression, expressions);
 
                 // return result;
                 expressions.Add(result);
@@ -116,6 +76,70 @@ namespace BurnSystems.ObjectActivation
 
                 // Call!
                 return (T)entry.FactoryMethod(this.container);
+            }
+        }
+
+        /// <summary>
+        /// Adds property assignements to the list of expression. 
+        /// The Assignments are found by recursive visiting of all properties of the type
+        /// </summary>
+        /// <param name="type">Type of the instance 'result', whose properties will be visited</param>
+        /// <param name="target">Object, where properties shall be assigned to</param>
+        /// <param name="containerExpression">Expression containing the container</param>
+        /// <param name="expressions">Expressions, where assignments shall be added</param>
+        private void AddPropertyAssignments(Type type, Expression target, ParameterExpression containerExpression, List<Expression> expressions)
+        {
+            foreach (var property in type.GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
+            {
+                var byName = property.GetCustomAttributes(typeof(ByNameAttribute), false);
+                NewExpression enablerCreation;
+                var enablers = new List<IEnabler>();
+
+                if (byName != null && byName.Length != 0)
+                {
+                    var byNameAttribute = byName[0] as ByNameAttribute;
+                    enablerCreation =
+                        Expression.New(
+                            typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
+                            Expression.Constant(byNameAttribute.Name));
+                    enablers.Add(new ByNameEnabler(byNameAttribute.Name));
+                }
+                else
+                {
+                    enablerCreation =
+                        Expression.New(
+                            typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
+                            Expression.Constant(property.PropertyType));
+                    enablers.Add(new ByTypeEnabler(property.PropertyType));
+                }
+
+                // Check, if we have a binding
+                if (!this.container.Has(enablers))
+                {
+                    continue;
+                }
+
+                // OK, we found it, add expression
+                var getMethod = typeof(IActivates).GetMethod("Get");
+                // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
+                var parameters = Expression.NewArrayInit(
+                    typeof(IEnabler),
+                    enablerCreation);
+
+                // {result}.{property} = {this.container}.Get({parameters});
+                var memberAccess = Expression.MakeMemberAccess(target, property);
+                expressions.Add(
+                    Expression.Assign(
+                        memberAccess,
+                        Expression.Convert(
+                            Expression.Call(
+                                containerExpression,
+                                getMethod,
+                                parameters),
+                            property.PropertyType)));
+
+                // Add properties of embedded object
+                this.AddPropertyAssignments(property.PropertyType, memberAccess, containerExpression, expressions);
             }
         }
     }

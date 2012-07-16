@@ -15,6 +15,15 @@ namespace BurnSystems.UnitTests.ObjectActivation
         }
     }
 
+    public class CalculationContainerGetter
+    {
+        public ICalculator Calculator
+        {
+            get;
+            private set;
+        }
+    }
+
     public class CalculationContainerByName
     {
         public ICalculator CalculatorByType
@@ -32,6 +41,15 @@ namespace BurnSystems.UnitTests.ObjectActivation
 
         [ByName("AddByTwo")]
         public ICalculator CalculatorByTwo
+        {
+            get;
+            set;
+        }
+    }
+
+    public class CalculationContainerContainer
+    {
+        public CalculationContainer Container
         {
             get;
             set;

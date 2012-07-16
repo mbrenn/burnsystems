@@ -41,5 +41,34 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(container.CalculatorByType, Is.InstanceOf<Calculator>());
             Assert.That(container.CalculatorByTwo, Is.InstanceOf<CalculatorAddByTwo>());
         }
+
+        [Test]
+        public void TestInstanceEmbedded()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<CalculationContainer>().To<CalculationContainer>();
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+            var container = instanceBuilder.Create<CalculationContainerContainer>();
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container.Container, Is.Not.Null);
+            Assert.That(container.Container.Calculator, Is.Not.Null);
+            Assert.That(container, Is.TypeOf<CalculationContainerContainer>());
+            Assert.That(container.Container, Is.TypeOf<CalculationContainer>());
+            Assert.That(container.Container.Calculator, Is.TypeOf<Calculator>());
+        }
+
+        [Test]
+        public void TestInstanceOnlyGetter()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+            var container = instanceBuilder.Create<CalculationContainerGetter>();
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container.Calculator, Is.Null);
+        }
     }
 }
