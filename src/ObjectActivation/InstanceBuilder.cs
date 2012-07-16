@@ -91,6 +91,13 @@ namespace BurnSystems.ObjectActivation
         {
             foreach (var property in type.GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
             {
+                var setMethod = property.GetSetMethod();
+                if (setMethod == null || property.GetSetMethod().IsPrivate)
+                {
+                    // No private properties are set
+                    continue;
+                }
+
                 var byName = property.GetCustomAttributes(typeof(ByNameAttribute), false);
                 NewExpression enablerCreation;
                 var enablers = new List<IEnabler>();
@@ -116,6 +123,7 @@ namespace BurnSystems.ObjectActivation
                 // Check, if we have a binding
                 if (!this.container.Has(enablers))
                 {
+                    // I do not know this type
                     continue;
                 }
 
