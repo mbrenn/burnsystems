@@ -22,7 +22,7 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Stores the cache for instantiation
         /// </summary>
-        private Dictionary<Type, InstantiationCacheEntry> cache = new Dictionary<Type, InstantiationCacheEntry>();
+        private static Dictionary<Type, InstantiationCacheEntry> cache = new Dictionary<Type, InstantiationCacheEntry>();
 
         /// <summary>
         /// Initializes a new instance of the instance builder
@@ -32,7 +32,7 @@ namespace BurnSystems.ObjectActivation
         {
             this.container = container;
 
-            this.container.BindingChanged += (x, y) => cache.Clear();
+            //this.container.BindingChanged += (x, y) => cache.Clear();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace BurnSystems.ObjectActivation
         public T Create<T>()
         {
             InstantiationCacheEntry entry;
-            if (this.cache.TryGetValue(typeof(T), out entry))
+            if (cache.TryGetValue(typeof(T), out entry))
             {
                 return (T)entry.FactoryMethod(this.container);
             }
@@ -72,7 +72,7 @@ namespace BurnSystems.ObjectActivation
                 entry.FactoryMethod = Expression.Lambda<Func<IActivates, object>>(expression, containerExpression).Compile();
 
                 // Store in dictionary
-                this.cache[typeof(T)] = entry;
+                cache[typeof(T)] = entry;
 
                 // Call!
                 return (T)entry.FactoryMethod(this.container);
@@ -109,7 +109,6 @@ namespace BurnSystems.ObjectActivation
                         Expression.New(
                             typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
                             Expression.Constant(byNameAttribute.Name));
-                    enablers.Add(new ByNameEnabler(byNameAttribute.Name));
                 }
                 else
                 {
@@ -117,14 +116,6 @@ namespace BurnSystems.ObjectActivation
                         Expression.New(
                             typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
                             Expression.Constant(property.PropertyType));
-                    enablers.Add(new ByTypeEnabler(property.PropertyType));
-                }
-
-                // Check, if we have a binding
-                if (!this.container.Has(enablers))
-                {
-                    // I do not know this type
-                    continue;
                 }
 
                 // OK, we found it, add expression
@@ -146,8 +137,18 @@ namespace BurnSystems.ObjectActivation
                                 parameters),
                             property.PropertyType)));
 
+                
                 // Add properties of embedded object
-                this.AddPropertyAssignments(property.PropertyType, memberAccess, containerExpression, expressions);
+                var innerProperties = new List<Expression>();
+                this.AddPropertyAssignments(property.PropertyType, memberAccess, containerExpression, innerProperties);
+                if (innerProperties.Count > 0)
+                {
+                    var innerBlock = Expression.Block(innerProperties);
+                    expressions.Add(
+                        Expression.IfThen(
+                            Expression.NotEqual(memberAccess, Expression.Constant(null)),
+                            innerBlock));
+                }
             }
         }
     }
