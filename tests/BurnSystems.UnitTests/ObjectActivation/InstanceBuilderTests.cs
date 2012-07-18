@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using BurnSystems.ObjectActivation;
+using BurnSystems.UnitTests.ObjectActivation.Objects;
 
 namespace BurnSystems.UnitTests.ObjectActivation
 {
@@ -58,7 +59,6 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(container.Container, Is.TypeOf<CalculationContainer>());
             Assert.That(container.Container.Calculator, Is.TypeOf<Calculator>());
         }
-
         [Test]
         public void TestInstanceOnlyGetter()
         {

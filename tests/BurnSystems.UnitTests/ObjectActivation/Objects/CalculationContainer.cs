@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using BurnSystems.ObjectActivation;
 
-namespace BurnSystems.UnitTests.ObjectActivation
+namespace BurnSystems.UnitTests.ObjectActivation.Objects
 {
     public class CalculationContainer
     {

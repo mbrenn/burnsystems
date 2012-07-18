@@ -1,4 +1,4 @@
-﻿namespace BurnSystems.UnitTests.ObjectActivation
+﻿namespace BurnSystems.UnitTests.ObjectActivation.Objects
 {
 	/// <summary>
 	/// Just a test class implementing ICalculator
