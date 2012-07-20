@@ -66,6 +66,24 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Binds the object to a specific factory method
+        /// </summary>
+        /// <param name="helper">Helper being executed</param>
+        /// <param name="factory">Factory being executed</param>
+        /// <returns></returns>
+        public static BindingHelper To(this BindingHelper helper, Func<IActivates, object> factory)
+        {
+            helper.ActivationInfo.FactoryActivationContainer =
+                (x, y) => factory(x);
+
+            helper.ActivationInfo.FactoryActivationBlock =
+                (x, y) =>
+                    factory(x);
+
+            return helper;
+        }
+
+        /// <summary>
         /// Marks the current binding as transient, which means 
         /// that the factory function will be executed during each
         /// resolution.

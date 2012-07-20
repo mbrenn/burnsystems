@@ -41,6 +41,18 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Gets the object by type
+        /// </summary>
+        /// <param name="activates">Activation container of the object</param>
+        /// <param name="name">Name of the bound object. Name is set via 'BindToName'</param>
+        /// <returns>Found type of null</returns>
+        public static T GetByName<T>(this IActivates activates, string name)
+        {
+            return activates.Get<T>(
+                new IEnabler[] { new ByNameEnabler(name) });
+        }
+
+        /// <summary>
         /// Creates a binding for a certain type.
         /// The specific implementation of object retrieval has to be set 
         /// with an additional call.

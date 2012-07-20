@@ -70,5 +70,90 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(container, Is.Not.Null);
             Assert.That(container.Calculator, Is.Null);
         }
+
+        [Test]
+        public void TestWebGameScenario()
+        {
+            var gameContainer = new ActivationContainer("Game");
+            var rules = new Rules();
+            rules.TownPoints = 3;
+
+            gameContainer.Bind<Rules>().ToConstant(rules).AsSingleton();
+            DatabaseDummy.Reset();
+            gameContainer.Bind<IDatabase>().To(() =>
+                {
+                    var db = new DatabaseDummy();
+                    db.Open();
+                    return db;
+                }).AsScoped();
+
+            gameContainer.BindToName("CurrentPlayer").To((x) =>
+                {
+                    var webContext = x.Get<WebContext>();
+                    var database = x.Get<IDatabase>();
+                    var playerId = database.GetPlayerId(webContext.UserId);
+                    var player = new Player(playerId);
+                    return player;
+                }).AsScoped();
+
+            gameContainer.BindToName("CurrentTown").To((x) =>
+            {
+                var database = x.Get<IDatabase>();
+                var player = x.GetByName<Player>("CurrentPlayer");
+                var townId = database.GetTownId(player.PlayerId);
+                var town = new Town(townId);
+                return town;
+            }).AsTransient();
+
+            // WebRequest 1
+            {
+                var webContainer = new ActivationContainer("Web", gameContainer);
+                webContainer.Bind<WebContext>().ToConstant(new WebContext() { UserId = 2 });
+
+                using (var block = new ActivationBlock("WebBlock", webContainer))
+                {
+                    var instanceBuilder = new InstanceBuilder(block);
+                    var request = instanceBuilder.Create<WebRequest>();
+                    Assert.That(request, Is.Not.Null);
+                                        
+                    Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(1));
+                    Assert.That(DatabaseDummy.DisposeCount, Is.EqualTo(0));
+                    Assert.That(request.CurrentPlayer, Is.Not.Null);
+                    Assert.That(request.CurrentPlayer.PlayerId, Is.EqualTo(3));
+                    Assert.That(request.CurrentTown, Is.Not.Null);
+                    Assert.That(request.CurrentTown.TownId, Is.EqualTo(5));                    
+
+                    var request2 = instanceBuilder.Create<WebRequest>();
+                }
+
+                Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(1));
+                Assert.That(DatabaseDummy.DisposeCount, Is.EqualTo(1));
+            }
+
+            // WebRequest 2
+            {
+                var webContainer = new ActivationContainer("Web", gameContainer);
+                webContainer.Bind<WebContext>().ToConstant(new WebContext() { UserId = 3 });
+
+                using (var block = new ActivationBlock("WebBlock", webContainer))
+                {
+                    var instanceBuilder = new InstanceBuilder(block);
+                    var request = instanceBuilder.Create<WebRequest>();
+                    Assert.That(request, Is.Not.Null);
+
+                    Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(2));
+                    Assert.That(DatabaseDummy.DisposeCount, Is.EqualTo(1));
+                    Assert.That(request.CurrentPlayer, Is.Not.Null);
+                    Assert.That(request.CurrentPlayer.PlayerId, Is.EqualTo(4));
+                    Assert.That(request.CurrentTown, Is.Not.Null);
+                    Assert.That(request.CurrentTown.TownId, Is.EqualTo(6));
+
+                    var request2 = instanceBuilder.Create<WebRequest>();
+                }
+
+                Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(2));
+                Assert.That(DatabaseDummy.DisposeCount, Is.EqualTo(2));
+            }
+        }
     }
 }

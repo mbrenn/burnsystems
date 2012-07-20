@@ -12,6 +12,15 @@ namespace BurnSystems.ObjectActivation
     public class InstantiationCacheEntry
     {
         /// <summary>
+        /// Just an expression used for debugging
+        /// </summary>
+        public Expression Expression
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the factory method
         /// </summary>
         public Func<IActivates, object> FactoryMethod

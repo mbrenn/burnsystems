@@ -1,6 +1,7 @@
 ﻿using System;
 using BurnSystems.ObjectActivation;
 using NUnit.Framework;
+using BurnSystems.UnitTests.ObjectActivation.Objects;
 
 namespace BurnSystems.UnitTests.ObjectActivation
 {
@@ -53,6 +54,26 @@ namespace BurnSystems.UnitTests.ObjectActivation
 			var result = calculator.Add(2,3);
 			Assert.That(result, Is.EqualTo(12));
 		}
+
+        [Test]
+        public void TestGetByName()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            var myCalculator = new Calculator();
+            activationContainer.BindToName("Calc").To(() => new Calculator()
+                {
+                    InternalAddOffset = 7
+                }).AsTransient();
+
+            var calculator = activationContainer.GetByName<ICalculator>("Calc");
+            Assert.That(calculator, Is.TypeOf(typeof(Calculator)));
+            var result = calculator.Add(2, 3);
+            Assert.That(result, Is.EqualTo(12));
+
+            var calculator2 = activationContainer.GetByName<ICalculator>("Calc2");
+            Assert.That(calculator2, Is.Null);
+        }
+		
 		
 		[Test]
 		public void TestTypeCreationAsSingleton()
@@ -90,6 +111,55 @@ namespace BurnSystems.UnitTests.ObjectActivation
             activationContainer.Bind<ICalculator>().To<Calculator>().AsScoped();
 
             Assert.Throws<InvalidOperationException>(() => activationContainer.Get<ICalculator>());
+        }
+
+        [Test]
+        public void TestBindToLambda()
+        {
+            var outerContainer = new ActivationContainer("Inner");
+            int x = 0;
+
+            outerContainer.Bind<ICalculator>().To(() =>
+                {
+                    x++;
+                    return new Calculator();
+                }).AsTransient(); ;
+
+            var calculator = outerContainer.Get<ICalculator>();
+            Assert.That(calculator, Is.Not.Null);
+
+            var result = calculator.Add(2, 3);
+            Assert.That(result, Is.EqualTo(5));
+
+            Assert.That(x, Is.EqualTo(1));
+
+            var calculator2 = outerContainer.Get<ICalculator>();
+            Assert.That(x, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void TestBindToLambdaWithContainer()
+        {
+            var outerContainer = new ActivationContainer("Inner");
+            int x = 0;
+
+            outerContainer.Bind<ICalculator>().To((a) =>
+            {
+                Assert.That(a, Is.AssignableTo<IActivates>());
+                x++;
+                return new Calculator();
+            }).AsTransient(); ;
+
+            var calculator = outerContainer.Get<ICalculator>();
+            Assert.That(calculator, Is.Not.Null);
+
+            var result = calculator.Add(2, 3);
+            Assert.That(result, Is.EqualTo(5));
+
+            Assert.That(x, Is.EqualTo(1));
+
+            var calculator2 = outerContainer.Get<ICalculator>();
+            Assert.That(x, Is.EqualTo(2));
         }
 
 		[Test]

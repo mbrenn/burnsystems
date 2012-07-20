@@ -26,5 +26,15 @@ namespace BurnSystems.ObjectActivation
             get;
             set;
         }
+
+        public override string ToString()
+        {
+            if (this.Value == null)
+            {
+                return "-> null";
+            }
+
+            return "-> " + this.Value.ToString();
+        }
     }
 }
