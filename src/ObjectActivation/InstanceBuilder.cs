@@ -31,8 +31,6 @@ namespace BurnSystems.ObjectActivation
         public InstanceBuilder(IActivates container)
         {
             this.container = container;
-
-            //this.container.BindingChanged += (x, y) => cache.Clear();
         }
 
         /// <summary>

@@ -84,5 +84,17 @@ namespace BurnSystems.ObjectActivation
             helper.ActivationInfo = criteria;
             return helper;
         }
+
+        /// <summary>
+        /// Creates a specific object and all properties are injected
+        /// </summary>
+        /// <typeparam name="T">Object to be created</typeparam>
+        /// <param name="activates">Activationcontext</param>
+        /// <returns>Created type</returns>
+        public static T Create<T>(this IActivates activates)
+        {
+            var instanceBuilder = new InstanceBuilder(activates);
+            return instanceBuilder.Create<T>();
+        }
     }
 }
