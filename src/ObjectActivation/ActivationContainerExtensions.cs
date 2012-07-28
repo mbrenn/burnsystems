@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BurnSystems.ObjectActivation.Criteria;
 using BurnSystems.ObjectActivation.Enabler;
 
@@ -20,7 +21,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The activated or reused object</returns>
         public static T Get<T>(this IActivates activates, IEnumerable<IEnabler> enablers)
         {
-            var result = activates.Get(enablers);
+            var result = activates.Get(enablers).FirstOrDefault();
             if (result == null)
             {
                 return default(T);

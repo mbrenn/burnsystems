@@ -127,13 +127,13 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         /// <param name="enablers">Enabler to be used</param>
         /// <returns>Created object</returns>
-        public object Get(IEnumerable<IEnabler> enablers)
+        public IEnumerable<object> Get(IEnumerable<IEnabler> enablers)
         {
             foreach (var item in this.ActivationInfos)
             {
                 if (item.CriteriaCatalogue.DoesMatch(enablers))
                 {
-                    return item.FactoryActivationContainer(this, enablers);
+                    yield return item.FactoryActivationContainer(this, enablers);
                 }
             }
 
@@ -141,10 +141,11 @@ namespace BurnSystems.ObjectActivation
             // Asking parent object, if existing
             if (this.OuterContainer != null)
             {
-                return this.OuterContainer.Get(enablers);
+                foreach (var item in this.OuterContainer.Get(enablers))
+                {
+                    yield return item;
+                }
             }
-
-            return null;
         }
 
 
