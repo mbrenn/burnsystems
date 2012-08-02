@@ -8,6 +8,7 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
 {
     public class CalculationContainer
     {
+        [Inject]
         public ICalculator Calculator
         {
             get;
@@ -17,6 +18,7 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
 
     public class CalculationContainerGetter
     {
+        [Inject]
         public ICalculator Calculator
         {
             get;
@@ -26,20 +28,21 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
 
     public class CalculationContainerByName
     {
+        [Inject]
         public ICalculator CalculatorByType
         {
             get;
             set;
         }
 
-        [ByName("Add")]
+        [Inject("Add")]
         public ICalculator Calculator
         {
             get;
             set;
         }
 
-        [ByName("AddByTwo")]
+        [Inject("AddByTwo")]
         public ICalculator CalculatorByTwo
         {
             get;
@@ -49,6 +52,7 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
 
     public class CalculationContainerContainer
     {
+        [Inject]
         public CalculationContainer Container
         {
             get;

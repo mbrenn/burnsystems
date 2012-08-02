@@ -8,14 +8,14 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
 {
     public class WebRequest
     {
-        [ByName("CurrentPlayer")]
+        [Inject("CurrentPlayer")]
         public Player CurrentPlayer
         {
             get;
             set;
         }
 
-        [ByName("CurrentTown")]
+        [Inject("CurrentTown")]
         public Town CurrentTown
         {
             get;
