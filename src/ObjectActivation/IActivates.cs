@@ -13,7 +13,7 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         /// <param name="enablers">Enumeration of relevant enablers</param>
         /// <returns>The enabled object or null, if no object can be enabled</returns>
-        object Get(IEnumerable<IEnabler> enablers);
+        IEnumerable<object> Get(IEnumerable<IEnabler> enablers);
 
         /// <summary>
         /// Checks, if the container knows a binding to the specific enablers

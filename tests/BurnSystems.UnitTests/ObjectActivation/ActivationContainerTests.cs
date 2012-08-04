@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using BurnSystems.ObjectActivation;
-using NUnit.Framework;
 using BurnSystems.UnitTests.ObjectActivation.Objects;
+using NUnit.Framework;
 
 namespace BurnSystems.UnitTests.ObjectActivation
 {
@@ -242,6 +243,23 @@ namespace BurnSystems.UnitTests.ObjectActivation
 
 		}
 
-        public object Exceptionvar { get; set; }
+        [Test]
+        public void TestGetAll()
+        {
+            var container = new ActivationContainer("Test");
+            container.Bind<ICalculator>().To<Calculator>().AsSingleton();
+            container.Bind<ICalculator>().To<CalculatorAddByTwo>().AsSingleton();
+
+            var calculators = container.GetAll<ICalculator>().ToList();
+            Assert.That(calculators.Count, Is.EqualTo(2));
+
+            var normalCalculator = calculators.Where(x => x is Calculator).ToList();
+            var otherCalculator = calculators.Where(x => x is CalculatorAddByTwo).ToList();
+
+            Assert.That(normalCalculator, Is.Not.Null);
+            Assert.That(otherCalculator, Is.Not.Null);
+            Assert.That(normalCalculator.Count, Is.EqualTo(1));
+            Assert.That(otherCalculator.Count, Is.EqualTo(1));                        
+        }
     }
 }

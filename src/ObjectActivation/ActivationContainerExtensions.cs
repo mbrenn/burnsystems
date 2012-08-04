@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BurnSystems.ObjectActivation.Criteria;
 using BurnSystems.ObjectActivation.Enabler;
 
@@ -20,7 +21,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The activated or reused object</returns>
         public static T Get<T>(this IActivates activates, IEnumerable<IEnabler> enablers)
         {
-            var result = activates.Get(enablers);
+            var result = activates.Get(enablers).FirstOrDefault();
             if (result == null)
             {
                 return default(T);
@@ -41,6 +42,18 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Gets all object being bound to the specific type
+        /// </summary>
+        /// <param name="activates">Container to be queried</param>
+        /// <returns>Enumeration of objects</returns>
+        public static IEnumerable<T> GetAll<T>(this IActivates activates)
+        {
+            return activates.Get(
+                new IEnabler[] { new ByTypeEnabler(typeof(T)) })
+                .Cast<T>();
+        }
+
+        /// <summary>
         /// Gets the object by type
         /// </summary>
         /// <param name="activates">Activation container of the object</param>
@@ -50,6 +63,20 @@ namespace BurnSystems.ObjectActivation
         {
             return activates.Get<T>(
                 new IEnabler[] { new ByNameEnabler(name) });
+        }
+
+        /// <summary>
+        /// Gets all objects having the name
+        /// </summary>
+        /// <typeparam name="T">Expected type</typeparam>
+        /// <param name="activates">Activation Container or block containing the information</param>
+        /// <param name="name">Name being requested</param>
+        /// <returns>Enumeration of all found objcts</returns>
+        public static IEnumerable<T> GetAllByName<T>(this IActivates activates, string name)
+        {
+            return activates.Get(
+                new IEnabler[] { new ByNameEnabler(name) })
+                .Cast<T>();
         }
 
         /// <summary>
@@ -83,6 +110,18 @@ namespace BurnSystems.ObjectActivation
             var helper = new BindingHelper();
             helper.ActivationInfo = criteria;
             return helper;
+        }
+
+        /// <summary>
+        /// Creates a specific object and all properties are injected
+        /// </summary>
+        /// <typeparam name="T">Object to be created</typeparam>
+        /// <param name="activates">Activationcontext</param>
+        /// <returns>Created type</returns>
+        public static T Create<T>(this IActivates activates)
+        {
+            var instanceBuilder = new InstanceBuilder(activates);
+            return instanceBuilder.Create<T>();
         }
     }
 }

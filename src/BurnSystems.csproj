@@ -168,16 +168,14 @@
     <Compile Include="Net\Json\JsonObject.cs" />
     <Compile Include="Net\Json\JsonString.cs" />
     <Compile Include="ObjectActivation\ActivationBlock.cs" />
-    <Compile Include="ObjectActivation\ActivationBlockExtensions.cs" />
     <Compile Include="ObjectActivation\ActivationContainer.cs" />
     <Compile Include="ObjectActivation\ActivationContainerExtensions.cs" />
     <Compile Include="ObjectActivation\ActivationInfo.cs" />
-    <Compile Include="ObjectActivation\ActivationInfoExtensions.cs" />
     <Compile Include="ObjectActivation\ActiveInstance.cs" />
     <Compile Include="ObjectActivation\ActiveInstanceCollection.cs" />
     <Compile Include="ObjectActivation\BindingHelperExtension.cs" />
     <Compile Include="ObjectActivation\BindingHelper.cs" />
-    <Compile Include="ObjectActivation\ByNameAttribute.cs" />
+    <Compile Include="ObjectActivation\InjectAttribute.cs" />
     <Compile Include="ObjectActivation\IActivates.cs" />
     <Compile Include="ObjectActivation\InstanceBuilder.cs" />
     <Compile Include="ObjectActivation\InstantiationCacheEntry.cs" />

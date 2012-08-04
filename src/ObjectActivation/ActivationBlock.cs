@@ -149,7 +149,7 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         /// <param name="enablers">Enabler to be used</param>
         /// <returns>Created object</returns>
-        public object Get(IEnumerable<IEnabler> enablers)
+        public IEnumerable<object> Get(IEnumerable<IEnabler> enablers)
         {
             var currentContainer = this.container;
 
@@ -159,7 +159,7 @@ namespace BurnSystems.ObjectActivation
                 {
                     if (item.CriteriaCatalogue.DoesMatch(enablers))
                     {
-                        return item.FactoryActivationBlock(this, enablers);
+                        yield return item.FactoryActivationBlock(this, enablers);
                     }             
                 }
 
@@ -169,13 +169,11 @@ namespace BurnSystems.ObjectActivation
             if (this.innerBlock != null)
             {
                 var result = this.innerBlock.Get(enablers);
-                if (result != null)
+                foreach ( var item in result)
                 {
-                    return result;
+                    yield return item;
                 }
             }
-
-            return null;
         }
 
         /// <summary>

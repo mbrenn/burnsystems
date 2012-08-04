@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
 using BurnSystems.ObjectActivation.Enabler;
+using BurnSystems.Test;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -24,6 +25,22 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         private static Dictionary<Type, InstantiationCacheEntry> cache = new Dictionary<Type, InstantiationCacheEntry>();
 
+        private static MethodInfo firstOrDefaultMethod;
+
+        /// <summary>
+        /// Static Constructor
+        /// </summary>
+        static InstanceBuilder()
+        {
+            var type = typeof(System.Linq.Enumerable);
+
+            // Try to find the method FirstOrDefault<TSource>(IEnumerable<TSource> source)
+            var methodInfos = type.GetMethods().Where(x => x.Name == "FirstOrDefault" && x.GetParameters().Length == 1).ToList();
+            Ensure.That(methodInfos.Count == 1);
+            var methodInfo = methodInfos[0];
+            firstOrDefaultMethod = methodInfo.MakeGenericMethod(new[] { typeof(object) });
+        }
+
         /// <summary>
         /// Initializes a new instance of the instance builder
         /// </summary>
@@ -31,8 +48,6 @@ namespace BurnSystems.ObjectActivation
         public InstanceBuilder(IActivates container)
         {
             this.container = container;
-
-            //this.container.BindingChanged += (x, y) => cache.Clear();
         }
 
         /// <summary>
@@ -57,14 +72,18 @@ namespace BurnSystems.ObjectActivation
                 // var result;
                 // result = new {typeof(T)}();
                 expressions.Add(Expression.Assign(result, Expression.New(typeof(T))));
+
+                //
+                // Assigns the properties
+                //
                 var variables = this.AddPropertyAssignments(typeof(T), result, containerExpression, expressions);
 
                 // return result;
                 expressions.Add(result);
                 variables.Add(result);
 
+                // Creates block with variables and the expression tree
                 var expression = Expression.Block(
-                    // var result;
                     variables,
                     expressions);                
 
@@ -116,64 +135,72 @@ namespace BurnSystems.ObjectActivation
                     continue;
                 }
 
-                var byName = property.GetCustomAttributes(typeof(ByNameAttribute), false);
-                NewExpression enablerCreation;
+                // Check, if assignment by Name shall be executed, otherwise by type
+                var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);                
                 var enablers = new List<IEnabler>();
 
-                if (byName != null && byName.Length != 0)
+                foreach (var injectAttribute in inject.Cast<InjectAttribute>())
                 {
-                    var byNameAttribute = byName[0] as ByNameAttribute;
-                    enablerCreation =
-                        Expression.New(
-                            typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
-                            Expression.Constant(byNameAttribute.Name));
-                }
-                else
-                {
-                    enablerCreation =
-                        Expression.New(
-                            typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
-                            Expression.Constant(property.PropertyType));
-                }
+                    NewExpression enablerCreation;
 
-                // OK, we found it, add expression
-                var getMethod = typeof(IActivates).GetMethod("Get");
-                // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
-                var parameters = Expression.NewArrayInit(
-                    typeof(IEnabler),
-                    enablerCreation);
+                    if (string.IsNullOrEmpty(injectAttribute.ByName))
+                    {
+                        enablerCreation =
+                            Expression.New(
+                                typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
+                                Expression.Constant(property.PropertyType));
+                    }
+                    else
+                    {
+                        enablerCreation =
+                            Expression.New(
+                                typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
+                                Expression.Constant(injectAttribute.ByName));
+                    }
 
-                // {result}.{property} = {this.container}.Get({parameters});
-                var memberAccess = Expression.MakeMemberAccess(target, property);
-                expressions.Add(
-                    Expression.Assign(
-                        tempVariable,
-                        Expression.Convert(
-                            Expression.Call(
-                                containerExpression,
-                                getMethod,
-                                parameters),
-                            property.PropertyType)));
+                    // OK, we found it, add expression
+                    // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
+                    var parameters = Expression.NewArrayInit(
+                        typeof(IEnabler),
+                        enablerCreation);
 
-                
-                // Performs the following action, if tempVariable is not null
-                var conditionalStatements = new List<Expression>();
-                conditionalStatements.Add(
-                    Expression.Assign(
-                    memberAccess,
-                    tempVariable));
-
-                var variables = this.AddPropertyAssignments(property.PropertyType, memberAccess, containerExpression, conditionalStatements);
-                if (conditionalStatements.Count > 0)
-                {                    
-                    var innerBlock = Expression.Block(variables, conditionalStatements);
+                    // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
+                    var getMethod = typeof(IActivates).GetMethod("Get");
                     expressions.Add(
-                        Expression.IfThen(
-                            Expression.NotEqual(tempVariable, Expression.Constant(null)),
-                            innerBlock));
-                }
+                        Expression.Assign(
+                            tempVariable,
+                            Expression.Convert(
+                                Expression.Call(
+                                    firstOrDefaultMethod,
+                                    Expression.Call(
+                                        containerExpression,
+                                        getMethod,
+                                        parameters)),
+                                    property.PropertyType)));
 
-                result.Add(tempVariable);
+
+                    // Performs the following action, if tempVariable is not null
+                    var memberAccess = Expression.MakeMemberAccess(target, property);
+                    var conditionalStatements = new List<Expression>();
+                    // {result}.{property} = {tempVariable}
+                    conditionalStatements.Add(
+                        Expression.Assign(
+                        memberAccess,
+                        tempVariable));
+
+                    // if({tempVariable} != null) { /* New Block with {result}.{property}. */; {result}.{property} = {tempVariable} };
+                    var variables = this.AddPropertyAssignments(property.PropertyType, memberAccess, containerExpression, conditionalStatements);
+                    if (conditionalStatements.Count > 0)
+                    {
+                        var innerBlock = Expression.Block(variables, conditionalStatements);
+                        expressions.Add(
+                            Expression.IfThen(
+                                Expression.NotEqual(tempVariable, Expression.Constant(null)),
+                                innerBlock));
+                    }
+
+                    result.Add(tempVariable);
+                }
             }
 
             return result;
