@@ -159,6 +159,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LocalizationBS.resx</DependentUpon>
     </Compile>
+    <Compile Include="Logging\ClassLogger.cs" />
     <Compile Include="Logging\DebugProvider.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
