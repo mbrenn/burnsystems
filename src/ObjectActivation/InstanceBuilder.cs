@@ -27,6 +27,11 @@ namespace BurnSystems.ObjectActivation
 
         private static MethodInfo firstOrDefaultMethod;
 
+        public static MethodInfo FirstOrDefaultMethod
+        {
+            get { return firstOrDefaultMethod; }
+        }
+
         /// <summary>
         /// Static Constructor
         /// </summary>
@@ -176,7 +181,7 @@ namespace BurnSystems.ObjectActivation
                                         containerExpression,
                                         getMethod,
                                         parameters)),
-                                    property.PropertyType)));
+                                property.PropertyType)));
 
 
                     // Performs the following action, if tempVariable is not null

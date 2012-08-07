@@ -133,7 +133,8 @@ namespace BurnSystems.ObjectActivation
             {
                 if (item.CriteriaCatalogue.DoesMatch(enablers))
                 {
-                    yield return item.FactoryActivationContainer(this, enablers);
+                    var value = item.FactoryActivationContainer(this, enablers);
+                    yield return value;
                 }
             }
 

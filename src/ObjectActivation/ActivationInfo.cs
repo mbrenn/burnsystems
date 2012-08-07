@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -30,9 +31,29 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Gets or sets the expression for activation. 
+        /// This is just used to ease debugging
+        /// </summary>
+        public Expression ExpressionActivationContainer
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Stores the factory method for the object within an activationblock
         /// </summary>
         public Func<ActivationBlock, IEnumerable<IEnabler>, object> FactoryActivationBlock
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the expression for activation. 
+        /// This is just used to ease debugging
+        /// </summary>
+        public Expression ExpressionActivationBlock
         {
             get;
             set;

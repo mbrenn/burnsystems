@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq;
+using BurnSystems.ObjectActivation.Enabler;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -15,17 +19,114 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The Binding Helper</returns>
         public static BindingHelper To<T>(this BindingHelper helper)
         {
-            helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) =>
-                {
-                    return Activator.CreateInstance(typeof(T));
-                };
+            // Checks, if we have an injection constructor
+            var constructors = typeof(T).GetConstructors(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public)
+                .Where (x=>x.GetCustomAttributes (typeof (InjectAttribute), false).Length > 0)
+                .ToList();
 
-            helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
+            if (constructors.Count > 1)
+            {
+                throw new InvalidOperationException("More than one constructor with InjectAttribute in class: " + typeof(T).FullName);
+            }
+
+            if (constructors.Count == 0)
+            {
+                // No constructor with InjectAttribute
+                helper.ActivationInfo.FactoryActivationContainer =
+                    (x, y) =>
+                    {
+                        return Activator.CreateInstance(typeof(T));
+                    };
+
+                helper.ActivationInfo.FactoryActivationBlock =
+                    (x, y) =>
+                    {
+                        return Activator.CreateInstance(typeof(T));
+                    };
+            }
+            else
+            {
+                // Constructor Count = 1, create
+                var constructor = constructors[0];
+
+                // Find Get-Method of container and block
+                var containerExpression = Expression.Parameter(typeof(ActivationContainer), "activationContainer");
+                var blockExpression = Expression.Parameter(typeof(ActivationBlock), "activationBlock");
+
+                var getContainerMethod = typeof(ActivationContainer).GetMethod("Get");
+                var getBlockMethod = typeof(ActivationBlock).GetMethod("Get");
+
+                // Create parameter list
+                var parameterContainerList = new List<Expression>();
+                var parameterBlockList = new List<Expression>();
+                foreach (var parameter in constructor.GetParameters())
                 {
-                    return Activator.CreateInstance(typeof(T));
-                };
+                    // new [] { ByTypeEnabler(typeof({ParameterType})) }
+                    var byTypeEnabler =
+                        Expression.NewArrayInit(
+                            typeof(IEnabler),
+                            Expression.New(
+                                typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
+                                Expression.Constant(parameter.ParameterType)));
+
+                    // (parameterType) container.Get({ByTypeEnabler}).FirstOrDefault()
+                    var parameterContainer = Expression.Convert(
+                                Expression.Call(
+                                    InstanceBuilder.FirstOrDefaultMethod,
+                                    Expression.Call(
+                                        containerExpression,
+                                        getContainerMethod,
+                                        byTypeEnabler)),
+                                parameter.ParameterType);
+
+                    // (parameterType) block.Get({ByTypeEnabler}).FirstOrDefault()
+                    var parameterBlock = Expression.Convert(
+                                Expression.Call(
+                                    InstanceBuilder.FirstOrDefaultMethod,
+                                    Expression.Call(
+                                        blockExpression,
+                                        getBlockMethod,
+                                        byTypeEnabler)),
+                                parameter.ParameterType);
+
+                    parameterContainerList.Add(parameterContainer);
+                    parameterBlockList.Add(parameterBlock);
+                }
+
+                var tempContainerVariable = Expression.Variable(typeof(object), "Result");
+                // new {Constructor}({Parameterlist});
+                var resultContainer =
+                    Expression.Block(
+                        new[] { tempContainerVariable },
+                        new Expression[]{ 
+                            Expression.Assign (
+                                tempContainerVariable, 
+                                Expression.New(
+                                    constructor,
+                                    parameterContainerList)),
+                        tempContainerVariable});
+
+                // new {Constructor}({Parameterlist});
+                var resultBlock =
+                    Expression.Block(
+                        new[] { blockExpression },
+                        new Expression[]{ 
+                            Expression.New(
+                                constructor,
+                                parameterBlockList) });
+
+                // Input
+                var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
+                var enumerableExpression2 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
+
+                var instanceContainer = Expression.Lambda<Func<ActivationContainer, IEnumerable<IEnabler>, object>>(resultContainer, new [] { containerExpression, enumerableExpression1 }).Compile();
+                var instanceBlock = Expression.Lambda<Func<ActivationBlock, IEnumerable<IEnabler>, object>>(resultBlock, new [] { blockExpression, enumerableExpression2 }).Compile();
+
+                helper.ActivationInfo.FactoryActivationContainer = instanceContainer;
+                helper.ActivationInfo.ExpressionActivationContainer = resultContainer;
+                helper.ActivationInfo.FactoryActivationBlock = instanceBlock;
+                helper.ActivationInfo.ExpressionActivationBlock = resultBlock;
+            }
 
             return helper;
         }
