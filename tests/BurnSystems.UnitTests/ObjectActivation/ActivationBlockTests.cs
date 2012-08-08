@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using BurnSystems.ObjectActivation;
+using BurnSystems.UnitTests.ObjectActivation.Objects;
 
 namespace BurnSystems.UnitTests.ObjectActivation
 {
@@ -286,6 +287,24 @@ namespace BurnSystems.UnitTests.ObjectActivation
 
             Assert.That(Helper.DisposeCount, Is.EqualTo(3));
             Assert.That(SecondHelper.DisposeCount, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void TestWithConstructorInjection()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>().AsTransient();
+            activationContainer.Bind<ConstructorTest>().To<ConstructorTest>();
+
+            using (var block = new ActivationBlock("TestBlock", activationContainer))
+            {
+                var instanceBuilder = new InstanceBuilder(block);
+                var constructorTest = instanceBuilder.Create<ConstructorTestContainer>();
+                Assert.That(constructorTest, Is.Not.Null);
+                Assert.That(constructorTest.Test, Is.Not.Null);
+                Assert.That(constructorTest.Test.Calculator, Is.Not.Null);
+                Assert.That(constructorTest.Test.IsConstructed, Is.True);
+            }
         }
 
         /// <summary>

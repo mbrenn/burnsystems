@@ -93,27 +93,17 @@ namespace BurnSystems.ObjectActivation
                     parameterBlockList.Add(parameterBlock);
                 }
 
-                var tempContainerVariable = Expression.Variable(typeof(object), "Result");
                 // new {Constructor}({Parameterlist});
                 var resultContainer =
-                    Expression.Block(
-                        new[] { tempContainerVariable },
-                        new Expression[]{ 
-                            Expression.Assign (
-                                tempContainerVariable, 
-                                Expression.New(
-                                    constructor,
-                                    parameterContainerList)),
-                        tempContainerVariable});
+                    Expression.New(
+                        constructor,
+                        parameterContainerList);
 
                 // new {Constructor}({Parameterlist});
                 var resultBlock =
-                    Expression.Block(
-                        new[] { blockExpression },
-                        new Expression[]{ 
-                            Expression.New(
-                                constructor,
-                                parameterBlockList) });
+                    Expression.New(
+                        constructor,
+                        parameterBlockList);
 
                 // Input
                 var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");

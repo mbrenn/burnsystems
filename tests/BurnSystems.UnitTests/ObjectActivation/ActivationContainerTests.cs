@@ -105,7 +105,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
 		}
 
         [Test]
-        public void TestTypeCreationAsScoped()
+        public void TestTypeCreationAsScopedThrowingException()
         {
             // Initial creation
             var activationContainer = new ActivationContainer("Test");
@@ -260,6 +260,21 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(otherCalculator, Is.Not.Null);
             Assert.That(normalCalculator.Count, Is.EqualTo(1));
             Assert.That(otherCalculator.Count, Is.EqualTo(1));                        
+        }
+        
+        [Test]
+        public void TestWithConstructorInjection()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>().AsTransient();
+            activationContainer.Bind<ConstructorTest>().To<ConstructorTest>();
+
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+            var constructorTest = instanceBuilder.Create<ConstructorTestContainer>();
+            Assert.That(constructorTest, Is.Not.Null);
+            Assert.That(constructorTest.Test, Is.Not.Null);
+            Assert.That(constructorTest.Test.Calculator, Is.Not.Null);
+            Assert.That(constructorTest.Test.IsConstructed, Is.True);
         }
     }
 }
