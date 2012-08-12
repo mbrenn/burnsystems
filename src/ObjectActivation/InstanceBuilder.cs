@@ -25,8 +25,14 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         private static Dictionary<Type, InstantiationCacheEntry> cache = new Dictionary<Type, InstantiationCacheEntry>();
 
+        /// <summary>
+        /// Stores the Method Info for System.Enumerable.FirstOrDefault(IEnumerable source)
+        /// </summary>
         private static MethodInfo firstOrDefaultMethod;
 
+        /// <summary>
+        /// Gets the Method Info for System.Enumerable.FirstOrDefault(IEnumerable source)
+        /// </summary>
         public static MethodInfo FirstOrDefaultMethod
         {
             get { return firstOrDefaultMethod; }
@@ -62,26 +68,36 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created instance</returns>
         public T Create<T>()
         {
+            return (T) this.Create(typeof(T));
+        }
+
+        /// <summary>
+        /// Creates an instance of a specific type
+        /// </summary>
+        /// <param name="type">Type being created</param>
+        /// <returns>Object being created</returns>
+        internal object Create(Type type)
+        {
             InstantiationCacheEntry entry;
-            if (cache.TryGetValue(typeof(T), out entry))
+            if (cache.TryGetValue(type, out entry))
             {
-                return (T)entry.FactoryMethod(this.container);
+                return entry.FactoryMethod(this.container);
             }
             else
             {
                 // var result;
-                var result = Expression.Parameter(typeof(T), "result");
+                var result = Expression.Parameter(type, "result");
                 var containerExpression = Expression.Parameter(typeof(IActivates), "container");
                 var expressions = new List<Expression>();
 
                 // var result;
                 // result = new {typeof(T)}();
-                expressions.Add(Expression.Assign(result, Expression.New(typeof(T))));
+                expressions.Add(Expression.Assign(result, Expression.New(type)));
 
                 //
                 // Assigns the properties
                 //
-                var variables = this.AddPropertyAssignments(typeof(T), result, containerExpression, expressions);
+                var variables = this.AddPropertyAssignments(type, result, containerExpression, expressions);
 
                 // return result;
                 expressions.Add(result);
@@ -98,10 +114,10 @@ namespace BurnSystems.ObjectActivation
                 entry.Expression = expression;
 
                 // Store in dictionary
-                cache[typeof(T)] = entry;
+                cache[type] = entry;
 
                 // Call!
-                return (T)entry.FactoryMethod(this.container);
+                return entry.FactoryMethod(this.container);
             }
         }
 

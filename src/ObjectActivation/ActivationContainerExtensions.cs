@@ -123,5 +123,17 @@ namespace BurnSystems.ObjectActivation
             var instanceBuilder = new InstanceBuilder(activates);
             return instanceBuilder.Create<T>();
         }
+
+        /// <summary>
+        /// Creates a specific object and all properties are injected
+        /// </summary>
+        /// <param name="activates">Activationcontext</param>
+        /// <param name="type">Type of the instance to be created</param>
+        /// <returns>Created type</returns>
+        public static object Create(this IActivates activates, Type type)
+        {
+            var instanceBuilder = new InstanceBuilder(activates);
+            return instanceBuilder.Create(type);
+        }
     }
 }
