@@ -223,7 +223,7 @@ namespace BurnSystems
         }
 
         /// <summary>
-        /// Gets the first <c>nLetters</c> of <c>value</c> or the complete string,
+        /// Gets the first <c>letters</c> of <c>value</c> or the complete string,
         /// if length of string is smaller than <c>letters</c>.
         /// </summary>
         /// <param name="value">String to be shortened</param>
