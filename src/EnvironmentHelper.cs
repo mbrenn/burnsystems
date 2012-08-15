@@ -205,5 +205,19 @@ namespace BurnSystems
 
             return type;
         }
+
+        /// <summary>
+        /// Gets a type by name in all loaded assemblies. 
+        /// All loaded assemblies will be queried and we'll see if type if available
+        /// </summary>
+        /// <param name="typeName">Type, which is required</param>
+        /// <returns>Found type object</returns>
+        public static Type GetTypeByName(string typeName)
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => x.FullName == typeName)
+                .FirstOrDefault();
+        }
     }
 }
