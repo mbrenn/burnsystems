@@ -149,7 +149,7 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         /// <param name="enablers">Enabler to be used</param>
         /// <returns>Created object</returns>
-        public IEnumerable<object> Get(IEnumerable<IEnabler> enablers)
+        public IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers)
         {
             var currentContainer = this.container;
 
@@ -168,7 +168,7 @@ namespace BurnSystems.ObjectActivation
 
             if (this.innerBlock != null)
             {
-                var result = this.innerBlock.Get(enablers);
+                var result = this.innerBlock.GetAll(enablers);
                 foreach ( var item in result)
                 {
                     yield return item;
@@ -200,7 +200,7 @@ namespace BurnSystems.ObjectActivation
 
             if (this.innerBlock != null)
             {
-                var result = this.innerBlock.Get(enablers);
+                var result = this.innerBlock.GetAll(enablers);
                 if (result != null)
                 {
                     return true;

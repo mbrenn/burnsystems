@@ -127,7 +127,7 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         /// <param name="enablers">Enabler to be used</param>
         /// <returns>Created object</returns>
-        public IEnumerable<object> Get(IEnumerable<IEnabler> enablers)
+        public IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers)
         {
             foreach (var item in this.ActivationInfos)
             {
@@ -142,7 +142,7 @@ namespace BurnSystems.ObjectActivation
             // Asking parent object, if existing
             if (this.OuterContainer != null)
             {
-                foreach (var item in this.OuterContainer.Get(enablers))
+                foreach (var item in this.OuterContainer.GetAll(enablers))
                 {
                     yield return item;
                 }

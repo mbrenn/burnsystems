@@ -186,7 +186,7 @@ namespace BurnSystems.ObjectActivation
                         enablerCreation);
 
                     // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
-                    var getMethod = typeof(IActivates).GetMethod("Get");
+                    var getMethod = typeof(IActivates).GetMethod("GetAll");
                     expressions.Add(
                         Expression.Assign(
                             tempVariable,

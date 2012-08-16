@@ -21,7 +21,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The activated or reused object</returns>
         public static T Get<T>(this IActivates activates, IEnumerable<IEnabler> enablers)
         {
-            var result = activates.Get(enablers).FirstOrDefault();
+            var result = activates.GetAll(enablers).FirstOrDefault();
             if (result == null)
             {
                 return default(T);
@@ -38,7 +38,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Found object or null, if not found</returns>
         public static object Get(this IActivates activates, Type type)
         {
-            return activates.Get(new IEnabler[] { new ByTypeEnabler(type) })
+            return activates.GetAll(new IEnabler[] { new ByTypeEnabler(type) })
                 .FirstOrDefault();
         }
 
@@ -60,7 +60,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Enumeration of objects</returns>
         public static IEnumerable<T> GetAll<T>(this IActivates activates)
         {
-            return activates.Get(
+            return activates.GetAll(
                 new IEnabler[] { new ByTypeEnabler(typeof(T)) })
                 .Cast<T>();
         }
@@ -85,7 +85,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Found type of null</returns>
         public static object GetByName(this IActivates activates, string name)
         {
-            return activates.Get(
+            return activates.GetAll(
                 new IEnabler[] { new ByNameEnabler(name) })
                 .FirstOrDefault();
         }
@@ -99,7 +99,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Enumeration of all found objcts</returns>
         public static IEnumerable<T> GetAllByName<T>(this IActivates activates, string name)
         {
-            return activates.Get(
+            return activates.GetAll(
                 new IEnabler[] { new ByNameEnabler(name) })
                 .Cast<T>();
         }

@@ -9,11 +9,11 @@ namespace BurnSystems.ObjectActivation
     public interface IActivates
     {
         /// <summary>
-        /// Gets an object by enablers
+        /// Gets all object by enablers
         /// </summary>
         /// <param name="enablers">Enumeration of relevant enablers</param>
         /// <returns>The enabled object or null, if no object can be enabled</returns>
-        IEnumerable<object> Get(IEnumerable<IEnabler> enablers);
+        IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers);
 
         /// <summary>
         /// Checks, if the container knows a binding to the specific enablers
