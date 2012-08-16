@@ -31,6 +31,18 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Gets object via type
+        /// </summary>
+        /// <param name="activates">Activation container being used</param>
+        /// <param name="type">Type being requested</param>
+        /// <returns>Found object or null, if not found</returns>
+        public static object Get(this IActivates activates, Type type)
+        {
+            return activates.Get(new IEnabler[] { new ByTypeEnabler(type) })
+                .FirstOrDefault();
+        }
+
+        /// <summary>
         /// Gets the object by type
         /// </summary>
         /// <param name="activates">Activation container of the object</param>
@@ -63,6 +75,19 @@ namespace BurnSystems.ObjectActivation
         {
             return activates.Get<T>(
                 new IEnabler[] { new ByNameEnabler(name) });
+        }
+
+        /// <summary>
+        /// Gets the object by type
+        /// </summary>
+        /// <param name="activates">Activation container of the object</param>
+        /// <param name="name">Name of the bound object. Name is set via 'BindToName'</param>
+        /// <returns>Found type of null</returns>
+        public static object GetByName(this IActivates activates, string name)
+        {
+            return activates.Get(
+                new IEnabler[] { new ByNameEnabler(name) })
+                .FirstOrDefault();
         }
 
         /// <summary>
