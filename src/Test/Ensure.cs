@@ -14,6 +14,7 @@ namespace BurnSystems.Test
     using System;
     using System.Globalization;
     using BurnSystems.Collections;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Mit Hilfe dieser Hilfsklasse kann überprüft werden, ob 
@@ -115,7 +116,19 @@ namespace BurnSystems.Test
         {
             if (!value)
             {
-                throw new EnsureFailedException("IsTrue");
+                throw new EnsureFailedException("That");
+            }
+        }
+
+        /// <summary>
+        /// Prüft, ob der angegebene Wert true ist
+        /// </summary>
+        /// <param name="expression">Expression to be checked</param>
+        public static void That(Expression<Func<bool>> expression)
+        {
+            if (!expression.Compile()())
+            {
+                throw new EnsureFailedException("That: " + expression.ToString());
             }
         }
 
