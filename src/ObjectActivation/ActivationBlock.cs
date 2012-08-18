@@ -59,7 +59,7 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         internal ActivationBlock InnerBlock
         {
-            get { return this.InnerBlock; }
+            get { return this.innerBlock; }
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace BurnSystems.ObjectActivation
             if (this.innerBlock != null)
             {
                 var result = this.innerBlock.GetAll(enablers);
-                foreach ( var item in result)
+                foreach (var item in result)
                 {
                     yield return item;
                 }
