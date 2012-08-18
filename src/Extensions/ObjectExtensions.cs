@@ -211,5 +211,59 @@ namespace BurnSystems.Extensions
                     ValueText = valueText
                 };
         }
+        
+        /// <summary>
+        /// Converts an object to a specific type
+        /// </summary>
+        /// <param name="value">Value to be converted</param>
+        /// <param name="type">Type being requested</param>
+        /// <returns>Converted Object</returns>
+        public static object ConvertTo(this object value, Type type)
+        {
+            if (type == typeof(string))
+            {
+                return value.ToString();
+            }
+            else if (type == typeof(short))
+            {
+                return Convert.ToInt16(value);
+            }
+            else if (type == typeof(int))
+            {
+                return Convert.ToInt32(value);
+            }
+            else if (type == typeof(long))
+            {
+                return Convert.ToInt64(value);
+            }
+            else if (type == typeof(float))
+            {
+                return Convert.ToSingle(value);
+            }
+            else if (type == typeof(double))
+            {
+                return Convert.ToDouble(value);
+            }
+            else if (type == typeof(decimal))
+            {
+                return Convert.ToDecimal(value);
+            }
+            else if (type == typeof(System.DateTime))
+            {
+                return Convert.ToDateTime(value);
+            }
+            else if (type == typeof(System.Boolean))
+            {
+                return Convert.ToBoolean(value);
+            }
+            else if (type.IsEnum)
+            {
+                return Enum.Parse(type, value.ToString());
+            }
+            else
+            {
+                throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NotSupportedType, type.ToString()));
+            }
+        }
     }
 }
