@@ -53,8 +53,8 @@ namespace BurnSystems.ObjectActivation
                 var containerExpression = Expression.Parameter(typeof(ActivationContainer), "activationContainer");
                 var blockExpression = Expression.Parameter(typeof(ActivationBlock), "activationBlock");
 
-                var getContainerMethod = typeof(ActivationContainer).GetMethod("Get");
-                var getBlockMethod = typeof(ActivationBlock).GetMethod("Get");
+                var getContainerMethod = typeof(ActivationContainer).GetMethod("GetAll");
+                var getBlockMethod = typeof(ActivationBlock).GetMethod("GetAll");
 
                 // Create parameter list
                 var parameterContainerList = new List<Expression>();
