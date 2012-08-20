@@ -59,4 +59,19 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
             set;
         }
     }
+    
+    public class CalculationContainerWithConstructor
+    {
+        public ICalculator Calculator
+        {
+            get;
+            set;
+        }
+
+        [Inject]
+        public CalculationContainerWithConstructor(ICalculator calculator)
+        {
+            this.Calculator = calculator;
+        }
+    }
 }

@@ -72,6 +72,18 @@ namespace BurnSystems.UnitTests.ObjectActivation
         }
 
         [Test]
+        public void TestInstanceBuilderWithConstructor()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+            var container = instanceBuilder.Create<CalculationContainerWithConstructor>();
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container.Calculator, Is.Not.Null);
+        }
+
+        [Test]
         public void TestWebGameScenario()
         {
             var gameContainer = new ActivationContainer("Game");

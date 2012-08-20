@@ -90,9 +90,32 @@ namespace BurnSystems.ObjectActivation
                 var containerExpression = Expression.Parameter(typeof(IActivates), "container");
                 var expressions = new List<Expression>();
 
-                // var result;
-                // result = new {typeof(T)}();
-                expressions.Add(Expression.Assign(result, Expression.New(type)));
+                // Check, if we have an object with inject attribute
+                var injectAttributeConstructor = type
+                    .GetConstructors(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(x => x.GetCustomAttributes(typeof(InjectAttribute), false).Count() > 0)
+                    .SingleOrDefault();
+
+                if (injectAttributeConstructor == null)
+                {
+                    // var result;
+                    // result = new {typeof(T)}();
+                    expressions.Add(Expression.Assign(result, Expression.New(type)));
+                }
+                else
+                {
+                    // Go through all parameter and create necessary information
+                    var constructorParameters = new List<Expression>();
+                    foreach (var parameter in injectAttributeConstructor.GetParameters())
+                    {
+                        constructorParameters.Add(this.QueryContainerMethod(
+                            containerExpression,
+                            parameter.ParameterType,
+                            parameter.GetCustomAttributes(typeof(InjectAttribute), false).Cast<InjectAttribute>().FirstOrDefault()));
+                    }
+
+                    expressions.Add(Expression.Assign(result, Expression.New(injectAttributeConstructor, constructorParameters.ToArray())));
+                }
 
                 //
                 // Assigns the properties
@@ -162,42 +185,13 @@ namespace BurnSystems.ObjectActivation
 
                 foreach (var injectAttribute in inject.Cast<InjectAttribute>())
                 {
-                    NewExpression enablerCreation;
+                    var containerQuery = this.QueryContainerMethod(containerExpression, property.PropertyType, injectAttribute);
 
-                    if (string.IsNullOrEmpty(injectAttribute.ByName))
-                    {
-                        enablerCreation =
-                            Expression.New(
-                                typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
-                                Expression.Constant(property.PropertyType));
-                    }
-                    else
-                    {
-                        enablerCreation =
-                            Expression.New(
-                                typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
-                                Expression.Constant(injectAttribute.ByName));
-                    }
-
-                    // OK, we found it, add expression
-                    // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
-                    var parameters = Expression.NewArrayInit(
-                        typeof(IEnabler),
-                        enablerCreation);
-
-                    // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
-                    var getMethod = typeof(IActivates).GetMethod("GetAll");
+                    // {tempVariable} = {ContainerQuery}
                     expressions.Add(
                         Expression.Assign(
                             tempVariable,
-                            Expression.Convert(
-                                Expression.Call(
-                                    firstOrDefaultMethod,
-                                    Expression.Call(
-                                        containerExpression,
-                                        getMethod,
-                                        parameters)),
-                                property.PropertyType)));
+                            containerQuery));
 
 
                     // Performs the following action, if tempVariable is not null
@@ -225,6 +219,54 @@ namespace BurnSystems.ObjectActivation
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Creates an expression for a certain object by using the injectAttribute
+        /// </summary>
+        /// <param name="containerExpression">Container storing the objects</param>
+        /// <param name="type">Type of the object</param>
+        /// <param name="injectAttribute">Inject Attribute defining more information</param>
+        /// <returns>Expression storing the retrieved object</returns>
+        private UnaryExpression QueryContainerMethod(ParameterExpression containerExpression, Type type, InjectAttribute injectAttribute)
+        {
+            NewExpression enablerCreation;
+
+            if (injectAttribute == null || string.IsNullOrEmpty(injectAttribute.ByName))
+            {
+                enablerCreation =
+                    Expression.New(
+                        typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
+                        Expression.Constant(type));
+            }
+            else
+            {
+                enablerCreation =
+                    Expression.New(
+                        typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
+                        Expression.Constant(injectAttribute.ByName));
+            }
+
+            // OK, we found it, add expression
+            // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
+            var parameters = Expression.NewArrayInit(
+                typeof(IEnabler),
+                enablerCreation);
+
+            // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
+            var getMethod = typeof(IActivates).GetMethod("GetAll");
+
+            // {ContainerQuery} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
+            var containerQuery = Expression.Convert(
+                    Expression.Call(
+                        firstOrDefaultMethod,
+                        Expression.Call(
+                            containerExpression,
+                            getMethod,
+                            parameters)),
+                    type);
+
+            return containerQuery;
         }
     }
 }
