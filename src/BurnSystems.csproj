@@ -190,14 +190,6 @@
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />
-    <Compile Include="Scope\CombinedContextSource.cs" />
-    <Compile Include="Scope\Context.cs" />
-    <Compile Include="Scope\ContextSource.cs" />
-    <Compile Include="Scope\Extensions.cs" />
-    <Compile Include="Scope\IContext.cs" />
-    <Compile Include="Scope\IContextSource.cs" />
-    <Compile Include="Scope\IContextSourceFactory.cs" />
-    <Compile Include="Scope\NestedContext.cs" />
     <Compile Include="Serialization\ArrayHeader.cs" />
     <Compile Include="Serialization\BinaryReader.cs" />
     <Compile Include="Serialization\BinaryWriter.cs" />
@@ -245,7 +237,6 @@
     <Compile Include="XmlHelper.cs" />
     <Compile Include="Xml\Html\HtmlDocument.cs" />
     <Compile Include="Xml\Html\HtmlElement.cs" />
-    <Compile Include="Scope\CombinedContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

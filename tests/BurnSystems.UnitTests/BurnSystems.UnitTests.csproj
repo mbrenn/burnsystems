@@ -100,7 +100,6 @@
     </Compile>
     <Compile Include="StringManipulationTests.cs" />
     <Compile Include="XmlHelperTests.cs" />
-    <Compile Include="Scope\ScopeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
