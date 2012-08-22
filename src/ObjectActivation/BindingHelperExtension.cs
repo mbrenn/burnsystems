@@ -109,8 +109,12 @@ namespace BurnSystems.ObjectActivation
                 var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
                 var enumerableExpression2 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
 
-                var instanceContainer = Expression.Lambda<Func<ActivationContainer, IEnumerable<IEnabler>, object>>(resultContainer, new [] { containerExpression, enumerableExpression1 }).Compile();
-                var instanceBlock = Expression.Lambda<Func<ActivationBlock, IEnumerable<IEnabler>, object>>(resultBlock, new [] { blockExpression, enumerableExpression2 }).Compile();
+                var instanceContainer = Expression.Lambda<Func<ActivationContainer, IEnumerable<IEnabler>, object>>(
+                    resultContainer, 
+                    new [] { containerExpression, enumerableExpression1 }).Compile();
+                var instanceBlock = Expression.Lambda<Func<ActivationBlock, IEnumerable<IEnabler>, object>>(
+                    resultBlock, 
+                    new [] { blockExpression, enumerableExpression2 }).Compile();
 
                 helper.ActivationInfo.FactoryActivationContainer = instanceContainer;
                 helper.ActivationInfo.ExpressionActivationContainer = resultContainer;
@@ -258,7 +262,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The binding helper</returns>
         public static BindingHelper AsScoped(this BindingHelper helper)
         {
-            // No change for activation container. 
+            // As Scoped is not allowed in ActivationContainer
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
             helper.ActivationInfo.FactoryActivationContainer =
@@ -270,7 +274,6 @@ namespace BurnSystems.ObjectActivation
             helper.ActivationInfo.FactoryActivationBlock =
                 (x, y) =>
                 {
-
                     var found =
                         x.ActiveInstances.Find(helper.ActivationInfo);
 

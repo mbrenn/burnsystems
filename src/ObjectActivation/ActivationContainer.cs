@@ -88,15 +88,6 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
-        /// Converts the object to string.
-        /// </summary>
-        /// <returns>String converted object</returns>
-        public override string ToString()
-        {
-            return this.Name;
-        }
-
-        /// <summary>
         /// Calls the OnBindingChanged event
         /// </summary>
         protected void OnBindingChanged()
@@ -173,6 +164,17 @@ namespace BurnSystems.ObjectActivation
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Converts activation block to string
+        /// </summary>
+        /// <returns>String containing the name</returns>
+        public override string ToString()
+        {
+            return string.Format(
+                "ActivationContainer: {0}",
+                this.Name);
         }
     }
 }
