@@ -3,6 +3,7 @@ using System.Linq;
 using BurnSystems.ObjectActivation.Enabler;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Text;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -262,6 +263,22 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The binding helper</returns>
         public static BindingHelper AsScoped(this BindingHelper helper)
         {
+            return AsScopedIn(helper, x => true);
+        }
+
+        /// <summary>
+        /// Marks the current binding as scoped, which means that 
+        /// the same instance shall be returned, when it has been created 
+        /// within the same scope. 
+        /// Scopes are defined by Activation Block.
+        /// When the object is used within activation block, 
+        /// the instance will be created during each resolution request.
+        /// </summary>
+        /// <param name="helper">Binding helper to be used</param>
+        /// <param name="where">Condition, whose scope shall be used for automatic disposing</param>
+        /// <returns>The binding helper</returns>
+        public static BindingHelper AsScopedIn(this BindingHelper helper, Func<ActivationBlock, bool> where)
+        {
             // As Scoped is not allowed in ActivationContainer
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
@@ -274,25 +291,58 @@ namespace BurnSystems.ObjectActivation
             helper.ActivationInfo.FactoryActivationBlock =
                 (x, y) =>
                 {
+                    var relevantActivationBlock = x.FindActivationBlockInChain(where);
+                    if (relevantActivationBlock == null)
+                    {
+                        // No activation block matches
+                        var enablerText = new StringBuilder();
+                        foreach (var enabler in y)
+                        {
+                            enablerText.AppendLine(enablerText.ToString());
+                        }
+
+                        throw new InvalidOperationException(LocalizationBS.NoScopeFoundForListOfEnablers + enablerText.ToString());
+                    }
+
                     var found =
-                        x.ActiveInstances.Find(helper.ActivationInfo);
+                        relevantActivationBlock.ActiveInstances.Find(helper.ActivationInfo);
 
                     if (found == null)
                     {
                         found = oldContainerFactory(x, y);
 
-                        x.Add(
-                            new ActiveInstance()
-                            {
-                                Criterias = helper.ActivationInfo.CriteriaCatalogue,
-                                Value = found
-                            });
+                        // Ok, Add to first match
+
+                        if (relevantActivationBlock != null)
+                        {
+                            relevantActivationBlock.Add(
+                                new ActiveInstance()
+                                {
+                                    Criterias = helper.ActivationInfo.CriteriaCatalogue,
+                                    Value = found
+                                });
+                        }
                     }
 
                     return found;
                 };
 
             return helper;
+        }
+
+        /// <summary>
+        /// Marks the current binding as scoped, which means that 
+        /// the same instance shall be returned, when it has been created 
+        /// within the same scope. 
+        /// Scopes are defined by Activation Blocks.
+        /// The name of the activation block defines, whose scope will be used for automatic disposing
+        /// </summary>
+        /// <param name="helper">Binding helper to be used</param>
+        /// <param name="nameOfActivationBlock">Name of block, whose scope shall be used for automatic disposing</param>
+        /// <returns>The binding helper</returns>
+        public static BindingHelper AsScopedIn(this BindingHelper helper, string nameOfActivationBlock)
+        {
+            return AsScopedIn(helper, x => x.Name == nameOfActivationBlock);
         }
     }
 }

@@ -57,7 +57,7 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Gets an inner block that may already contain the required object.
         /// </summary>
-        internal ActivationBlock InnerBlock
+        internal ActivationBlock OuterBlock
         {
             get { return this.outerBlock; }
         }
@@ -234,6 +234,30 @@ namespace BurnSystems.ObjectActivation
             return string.Format(
                 "ActivationBlock: {0}",
                 this.Name);
+        }
+
+        /// <summary>
+        /// Finds the activation block, matching to the given function
+        /// </summary>
+        /// <param name="where">Condition of the function</param>
+        /// <returns>Found Activationblock</returns>
+        public ActivationBlock FindActivationBlockInChain(Func<ActivationBlock, bool> where)
+        {
+            var currentActivationBlock = this;
+
+            while (currentActivationBlock != null)
+            {
+                if (where(currentActivationBlock))
+                {
+                    return currentActivationBlock;
+                }
+
+                // Try to add to the next outer scope
+                currentActivationBlock = currentActivationBlock.OuterBlock;
+            }
+
+            return null;
+
         }
     }
 }
