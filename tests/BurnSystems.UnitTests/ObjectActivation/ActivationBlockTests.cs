@@ -234,6 +234,54 @@ namespace BurnSystems.UnitTests.ObjectActivation
                 }
                 
                 Assert.That(SecondHelper.DisposeCount, Is.EqualTo(1));
+                Assert.That(Helper.DisposeCount, Is.EqualTo(1));
+            }
+
+            Assert.That(Helper.DisposeCount, Is.EqualTo(1));
+            Assert.That(SecondHelper.DisposeCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestParentBlockAsScopedIn()
+        {
+            Helper.Reset();
+            SecondHelper.Reset();
+
+            var outerContainer = new ActivationContainer("OuterTest");
+            var innerContainer = new ActivationContainer("InnerTest");
+            outerContainer.Bind<Helper>().To<Helper>().AsScopedIn("OuterBlock");
+            innerContainer.Bind<SecondHelper>().To<SecondHelper>().AsScoped();
+
+            using (var outerBlock = new ActivationBlock("OuterBlock", outerContainer))
+            {
+                using (var innerBlock = new ActivationBlock("InnerBlock", innerContainer, outerBlock))
+                {
+                    var helpero1 = innerBlock.Get<Helper>();
+                    var helpero2 = innerBlock.Get<Helper>();
+                    var helpero3 = innerBlock.Get<Helper>();
+                    var helperi1 = innerBlock.Get<SecondHelper>();
+                    var helperi2 = innerBlock.Get<SecondHelper>();
+
+                    Assert.That(helpero1, Is.Not.Null);
+                    Assert.That(helpero2, Is.Not.Null);
+                    Assert.That(helpero3, Is.Not.Null);
+                    Assert.That(helperi1, Is.Not.Null);
+                    Assert.That(helperi2, Is.Not.Null);
+
+                    Assert.AreSame(helpero1, helpero2);
+                    Assert.AreSame(helpero2, helpero3);
+                    Assert.AreSame(helpero1, helpero3);
+                    Assert.AreSame(helperi1, helperi2);
+                    Assert.AreNotSame(helperi1, helpero1);
+
+                    Assert.That(Helper.CreationCount, Is.EqualTo(1));
+                    Assert.That(Helper.DisposeCount, Is.EqualTo(0));
+
+                    Assert.That(SecondHelper.CreationCount, Is.EqualTo(1));
+                    Assert.That(SecondHelper.DisposeCount, Is.EqualTo(0));
+                }
+
+                Assert.That(SecondHelper.DisposeCount, Is.EqualTo(1));
                 Assert.That(Helper.DisposeCount, Is.EqualTo(0));
             }
 
@@ -281,8 +329,8 @@ namespace BurnSystems.UnitTests.ObjectActivation
                     Assert.That(SecondHelper.DisposeCount, Is.EqualTo(0));
                 }
 
+                Assert.That(Helper.DisposeCount, Is.EqualTo(3));
                 Assert.That(SecondHelper.DisposeCount, Is.EqualTo(2));
-                Assert.That(Helper.DisposeCount, Is.EqualTo(0));
             }
 
             Assert.That(Helper.DisposeCount, Is.EqualTo(3));
