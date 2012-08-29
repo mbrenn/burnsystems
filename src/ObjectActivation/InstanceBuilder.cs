@@ -124,7 +124,7 @@ namespace BurnSystems.ObjectActivation
                 var constructorParameters = new List<object>();
                 foreach (var parameter in injectAttributeConstructor.GetParameters())
                 {
-                    constructorParameters.Add(this.QueryContainerMethod(
+                    constructorParameters.Add(QueryContainerMethod(
                         container,
                         parameter.ParameterType,
                         parameter.GetCustomAttributes(typeof(InjectAttribute), false).Cast<InjectAttribute>().FirstOrDefault()));
@@ -136,7 +136,7 @@ namespace BurnSystems.ObjectActivation
             //
             // Assigns the properties
             //
-            this.AddPropertyAssignmentsByReflection(result, container);
+            AddPropertyAssignmentsByReflection(result, container);
 
             return result;
         }
@@ -298,7 +298,7 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         /// <param name="target">Object, where properties shall be assigned to</param>
         /// <param name="container">Container used for query</param>
-        private void AddPropertyAssignmentsByReflection(object target, IActivates container)
+        public static void AddPropertyAssignmentsByReflection(object target, IActivates container)
         {
             var result = new List<ParameterExpression>();
 
@@ -323,14 +323,14 @@ namespace BurnSystems.ObjectActivation
 
                 foreach (var injectAttribute in inject.Cast<InjectAttribute>())
                 {
-                    var value = this.QueryContainerMethod(container, property.PropertyType, injectAttribute);
+                    var value = QueryContainerMethod(container, property.PropertyType, injectAttribute);
 
                     if (value != null)
                     {
                         // Performs the following action, if tempVariable is not null
                         property.SetValue(target, value, null);
                                                 
-                        this.AddPropertyAssignmentsByReflection(value, container);
+                        AddPropertyAssignmentsByReflection(value, container);
                     }
                 }
             }
@@ -391,7 +391,7 @@ namespace BurnSystems.ObjectActivation
         /// <param name="type">Type of the object</param>
         /// <param name="injectAttribute">Inject Attribute defining more information</param>
         /// <returns>Expression storing the retrieved object</returns>
-        private object QueryContainerMethod(IActivates container, Type type, InjectAttribute injectAttribute)
+        private static object QueryContainerMethod(IActivates container, Type type, InjectAttribute injectAttribute)
         {
             IEnabler[] enabler;
 
