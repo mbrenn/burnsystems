@@ -139,8 +139,7 @@ namespace BurnSystems.ObjectActivation
             AddPropertyAssignmentsByReflection(result, container);
 
             return result;
-        }
-        
+        }        
 
         /// <summary>
         /// Creates object via precompiled statement

@@ -4,6 +4,7 @@ using BurnSystems.ObjectActivation.Enabler;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -12,6 +13,18 @@ namespace BurnSystems.ObjectActivation
     /// </summary>
     public static class BindingHelperExtension
     {
+        /// <summary>
+        /// Stores the memberinfo for
+        /// public static void InstanceBuilder::AddPropertyAssignmentsByReflection(object target, IActivates container)
+        /// </summary>
+        private static MethodInfo instanceBuilderAddPropertyAssignmentsByReflection;
+
+        static BindingHelperExtension()
+        {
+            var type = typeof(InstanceBuilder);
+            instanceBuilderAddPropertyAssignmentsByReflection = type.GetMethod("AddPropertyAssignmentsByReflection");
+        }
+
         /// <summary>
         /// Binds the object to a specific class. 
         /// The class is created when necessary
@@ -36,13 +49,19 @@ namespace BurnSystems.ObjectActivation
                 helper.ActivationInfo.FactoryActivationContainer =
                     (x, y) =>
                     {
-                        return Activator.CreateInstance(typeof(T));
+                        var result = Activator.CreateInstance(typeof(T));
+                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, x);
+
+                        return result;
                     };
 
                 helper.ActivationInfo.FactoryActivationBlock =
                     (x, y) =>
                     {
-                        return Activator.CreateInstance(typeof(T));
+                        var result = Activator.CreateInstance(typeof(T));
+                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, x);
+
+                        return result;
                     };
             }
             else
@@ -95,32 +114,60 @@ namespace BurnSystems.ObjectActivation
                 }
 
                 // new {Constructor}({Parameterlist});
-                var resultContainer =
+                var newContainer =
                     Expression.New(
                         constructor,
                         parameterContainerList);
+                var resultContainer = Expression.Parameter(typeof(object), "result");
+                var resultBlock = Expression.Parameter(typeof(object), "result");
 
                 // new {Constructor}({Parameterlist});
-                var resultBlock =
+                var newBlock =
                     Expression.New(
                         constructor,
                         parameterBlockList);
+
+                var blockContainer = Expression.Block(
+                    new ParameterExpression[] { resultContainer },
+                    new Expression[]{ 
+                        Expression.Assign ( resultContainer, newContainer ),
+                        Expression.Call(
+                            instanceBuilderAddPropertyAssignmentsByReflection,
+                            resultContainer, 
+                            containerExpression 
+                            ),
+                        resultContainer
+                    }
+                );
+
+                var blockResult = Expression.Block(
+                    new ParameterExpression[] { resultBlock},
+                    new Expression[]{ 
+                        Expression.Assign ( resultBlock, newBlock),
+                        Expression.Call(
+                            instanceBuilderAddPropertyAssignmentsByReflection,
+                            resultBlock, 
+                            blockExpression 
+                            ),
+                        resultBlock
+                    }
+                );
 
                 // Input
                 var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
                 var enumerableExpression2 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
 
                 var instanceContainer = Expression.Lambda<Func<ActivationContainer, IEnumerable<IEnabler>, object>>(
-                    resultContainer, 
+                    blockContainer, 
                     new [] { containerExpression, enumerableExpression1 }).Compile();
                 var instanceBlock = Expression.Lambda<Func<ActivationBlock, IEnumerable<IEnabler>, object>>(
-                    resultBlock, 
+                    blockResult, 
                     new [] { blockExpression, enumerableExpression2 }).Compile();
 
                 helper.ActivationInfo.FactoryActivationContainer = instanceContainer;
-                helper.ActivationInfo.ExpressionActivationContainer = resultContainer;
+                helper.ActivationInfo.ExpressionActivationContainer = blockContainer;
                 helper.ActivationInfo.FactoryActivationBlock = instanceBlock;
-                helper.ActivationInfo.ExpressionActivationBlock = resultBlock;
+                helper.ActivationInfo.ExpressionActivationBlock = blockResult;
             }
 
             return helper;

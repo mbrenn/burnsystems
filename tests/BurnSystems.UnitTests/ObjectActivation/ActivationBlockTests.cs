@@ -355,6 +355,22 @@ namespace BurnSystems.UnitTests.ObjectActivation
             }
         }
 
+        [Test]
+        public void TestGetWithPropertyInject()
+        {
+            // Initial creation
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+            activationContainer.Bind<CalculationContainer>().To<CalculationContainer>();
+
+            using (var block = new ActivationBlock("TestBlock", activationContainer))
+            {
+                var container = block.Get<CalculationContainer>();
+                Assert.That(container, Is.Not.Null);
+                Assert.That(container.Calculator, Is.Not.Null);
+            }
+        }
+
         /// <summary>
         /// Helper class for counting creations and disposings
         /// </summary>
