@@ -289,5 +289,26 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(container, Is.Not.Null);
             Assert.That(container.Calculator, Is.Not.Null);
         }
+
+        [Test]
+        public void TestGetWithPropertyInjectAndConstructor()
+        {
+            // Initial creation
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+            activationContainer.Bind<ConstructorTestWithProperty>().To<ConstructorTestWithProperty>();
+
+            var container = activationContainer.Get<ConstructorTestWithProperty>();
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container.Calculator1, Is.Not.Null);
+            Assert.That(container.Calculator2, Is.Not.Null);
+            Assert.That(container.Calculator3, Is.Null);
+
+            container = activationContainer.Create<ConstructorTestWithProperty>();
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container.Calculator1, Is.Not.Null);
+            Assert.That(container.Calculator2, Is.Not.Null);
+            Assert.That(container.Calculator3, Is.Null);
+        }
     }
 }
