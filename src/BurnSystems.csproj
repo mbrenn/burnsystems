@@ -187,6 +187,7 @@
     <Compile Include="ObjectActivation\Enabler\ByTypeEnabler.cs" />
     <Compile Include="ObjectActivation\ICriteria.cs" />
     <Compile Include="ObjectActivation\IEnabler.cs" />
+    <Compile Include="ObjectActivation\StatementLoader.cs" />
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />
