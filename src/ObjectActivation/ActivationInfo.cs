@@ -70,5 +70,10 @@ namespace BurnSystems.ObjectActivation
 
             this.criteriaCatalogue = criteriaCatalogue;
         }
+
+        public override string ToString()
+        {
+            return this.criteriaCatalogue.ToString();
+        }
     }
 }
