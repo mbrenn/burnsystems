@@ -91,17 +91,5 @@ namespace BurnSystems.Logging
 
             this.Log.LogEntry(entry);
         }
-
-        /// <summary>
-        /// Disposes this instance, but does not touch the
-        /// given log during constructor
-        /// </summary>
-        public void Dispose()
-        {
-            // We do nothing. 
-            // Log being used has to be disposed!
-
-            GC.SuppressFinalize(this);
-        }
     }
 }
