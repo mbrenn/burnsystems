@@ -61,7 +61,7 @@ namespace BurnSystems.Logging
     /// <summary>
     /// The log class can be used to create logs for specific providers.
     /// </summary>
-    public class Log : BurnSystems.Logging.ILog
+    public class Log : BurnSystems.Logging.ILog, IDisposable
     {
         /// <summary>
         /// Singleton storing the only log
