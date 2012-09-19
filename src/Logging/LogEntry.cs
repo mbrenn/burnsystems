@@ -49,6 +49,15 @@ namespace BurnSystems.Logging
         }
 
         /// <summary>
+        /// Gets or sets the timespan between creation of the log and execution of this log entry. 
+        /// </summary>
+        public TimeSpan RelativeTime
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the message
         /// </summary>
         public string Message

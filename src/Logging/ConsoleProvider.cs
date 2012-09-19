@@ -13,6 +13,7 @@ namespace BurnSystems.Logging
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     /// <summary>
     /// This provider writes all data on the console
@@ -105,9 +106,9 @@ namespace BurnSystems.Logging
             else
             {
                 Console.WriteLine(
-                    "{0} {1} {2}", 
-                    entry.Created, 
-                    entry.LogLevel.ToString(), 
+                    "[{0:f4}] {1} {2}",
+                    entry.RelativeTime.TotalSeconds,
+                    entry.LogLevel.ToString(),
                     entry.Message);
             }
 
