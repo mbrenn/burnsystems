@@ -106,7 +106,7 @@ namespace BurnSystems.Logging
             else
             {
                 Console.WriteLine(
-                    "[{0:f4}] {1} {2}",
+                    "[{1}: {0:f4}s] {2}",
                     entry.RelativeTime.TotalSeconds,
                     entry.LogLevel.ToString(),
                     entry.Message);
