@@ -201,6 +201,16 @@ namespace BurnSystems.Logging
             }
         }
 
+        /// <summary>
+        /// Logs an entry
+        /// </summary>
+        /// <param name="level">Level to be logged</param>
+        /// <param name="entry">Text to be logged</param>
+        public void LogEntry(LogLevel level, string entry)
+        {
+            this.LogEntry(new LogEntry(entry, level));
+        }
+
         #region IDisposable Member
 
         /// <summary>
