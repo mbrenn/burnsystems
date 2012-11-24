@@ -21,6 +21,15 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the injection is mandatory
+        /// </summary>
+        public bool IsMandatory
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Performs the injection by type
         /// </summary>
         public InjectAttribute()

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using BurnSystems.ObjectActivation.Enabler;
 using BurnSystems.Test;
+using BurnSystems.Logging;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -15,6 +16,11 @@ namespace BurnSystems.ObjectActivation
     /// </summary>
     public class InstanceBuilder
     {
+        /// <summary>
+        /// Stores the class logger
+        /// </summary>
+        private static ClassLogger logger = new ClassLogger(typeof(InstanceBuilder));
+
         /// <summary>
         /// Stores the container or block being used for instantiation
         /// </summary>
@@ -74,7 +80,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created instance</returns>
         public T Create<T>()
         {
-            return (T) this.Create(typeof(T));
+            return (T)this.Create(typeof(T));
         }
 
         /// <summary>
@@ -90,21 +96,18 @@ namespace BurnSystems.ObjectActivation
             }
             else
             {
+                logger.LogEntry(LogLevel.Message, "InstanceBuilder by Precompiled Statement is not recommended :-( ");
                 return this.CreateByPreCompiledStatement(type);
             }
         }
 
         /// <summary>
-        /// Creates object via precompiled statement
+        /// Creates object via reflection statement
         /// </summary>
         /// <param name="type">Type to be created</param>
         /// <returns>Created type</returns>
         private object CreateByReflection(Type type)
         {
-            // var result;
-            var containerExpression = Expression.Parameter(typeof(IActivates), "container");
-            var expressions = new List<Expression>();
-
             // Check, if we have an object with inject attribute
             var injectAttributeConstructor = type
                 .GetConstructors(BindingFlags.Instance | BindingFlags.Public)
@@ -139,7 +142,7 @@ namespace BurnSystems.ObjectActivation
             AddPropertyAssignmentsByReflection(result, container);
 
             return result;
-        }        
+        }
 
         /// <summary>
         /// Creates object via precompiled statement
@@ -250,7 +253,7 @@ namespace BurnSystems.ObjectActivation
                 }
 
                 // Check, if assignment by Name shall be executed, otherwise by type
-                var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);                
+                var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);
                 var enablers = new List<IEnabler>();
 
                 foreach (var injectAttribute in inject.Cast<InjectAttribute>())
@@ -316,6 +319,7 @@ namespace BurnSystems.ObjectActivation
                     // No private properties are set
                     continue;
                 }
+
                 // Check, if assignment by Name shall be executed, otherwise by type
                 var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);
                 var enablers = new List<IEnabler>();
@@ -328,8 +332,13 @@ namespace BurnSystems.ObjectActivation
                     {
                         // Performs the following action, if tempVariable is not null
                         property.SetValue(target, value, null);
-                                                
+
                         AddPropertyAssignmentsByReflection(value, container);
+                    }
+
+                    if (value == null && injectAttribute.IsMandatory)
+                    {
+                        throw new ObjectActivationException("Mandatory Property '" + property.Name + "' could not be retrieved");
                     }
                 }
             }

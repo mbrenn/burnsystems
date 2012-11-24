@@ -180,6 +180,7 @@
     <Compile Include="ObjectActivation\IActivates.cs" />
     <Compile Include="ObjectActivation\InstanceBuilder.cs" />
     <Compile Include="ObjectActivation\InstantiationCacheEntry.cs" />
+    <Compile Include="ObjectActivation\ObjectActivationException.cs" />
     <Compile Include="ObjectActivation\PostActivationInfo.cs" />
     <Compile Include="ObjectActivation\Criteria\ByNameCriteria.cs" />
     <Compile Include="ObjectActivation\Criteria\ByTypeCriteria.cs" />
