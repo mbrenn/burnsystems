@@ -199,10 +199,10 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper To(this BindingHelper helper, Func<object> factory)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) => factory();
+                (container, enablers) => factory();
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) => 
+                (block, enablers) => 
                     factory();
 
             return helper;
@@ -217,11 +217,11 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper To(this BindingHelper helper, Func<IActivates, object> factory)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) => factory(x);
+                (container, enablers) => factory(container);
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
-                    factory(x);
+                (block, enablers) =>
+                    factory(block);
 
             return helper;
         }
@@ -239,11 +239,11 @@ namespace BurnSystems.ObjectActivation
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
+                (block, enablers) =>
                 {
-                    var found = oldContainerFactory(x, y);
+                    var found = oldContainerFactory(block, enablers);
 
-                    x.Add(
+                    block.Add(
                         new ActiveInstance()
                         {
                             Criterias = helper.ActivationInfo.CriteriaCatalogue,
@@ -266,16 +266,16 @@ namespace BurnSystems.ObjectActivation
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationContainer;
 
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) =>
+                (container, enablers) =>
                 {
                     var foundInstance =
-                        x.ActiveInstances.Find(helper.ActivationInfo);
+                        container.ActiveInstances.Find(helper.ActivationInfo);
 
                     if (foundInstance == null)
                     {
                         // Singleton has not been created yet. Create new object
-                        foundInstance = oldContainerFactory(x, y);
-                        x.ActiveInstances.Add(
+                        foundInstance = oldContainerFactory(container, enablers);
+                        container.ActiveInstances.Add(
                             new ActiveInstance()
                             {
                                 Value = foundInstance,
@@ -288,11 +288,18 @@ namespace BurnSystems.ObjectActivation
                 };
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
+                (block, enablers) =>
                 {
-                    return helper.ActivationInfo.FactoryActivationContainer(
-                        x.Container, 
-                        y);
+                    var result = helper.ActivationInfo.FactoryActivationContainer(
+                        block.Container, 
+                        enablers);
+
+                    if (result == null && block.OuterBlock != null)
+                    {
+                        return helper.ActivationInfo.FactoryActivationBlock(block.OuterBlock, enablers);
+                    }
+
+                    return result;
                 };
 
             return helper;
@@ -330,20 +337,20 @@ namespace BurnSystems.ObjectActivation
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) =>
+                (container, block) =>
                 {
                     throw new InvalidOperationException("AsScoped cannot be created in ActivationContainer");
                 };
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
+                (block, container) =>
                 {
-                    var relevantActivationBlock = x.FindActivationBlockInChain(where);
+                    var relevantActivationBlock = block.FindActivationBlockInChain(where);
                     if (relevantActivationBlock == null)
                     {
                         // No activation block matches
                         var enablerText = new StringBuilder();
-                        foreach (var enabler in y)
+                        foreach (var enabler in container)
                         {
                             enablerText.AppendLine(enablerText.ToString());
                         }
@@ -356,7 +363,7 @@ namespace BurnSystems.ObjectActivation
 
                     if (found == null)
                     {
-                        found = oldContainerFactory(x, y);
+                        found = oldContainerFactory(block, container);
 
                         // Ok, Add to first match
 
