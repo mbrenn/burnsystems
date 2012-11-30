@@ -151,7 +151,7 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created object</returns>
         public IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers)
         {
-            return this.GetAll(enablers, this);
+            return this.GetAllInternal(this, enablers);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace BurnSystems.ObjectActivation
         /// <param name="enablers">Enumeration of enablers</param>
         /// <param name="mostInner">Most inner block being sent to constructor/factory method</param>
         /// <returns>Enumeration of found objects</returns>
-        private IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers, ActivationBlock mostInner)
+        private IEnumerable<object> GetAllInternal(ActivationBlock mostInner, IEnumerable<IEnabler> enablers)
         {
             var currentContainer = this.container;
 
@@ -183,7 +183,7 @@ namespace BurnSystems.ObjectActivation
             {
                 // Calls outer Activation Block, but references to the mostInner one to make as much
                 // objects available as possible
-                var result = this.outerBlock.GetAll(enablers, mostInner);
+                var result = this.outerBlock.GetAllInternal(mostInner, enablers);
                 foreach (var item in result)
                 {
                     yield return item;
