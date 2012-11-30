@@ -450,6 +450,33 @@ namespace BurnSystems.UnitTests.ObjectActivation
         }
 
         /// <summary>
+        /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
+        /// </summary>
+        [Test]
+        public void TestWithInnerBlockWithConstructor()
+        {
+            var container = new ActivationContainer("Outer Container");
+            container.Bind<CalculationContainerWithConstructor>().To<CalculationContainerWithConstructor>().AsSingleton();
+
+            using (var block = new ActivationBlock("Outer Block", container))
+            {
+                block.Get<Calculator>();
+                var innerContainer = new ActivationContainer("Inner Container", container);
+                innerContainer.Bind<ICalculator>().To<Calculator>().AsSingleton();
+
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer))
+                {
+                    var builder = new InstanceBuilder(innerContainer);
+                    var containerContainer = builder.Create<CalculationContainerContainerWithConstructor>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
+                }
+            }
+        }
+
+        /// <summary>
         /// Helper class for counting creations and disposings
         /// </summary>
         public class Helper : IDisposable

@@ -45,7 +45,7 @@ namespace BurnSystems.ObjectActivation
 
             if (constructors.Count == 0)
             {
-                // No constructor with InjectAttribute
+                // No constructor with InjectAttribute, default implementation
                 helper.ActivationInfo.FactoryActivationContainer =
                     (x, y) =>
                     {
@@ -66,7 +66,7 @@ namespace BurnSystems.ObjectActivation
             }
             else
             {
-                // Constructor Count = 1, create
+                // Constructor Count with injection is more than, create
                 var constructor = constructors[0];
 
                 // Find Get-Method of container and block

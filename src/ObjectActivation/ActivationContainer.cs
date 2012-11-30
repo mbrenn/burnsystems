@@ -120,12 +120,36 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created object</returns>
         public IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers)
         {
+            return this.GetAllInternal(this, enablers);
+        }
+
+        /// <summary>
+        /// Activates an object by a list of enablers
+        /// </summary>
+        /// <param name="enablers">Enabler to be used</param>
+        /// <param name="innerMost">Most inner thing</param>
+        /// <returns>Created object</returns>
+        private IEnumerable<object> GetAllInternal(IActivates innerMost, IEnumerable<IEnabler> enablers)
+        {
             foreach (var item in this.ActivationInfos)
             {
                 if (item.CriteriaCatalogue.DoesMatch(enablers))
                 {
-                    var value = item.FactoryActivationContainer(this, enablers);
-                    yield return value;
+                    var innerMostContainer = innerMost as ActivationContainer;
+                    if (innerMostContainer != null)
+                    {
+                        var value = item.FactoryActivationContainer(innerMostContainer, enablers);
+                        yield return value;
+                    }
+                    else
+                    {
+                        var innerMostBlock = innerMost as ActivationBlock;
+                        if (innerMostBlock != null)
+                        {
+                            var value = item.FactoryActivationBlock(innerMostBlock, enablers);
+                            yield return value;
+                        }
+                    }
                 }
             }
 
@@ -133,7 +157,7 @@ namespace BurnSystems.ObjectActivation
             // Asking parent object, if existing
             if (this.OuterContainer != null)
             {
-                foreach (var item in this.OuterContainer.GetAll(enablers))
+                foreach (var item in this.OuterContainer.GetAllInternal(innerMost, enablers))
                 {
                     yield return item;
                 }
