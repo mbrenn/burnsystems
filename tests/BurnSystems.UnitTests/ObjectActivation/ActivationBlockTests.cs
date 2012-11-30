@@ -399,19 +399,52 @@ namespace BurnSystems.UnitTests.ObjectActivation
         /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
         /// </summary>
         [Test]
-        public void TestWithInnerBlock()
+        public void TestWithInnerBlockOuterInner()
         {
             var container = new ActivationContainer("Outer Container");
-            container.Bind<ICalculator>().To<Calculator>().AsSingleton();
+            container.Bind<CalculationContainer>().To<CalculationContainer>().AsSingleton();
 
             using (var block = new ActivationBlock("Outer Block", container))
             {
+                block.Get<Calculator>();
                 var innerContainer = new ActivationContainer("Inner Container", container);
+                innerContainer.Bind<ICalculator>().To<Calculator>().AsSingleton();
 
-                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer, block))
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer))
                 {
-                    var calculator = innerBlock.Get<ICalculator>();
-                    Assert.That(calculator, Is.Not.Null);
+                    var builder = new InstanceBuilder(innerContainer);
+                    var containerContainer = builder.Create<CalculationContainerContainer>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
+        /// </summary>
+        [Test]
+        public void TestWithInnerBlockInnerOuter()
+        {
+            var container = new ActivationContainer("Outer Container");
+            container.Bind<ICalculator>().To<Calculator>().AsSingleton();            
+
+            using (var block = new ActivationBlock("Outer Block", container))
+            {
+                block.Get<Calculator>();
+                var innerContainer = new ActivationContainer("Inner Container", container);
+                innerContainer.Bind<CalculationContainer>().To<CalculationContainer>().AsSingleton();    
+
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer))
+                {
+                    var builder = new InstanceBuilder(innerContainer);
+                    var containerContainer = builder.Create<CalculationContainerContainer>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
                 }
             }
         }
