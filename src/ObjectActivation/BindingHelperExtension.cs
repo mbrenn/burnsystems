@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
+using BurnSystems.Test;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -47,19 +48,19 @@ namespace BurnSystems.ObjectActivation
             {
                 // No constructor with InjectAttribute, default implementation
                 helper.ActivationInfo.FactoryActivationContainer =
-                    (x, y) =>
+                    (container, innerMost, enablers) =>
                     {
                         var result = Activator.CreateInstance(typeof(T));
-                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, x);
+                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, container);
 
                         return result;
                     };
 
                 helper.ActivationInfo.FactoryActivationBlock =
-                    (x, y) =>
+                    (block, innerMost, enablers) =>
                     {
                         var result = Activator.CreateInstance(typeof(T));
-                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, x);
+                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, block);
 
                         return result;
                     };
@@ -73,8 +74,10 @@ namespace BurnSystems.ObjectActivation
                 var containerExpression = Expression.Parameter(typeof(ActivationContainer), "activationContainer");
                 var blockExpression = Expression.Parameter(typeof(ActivationBlock), "activationBlock");
 
-                var getContainerMethod = typeof(ActivationContainer).GetMethod("GetAll");
-                var getBlockMethod = typeof(ActivationBlock).GetMethod("GetAll");
+                var innerMostContainer = Expression.Parameter(typeof(IActivates), "innerMost");
+                var innerMostBlock = Expression.Parameter(typeof(IActivates), "innerMost");
+
+                var getMethod = typeof(IActivates).GetMethod("GetAll");
 
                 // Create parameter list
                 var parameterContainerList = new List<Expression>();
@@ -89,23 +92,23 @@ namespace BurnSystems.ObjectActivation
                                 typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
                                 Expression.Constant(parameter.ParameterType)));
 
-                    // (parameterType) container.Get({ByTypeEnabler}).FirstOrDefault()
+                    // (parameterType) innerMost.Get({ByTypeEnabler}).FirstOrDefault()
                     var parameterContainer = Expression.Convert(
                                 Expression.Call(
                                     InstanceBuilder.FirstOrDefaultMethod,
                                     Expression.Call(
-                                        containerExpression,
-                                        getContainerMethod,
+                                        innerMostContainer,
+                                        getMethod,
                                         byTypeEnabler)),
                                 parameter.ParameterType);
 
-                    // (parameterType) block.Get({ByTypeEnabler}).FirstOrDefault()
+                    // (parameterType) innerMost.Get({ByTypeEnabler}).FirstOrDefault()
                     var parameterBlock = Expression.Convert(
                                 Expression.Call(
                                     InstanceBuilder.FirstOrDefaultMethod,
                                     Expression.Call(
-                                        blockExpression,
-                                        getBlockMethod,
+                                        innerMostBlock,
+                                        getMethod,
                                         byTypeEnabler)),
                                 parameter.ParameterType);
 
@@ -154,15 +157,15 @@ namespace BurnSystems.ObjectActivation
                 );
 
                 // Input
-                var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
-                var enumerableExpression2 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
+                var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "enablers");
+                var enumerableExpression2 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "enablers");
 
-                var instanceContainer = Expression.Lambda<Func<ActivationContainer, IEnumerable<IEnabler>, object>>(
+                var instanceContainer = Expression.Lambda<Func<ActivationContainer, IActivates, IEnumerable<IEnabler>, object>>(
                     blockContainer, 
-                    new [] { containerExpression, enumerableExpression1 }).Compile();
-                var instanceBlock = Expression.Lambda<Func<ActivationBlock, IEnumerable<IEnabler>, object>>(
+                    new [] { containerExpression, innerMostContainer, enumerableExpression1 }).Compile();
+                var instanceBlock = Expression.Lambda<Func<ActivationBlock, IActivates, IEnumerable<IEnabler>, object>>(
                     blockResult, 
-                    new [] { blockExpression, enumerableExpression2 }).Compile();
+                    new [] { blockExpression, innerMostBlock, enumerableExpression2 }).Compile();
 
                 helper.ActivationInfo.FactoryActivationContainer = instanceContainer;
                 helper.ActivationInfo.ExpressionActivationContainer = blockContainer;
@@ -182,10 +185,10 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper ToConstant(this BindingHelper helper, object value)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) => value;
+                (container, innerMost, enablers) => value;
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) => value;
+                (block, innerMost, enablers) => value;
 
             return helper;
         }
@@ -199,10 +202,10 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper To(this BindingHelper helper, Func<object> factory)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (container, enablers) => factory();
+                (container, innerMost, enablers) => factory();
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (block, enablers) => 
+                (block, innerMost, enablers) => 
                     factory();
 
             return helper;
@@ -217,10 +220,10 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper To(this BindingHelper helper, Func<IActivates, object> factory)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (container, enablers) => factory(container);
+                (container, innerMost, enablers) => factory(innerMost);
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (block, enablers) =>
+                (block, innerMost, enablers) =>
                     factory(block);
 
             return helper;
@@ -239,11 +242,11 @@ namespace BurnSystems.ObjectActivation
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
             helper.ActivationInfo.FactoryActivationBlock =
-                (block, enablers) =>
+                (block, innerMost, enablers) =>
                 {
-                    var found = oldContainerFactory(block, enablers);
+                    var found = oldContainerFactory(block, innerMost, enablers);
 
-                    block.Add(
+                    innerMost.Add(
                         new ActiveInstance()
                         {
                             Criterias = helper.ActivationInfo.CriteriaCatalogue,
@@ -266,7 +269,7 @@ namespace BurnSystems.ObjectActivation
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationContainer;
 
             helper.ActivationInfo.FactoryActivationContainer =
-                (container, enablers) =>
+                (container, innerMost, enablers) =>
                 {
                     var foundInstance =
                         container.ActiveInstances.Find(helper.ActivationInfo);
@@ -274,7 +277,7 @@ namespace BurnSystems.ObjectActivation
                     if (foundInstance == null)
                     {
                         // Singleton has not been created yet. Create new object
-                        foundInstance = oldContainerFactory(container, enablers);
+                        foundInstance = oldContainerFactory(container, innerMost, enablers);
                         container.ActiveInstances.Add(
                             new ActiveInstance()
                             {
@@ -288,15 +291,16 @@ namespace BurnSystems.ObjectActivation
                 };
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (block, enablers) =>
+                (block, innerMost, enablers) =>
                 {
                     var result = helper.ActivationInfo.FactoryActivationContainer(
                         block.Container, 
+                        innerMost,
                         enablers);
 
                     if (result == null && block.OuterBlock != null)
                     {
-                        return helper.ActivationInfo.FactoryActivationBlock(block.OuterBlock, enablers);
+                        return helper.ActivationInfo.FactoryActivationBlock(block.OuterBlock, innerMost, enablers);
                     }
 
                     return result;
@@ -337,15 +341,15 @@ namespace BurnSystems.ObjectActivation
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
             helper.ActivationInfo.FactoryActivationContainer =
-                (container, block) =>
+                (container, innerMost, block) =>
                 {
                     throw new InvalidOperationException("AsScoped cannot be created in ActivationContainer");
                 };
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (block, container) =>
+                (block, innerMost, container) =>
                 {
-                    var relevantActivationBlock = block.FindActivationBlockInChain(where);
+                    var relevantActivationBlock = innerMost.FindActivationBlockInChain(where);
                     if (relevantActivationBlock == null)
                     {
                         // No activation block matches
@@ -363,7 +367,7 @@ namespace BurnSystems.ObjectActivation
 
                     if (found == null)
                     {
-                        found = oldContainerFactory(block, container);
+                        found = oldContainerFactory(block, innerMost, container);
 
                         // Ok, Add to first match
 

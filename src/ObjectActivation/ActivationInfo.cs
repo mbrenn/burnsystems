@@ -24,7 +24,7 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Stores the factory method for the object within an activationblock
         /// </summary>
-        public Func<ActivationContainer, IEnumerable<IEnabler>, object> FactoryActivationContainer
+        public Func<ActivationContainer, IActivates, IEnumerable<IEnabler>, object> FactoryActivationContainer
         {
             get;
             set;
@@ -43,7 +43,12 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Stores the factory method for the object within an activationblock
         /// </summary>
-        public Func<ActivationBlock, IEnumerable<IEnabler>, object> FactoryActivationBlock
+        /// <remarks>
+        /// 1. Parameter: Current ActivationBlock
+        /// 2. Parameter: InnerMost ActivationBlock, which is used to find the correct block where to store the data and to restart searching
+        /// 3. Parameter: List of enablers
+        /// </remarks>
+        public Func<ActivationBlock, ActivationBlock, IEnumerable<IEnabler>, object> FactoryActivationBlock
         {
             get;
             set;

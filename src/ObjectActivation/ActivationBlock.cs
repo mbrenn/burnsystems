@@ -172,7 +172,7 @@ namespace BurnSystems.ObjectActivation
                 {
                     if (item.CriteriaCatalogue.DoesMatch(enablers))
                     {
-                        yield return item.FactoryActivationBlock(mostInner, enablers);
+                        yield return item.FactoryActivationBlock(this, mostInner, enablers);
                     }
                 }
 

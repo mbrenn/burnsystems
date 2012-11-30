@@ -135,21 +135,8 @@ namespace BurnSystems.ObjectActivation
             {
                 if (item.CriteriaCatalogue.DoesMatch(enablers))
                 {
-                    var innerMostContainer = innerMost as ActivationContainer;
-                    if (innerMostContainer != null)
-                    {
-                        var value = item.FactoryActivationContainer(innerMostContainer, enablers);
-                        yield return value;
-                    }
-                    else
-                    {
-                        var innerMostBlock = innerMost as ActivationBlock;
-                        if (innerMostBlock != null)
-                        {
-                            var value = item.FactoryActivationBlock(innerMostBlock, enablers);
-                            yield return value;
-                        }
-                    }
+                    var value = item.FactoryActivationContainer(this, innerMost, enablers);
+                    yield return value;
                 }
             }
 

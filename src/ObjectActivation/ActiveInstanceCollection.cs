@@ -59,5 +59,14 @@ namespace BurnSystems.ObjectActivation
         {
             return this.activeInstances.GetEnumerator();
         }
+
+        /// <summary>
+        /// Converts the element to a string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("{0} with {1} instances", typeof(ActiveInstanceCollection).Name, this.activeInstances.Count);
+        }
     }
 }
