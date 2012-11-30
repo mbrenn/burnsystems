@@ -338,7 +338,11 @@ namespace BurnSystems.ObjectActivation
 
                     if (value == null && injectAttribute.IsMandatory)
                     {
-                        throw new ObjectActivationException("Mandatory Property '" + property.Name + "' could not be retrieved");
+                        throw new ObjectActivationException(
+                            string.Format(
+                                "Mandatory Property '{0}' for class '{1}' could not be retrieved",
+                                property.Name,
+                                target.GetType().FullName));
                     }
                 }
             }
@@ -393,7 +397,7 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
-        /// Creates an expression for a certain object by using the injectAttribute
+        /// Performs a query in the container by enablers being created by poperties of the InjectAttribute
         /// </summary>
         /// <param name="container">Container storing the objects</param>
         /// <param name="type">Type of the object</param>
