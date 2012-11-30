@@ -186,5 +186,22 @@ namespace BurnSystems.UnitTests.ObjectActivation
             var calculator = container.Calculator as CalculatorWithDatabase;
             Assert.That(calculator.Database, Is.Not.Null);
         }
+
+        [Test]
+        public void TestMandatory()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+
+            Assert.Throws<ObjectActivationException>(() =>
+                {
+                    instanceBuilder.Create<MandatoryCalculatorContainer>();
+                });
+
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+
+            var calculator = instanceBuilder.Create<MandatoryCalculatorContainer>();
+            Assert.That(calculator.Calculator, Is.Not.Null);
+        }
     }
 }
