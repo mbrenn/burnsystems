@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BurnSystems.ObjectActivation;
+using NUnit.Framework;
 
 namespace BurnSystems.UnitTests.ObjectActivation.Objects
 {
@@ -54,6 +55,32 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
     {
         [Inject]
         public CalculationContainer Container
+        {
+            get;
+            set;
+        }
+    }
+    
+    public class CalculationContainerWithConstructor
+    {
+        public ICalculator Calculator
+        {
+            get;
+            set;
+        }
+
+        [Inject]
+        public CalculationContainerWithConstructor(ICalculator calculator)
+        {
+            Assert.That(calculator != null);
+            this.Calculator = calculator;
+        }
+    }
+
+    public class CalculationContainerContainerWithConstructor
+    {
+        [Inject]
+        public CalculationContainerWithConstructor Container
         {
             get;
             set;

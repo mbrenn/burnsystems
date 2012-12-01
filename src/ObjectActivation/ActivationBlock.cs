@@ -29,7 +29,7 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Contains an inner block that may already contain the required object.
         /// </summary>
-        private ActivationBlock innerBlock;
+        private ActivationBlock outerBlock;
 
         /// <summary>
         /// Stores the list of all active instances within this collection
@@ -57,9 +57,9 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Gets an inner block that may already contain the required object.
         /// </summary>
-        internal ActivationBlock InnerBlock
+        internal ActivationBlock OuterBlock
         {
-            get { return this.innerBlock; }
+            get { return this.outerBlock; }
         }
 
         /// <summary>
@@ -94,10 +94,10 @@ namespace BurnSystems.ObjectActivation
         {
             this.Name = name;
             this.container = container;
-            this.innerBlock = outerBlock;
+            this.outerBlock = outerBlock;
 
             this.container.BindingChanged += (x, y) => this.OnBindingChanged();
-            this.innerBlock.BindingChanged += (x, y) => this.OnBindingChanged();
+            this.outerBlock.BindingChanged += (x, y) => this.OnBindingChanged();
         }
 
         /// <summary>
@@ -151,6 +151,19 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created object</returns>
         public IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers)
         {
+            return this.GetAllInternal(this, enablers);
+        }
+
+        /// <summary>
+        /// Gets all elements matching to enabler in the current Activation block. 
+        /// If an activationblock has been found, the most inner actvation block will be used 
+        /// to instantiate the object
+        /// </summary>
+        /// <param name="enablers">Enumeration of enablers</param>
+        /// <param name="mostInner">Most inner block being sent to constructor/factory method</param>
+        /// <returns>Enumeration of found objects</returns>
+        private IEnumerable<object> GetAllInternal(ActivationBlock mostInner, IEnumerable<IEnabler> enablers)
+        {
             var currentContainer = this.container;
 
             while (currentContainer != null)
@@ -159,16 +172,18 @@ namespace BurnSystems.ObjectActivation
                 {
                     if (item.CriteriaCatalogue.DoesMatch(enablers))
                     {
-                        yield return item.FactoryActivationBlock(this, enablers);
-                    }             
+                        yield return item.FactoryActivationBlock(this, mostInner, enablers);
+                    }
                 }
 
                 currentContainer = currentContainer.OuterContainer;
             }
 
-            if (this.innerBlock != null)
+            if (this.outerBlock != null)
             {
-                var result = this.innerBlock.GetAll(enablers);
+                // Calls outer Activation Block, but references to the mostInner one to make as much
+                // objects available as possible
+                var result = this.outerBlock.GetAllInternal(mostInner, enablers);
                 foreach (var item in result)
                 {
                     yield return item;
@@ -198,9 +213,9 @@ namespace BurnSystems.ObjectActivation
                 currentContainer = currentContainer.OuterContainer;
             }
 
-            if (this.innerBlock != null)
+            if (this.outerBlock != null)
             {
-                var result = this.innerBlock.GetAll(enablers);
+                var result = this.outerBlock.GetAll(enablers);
                 if (result != null)
                 {
                     return true;
@@ -208,6 +223,41 @@ namespace BurnSystems.ObjectActivation
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Converts activation block to string
+        /// </summary>
+        /// <returns>String containing the name</returns>
+        public override string ToString()
+        {
+            return string.Format(
+                "ActivationBlock: {0}",
+                this.Name);
+        }
+
+        /// <summary>
+        /// Finds the activation block, matching to the given function
+        /// </summary>
+        /// <param name="where">Condition of the function</param>
+        /// <returns>Found Activationblock</returns>
+        public ActivationBlock FindActivationBlockInChain(Func<ActivationBlock, bool> where)
+        {
+            var currentActivationBlock = this;
+
+            while (currentActivationBlock != null)
+            {
+                if (where(currentActivationBlock))
+                {
+                    return currentActivationBlock;
+                }
+
+                // Try to add to the next outer scope
+                currentActivationBlock = currentActivationBlock.OuterBlock;
+            }
+
+            return null;
+
         }
     }
 }

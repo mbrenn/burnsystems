@@ -3,6 +3,9 @@ using System.Linq;
 using BurnSystems.ObjectActivation.Enabler;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Text;
+using System.Reflection;
+using BurnSystems.Test;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -11,6 +14,18 @@ namespace BurnSystems.ObjectActivation
     /// </summary>
     public static class BindingHelperExtension
     {
+        /// <summary>
+        /// Stores the memberinfo for
+        /// public static void InstanceBuilder::AddPropertyAssignmentsByReflection(object target, IActivates container)
+        /// </summary>
+        private static MethodInfo instanceBuilderAddPropertyAssignmentsByReflection;
+
+        static BindingHelperExtension()
+        {
+            var type = typeof(InstanceBuilder);
+            instanceBuilderAddPropertyAssignmentsByReflection = type.GetMethod("AddPropertyAssignmentsByReflection");
+        }
+
         /// <summary>
         /// Binds the object to a specific class. 
         /// The class is created when necessary
@@ -31,30 +46,38 @@ namespace BurnSystems.ObjectActivation
 
             if (constructors.Count == 0)
             {
-                // No constructor with InjectAttribute
+                // No constructor with InjectAttribute, default implementation
                 helper.ActivationInfo.FactoryActivationContainer =
-                    (x, y) =>
+                    (container, innerMost, enablers) =>
                     {
-                        return Activator.CreateInstance(typeof(T));
+                        var result = Activator.CreateInstance(typeof(T));
+                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, container);
+
+                        return result;
                     };
 
                 helper.ActivationInfo.FactoryActivationBlock =
-                    (x, y) =>
+                    (block, innerMost, enablers) =>
                     {
-                        return Activator.CreateInstance(typeof(T));
+                        var result = Activator.CreateInstance(typeof(T));
+                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, block);
+
+                        return result;
                     };
             }
             else
             {
-                // Constructor Count = 1, create
+                // Constructor Count with injection is more than, create
                 var constructor = constructors[0];
 
                 // Find Get-Method of container and block
                 var containerExpression = Expression.Parameter(typeof(ActivationContainer), "activationContainer");
                 var blockExpression = Expression.Parameter(typeof(ActivationBlock), "activationBlock");
 
-                var getContainerMethod = typeof(ActivationContainer).GetMethod("GetAll");
-                var getBlockMethod = typeof(ActivationBlock).GetMethod("GetAll");
+                var innerMostContainer = Expression.Parameter(typeof(IActivates), "innerMost");
+                var innerMostBlock = Expression.Parameter(typeof(IActivates), "innerMost");
+
+                var getMethod = typeof(IActivates).GetMethod("GetAll");
 
                 // Create parameter list
                 var parameterContainerList = new List<Expression>();
@@ -69,23 +92,23 @@ namespace BurnSystems.ObjectActivation
                                 typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
                                 Expression.Constant(parameter.ParameterType)));
 
-                    // (parameterType) container.Get({ByTypeEnabler}).FirstOrDefault()
+                    // (parameterType) innerMost.Get({ByTypeEnabler}).FirstOrDefault()
                     var parameterContainer = Expression.Convert(
                                 Expression.Call(
                                     InstanceBuilder.FirstOrDefaultMethod,
                                     Expression.Call(
-                                        containerExpression,
-                                        getContainerMethod,
+                                        innerMostContainer,
+                                        getMethod,
                                         byTypeEnabler)),
                                 parameter.ParameterType);
 
-                    // (parameterType) block.Get({ByTypeEnabler}).FirstOrDefault()
+                    // (parameterType) innerMost.Get({ByTypeEnabler}).FirstOrDefault()
                     var parameterBlock = Expression.Convert(
                                 Expression.Call(
                                     InstanceBuilder.FirstOrDefaultMethod,
                                     Expression.Call(
-                                        blockExpression,
-                                        getBlockMethod,
+                                        innerMostBlock,
+                                        getMethod,
                                         byTypeEnabler)),
                                 parameter.ParameterType);
 
@@ -94,28 +117,60 @@ namespace BurnSystems.ObjectActivation
                 }
 
                 // new {Constructor}({Parameterlist});
-                var resultContainer =
+                var newContainer =
                     Expression.New(
                         constructor,
                         parameterContainerList);
+                var resultContainer = Expression.Parameter(typeof(object), "result");
+                var resultBlock = Expression.Parameter(typeof(object), "result");
 
                 // new {Constructor}({Parameterlist});
-                var resultBlock =
+                var newBlock =
                     Expression.New(
                         constructor,
                         parameterBlockList);
 
-                // Input
-                var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
-                var enumerableExpression2 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "Enablers");
+                var blockContainer = Expression.Block(
+                    new ParameterExpression[] { resultContainer },
+                    new Expression[]{ 
+                        Expression.Assign ( resultContainer, newContainer ),
+                        Expression.Call(
+                            instanceBuilderAddPropertyAssignmentsByReflection,
+                            resultContainer, 
+                            containerExpression 
+                            ),
+                        resultContainer
+                    }
+                );
 
-                var instanceContainer = Expression.Lambda<Func<ActivationContainer, IEnumerable<IEnabler>, object>>(resultContainer, new [] { containerExpression, enumerableExpression1 }).Compile();
-                var instanceBlock = Expression.Lambda<Func<ActivationBlock, IEnumerable<IEnabler>, object>>(resultBlock, new [] { blockExpression, enumerableExpression2 }).Compile();
+                var blockResult = Expression.Block(
+                    new ParameterExpression[] { resultBlock},
+                    new Expression[]{ 
+                        Expression.Assign ( resultBlock, newBlock),
+                        Expression.Call(
+                            instanceBuilderAddPropertyAssignmentsByReflection,
+                            resultBlock, 
+                            blockExpression 
+                            ),
+                        resultBlock
+                    }
+                );
+
+                // Input
+                var enumerableExpression1 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "enablers");
+                var enumerableExpression2 = Expression.Parameter(typeof(IEnumerable<IEnabler>), "enablers");
+
+                var instanceContainer = Expression.Lambda<Func<ActivationContainer, IActivates, IEnumerable<IEnabler>, object>>(
+                    blockContainer, 
+                    new [] { containerExpression, innerMostContainer, enumerableExpression1 }).Compile();
+                var instanceBlock = Expression.Lambda<Func<ActivationBlock, IActivates, IEnumerable<IEnabler>, object>>(
+                    blockResult, 
+                    new [] { blockExpression, innerMostBlock, enumerableExpression2 }).Compile();
 
                 helper.ActivationInfo.FactoryActivationContainer = instanceContainer;
-                helper.ActivationInfo.ExpressionActivationContainer = resultContainer;
+                helper.ActivationInfo.ExpressionActivationContainer = blockContainer;
                 helper.ActivationInfo.FactoryActivationBlock = instanceBlock;
-                helper.ActivationInfo.ExpressionActivationBlock = resultBlock;
+                helper.ActivationInfo.ExpressionActivationBlock = blockResult;
             }
 
             return helper;
@@ -130,10 +185,10 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper ToConstant(this BindingHelper helper, object value)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) => value;
+                (container, innerMost, enablers) => value;
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) => value;
+                (block, innerMost, enablers) => value;
 
             return helper;
         }
@@ -147,10 +202,10 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper To(this BindingHelper helper, Func<object> factory)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) => factory();
+                (container, innerMost, enablers) => factory();
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) => 
+                (block, innerMost, enablers) => 
                     factory();
 
             return helper;
@@ -165,11 +220,11 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper To(this BindingHelper helper, Func<IActivates, object> factory)
         {
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) => factory(x);
+                (container, innerMost, enablers) => factory(innerMost);
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
-                    factory(x);
+                (block, innerMost, enablers) =>
+                    factory(block);
 
             return helper;
         }
@@ -187,11 +242,11 @@ namespace BurnSystems.ObjectActivation
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
+                (block, innerMost, enablers) =>
                 {
-                    var found = oldContainerFactory(x, y);
+                    var found = oldContainerFactory(block, innerMost, enablers);
 
-                    x.Add(
+                    innerMost.Add(
                         new ActiveInstance()
                         {
                             Criterias = helper.ActivationInfo.CriteriaCatalogue,
@@ -214,16 +269,16 @@ namespace BurnSystems.ObjectActivation
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationContainer;
 
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) =>
+                (container, innerMost, enablers) =>
                 {
                     var foundInstance =
-                        x.ActiveInstances.Find(helper.ActivationInfo);
+                        container.ActiveInstances.Find(helper.ActivationInfo);
 
                     if (foundInstance == null)
                     {
                         // Singleton has not been created yet. Create new object
-                        foundInstance = oldContainerFactory(x, y);
-                        x.ActiveInstances.Add(
+                        foundInstance = oldContainerFactory(container, innerMost, enablers);
+                        container.ActiveInstances.Add(
                             new ActiveInstance()
                             {
                                 Value = foundInstance,
@@ -236,11 +291,19 @@ namespace BurnSystems.ObjectActivation
                 };
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
+                (block, innerMost, enablers) =>
                 {
-                    return helper.ActivationInfo.FactoryActivationContainer(
-                        x.Container, 
-                        y);
+                    var result = helper.ActivationInfo.FactoryActivationContainer(
+                        block.Container, 
+                        innerMost,
+                        enablers);
+
+                    if (result == null && block.OuterBlock != null)
+                    {
+                        return helper.ActivationInfo.FactoryActivationBlock(block.OuterBlock, innerMost, enablers);
+                    }
+
+                    return result;
                 };
 
             return helper;
@@ -258,38 +321,86 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The binding helper</returns>
         public static BindingHelper AsScoped(this BindingHelper helper)
         {
-            // No change for activation container. 
+            return AsScopedIn(helper, x => true);
+        }
+
+        /// <summary>
+        /// Marks the current binding as scoped, which means that 
+        /// the same instance shall be returned, when it has been created 
+        /// within the same scope. 
+        /// Scopes are defined by Activation Block.
+        /// When the object is used within activation block, 
+        /// the instance will be created during each resolution request.
+        /// </summary>
+        /// <param name="helper">Binding helper to be used</param>
+        /// <param name="where">Condition, whose scope shall be used for automatic disposing</param>
+        /// <returns>The binding helper</returns>
+        public static BindingHelper AsScopedIn(this BindingHelper helper, Func<ActivationBlock, bool> where)
+        {
+            // As Scoped is not allowed in ActivationContainer
             // Only within activation blocks, the disposal has to be organized. 
             var oldContainerFactory = helper.ActivationInfo.FactoryActivationBlock;
             helper.ActivationInfo.FactoryActivationContainer =
-                (x, y) =>
+                (container, innerMost, block) =>
                 {
                     throw new InvalidOperationException("AsScoped cannot be created in ActivationContainer");
                 };
 
             helper.ActivationInfo.FactoryActivationBlock =
-                (x, y) =>
+                (block, innerMost, container) =>
                 {
+                    var relevantActivationBlock = innerMost.FindActivationBlockInChain(where);
+                    if (relevantActivationBlock == null)
+                    {
+                        // No activation block matches
+                        var enablerText = new StringBuilder();
+                        foreach (var enabler in container)
+                        {
+                            enablerText.AppendLine(enablerText.ToString());
+                        }
+
+                        throw new InvalidOperationException(LocalizationBS.NoScopeFoundForListOfEnablers + enablerText.ToString());
+                    }
 
                     var found =
-                        x.ActiveInstances.Find(helper.ActivationInfo);
+                        relevantActivationBlock.ActiveInstances.Find(helper.ActivationInfo);
 
                     if (found == null)
                     {
-                        found = oldContainerFactory(x, y);
+                        found = oldContainerFactory(block, innerMost, container);
 
-                        x.Add(
-                            new ActiveInstance()
-                            {
-                                Criterias = helper.ActivationInfo.CriteriaCatalogue,
-                                Value = found
-                            });
+                        // Ok, Add to first match
+
+                        if (relevantActivationBlock != null)
+                        {
+                            relevantActivationBlock.Add(
+                                new ActiveInstance()
+                                {
+                                    Criterias = helper.ActivationInfo.CriteriaCatalogue,
+                                    Value = found
+                                });
+                        }
                     }
 
                     return found;
                 };
 
             return helper;
+        }
+
+        /// <summary>
+        /// Marks the current binding as scoped, which means that 
+        /// the same instance shall be returned, when it has been created 
+        /// within the same scope. 
+        /// Scopes are defined by Activation Blocks.
+        /// The name of the activation block defines, whose scope will be used for automatic disposing
+        /// </summary>
+        /// <param name="helper">Binding helper to be used</param>
+        /// <param name="nameOfActivationBlock">Name of block, whose scope shall be used for automatic disposing</param>
+        /// <returns>The binding helper</returns>
+        public static BindingHelper AsScopedIn(this BindingHelper helper, string nameOfActivationBlock)
+        {
+            return AsScopedIn(helper, x => x.Name == nameOfActivationBlock);
         }
     }
 }

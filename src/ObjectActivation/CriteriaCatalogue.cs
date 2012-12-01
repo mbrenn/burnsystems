@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -74,7 +75,13 @@ namespace BurnSystems.ObjectActivation
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("[CriteriaCatalogue Guid={0}]", guid);
+            var criteriaText = new StringBuilder();
+            foreach (var criteria in this.criterias)
+            {
+                criteriaText.Append(criteria.ToString() + ", ");
+            }
+
+            return string.Format("{1}Guid={0}", guid, criteriaText.ToString());
         }
 
     }

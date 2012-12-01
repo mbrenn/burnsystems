@@ -61,7 +61,7 @@ namespace BurnSystems.Logging
     /// <summary>
     /// The log class can be used to create logs for specific providers.
     /// </summary>
-    public class Log : BurnSystems.Logging.ILog
+    public class Log : BurnSystems.Logging.ILog, IDisposable
     {
         /// <summary>
         /// Singleton storing the only log
@@ -82,6 +82,11 @@ namespace BurnSystems.Logging
         /// Used synchronisationobject for logging
         /// </summary>
         private object syncObject = new object();
+
+        /// <summary>
+        /// Datetime, when log had been created
+        /// </summary>
+        private DateTime logCreationDate = DateTime.Now;
 
         /// <summary>
         /// Initializes a new instance of the Log class.
@@ -185,6 +190,7 @@ namespace BurnSystems.Logging
         /// <param name="entry">Entry to be logged</param>
         public void LogEntry(LogEntry entry)
         {
+            entry.RelativeTime = DateTime.Now - this.logCreationDate;
             lock (this.syncObject)
             {
                 if ((int)entry.LogLevel >= (int)this.filterLevel)

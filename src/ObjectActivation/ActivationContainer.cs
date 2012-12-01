@@ -88,15 +88,6 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
-        /// Converts the object to string.
-        /// </summary>
-        /// <returns>String converted object</returns>
-        public override string ToString()
-        {
-            return this.Name;
-        }
-
-        /// <summary>
         /// Calls the OnBindingChanged event
         /// </summary>
         protected void OnBindingChanged()
@@ -129,11 +120,22 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created object</returns>
         public IEnumerable<object> GetAll(IEnumerable<IEnabler> enablers)
         {
+            return this.GetAllInternal(this, enablers);
+        }
+
+        /// <summary>
+        /// Activates an object by a list of enablers
+        /// </summary>
+        /// <param name="enablers">Enabler to be used</param>
+        /// <param name="innerMost">Most inner thing</param>
+        /// <returns>Created object</returns>
+        private IEnumerable<object> GetAllInternal(IActivates innerMost, IEnumerable<IEnabler> enablers)
+        {
             foreach (var item in this.ActivationInfos)
             {
                 if (item.CriteriaCatalogue.DoesMatch(enablers))
                 {
-                    var value = item.FactoryActivationContainer(this, enablers);
+                    var value = item.FactoryActivationContainer(this, innerMost, enablers);
                     yield return value;
                 }
             }
@@ -142,7 +144,7 @@ namespace BurnSystems.ObjectActivation
             // Asking parent object, if existing
             if (this.OuterContainer != null)
             {
-                foreach (var item in this.OuterContainer.GetAll(enablers))
+                foreach (var item in this.OuterContainer.GetAllInternal(innerMost, enablers))
                 {
                     yield return item;
                 }
@@ -173,6 +175,17 @@ namespace BurnSystems.ObjectActivation
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Converts activation block to string
+        /// </summary>
+        /// <returns>String containing the name</returns>
+        public override string ToString()
+        {
+            return string.Format(
+                "ActivationContainer: {0}",
+                this.Name);
         }
     }
 }

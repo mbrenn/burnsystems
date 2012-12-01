@@ -84,9 +84,11 @@
     <Compile Include="ObjectActivation\EnablerCriteriaTests.cs" />
     <Compile Include="ObjectActivation\ICalculator.cs" />
     <Compile Include="ObjectActivation\InstanceBuilderTests.cs" />
+    <Compile Include="ObjectActivation\Objects\CalculatorWithDatabase.cs" />
     <Compile Include="ObjectActivation\Objects\ConstructorTest.cs" />
     <Compile Include="ObjectActivation\Objects\Context.cs" />
     <Compile Include="ObjectActivation\Objects\DatabaseDummy.cs" />
+    <Compile Include="ObjectActivation\Objects\MandatoryCalculatorContainer.cs" />
     <Compile Include="ObjectActivation\Objects\Player.cs" />
     <Compile Include="ObjectActivation\Objects\Rules.cs" />
     <Compile Include="ObjectActivation\Objects\Town.cs" />

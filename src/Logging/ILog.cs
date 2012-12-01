@@ -18,7 +18,7 @@ namespace BurnSystems.Logging
     /// Verfügung stellt. Über dieses Interface können keine neuen Log-Provider
     /// zur Verfügung gestellt werden. 
     /// </summary>
-    public interface ILog : IDisposable
+    public interface ILog
     {
         /// <summary>
         /// Fügt einen neuen Logeintrag zur Datenbank hinzu

@@ -32,6 +32,46 @@ namespace BurnSystems.UnitTests.ObjectActivation.Objects
         }
     }
 
+    public class ConstructorTestWithProperty
+    {
+        public bool IsConstructed
+        {
+            get;
+            set;
+        }
+
+        public ICalculator Calculator1
+        {
+            get;
+            set;
+        }
+
+        [Inject]
+        public ICalculator Calculator2
+        {
+            get;
+            set;
+        }
+
+        public ICalculator Calculator3
+        {
+            get;
+            set;
+        }
+
+        public ConstructorTestWithProperty()
+        {
+        }
+
+        [Inject]
+        public ConstructorTestWithProperty(ICalculator calculator)
+        {
+            this.IsConstructed = true;
+            this.Calculator1 = calculator;
+        }
+    }
+
+
     public class ConstructorTestContainer
     {
         [Inject]

@@ -234,6 +234,54 @@ namespace BurnSystems.UnitTests.ObjectActivation
                 }
                 
                 Assert.That(SecondHelper.DisposeCount, Is.EqualTo(1));
+                Assert.That(Helper.DisposeCount, Is.EqualTo(1));
+            }
+
+            Assert.That(Helper.DisposeCount, Is.EqualTo(1));
+            Assert.That(SecondHelper.DisposeCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestParentBlockAsScopedIn()
+        {
+            Helper.Reset();
+            SecondHelper.Reset();
+
+            var outerContainer = new ActivationContainer("OuterTest");
+            var innerContainer = new ActivationContainer("InnerTest");
+            outerContainer.Bind<Helper>().To<Helper>().AsScopedIn("OuterBlock");
+            innerContainer.Bind<SecondHelper>().To<SecondHelper>().AsScoped();
+
+            using (var outerBlock = new ActivationBlock("OuterBlock", outerContainer))
+            {
+                using (var innerBlock = new ActivationBlock("InnerBlock", innerContainer, outerBlock))
+                {
+                    var helpero1 = innerBlock.Get<Helper>();
+                    var helpero2 = innerBlock.Get<Helper>();
+                    var helpero3 = innerBlock.Get<Helper>();
+                    var helperi1 = innerBlock.Get<SecondHelper>();
+                    var helperi2 = innerBlock.Get<SecondHelper>();
+
+                    Assert.That(helpero1, Is.Not.Null);
+                    Assert.That(helpero2, Is.Not.Null);
+                    Assert.That(helpero3, Is.Not.Null);
+                    Assert.That(helperi1, Is.Not.Null);
+                    Assert.That(helperi2, Is.Not.Null);
+
+                    Assert.AreSame(helpero1, helpero2);
+                    Assert.AreSame(helpero2, helpero3);
+                    Assert.AreSame(helpero1, helpero3);
+                    Assert.AreSame(helperi1, helperi2);
+                    Assert.AreNotSame(helperi1, helpero1);
+
+                    Assert.That(Helper.CreationCount, Is.EqualTo(1));
+                    Assert.That(Helper.DisposeCount, Is.EqualTo(0));
+
+                    Assert.That(SecondHelper.CreationCount, Is.EqualTo(1));
+                    Assert.That(SecondHelper.DisposeCount, Is.EqualTo(0));
+                }
+
+                Assert.That(SecondHelper.DisposeCount, Is.EqualTo(1));
                 Assert.That(Helper.DisposeCount, Is.EqualTo(0));
             }
 
@@ -281,8 +329,8 @@ namespace BurnSystems.UnitTests.ObjectActivation
                     Assert.That(SecondHelper.DisposeCount, Is.EqualTo(0));
                 }
 
+                Assert.That(Helper.DisposeCount, Is.EqualTo(3));
                 Assert.That(SecondHelper.DisposeCount, Is.EqualTo(2));
-                Assert.That(Helper.DisposeCount, Is.EqualTo(0));
             }
 
             Assert.That(Helper.DisposeCount, Is.EqualTo(3));
@@ -304,6 +352,181 @@ namespace BurnSystems.UnitTests.ObjectActivation
                 Assert.That(constructorTest.Test, Is.Not.Null);
                 Assert.That(constructorTest.Test.Calculator, Is.Not.Null);
                 Assert.That(constructorTest.Test.IsConstructed, Is.True);
+            }
+        }
+
+        [Test]
+        public void TestGetWithPropertyInject()
+        {
+            // Initial creation
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+            activationContainer.Bind<CalculationContainer>().To<CalculationContainer>();
+
+            using (var block = new ActivationBlock("TestBlock", activationContainer))
+            {
+                var container = block.Get<CalculationContainer>();
+                Assert.That(container, Is.Not.Null);
+                Assert.That(container.Calculator, Is.Not.Null);
+            }
+        }
+
+        [Test]
+        public void TestGetWithPropertyInjectAndConstructor()
+        {
+            // Initial creation
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+            activationContainer.Bind<ConstructorTestWithProperty>().To<ConstructorTestWithProperty>();
+
+            using (var block = new ActivationBlock("TestBlock", activationContainer))
+            {
+                var container = block.Get<ConstructorTestWithProperty>();
+                Assert.That(container, Is.Not.Null);
+                Assert.That(container.Calculator1, Is.Not.Null);
+                Assert.That(container.Calculator2, Is.Not.Null);
+                Assert.That(container.Calculator3, Is.Null);
+
+                container = block.Create<ConstructorTestWithProperty>();
+                Assert.That(container, Is.Not.Null);
+                Assert.That(container.Calculator1, Is.Not.Null);
+                Assert.That(container.Calculator2, Is.Not.Null);
+                Assert.That(container.Calculator3, Is.Null);
+            }
+        }
+
+        /// <summary>
+        /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
+        /// </summary>
+        [Test]
+        public void TestWithInnerBlockOuterInner()
+        {
+            var container = new ActivationContainer("Outer Container");
+            container.Bind<CalculationContainer>().To<CalculationContainer>().AsSingleton();
+
+            using (var block = new ActivationBlock("Outer Block", container))
+            {
+                block.Get<Calculator>();
+                var innerContainer = new ActivationContainer("Inner Container", container);
+                innerContainer.Bind<ICalculator>().To<Calculator>().AsSingleton();
+
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer))
+                {
+                    var builder = new InstanceBuilder(innerBlock);
+                    var containerContainer = builder.Create<CalculationContainerContainer>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
+        /// </summary>
+        [Test]
+        public void TestWithInnerBlockInnerOuter()
+        {
+            var container = new ActivationContainer("Outer Container");
+            container.Bind<ICalculator>().To<Calculator>().AsSingleton();            
+
+            using (var block = new ActivationBlock("Outer Block", container))
+            {
+                block.Get<Calculator>();
+                var innerContainer = new ActivationContainer("Inner Container", container);
+                innerContainer.Bind<CalculationContainer>().To<CalculationContainer>().AsSingleton();    
+
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer))
+                {
+                    var builder = new InstanceBuilder(innerBlock);
+                    var containerContainer = builder.Create<CalculationContainerContainer>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
+        /// </summary>
+        [Test]
+        public void TestWithInnerBlockWithConstructor()
+        {
+            var container = new ActivationContainer("Outer Container");
+            container.Bind<CalculationContainerWithConstructor>().To<CalculationContainerWithConstructor>().AsSingleton();
+
+            using (var block = new ActivationBlock("Outer Block", container))
+            {
+                block.Get<Calculator>();
+                var innerContainer = new ActivationContainer("Inner Container", container);
+                innerContainer.Bind<ICalculator>().To<Calculator>().AsSingleton();
+
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer))
+                {
+                    var builder = new InstanceBuilder(innerBlock);
+                    var containerContainer = builder.Create<CalculationContainerContainerWithConstructor>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
+        /// </summary>
+        [Test]
+        public void TestWithInnerBlockWithConstructorReverse()
+        {
+            var container = new ActivationContainer("Outer Container");
+            container.Bind<ICalculator>().To<Calculator>().AsSingleton();
+
+            using (var block = new ActivationBlock("Outer Block", container))
+            {
+                block.Get<Calculator>();
+                var innerContainer = new ActivationContainer("Inner Container", container);
+                innerContainer.Bind<CalculationContainerWithConstructor>().To<CalculationContainerWithConstructor>().AsSingleton();
+
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer))
+                {
+                    var builder = new InstanceBuilder(innerBlock);
+                    var containerContainer = builder.Create<CalculationContainerContainerWithConstructor>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs a test, which checks that the inner block of an ActivationBlock is also evaluated, if a single instance is queries
+        /// </summary>
+        [Test]
+        public void TestWithInnerBlockWithConstructorButNoContainerRelationship()
+        {
+            var container = new ActivationContainer("Outer Container");
+            container.Bind<CalculationContainerWithConstructor>().To<CalculationContainerWithConstructor>().AsSingleton();
+            container.Bind<ICalculator>().ToConstant(new Calculator());
+
+            using (var block = new ActivationBlock("Outer Block", container))
+            {
+                block.Get<Calculator>();
+                var innerContainer = new ActivationContainer("Inner Container");
+
+                using (var innerBlock = new ActivationBlock("Inner Block", innerContainer, block))
+                {
+                    var builder = new InstanceBuilder(innerBlock);
+                    var containerContainer = builder.Create<CalculationContainerContainerWithConstructor>();
+
+                    Assert.That(containerContainer, Is.Not.Null);
+                    Assert.That(containerContainer.Container, Is.Not.Null);
+                    Assert.That(containerContainer.Container.Calculator, Is.Not.Null);
+                }
             }
         }
 

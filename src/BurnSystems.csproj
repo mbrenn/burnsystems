@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Logging\ClassLogger.cs" />
     <Compile Include="Logging\DebugProvider.cs" />
+    <Compile Include="Logging\Extensions.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
     <Compile Include="Net\Json\JsonList.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="ObjectActivation\IActivates.cs" />
     <Compile Include="ObjectActivation\InstanceBuilder.cs" />
     <Compile Include="ObjectActivation\InstantiationCacheEntry.cs" />
+    <Compile Include="ObjectActivation\ObjectActivationException.cs" />
     <Compile Include="ObjectActivation\PostActivationInfo.cs" />
     <Compile Include="ObjectActivation\Criteria\ByNameCriteria.cs" />
     <Compile Include="ObjectActivation\Criteria\ByTypeCriteria.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="ObjectActivation\Enabler\ByTypeEnabler.cs" />
     <Compile Include="ObjectActivation\ICriteria.cs" />
     <Compile Include="ObjectActivation\IEnabler.cs" />
+    <Compile Include="ObjectActivation\StatementLoader.cs" />
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />

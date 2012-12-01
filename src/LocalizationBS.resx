@@ -192,6 +192,9 @@
   <data name="Mapper_WrongTypeForDatabaseKeyAttribute" xml:space="preserve">
     <value>Die Eigenschaft mit dem Attribut 'DatabaseKeyAttribute' muss vom Typ System.Int32 oder System.Int64 sein. </value>
   </data>
+  <data name="NoScopeFoundForListOfEnablers" xml:space="preserve">
+    <value>Kein ActivationBlock gefunden, dessen Kriterien passen: Aktivierungsbedingungen: {0}</value>
+  </data>
   <data name="PluginLoader_AssemblyNotFound" xml:space="preserve">
     <value>Das Assembly '{0}' wurde nicht gefunden.</value>
   </data>

@@ -15,7 +15,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
         public void TestInstanceBuilder()
         {
             var activationContainer = new ActivationContainer("Test");
-			activationContainer.Bind<ICalculator>().To<Calculator>().AsTransient();
+            activationContainer.Bind<ICalculator>().To<Calculator>().AsTransient();
 
             var instanceBuilder = new InstanceBuilder(activationContainer);
             var container = instanceBuilder.Create<CalculationContainer>();
@@ -59,6 +59,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(container.Container, Is.TypeOf<CalculationContainer>());
             Assert.That(container.Container.Calculator, Is.TypeOf<Calculator>());
         }
+
         [Test]
         public void TestInstanceOnlyGetter()
         {
@@ -69,6 +70,18 @@ namespace BurnSystems.UnitTests.ObjectActivation
             var container = instanceBuilder.Create<CalculationContainerGetter>();
             Assert.That(container, Is.Not.Null);
             Assert.That(container.Calculator, Is.Null);
+        }
+
+        [Test]
+        public void TestInstanceBuilderWithConstructor()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+            var container = instanceBuilder.Create<CalculationContainerWithConstructor>();
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container.Calculator, Is.Not.Null);
         }
 
         [Test]
@@ -115,13 +128,13 @@ namespace BurnSystems.UnitTests.ObjectActivation
                     var instanceBuilder = new InstanceBuilder(block);
                     var request = instanceBuilder.Create<WebRequest>();
                     Assert.That(request, Is.Not.Null);
-                                        
+
                     Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(1));
                     Assert.That(DatabaseDummy.DisposeCount, Is.EqualTo(0));
                     Assert.That(request.CurrentPlayer, Is.Not.Null);
                     Assert.That(request.CurrentPlayer.PlayerId, Is.EqualTo(3));
                     Assert.That(request.CurrentTown, Is.Not.Null);
-                    Assert.That(request.CurrentTown.TownId, Is.EqualTo(5));                    
+                    Assert.That(request.CurrentTown.TownId, Is.EqualTo(5));
 
                     var request2 = instanceBuilder.Create<WebRequest>();
                 }
@@ -154,6 +167,41 @@ namespace BurnSystems.UnitTests.ObjectActivation
                 Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(2));
                 Assert.That(DatabaseDummy.DisposeCount, Is.EqualTo(2));
             }
+        }
+
+        [Test]
+        public void TestInjectOnInterfaces()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            activationContainer.Bind<IDatabase>().To<DatabaseDummy>();
+            activationContainer.Bind<ICalculator>().To<CalculatorWithDatabase>();
+
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+            var container = instanceBuilder.Create<CalculationContainer>();
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container, Is.Not.Null);
+            Assert.That(container.Calculator, Is.Not.Null);
+            Assert.That(container.Calculator, Is.TypeOf<CalculatorWithDatabase>());
+
+            var calculator = container.Calculator as CalculatorWithDatabase;
+            Assert.That(calculator.Database, Is.Not.Null);
+        }
+
+        [Test]
+        public void TestMandatory()
+        {
+            var activationContainer = new ActivationContainer("Test");
+            var instanceBuilder = new InstanceBuilder(activationContainer);
+
+            Assert.Throws<ObjectActivationException>(() =>
+                {
+                    instanceBuilder.Create<MandatoryCalculatorContainer>();
+                });
+
+            activationContainer.Bind<ICalculator>().To<Calculator>();
+
+            var calculator = instanceBuilder.Create<MandatoryCalculatorContainer>();
+            Assert.That(calculator.Calculator, Is.Not.Null);
         }
     }
 }
