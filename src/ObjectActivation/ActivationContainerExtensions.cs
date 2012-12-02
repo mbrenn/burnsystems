@@ -160,5 +160,18 @@ namespace BurnSystems.ObjectActivation
             var instanceBuilder = new InstanceBuilder(activates);
             return instanceBuilder.Create(type);
         }
+
+        /// <summary>
+        /// Creates a specific object and all properties are injected
+        /// </summary>
+        /// <typeparam name="T">Object to be created</typeparam>
+        /// <param name="activates">Activationcontext</param>
+        /// <param name="value">Object, to which all the variables shall be injected</param>
+        /// <returns>Created type</returns>
+        public static T Inject<T>(this IActivates activates, T value)
+        {
+            InstanceBuilder.AddPropertyAssignmentsByReflection(value, activates);
+            return value;
+        }
     }
 }

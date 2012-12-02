@@ -97,7 +97,8 @@ namespace BurnSystems.ObjectActivation
             else
             {
                 logger.LogEntry(LogLevel.Message, "InstanceBuilder by Precompiled Statement is not recommended :-( ");
-                return this.CreateByPreCompiledStatement(type);
+                throw new NotSupportedException("Precompiled statements are not supported any more");
+                //return this.CreateByPreCompiledStatement(type);
             }
         }
 
@@ -143,6 +144,134 @@ namespace BurnSystems.ObjectActivation
 
             return result;
         }
+
+        /// <summary>
+        /// Adds property assignements to the list of expression. 
+        /// The Assignments are found by recursive visiting of all properties of the type
+        /// </summary>
+        /// <param name="target">Object, where properties shall be assigned to</param>
+        /// <param name="container">Container used for query</param>
+        public static void AddPropertyAssignmentsByReflection(object target, IActivates container)
+        {
+            var result = new List<ParameterExpression>();
+
+            foreach (var property in target.GetType().GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
+            {
+                // No action for primitive types
+                if (property.PropertyType.IsEnum || property.PropertyType.IsPrimitive)
+                {
+                    continue;
+                }
+
+                // Create temporary variable, where Binding will be tested first
+                var setMethod = property.GetSetMethod();
+                if (setMethod == null || property.GetSetMethod().IsPrivate)
+                {
+                    // No private properties are set
+                    continue;
+                }
+
+                // Check, if assignment by Name shall be executed, otherwise by type
+                var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);
+                var enablers = new List<IEnabler>();
+
+                foreach (var injectAttribute in inject.Cast<InjectAttribute>())
+                {
+                    var value = QueryContainerMethod(container, property.PropertyType, injectAttribute);
+
+                    if (value != null)
+                    {
+                        // Performs the following action, if tempVariable is not null
+                        property.SetValue(target, value, null);
+
+                        AddPropertyAssignmentsByReflection(value, container);
+                    }
+
+                    if (value == null && injectAttribute.IsMandatory)
+                    {
+                        throw new ObjectActivationException(
+                            string.Format(
+                                "Mandatory Property '{0}' for class '{1}' could not be retrieved",
+                                property.Name,
+                                target.GetType().FullName));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates an expression for a certain object by using the injectAttribute
+        /// </summary>
+        /// <param name="containerExpression">Container storing the objects</param>
+        /// <param name="type">Type of the object</param>
+        /// <param name="injectAttribute">Inject Attribute defining more information</param>
+        /// <returns>Expression storing the retrieved object</returns>
+        private UnaryExpression QueryContainerMethod(ParameterExpression containerExpression, Type type, InjectAttribute injectAttribute)
+        {
+            NewExpression enablerCreation;
+
+            if (injectAttribute == null || string.IsNullOrEmpty(injectAttribute.ByName))
+            {
+                enablerCreation =
+                    Expression.New(
+                        typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
+                        Expression.Constant(type));
+            }
+            else
+            {
+                enablerCreation =
+                    Expression.New(
+                        typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
+                        Expression.Constant(injectAttribute.ByName));
+            }
+
+            // OK, we found it, add expression
+            // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
+            var parameters = Expression.NewArrayInit(
+                typeof(IEnabler),
+                enablerCreation);
+
+            // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
+            var getMethod = typeof(IActivates).GetMethod("GetAll");
+
+            // {ContainerQuery} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
+            var containerQuery = Expression.Convert(
+                    Expression.Call(
+                        firstOrDefaultMethod,
+                        Expression.Call(
+                            containerExpression,
+                            getMethod,
+                            parameters)),
+                    type);
+
+            return containerQuery;
+        }
+
+        /// <summary>
+        /// Performs a query in the container by enablers being created by poperties of the InjectAttribute
+        /// </summary>
+        /// <param name="container">Container storing the objects</param>
+        /// <param name="type">Type of the object</param>
+        /// <param name="injectAttribute">Inject Attribute defining more information</param>
+        /// <returns>Expression storing the retrieved object</returns>
+        private static object QueryContainerMethod(IActivates container, Type type, InjectAttribute injectAttribute)
+        {
+            IEnabler[] enabler;
+
+            if (injectAttribute == null || string.IsNullOrEmpty(injectAttribute.ByName))
+            {
+                enabler = new IEnabler[] { new ByTypeEnabler(type) };
+            }
+            else
+            {
+                enabler = new IEnabler[] { new ByNameEnabler(injectAttribute.ByName) };
+            }
+
+            // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
+            return container.GetAll(enabler).FirstOrDefault();
+        }
+
+        #region Precompiled Statements
 
         /// <summary>
         /// Creates object via precompiled statement
@@ -294,130 +423,6 @@ namespace BurnSystems.ObjectActivation
             return result;
         }
 
-        /// <summary>
-        /// Adds property assignements to the list of expression. 
-        /// The Assignments are found by recursive visiting of all properties of the type
-        /// </summary>
-        /// <param name="target">Object, where properties shall be assigned to</param>
-        /// <param name="container">Container used for query</param>
-        public static void AddPropertyAssignmentsByReflection(object target, IActivates container)
-        {
-            var result = new List<ParameterExpression>();
-
-            foreach (var property in target.GetType().GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
-            {
-                // No action for primitive types
-                if (property.PropertyType.IsEnum || property.PropertyType.IsPrimitive)
-                {
-                    continue;
-                }
-
-                // Create temporary variable, where Binding will be tested first         
-                var setMethod = property.GetSetMethod();
-                if (setMethod == null || property.GetSetMethod().IsPrivate)
-                {
-                    // No private properties are set
-                    continue;
-                }
-
-                // Check, if assignment by Name shall be executed, otherwise by type
-                var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);
-                var enablers = new List<IEnabler>();
-
-                foreach (var injectAttribute in inject.Cast<InjectAttribute>())
-                {
-                    var value = QueryContainerMethod(container, property.PropertyType, injectAttribute);
-
-                    if (value != null)
-                    {
-                        // Performs the following action, if tempVariable is not null
-                        property.SetValue(target, value, null);
-
-                        AddPropertyAssignmentsByReflection(value, container);
-                    }
-
-                    if (value == null && injectAttribute.IsMandatory)
-                    {
-                        throw new ObjectActivationException(
-                            string.Format(
-                                "Mandatory Property '{0}' for class '{1}' could not be retrieved",
-                                property.Name,
-                                target.GetType().FullName));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates an expression for a certain object by using the injectAttribute
-        /// </summary>
-        /// <param name="containerExpression">Container storing the objects</param>
-        /// <param name="type">Type of the object</param>
-        /// <param name="injectAttribute">Inject Attribute defining more information</param>
-        /// <returns>Expression storing the retrieved object</returns>
-        private UnaryExpression QueryContainerMethod(ParameterExpression containerExpression, Type type, InjectAttribute injectAttribute)
-        {
-            NewExpression enablerCreation;
-
-            if (injectAttribute == null || string.IsNullOrEmpty(injectAttribute.ByName))
-            {
-                enablerCreation =
-                    Expression.New(
-                        typeof(Enabler.ByTypeEnabler).GetConstructor(new[] { typeof(Type) }),
-                        Expression.Constant(type));
-            }
-            else
-            {
-                enablerCreation =
-                    Expression.New(
-                        typeof(Enabler.ByNameEnabler).GetConstructor(new[] { typeof(string) }),
-                        Expression.Constant(injectAttribute.ByName));
-            }
-
-            // OK, we found it, add expression
-            // var {parameters} = new Enabler.ByTypeEnabler [] { new ByTypeEnabler({typeof(property)}); }
-            var parameters = Expression.NewArrayInit(
-                typeof(IEnabler),
-                enablerCreation);
-
-            // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
-            var getMethod = typeof(IActivates).GetMethod("GetAll");
-
-            // {ContainerQuery} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
-            var containerQuery = Expression.Convert(
-                    Expression.Call(
-                        firstOrDefaultMethod,
-                        Expression.Call(
-                            containerExpression,
-                            getMethod,
-                            parameters)),
-                    type);
-
-            return containerQuery;
-        }
-
-        /// <summary>
-        /// Performs a query in the container by enablers being created by poperties of the InjectAttribute
-        /// </summary>
-        /// <param name="container">Container storing the objects</param>
-        /// <param name="type">Type of the object</param>
-        /// <param name="injectAttribute">Inject Attribute defining more information</param>
-        /// <returns>Expression storing the retrieved object</returns>
-        private static object QueryContainerMethod(IActivates container, Type type, InjectAttribute injectAttribute)
-        {
-            IEnabler[] enabler;
-
-            if (injectAttribute == null || string.IsNullOrEmpty(injectAttribute.ByName))
-            {
-                enabler = new IEnabler[] { new ByTypeEnabler(type) };
-            }
-            else
-            {
-                enabler = new IEnabler[] { new ByNameEnabler(injectAttribute.ByName) };
-            }
-
-            // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());
-            return container.GetAll(enabler).FirstOrDefault();
-        }
+        #endregion
     }
 }
