@@ -224,7 +224,7 @@ namespace BurnSystems.ObjectActivation
 
             helper.ActivationInfo.FactoryActivationBlock =
                 (block, innerMost, enablers) =>
-                    factory(block);
+                    factory(innerMost);
 
             return helper;
         }
