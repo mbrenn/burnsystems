@@ -19,6 +19,7 @@ namespace BurnSystems
     using System.IO;
     using System.Text;
     using BurnSystems.Test;
+using System.Text.RegularExpressions;
 
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird
@@ -250,7 +251,7 @@ namespace BurnSystems
             {
                 return null;
             }
-                        
+
             var utf8 = new System.Text.UTF8Encoding();
 
             var bytes = utf8.GetBytes(data);
@@ -339,7 +340,7 @@ namespace BurnSystems
             {
                 return null;
             }
-        
+
             return value.Replace("\n", "<br />").Replace("\r", string.Empty);
         }
 
@@ -568,7 +569,7 @@ namespace BurnSystems
 
             return result.ToString();
         }
-        
+
         /// <summary>
         /// Fügt eine Auflistung von Strings mit einem Seperator zusammen
         /// </summary>
@@ -610,7 +611,7 @@ namespace BurnSystems
                 list.Add(line);
             }
         }
-        
+
         /// <summary>
         /// Converts the number of the length of a file to a short string, 
         /// which contains the filesize as a number and a SI-Prefix
@@ -620,7 +621,7 @@ namespace BurnSystems
         /// <returns>String containing the length</returns>
         public static string GetFileLengthInfo(long fileLength, int decimals)
         {
-            var doubleFileLength = (double) fileLength;
+            var doubleFileLength = (double)fileLength;
             var prefix = new[] { "Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB" };
             var prefixNumber = 0;
             while (doubleFileLength > 1024 && prefixNumber < (prefix.Length - 1))
@@ -637,6 +638,57 @@ namespace BurnSystems
             {
                 return string.Format("{0:n" + decimals + "} {1}", doubleFileLength, prefix[prefixNumber]);
             }
+        }
+
+        /// <summary>
+        /// Checks if the given mail address is a valid string.
+        /// See also http://msdn.microsoft.com/en-us/library/01escwtf.aspx
+        /// </summary>
+        /// <param name="email">Email to be verified</param>
+        /// <returns>true, if this is a valid mail</returns>
+        public static bool IsValidEmail(this string email)
+        {
+            if (String.IsNullOrEmpty(email))
+                return false;
+
+            // Use IdnMapping class to convert Unicode domain names. 
+            try
+            {
+                email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
+                                      RegexOptions.None);
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+
+            // Return true if strIn is in valid e-mail format. 
+            return Regex.IsMatch(email,
+                  @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                  @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$",
+                  RegexOptions.IgnoreCase);
+        }
+
+        /// <summary>
+        /// Internal conversion method for IDN Domains
+        /// </summary>
+        /// <param name="match">Match to be used</param>
+        /// <returns>Converted domain</returns>
+        private static string DomainMapper(Match match)
+        {
+            // IdnMapping class with default property values.
+            IdnMapping idn = new IdnMapping();
+
+            string domainName = match.Groups[2].Value;
+            try
+            {
+                domainName = idn.GetAscii(domainName);
+            }
+            catch (ArgumentException)
+            {
+                throw new InvalidOperationException();
+            }
+            return match.Groups[1].Value + domainName;
         }
     }
 }
