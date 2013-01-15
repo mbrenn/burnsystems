@@ -11,14 +11,17 @@ namespace BurnSystems.ObjectActivation
     /// </summary>
     internal class ActivationInfo
     {
-        private CriteriaCatalogue criteriaCatalogue;
+        /// <summary>
+        /// Stores the criteria catalogue being used for activation
+        /// </summary>
+        private List<CriteriaCatalogue> criteriaCatalogues = new List<CriteriaCatalogue>();
 
         /// <summary>
         /// Gets the criteriacatalogue
         /// </summary>
-        public CriteriaCatalogue CriteriaCatalogue
+        public List<CriteriaCatalogue> CriteriaCatalogues
         {
-            get { return criteriaCatalogue; }
+            get { return criteriaCatalogues; }
         }
 
         /// <summary>
@@ -73,12 +76,12 @@ namespace BurnSystems.ObjectActivation
             if (criteriaCatalogue == null)
                 throw new ArgumentNullException("criteriaCatalogue");
 
-            this.criteriaCatalogue = criteriaCatalogue;
+            this.criteriaCatalogues.Add(criteriaCatalogue);
         }
 
         public override string ToString()
         {
-            return this.criteriaCatalogue.ToString();
+            return this.criteriaCatalogues.ToString();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -170,7 +171,7 @@ namespace BurnSystems.ObjectActivation
             {
                 foreach (var item in currentContainer.ActivationInfos)
                 {
-                    if (item.CriteriaCatalogue.DoesMatch(enablers))
+                    if (item.CriteriaCatalogues.Any(y => y.DoesMatch(enablers)))
                     {
                         yield return item.FactoryActivationBlock(this, mostInner, enablers);
                     }
@@ -204,7 +205,7 @@ namespace BurnSystems.ObjectActivation
             {
                 foreach (var item in currentContainer.ActivationInfos)
                 {
-                    if (item.CriteriaCatalogue.DoesMatch(enablers))
+                    if (item.CriteriaCatalogues.Any (y=> y.DoesMatch(enablers)))
                     {
                         return true;
                     }

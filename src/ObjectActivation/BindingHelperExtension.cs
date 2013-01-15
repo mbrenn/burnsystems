@@ -144,7 +144,7 @@ namespace BurnSystems.ObjectActivation
                 );
 
                 var blockResult = Expression.Block(
-                    new ParameterExpression[] { resultBlock},
+                    new ParameterExpression[] { resultBlock },
                     new Expression[]{ 
                         Expression.Assign ( resultBlock, newBlock),
                         Expression.Call(
@@ -249,7 +249,7 @@ namespace BurnSystems.ObjectActivation
                     innerMost.Add(
                         new ActiveInstance()
                         {
-                            Criterias = helper.ActivationInfo.CriteriaCatalogue,
+                            Criterias = helper.ActivationInfo.CriteriaCatalogues,
                             Value = found
                         });
                     return found;
@@ -282,7 +282,7 @@ namespace BurnSystems.ObjectActivation
                             new ActiveInstance()
                             {
                                 Value = foundInstance,
-                                Criterias = helper.ActivationInfo.CriteriaCatalogue
+                                Criterias = helper.ActivationInfo.CriteriaCatalogues
                             });
                     }
 
@@ -376,7 +376,7 @@ namespace BurnSystems.ObjectActivation
                             relevantActivationBlock.Add(
                                 new ActiveInstance()
                                 {
-                                    Criterias = helper.ActivationInfo.CriteriaCatalogue,
+                                    Criterias = helper.ActivationInfo.CriteriaCatalogues,
                                     Value = found
                                 });
                         }

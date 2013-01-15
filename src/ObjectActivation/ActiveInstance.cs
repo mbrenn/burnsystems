@@ -21,7 +21,7 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Gets or sets the list of criteria being used to create this instance. 
         /// </summary>
-        public CriteriaCatalogue Criterias
+        public List<CriteriaCatalogue> Criterias
         {
             get;
             set;

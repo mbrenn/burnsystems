@@ -29,7 +29,7 @@ namespace BurnSystems.ObjectActivation
         {
             var result =
                 this.activeInstances
-                    .Where(x => x.Criterias.Guid == catalogue.Guid)
+                    .Where(x => x.Criterias.Any(y => y.Guid == catalogue.Guid))
                     .FirstOrDefault();
 
             if (result == null)
@@ -42,7 +42,22 @@ namespace BurnSystems.ObjectActivation
 
         public object Find(ActivationInfo info)
         {
-            return this.Find(info.CriteriaCatalogue);
+            // Gets the first item, where the one ActiveInstance element
+            // contains all criteriacatalogue entries reuqired by the activation info
+            var result =
+                this.activeInstances.Where(
+                    instance =>
+                        info.CriteriaCatalogues.All(
+                            catalogue =>
+                                instance.Criterias.Any(criteria => catalogue.Guid == criteria.Guid)))
+                .FirstOrDefault();
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return result.Value;
         }
 
         public object Find(BindingHelper helper)
