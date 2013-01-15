@@ -17,6 +17,16 @@ namespace BurnSystems.ObjectActivation
         private List<CriteriaCatalogue> criteriaCatalogues = new List<CriteriaCatalogue>();
 
         /// <summary>
+        /// Gets or sets a value, indicating whether autobinding with
+        /// BindAlsoToAttribute shall be executed. Per default, autobinding is enabled.
+        /// </summary>
+        public bool NoAutoBinding
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets the criteriacatalogue
         /// </summary>
         public List<CriteriaCatalogue> CriteriaCatalogues

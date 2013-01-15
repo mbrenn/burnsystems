@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using BurnSystems.Test;
+using BurnSystems.ObjectActivation.Criteria;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -27,6 +28,17 @@ namespace BurnSystems.ObjectActivation
         }
 
         /// <summary>
+        /// Deactivates autobinding for the given instance
+        /// </summary>
+        /// <param name="container">Container, where autobinding shall be deactivated</param>
+        /// <returns>Same instance as container. </returns>
+        public static BindingHelper WithoutAutoBinding(this BindingHelper container)
+        {
+            container.ActivationInfo.NoAutoBinding = true;
+            return container;
+        }
+
+        /// <summary>
         /// Binds the object to a specific class. 
         /// The class is created when necessary
         /// </summary>
@@ -34,6 +46,9 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The Binding Helper</returns>
         public static BindingHelper To<T>(this BindingHelper helper)
         {
+            // Checks, if we have AlsoBindTo
+            CheckForAlsoBindToAttribute(helper.ActivationInfo, typeof(T));
+
             // Checks, if we have an injection constructor
             var constructors = typeof(T).GetConstructors(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public)
                 .Where (x=>x.GetCustomAttributes (typeof (InjectAttribute), false).Length > 0)
@@ -184,6 +199,10 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The Binding Helper</returns>
         public static BindingHelper ToConstant(this BindingHelper helper, object value)
         {
+            // Checks, if we have AlsoBindTo
+            CheckForAlsoBindToAttribute(helper.ActivationInfo, value.GetType());
+
+            // Otherwise add
             helper.ActivationInfo.FactoryActivationContainer =
                 (container, innerMost, enablers) => value;
 
@@ -401,6 +420,28 @@ namespace BurnSystems.ObjectActivation
         public static BindingHelper AsScopedIn(this BindingHelper helper, string nameOfActivationBlock)
         {
             return AsScopedIn(helper, x => x.Name == nameOfActivationBlock);
+        }
+
+        /// <summary>
+        /// Checks, if the given type has an AlsoBindToAttribute
+        /// </summary>
+        /// <param name="info">Activation info to be used</param>
+        /// <param name="type">Type to be evaluated</param>
+        internal static void CheckForAlsoBindToAttribute(ActivationInfo info, Type type)
+        {
+            if (info.NoAutoBinding)
+            {
+                // No Autobinding
+                return;
+            }
+
+            foreach (var bindAlsoToAttribute in
+                type.GetCustomAttributes(typeof(BindAlsoToAttribute), true)
+                    .Cast<BindAlsoToAttribute>())
+            {
+                info.CriteriaCatalogues.Add(
+                    new CriteriaCatalogue(new ByTypeCriteria(bindAlsoToAttribute.Type)));
+            }
         }
     }
 }

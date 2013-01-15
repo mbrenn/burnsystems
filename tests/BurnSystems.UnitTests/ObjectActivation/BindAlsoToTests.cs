@@ -15,10 +15,11 @@ namespace BurnSystems.UnitTests.ObjectActivation
         public void TestBindByType()
         {
             var container = new ActivationContainer("TEST");
-            container.Bind<TestClass>().To<TestClass>();
+            container.Bind<ITestClass>().To<TestClass>();
 
-            var test = container.Get<ITest>();
-            Ensure.IsNotNull(test);
+            Ensure.IsNotNull(container.Get<IAlsoBound>());
+            Ensure.IsNotNull(container.Get<ITestClass>());
+
         }
 
         [Test]
@@ -27,8 +28,8 @@ namespace BurnSystems.UnitTests.ObjectActivation
             var container = new ActivationContainer("TEST");
             container.BindToName("Name").To<TestClass>();
 
-            var test = container.GetByName<ITest>("Name");
-            Ensure.IsNotNull(test);
+            Ensure.IsNotNull(container.GetByName<ITestClass>("Name"));
+            Ensure.IsNotNull(container.Get<IAlsoBound>());
         }
 
         [Test]
@@ -36,20 +37,36 @@ namespace BurnSystems.UnitTests.ObjectActivation
         {
             var instance = new TestClass();
             var container = new ActivationContainer("TEST");
-            container.Bind<TestClass>().ToConstant(instance);
+            container.Bind<ITestClass>().ToConstant(instance);
 
-            var test = container.Get<ITest>();
-            Ensure.IsNotNull(test);
+            Ensure.IsNotNull(container.Get<IAlsoBound>());
+            Ensure.IsNotNull(container.Get<ITestClass>());
         }
 
-        public interface ITest
+        [Test]
+        public void TestBindWithoutAutobinding()
+        {
+            var container = new ActivationContainer("TEST");
+            container.Bind<ITestClass>().WithoutAutoBinding().To<TestClass>();
+
+            Ensure.IsNull(container.Get<IAlsoBound>());
+            Ensure.IsNotNull(container.Get<ITestClass>());
+        }
+
+        public interface IAlsoBound
         {
         }
 
-        [BindAlsoTo(typeof(ITest))]
-        public class TestClass
+        public interface ITestClass
         {
         }
+
+        [BindAlsoTo(typeof(IAlsoBound))]
+        public class TestClass : IAlsoBound, ITestClass
+        {
+        }
+
+
     }
 
 }
