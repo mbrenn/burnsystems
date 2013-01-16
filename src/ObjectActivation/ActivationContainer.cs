@@ -71,6 +71,9 @@ namespace BurnSystems.ObjectActivation
         public ActivationContainer(string name)
         {
             this.Name = name;
+
+            // Add this
+            this.Bind<IActivates>().ToConstant(this);
         }
 
         /// <summary>
@@ -81,10 +84,9 @@ namespace BurnSystems.ObjectActivation
         /// used as fallback, if this container does not have a resolution for this 
         /// instance. </param>
         public ActivationContainer(string name, ActivationContainer outerContainer)
+            : this(name)
         {
-            this.Name = name;
             this.outerContainer = outerContainer;
-
             this.outerContainer.BindingChanged += (x, y) => this.OnBindingChanged();
         }
 
@@ -151,7 +153,6 @@ namespace BurnSystems.ObjectActivation
                 }
             }
         }
-
 
         /// <summary>
         /// Checks, if the container knows a binding to the specific enablers

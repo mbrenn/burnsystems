@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BurnSystems.ObjectActivation.Enabler;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -92,12 +93,10 @@ namespace BurnSystems.ObjectActivation
             string name,
             ActivationContainer container,
             ActivationBlock outerBlock)
+            : this(name, container)
         {
-            this.Name = name;
-            this.container = container;
             this.outerBlock = outerBlock;
 
-            this.container.BindingChanged += (x, y) => this.OnBindingChanged();
             this.outerBlock.BindingChanged += (x, y) => this.OnBindingChanged();
         }
 
@@ -165,13 +164,24 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Enumeration of found objects</returns>
         private IEnumerable<object> GetAllInternal(ActivationBlock mostInner, IEnumerable<IEnabler> enablers)
         {
+            var enablerList = enablers.ToList();
+
+            // If enabler is just an IActivates, return this
+            if (enablerList.Count == 1
+                && enablerList[0] is ByTypeEnabler
+                && ((ByTypeEnabler)enablerList[0]).Type == typeof(IActivates))
+            {
+                yield return this;
+                yield break;
+            }
+
             var currentContainer = this.container;
 
             while (currentContainer != null)
             {
                 foreach (var item in currentContainer.ActivationInfos)
                 {
-                    if (item.CriteriaCatalogues.Any(y => y.DoesMatch(enablers)))
+                    if (item.CriteriaCatalogues.Any(y => y.DoesMatch(enablerList)))
                     {
                         yield return item.FactoryActivationBlock(this, mostInner, enablers);
                     }

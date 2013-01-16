@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BurnSystems.ObjectActivation.Criteria;
 using BurnSystems.ObjectActivation.Enabler;
+using BurnSystems.Test;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -21,6 +22,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>The activated or reused object</returns>
         public static T Get<T>(this IActivates activates, IEnumerable<IEnabler> enablers)
         {
+            Ensure.IsNotNull(activates);
+
             var result = activates.GetAll(enablers).FirstOrDefault();
             if (result == null)
             {
@@ -38,6 +41,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Found object or null, if not found</returns>
         public static object Get(this IActivates activates, Type type)
         {
+            Ensure.IsNotNull(activates);
+
             return activates.GetAll(new IEnabler[] { new ByTypeEnabler(type) })
                 .FirstOrDefault();
         }
@@ -49,6 +54,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Found type of null</returns>
         public static T Get<T>(this IActivates activates)
         {
+            Ensure.IsNotNull(activates);
+
             return activates.Get<T>(
                 new IEnabler[] { new ByTypeEnabler(typeof(T)) });
         }
@@ -60,6 +67,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Enumeration of objects</returns>
         public static IEnumerable<T> GetAll<T>(this IActivates activates)
         {
+            Ensure.IsNotNull(activates);
+
             return activates.GetAll(
                 new IEnabler[] { new ByTypeEnabler(typeof(T)) })
                 .Cast<T>();
@@ -73,6 +82,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Found type of null</returns>
         public static T GetByName<T>(this IActivates activates, string name)
         {
+            Ensure.IsNotNull(activates);
+
             return activates.Get<T>(
                 new IEnabler[] { new ByNameEnabler(name) });
         }
@@ -85,6 +96,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Found type of null</returns>
         public static object GetByName(this IActivates activates, string name)
         {
+            Ensure.IsNotNull(activates);
+
             return activates.GetAll(
                 new IEnabler[] { new ByNameEnabler(name) })
                 .FirstOrDefault();
@@ -99,6 +112,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Enumeration of all found objcts</returns>
         public static IEnumerable<T> GetAllByName<T>(this IActivates activates, string name)
         {
+            Ensure.IsNotNull(activates);
+
             return activates.GetAll(
                 new IEnabler[] { new ByNameEnabler(name) })
                 .Cast<T>();
@@ -113,6 +128,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Helper used to add behaviour</returns>
         public static BindingHelper Bind<T>(this ActivationContainer container)
         {
+            Ensure.IsNotNull(container);
+
             var criteria = container.Add(
                 new CriteriaCatalogue(new ByTypeCriteria(typeof(T))));
 
@@ -129,6 +146,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Heper used to add behaviour</returns>
         public static BindingHelper BindToName(this ActivationContainer container, string name)
         {
+            Ensure.IsNotNull(container);
+
             var criteria = container.Add(
                 new CriteriaCatalogue(new ByNameCriteria(name)));
 
@@ -145,6 +164,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created type</returns>
         public static T Create<T>(this IActivates activates)
         {
+            Ensure.IsNotNull(activates);
+
             var instanceBuilder = new InstanceBuilder(activates);
             return instanceBuilder.Create<T>();
         }
@@ -157,6 +178,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created type</returns>
         public static object Create(this IActivates activates, Type type)
         {
+            Ensure.IsNotNull(activates);
+
             var instanceBuilder = new InstanceBuilder(activates);
             return instanceBuilder.Create(type);
         }
@@ -170,6 +193,8 @@ namespace BurnSystems.ObjectActivation
         /// <returns>Created type</returns>
         public static T Inject<T>(this IActivates activates, T value)
         {
+            Ensure.IsNotNull(activates);
+
             InstanceBuilder.AddPropertyAssignmentsByReflection(value, activates);
             return value;
         }
