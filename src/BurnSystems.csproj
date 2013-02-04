@@ -122,6 +122,8 @@
     <Compile Include="AdoNet\Queries\UpdateQuery.cs" />
     <Compile Include="Collections\AutoDictionary.cs" />
     <Compile Include="Collections\Container.cs" />
+    <Compile Include="Collections\IHasKey.cs" />
+    <Compile Include="Collections\IHasId.cs" />
     <Compile Include="Collections\ListHelper.cs" />
     <Compile Include="Collections\NiceDictionary.cs" />
     <Compile Include="Collections\ObjectContainer.cs" />
