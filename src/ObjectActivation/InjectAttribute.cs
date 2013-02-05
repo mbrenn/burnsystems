@@ -12,6 +12,16 @@ namespace BurnSystems.ObjectActivation
     public sealed class InjectAttribute : Attribute
     {
         /// <summary>
+        /// Gets or sets a value indicating whether injection shall be executed by the object
+        /// itself by using InstanceBuilder
+        /// </summary>
+        public bool ByItself
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the name of the injection
         /// </summary>
         public string ByName

@@ -258,13 +258,21 @@ namespace BurnSystems.ObjectActivation
         {
             IEnabler[] enabler;
 
-            if (injectAttribute == null || string.IsNullOrEmpty(injectAttribute.ByName))
+            if (injectAttribute == null)
             {
                 enabler = new IEnabler[] { new ByTypeEnabler(type) };
             }
-            else
+            else if (!string.IsNullOrEmpty(injectAttribute.ByName))
             {
                 enabler = new IEnabler[] { new ByNameEnabler(injectAttribute.ByName) };
+            }
+            else if (injectAttribute.ByItself)
+            {
+                return container.Create(type);
+            }
+            else
+            {
+                enabler = new IEnabler[] { new ByTypeEnabler(type) };
             }
 
             // {tempVariable} = Cast<{PropertyType}>({this.container}.Get({parameters}).FirstOrDefault());

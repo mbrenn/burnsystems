@@ -80,6 +80,7 @@
     <Compile Include="ObjectActivation\ActivationBlockTests.cs" />
     <Compile Include="ObjectActivation\ActivationContainerTests.cs" />
     <Compile Include="ObjectActivation\BindAlsoToTests.cs" />
+    <Compile Include="ObjectActivation\ByItselfTests.cs" />
     <Compile Include="ObjectActivation\Objects\CalculationContainer.cs" />
     <Compile Include="ObjectActivation\Objects\Calculator.cs" />
     <Compile Include="ObjectActivation\EnablerCriteriaTests.cs" />
