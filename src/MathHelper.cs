@@ -16,6 +16,7 @@ namespace BurnSystems
     using System.Globalization;
     using System.Linq;
     using BurnSystems.Test;
+    using System.Threading;
 
     /// <summary>
     /// Eine Klasse, die ein paar Hilfsfunktionen für die mathematischen 
@@ -26,14 +27,14 @@ namespace BurnSystems
         /// <summary>
         /// Eine Zufallsvariable
         /// </summary>
-        private static Random random = new RandomThreadSafe();
+        private static ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random());
 
         /// <summary>
         /// Gets a threadsafe random instance
         /// </summary>
         public static Random Random
         {
-            get { return random; }
+            get { return random.Value; }
         }
 
         /// <summary>
