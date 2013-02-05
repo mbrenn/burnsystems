@@ -27,7 +27,7 @@ namespace BurnSystems
         /// <summary>
         /// Eine Zufallsvariable
         /// </summary>
-        private static ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random());
+        private static ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random(Guid.NewGuid().GetHashCode()));
 
         /// <summary>
         /// Gets a threadsafe random instance
