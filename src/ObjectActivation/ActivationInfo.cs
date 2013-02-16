@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace BurnSystems.ObjectActivation
 {
@@ -91,7 +92,13 @@ namespace BurnSystems.ObjectActivation
 
         public override string ToString()
         {
-            return this.criteriaCatalogues.ToString();
+            var result = new StringBuilder();
+            foreach (var catalogue in this.criteriaCatalogues)
+            {
+                result.AppendLine(catalogue.ToString());
+            }
+
+            return result.ToString();
         }
     }
 }
