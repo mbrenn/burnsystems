@@ -20,5 +20,65 @@ namespace BurnSystems.Logging
         {
             log.LogEntry(new LogEntry(entry, level));
         }
+
+        /// <summary>
+        /// Sends out a message with LogLevel Critical
+        /// </summary>
+        /// <param name="log">Log to be used</param>
+        /// <param name="entry">Text to be send out</param>
+        public static void Critical(this ILog log, string entry)
+        {
+            LogEntry(log, LogLevel.Critical, entry);
+        }
+        
+        /// <summary>
+        /// Sends out a message with LogLevel Fail
+        /// </summary>
+        /// <param name="log">Log to be used</param>
+        /// <param name="entry">Text to be send out</param>
+        public static void Fail(this ILog log, string entry)
+        {
+            LogEntry(log, LogLevel.Fail, entry);
+        }
+
+        /// <summary>
+        /// Sends out a message with LogLevel Fatal
+        /// </summary>
+        /// <param name="log">Log to be used</param>
+        /// <param name="entry">Text to be send out</param>
+        public static void Fatal(this ILog log, string entry)
+        {
+            LogEntry(log, LogLevel.Fatal, entry);
+        }
+
+        /// <summary>
+        /// Sends out a message with LogLevel Message
+        /// </summary>
+        /// <param name="log">Log to be used</param>
+        /// <param name="entry">Text to be send out</param>
+        public static void Message(this ILog log, string entry)
+        {
+            LogEntry(log, LogLevel.Message, entry);
+        }
+
+        /// <summary>
+        /// Sends out a message with LogLevel Notify
+        /// </summary>
+        /// <param name="log">Log to be used</param>
+        /// <param name="entry">Text to be send out</param>
+        public static void Notify(this ILog log, string entry)
+        {
+            LogEntry(log, LogLevel.Notify, entry);
+        }
+
+        /// <summary>
+        /// Sends out a message with LogLevel Verbose
+        /// </summary>
+        /// <param name="log">Log to be used</param>
+        /// <param name="entry">Text to be send out</param>
+        public static void Verbose(this ILog log, string entry)
+        {
+            LogEntry(log, LogLevel.Verbose, entry);
+        }
     }
 }
