@@ -61,6 +61,12 @@ namespace BurnSystems.Logging
             get;
             set;
         }
+
+        public bool ShowCategories
+        {
+            get;
+            set;
+        }
         
         #region ILogProvider Members
 
@@ -105,6 +111,14 @@ namespace BurnSystems.Logging
             }
             else
             {
+                if (this.ShowCategories)
+                {
+                    if (!string.IsNullOrEmpty(entry.Categories))
+                    {
+                        Console.Write(entry.Categories + ": ");
+                    }
+                }
+
                 Console.WriteLine(
                     "[{1}: {0:f4}s] {2}",
                     entry.RelativeTime.TotalSeconds,
