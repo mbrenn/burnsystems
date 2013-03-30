@@ -19,7 +19,7 @@ namespace BurnSystems
     using System.IO;
     using System.Text;
     using BurnSystems.Test;
-using System.Text.RegularExpressions;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird
@@ -551,7 +551,7 @@ using System.Text.RegularExpressions;
         /// erzeugt.</param>
         /// <param name="separator">Trenner, im Regelfall wird dieser ', ' sein. </param>
         /// <returns>Joined string</returns>
-        public static string Join<T>(IEnumerable<T> elements, Join<T> joinDelegate, string separator)
+        public static string Join<T>(this IEnumerable<T> elements, Join<T> joinDelegate, string separator)
         {
             var result = new StringBuilder();
             var first = true;
@@ -576,7 +576,7 @@ using System.Text.RegularExpressions;
         /// <param name="list">Liste von Elementen</param>
         /// <param name="separator">Seperator for the text between the string</param>
         /// <returns>Zusammengesetzter String</returns>
-        public static string Join(IEnumerable<string> list, string separator)
+        public static string Join(this IEnumerable<string> list, string separator)
         {
             return Join(list, x => x, separator);
         }
