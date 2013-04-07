@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BurnSystems.Test;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -86,6 +87,7 @@ namespace BurnSystems.ObjectActivation
         public ActivationContainer(string name, ActivationContainer outerContainer)
             : this(name)
         {
+            Ensure.IsNotNull(outerContainer);
             this.outerContainer = outerContainer;
             this.outerContainer.BindingChanged += (x, y) => this.OnBindingChanged();
         }
