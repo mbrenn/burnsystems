@@ -62,6 +62,10 @@ namespace BurnSystems.Logging
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the categories shall be shown 
+        /// on console
+        /// </summary>
         public bool ShowCategories
         {
             get;
