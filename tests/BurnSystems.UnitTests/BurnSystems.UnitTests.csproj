@@ -24,7 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Users\mbrenn\Programme\NUnit\bin\net-2.0\nunit.exe</StartProgram>
+    <StartProgram>C:\Users\Martin\Programme\NUnit\bin\net-2.0\nunit.exe</StartProgram>
     <Externalconsole>true</Externalconsole>
     <Commandlineparameters>nunit-console</Commandlineparameters>
   </PropertyGroup>
@@ -46,7 +46,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Users\mbrenn\Programme\NUnit\bin\net-2.0\nunit.exe</StartProgram>
+    <StartProgram>C:\Users\Martin\Programme\NUnit\bin\net-2.0\nunit.exe</StartProgram>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">

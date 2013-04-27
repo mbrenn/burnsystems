@@ -166,13 +166,14 @@ namespace BurnSystems.ObjectActivation
         {
             var enablerList = enablers.ToList();
 
-            // If enabler is just an IActivates, return this
+            // If enabler is just an IActivates or ActivationBlock, return this
             if (enablerList.Count == 1
                 && enablerList[0] is ByTypeEnabler
-                && ((ByTypeEnabler)enablerList[0]).Type == typeof(IActivates))
+                && (
+                    ((ByTypeEnabler)enablerList[0]).Type == typeof(IActivates)
+                    || ((ByTypeEnabler)enablerList[0]).Type == typeof(ActivationBlock)))
             {
-                yield return this;
-                yield break;
+                yield return mostInner;
             }
 
             var currentContainer = this.container;

@@ -43,7 +43,7 @@ namespace BurnSystems.ObjectActivation
         public object Find(ActivationInfo info)
         {
             // Gets the first item, where the one ActiveInstance element
-            // contains all criteriacatalogue entries reuqired by the activation info
+            // contains all criteriacatalogue entries required by the activation info
             var result =
                 this.activeInstances.Where(
                     instance =>

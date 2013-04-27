@@ -75,7 +75,7 @@ namespace BurnSystems.ObjectActivation
                     (block, innerMost, enablers) =>
                     {
                         var result = Activator.CreateInstance(typeof(T));
-                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, block);
+                        InstanceBuilder.AddPropertyAssignmentsByReflection(result, innerMost);
 
                         return result;
                     };
