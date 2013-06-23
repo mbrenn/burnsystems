@@ -20,24 +20,12 @@ namespace BurnSystems
     {
         /// <summary>
         /// Copies a complete directory from one place to another. 
-        /// If necessary, the directories are created. An exception is thrown
-        /// if target file already exists
-        /// </summary>
-        /// <param name="sourcePath">Path containing the source</param>
-        /// <param name="targetPath">Path containing the target</param>
-        public static void CopyDirectory(string sourcePath, string targetPath)
-        {
-            CopyDirectory(sourcePath, targetPath, false);
-        }
-
-        /// <summary>
-        /// Copies a complete directory from one place to another. 
         /// If necessary, the directories are created
         /// </summary>
         /// <param name="sourcePath">Path containing the source</param>
         /// <param name="targetPath">Path containing the target</param>
         /// <param name="doOverwrite">Flag, if file shall be overwritte</param>
-        public static void CopyDirectory(string sourcePath, string targetPath, bool doOverwrite)
+        public static void CopyDirectory(string sourcePath, string targetPath, bool doOverwrite = false)
         {
             if (!Directory.Exists(targetPath))
             {
