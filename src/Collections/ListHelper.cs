@@ -13,6 +13,7 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using BurnSystems.Test;
 
@@ -1027,6 +1028,47 @@ namespace BurnSystems.Collections
             {
                 yield return n;
             }
+        }
+
+        /// <summary>
+        /// Checks, if both lists have the same content. Algorithm used:        /// 
+        /// http://stackoverflow.com/questions/3669970/compare-two-listt-objects-for-equality-ignoring-order
+        /// </summary>
+        /// <typeparam name="T">Type of element</typeparam>
+        /// <param name="list1">First list</param>
+        /// <param name="list2">Second list</param>
+        /// <returns>true, if both lists have the same elements</returns>
+        public static bool HasSameElementsAs<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
+        {
+#if DEBUG
+            Ensure.That(list1.All(x => x != null), "list1 contains a null element");
+            Ensure.That(list2.All(x => x != null), "list2 contains a null element");
+#endif
+            var cnt = new Dictionary<T, int>();
+            foreach (T s in list1)
+            {
+                if (cnt.ContainsKey(s))
+                {
+                    cnt[s]++;
+                }
+                else
+                {
+                    cnt.Add(s, 1);
+                }
+            }
+
+            foreach (T s in list2)
+            {
+                if (cnt.ContainsKey(s))
+                {
+                    cnt[s]--;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return cnt.Values.All(c => c == 0);
         }
     }
 }
