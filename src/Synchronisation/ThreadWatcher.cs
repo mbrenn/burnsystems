@@ -11,9 +11,10 @@
 
 namespace BurnSystems.Synchronisation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
+    using BurnSystems.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
     /// <summary>
     /// Diese Klasse verarbeitet Threads und überprüft, ob 
@@ -22,6 +23,11 @@ namespace BurnSystems.Synchronisation
     /// </summary>
     public static class ThreadWatcher
     {
+        /// <summary>
+        /// Logger being used 
+        /// </summary>
+        private static ILog logger = new ClassLogger(typeof(ThreadWatcher));
+
         /// <summary>
         /// Liste der zu überwachenden Threads. Dieses Objekt
         /// ist auch für die 
@@ -157,6 +163,8 @@ namespace BurnSystems.Synchronisation
                     if (item.TimeOut < now)
                     {
                         // Thread muss getötet werden
+                        logger.Fail("Thread has been killed: " + item.Thread.Name);
+
                         item.Thread.Abort();
                         if (item.OnThreadAbort != null)
                         {
