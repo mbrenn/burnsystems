@@ -71,6 +71,11 @@ namespace BurnSystems.Net
         }
 
         /// <summary>
+        /// Defines the chunksize for the reader
+        /// </summary>
+        public const int ChunkSize = 65536;
+
+        /// <summary>
         /// Reads the stream and returns an instance of the multipartformdata
         /// </summary>
         /// <param name="stream">Stream with data</param>
@@ -85,11 +90,19 @@ namespace BurnSystems.Net
                 int readByte;
                 var numberOfBytes = 0L; 
 
-                while ((readByte = stream.ReadByte()) != -1 &&
-                    numberOfBytes < this.MaxStreamSize)
+                // TODO: Do not read bytewise
+                var tempBuffer = new byte[ChunkSize];
+                while (true)
                 {
-                    memoryStream.WriteByte((byte)readByte);
-                    numberOfBytes++;
+                    var readBytes = stream.Read(tempBuffer, 0, ChunkSize);
+
+                    if (readBytes == 0 || numberOfBytes > this.MaxStreamSize)
+                    {
+                        break;
+                    }
+
+                    memoryStream.Write(tempBuffer, 0, readBytes);
+                    numberOfBytes += readBytes;
                 }
 
                 var offset = 0;
