@@ -19,6 +19,8 @@ namespace BurnSystems.Extensions
     using System.Reflection;
     using System.Text;
     using BurnSystems.Interfaces;
+    using System.Dynamic;
+    using System.Web.Routing;
 
     /// <summary>
     /// This static class stores the extension methods for every object.
@@ -264,6 +266,24 @@ namespace BurnSystems.Extensions
             {
                 throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NotSupportedType, type.ToString()));
             }
+        }
+
+        /// <summary>
+        /// Creates an expando object out of an anonymous object.
+        /// Thanks to: http://stackoverflow.com/questions/5858129/runtimebinderexception-with-dynamic-anonymous-objects-in-mvc
+        /// </summary>
+        /// <param name="anonymousObject">Anonymous object to be created</param>
+        /// <returns>Converted object</returns>
+        public static ExpandoObject ToExpando(this object anonymousObject)
+        {
+            IDictionary<string, object> anonymousDictionary = new RouteValueDictionary(anonymousObject);
+            IDictionary<string, object> expando = new ExpandoObject();
+            foreach (var item in anonymousDictionary)
+            {
+                expando.Add(item);
+            }
+
+            return (ExpandoObject)expando;
         }
     }
 }
