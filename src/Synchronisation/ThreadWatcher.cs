@@ -12,9 +12,9 @@
 namespace BurnSystems.Synchronisation
 {
     using BurnSystems.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
 
     /// <summary>
     /// Diese Klasse verarbeitet Threads und überprüft, ob 
@@ -84,7 +84,7 @@ using System.Threading;
         /// <returns>Disposable interface, which stops the watch
         /// during disposal</returns>
         public static IDisposable WatchThread(
-            Thread thread, 
+            Thread thread,
             TimeSpan timeOut,
             ThreadAbortAction actionDelegate)
         {
@@ -147,47 +147,53 @@ using System.Threading;
             {
                 resetEvent.WaitOne(pollingTime, false);
 
-                // Überprüft, ob eine der Threads getötet werden soll
-                var now = DateTime.Now;
-                var threadsToBeRemoved = new List<ThreadWatcherItem>();
-
-                if (System.Diagnostics.Debugger.IsAttached)
+                lock (watchedThreads)
                 {
-                    // Bei einem aktiven Debugger werden keine Threads getötet
-                    continue;
-                }
+                    // Überprüft, ob eine der Threads getötet werden soll
+                    var now = DateTime.Now;
+                    var threadsToBeRemoved = new List<ThreadWatcherItem>();
 
-                for (var n = 0; n < watchedThreads.Count; n++)
-                {
-                    var item = watchedThreads[n];
-                    if (item.TimeOut < now)
+                    if (System.Diagnostics.Debugger.IsAttached)
                     {
-                        // Thread muss getötet werden
-                        logger.Fail("Thread has been killed: " + item.Thread.Name);
+                        // Bei einem aktiven Debugger werden keine Threads getötet
+                        continue;
+                    }
 
-                        item.Thread.Abort();
-                        if (item.OnThreadAbort != null)
+                    for (var n = 0; n < watchedThreads.Count; n++)
+                    {
+                        var item = watchedThreads[n];
+                        if (item == null)
                         {
-                            item.OnThreadAbort();
+                            logger.Fail("item == null, not expected, but mitigated");
+                            continue;
+                        }
+
+                        if (item.TimeOut < now)
+                        {
+                            // Thread muss getötet werden
+                            logger.Fail("Thread has been killed: " + item.Thread.Name);
+
+                            item.Thread.Abort();
+                            if (item.OnThreadAbort != null)
+                            {
+                                item.OnThreadAbort();
+                            }
+                        }
+
+                        if (!item.Thread.IsAlive)
+                        {
+                            threadsToBeRemoved.Add(item);
                         }
                     }
 
-                    if (!item.Thread.IsAlive)
+                    // Entfernt nun die Threads aus der internen Liste
+                    foreach (var item in threadsToBeRemoved)
                     {
-                        threadsToBeRemoved.Add(item);
+                        watchedThreads.Remove(item);
                     }
-                }
 
-                // Entfernt nun die Threads aus der internen Liste
-                foreach (var item in threadsToBeRemoved)
-                {
-                    watchedThreads.Remove(item);
-                }
-
-                // Wenn kein Thread mehr zu beobachten ist, so 
-                // wird dann die Überwachung eingestellt. 
-                lock (watchedThreads)
-                {
+                    // Wenn kein Thread mehr zu beobachten ist, so 
+                    // wird dann die Überwachung eingestellt. 
                     checkingThreads =
                         watchedThreads.Count != 0;
                     if (!checkingThreads)
