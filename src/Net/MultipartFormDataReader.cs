@@ -87,7 +87,6 @@ namespace BurnSystems.Net
             // Convert Stream to Bytes
             using (var memoryStream = new MemoryStream())
             {
-                int readByte;
                 var numberOfBytes = 0L; 
 
                 // TODO: Do not read bytewise
