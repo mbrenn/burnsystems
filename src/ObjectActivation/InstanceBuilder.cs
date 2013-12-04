@@ -153,8 +153,6 @@ namespace BurnSystems.ObjectActivation
         /// <param name="container">Container used for query</param>
         public static void AddPropertyAssignmentsByReflection(object target, IActivates container)
         {
-            var result = new List<ParameterExpression>();
-
             foreach (var property in target.GetType().GetProperties(BindingFlags.SetField | BindingFlags.Instance | BindingFlags.Public))
             {
                 // No action for primitive types
@@ -173,7 +171,6 @@ namespace BurnSystems.ObjectActivation
 
                 // Check, if assignment by Name shall be executed, otherwise by type
                 var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);
-                var enablers = new List<IEnabler>();
 
                 foreach (var injectAttribute in inject.Cast<InjectAttribute>())
                 {
@@ -391,7 +388,6 @@ namespace BurnSystems.ObjectActivation
 
                 // Check, if assignment by Name shall be executed, otherwise by type
                 var inject = property.GetCustomAttributes(typeof(InjectAttribute), false);
-                var enablers = new List<IEnabler>();
 
                 foreach (var injectAttribute in inject.Cast<InjectAttribute>())
                 {

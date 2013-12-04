@@ -16,7 +16,6 @@ namespace BurnSystems.UnitTests.ObjectActivation
 			activationContainer.Bind<ICalculator>().To<Calculator>().AsTransient();
 			
 			var calculator = activationContainer.Get<ICalculator>();
-			var type = calculator.GetType();
 			Assert.That(calculator, Is.TypeOf(typeof(Calculator)));
 
 			var result = calculator.Add(2,3);
@@ -42,7 +41,6 @@ namespace BurnSystems.UnitTests.ObjectActivation
 		public void TestFactory()
 		{
 			var activationContainer = new ActivationContainer("Test");
-			var myCalculator = new Calculator();
 			activationContainer.Bind<ICalculator>().To(
 				() => new Calculator()
 				{
@@ -60,7 +58,6 @@ namespace BurnSystems.UnitTests.ObjectActivation
         public void TestGetByName()
         {
             var activationContainer = new ActivationContainer("Test");
-            var myCalculator = new Calculator();
             activationContainer.BindToName("Calc").To(() => new Calculator()
                 {
                     InternalAddOffset = 7
@@ -84,7 +81,6 @@ namespace BurnSystems.UnitTests.ObjectActivation
 			activationContainer.Bind<ICalculator>().To<Calculator>().AsSingleton();
 			
 			var calculator = activationContainer.Get<ICalculator>();
-			var type = calculator.GetType();
 			Assert.That(calculator, Is.TypeOf(typeof(Calculator)));
 
 			// First get
@@ -135,6 +131,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(x, Is.EqualTo(1));
 
             var calculator2 = outerContainer.Get<ICalculator>();
+            Assert.That(calculator2, Is.Not.Null);
             Assert.That(x, Is.EqualTo(2));
         }
 
@@ -149,7 +146,9 @@ namespace BurnSystems.UnitTests.ObjectActivation
                 Assert.That(a, Is.AssignableTo<IActivates>());
                 x++;
                 return new Calculator();
-            }).AsTransient(); ;
+            }
+            ).AsTransient();
+            ;
 
             var calculator = outerContainer.Get<ICalculator>();
             Assert.That(calculator, Is.Not.Null);
@@ -160,6 +159,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
             Assert.That(x, Is.EqualTo(1));
 
             var calculator2 = outerContainer.Get<ICalculator>();
+            Assert.That(calculator2, Is.Not.Null);
             Assert.That(x, Is.EqualTo(2));
         }
 

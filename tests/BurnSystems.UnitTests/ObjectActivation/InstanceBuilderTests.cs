@@ -94,20 +94,22 @@ namespace BurnSystems.UnitTests.ObjectActivation
             gameContainer.Bind<Rules>().ToConstant(rules).AsSingleton();
             DatabaseDummy.Reset();
             gameContainer.Bind<IDatabase>().To(() =>
-                {
-                    var db = new DatabaseDummy();
-                    db.Open();
-                    return db;
-                }).AsScoped();
+            {
+                var db = new DatabaseDummy();
+                db.Open();
+                return db;
+            }
+            ).AsScoped();
 
             gameContainer.BindToName("CurrentPlayer").To((x) =>
-                {
-                    var webContext = x.Get<WebContext>();
-                    var database = x.Get<IDatabase>();
-                    var playerId = database.GetPlayerId(webContext.UserId);
-                    var player = new Player(playerId);
-                    return player;
-                }).AsScoped();
+            {
+                var webContext = x.Get<WebContext>();
+                var database = x.Get<IDatabase>();
+                var playerId = database.GetPlayerId(webContext.UserId);
+                var player = new Player(playerId);
+                return player;
+            }
+            ).AsScoped();
 
             gameContainer.BindToName("CurrentTown").To((x) =>
             {
@@ -116,15 +118,18 @@ namespace BurnSystems.UnitTests.ObjectActivation
                 var townId = database.GetTownId(player.PlayerId);
                 var town = new Town(townId);
                 return town;
-            }).AsTransient();
+            }
+            ).AsTransient();
 
             // WebRequest 1
             {
-                var webContainer = new ActivationContainer("Web", gameContainer);
+                var webContainer = new ActivationContainer(
+                    "Web",
+                    gameContainer
+                );
                 webContainer.Bind<WebContext>().ToConstant(new WebContext() { UserId = 2 });
 
-                using (var block = new ActivationBlock("WebBlock", webContainer))
-                {
+                using(var block = new ActivationBlock("WebBlock", webContainer)) {
                     var instanceBuilder = new InstanceBuilder(block);
                     var request = instanceBuilder.Create<WebRequest>();
                     Assert.That(request, Is.Not.Null);
@@ -137,6 +142,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
                     Assert.That(request.CurrentTown.TownId, Is.EqualTo(5));
 
                     var request2 = instanceBuilder.Create<WebRequest>();
+                    Assert.That(request2, Is.Not.Null);
                 }
 
                 Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(1));
@@ -145,11 +151,13 @@ namespace BurnSystems.UnitTests.ObjectActivation
 
             // WebRequest 2
             {
-                var webContainer = new ActivationContainer("Web", gameContainer);
+                var webContainer = new ActivationContainer(
+                    "Web",
+                    gameContainer
+                );
                 webContainer.Bind<WebContext>().ToConstant(new WebContext() { UserId = 3 });
 
-                using (var block = new ActivationBlock("WebBlock", webContainer))
-                {
+                using(var block = new ActivationBlock("WebBlock", webContainer)) {
                     var instanceBuilder = new InstanceBuilder(block);
                     var request = instanceBuilder.Create<WebRequest>();
                     Assert.That(request, Is.Not.Null);
@@ -162,6 +170,7 @@ namespace BurnSystems.UnitTests.ObjectActivation
                     Assert.That(request.CurrentTown.TownId, Is.EqualTo(6));
 
                     var request2 = instanceBuilder.Create<WebRequest>();
+                    Assert.That(request2, Is.Not.Null);
                 }
 
                 Assert.That(DatabaseDummy.OpenCount, Is.EqualTo(2));
