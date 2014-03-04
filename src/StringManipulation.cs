@@ -690,5 +690,27 @@ namespace BurnSystems
             }
             return match.Groups[1].Value + domainName;
         }
+
+        /// <summary>
+        /// Returns a string, where the first letter is an upper letter, being transformed
+        /// with 'ToUpper'. The rest of the text is not modified. 
+        /// The input variable itself is also not modified.
+        /// </summary>
+        /// <param name="text">Text being converted</param>
+        /// <returns>Converted text</returns>
+        public static string ToUpperFirstLetter(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            if (text.Length == 1)
+            {
+                return text.ToUpper();
+            }
+
+            return string.Format("{0}{1}", char.ToUpper(text[0]), text.Substring(1));
+        }
     }
 }
