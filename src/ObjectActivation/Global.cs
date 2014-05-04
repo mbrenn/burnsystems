@@ -23,7 +23,7 @@ namespace BurnSystems.ObjectActivation
             {
                 if (application == null)
                 {
-                    throw new InvalidOperationException("Application has not been initialized via InitForApplication()");
+                    InitForApplication();
                 }
 
                 return application;
@@ -33,9 +33,9 @@ namespace BurnSystems.ObjectActivation
         /// <summary>
         /// Initializes the activation container on application scope
         /// </summary>
-        public static void InitForApplication()
+        private static void InitForApplication()
         {
-            if (application != null)
+            if (application == null)
             {
                 application = new ActivationContainer("Global.Application");
             }
