@@ -251,6 +251,7 @@
     <Compile Include="XmlHelper.cs" />
     <Compile Include="Xml\Html\HtmlDocument.cs" />
     <Compile Include="Xml\Html\HtmlElement.cs" />
+    <Compile Include="Xml\Html\HtmlTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
