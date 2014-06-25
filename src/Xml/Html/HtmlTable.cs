@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace BurnSystems.Xml.Html
 {
@@ -41,7 +42,7 @@ namespace BurnSystems.Xml.Html
         public void AddCellWithContent(string content)
         {
             this.currentRow.Add(
-                new HtmlElement("td", content));
+                new HtmlElement("td", HttpUtility.HtmlEncode(content)));
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace BurnSystems.Xml.Html
         public void AddHeaderCellWithContent(string content)
         {
             this.currentRow.Add(
-                new HtmlElement("th", content));
+                new HtmlElement("th", HttpUtility.HtmlEncode(content)));
         }
     }
 }
