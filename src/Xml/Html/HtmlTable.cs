@@ -42,7 +42,7 @@ namespace BurnSystems.Xml.Html
         public void AddCellWithContent(string content)
         {
             this.currentRow.Add(
-                new HtmlElement("td", HttpUtility.HtmlEncode(content)));
+                new HtmlElement("td", content));
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace BurnSystems.Xml.Html
         public void AddHeaderCellWithContent(string content)
         {
             this.currentRow.Add(
-                new HtmlElement("th", HttpUtility.HtmlEncode(content)));
+                new HtmlElement("th", content));
         }
     }
 }
