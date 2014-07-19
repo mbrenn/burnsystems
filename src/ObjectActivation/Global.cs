@@ -40,5 +40,15 @@ namespace BurnSystems.ObjectActivation
                 application = new ActivationContainer("Global.Application");
             }
         }
+
+        /// <summary>
+        /// Deletes the activattion container and creates a complete new instance. 
+        /// This is necessary for unit testing for example
+        /// </summary>
+        public static void Reset()
+        {
+            application = null;
+            
+        }
     }
 }
