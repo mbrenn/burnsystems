@@ -47,8 +47,7 @@ namespace BurnSystems.ObjectActivation
         /// </summary>
         public static void Reset()
         {
-            application = null;
-            
+            application = null;            
         }
     }
 }

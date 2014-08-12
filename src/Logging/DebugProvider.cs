@@ -46,7 +46,7 @@ namespace BurnSystems.Logging
         /// <param name="entry">Entry to be logged</param>
         public void DoLog(LogEntry entry)
         {
-            Console.WriteLine(
+            Debug.WriteLine(
                 "[{1}: {0:f4}s] {2}",
                 entry.RelativeTime.TotalSeconds,
                 entry.LogLevel.ToString(),
