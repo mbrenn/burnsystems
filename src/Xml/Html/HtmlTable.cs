@@ -54,5 +54,28 @@ namespace BurnSystems.Xml.Html
             this.currentRow.Add(
                 new HtmlElement("th", content));
         }
+
+        /// <summary>
+        /// Adds a td-cell with the elements being contained
+        /// </summary>
+        /// <param name="elements">Elements, that shall be added to the 
+        /// container</param>
+        public void AddCellWithContent(params object[] elements)
+        {
+            this.currentRow.Add(
+                new HtmlElement("td", elements));
+        }
+
+
+        /// <summary>
+        /// Adds a th-cell with the elements being contained
+        /// </summary>
+        /// <param name="elements">Elements, that shall be added to the 
+        /// container</param>
+        public void AddHeaderCellWithContent(params object[] elements)
+        {
+            this.currentRow.Add(
+                new HtmlElement("th", elements));
+        }
     }
 }

@@ -11,6 +11,8 @@
 
 namespace BurnSystems.Xml.Html
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml.Linq;
 
     /// <summary>
@@ -41,6 +43,30 @@ namespace BurnSystems.Xml.Html
             params object[] contents)
         {
             return new HtmlElement(htmlTag, contents);
+        }
+
+        /// <summary>
+        /// Gets the text and converts each newline character (\r\n) to a <br />-tag. 
+        /// The result can directly be added to a node
+        /// </summary>
+        /// <param name="text">Text to be converted</param>
+        /// <returns>Array of elements containing text and newline breaks. </returns>
+        public static object[] ConvertNewLineToBreaks(string text)
+        {
+            var result = new List<object>();
+            var notFirst = false;
+            foreach (var element in text.Split(new[] { '\r' }).Select(x => x.Trim()))
+            {
+                if (notFirst)
+                {
+                    result.Add(new XElement("br"));
+                }
+
+                result.Add(element);
+                notFirst = true;
+            }
+
+            return result.ToArray();
         }
     }
 }
