@@ -158,7 +158,8 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ObjectProperty.cs" />
     <Compile Include="FileHelper.cs" />
-    <Compile Include="Interfaces\IUserExceptionHandler.cs" />
+    <Compile Include="UserExceptionHandler\IExceptionHandling.cs" />
+    <Compile Include="UserExceptionHandler\IUserExceptionHandler.cs" />
     <Compile Include="Interfaces\IXElement.cs" />
     <Compile Include="Interfaces\IHasWritableIndex.cs" />
     <Compile Include="Interfaces\IParserDictionary.cs" />
@@ -249,6 +250,8 @@
     <Compile Include="Synchronisation\ThreadWatcher.cs" />
     <Compile Include="Synchronisation\ThreadWatcherItem.cs" />
     <Compile Include="Test\EnsureFailedException.cs" />
+    <Compile Include="UserExceptionHandler\NotHandledException.cs" />
+    <Compile Include="UserExceptionHandler\StandardExceptionHandling.cs" />
     <Compile Include="XmlHelper.cs" />
     <Compile Include="Xml\Html\HtmlDocument.cs" />
     <Compile Include="Xml\Html\HtmlElement.cs" />

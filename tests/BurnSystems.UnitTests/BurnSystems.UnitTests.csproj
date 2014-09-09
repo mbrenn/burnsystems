@@ -108,6 +108,7 @@
       <DependentUpon>Resources_UnitTest.resx</DependentUpon>
     </Compile>
     <Compile Include="StringManipulationTests.cs" />
+    <Compile Include="UserExceptionHandler\TestUserExceptionHandler.cs" />
     <Compile Include="XmlHelperTests.cs" />
     <Compile Include="Xml\XmlTests.cs" />
   </ItemGroup>

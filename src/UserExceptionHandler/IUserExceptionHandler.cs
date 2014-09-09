@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BurnSystems.Interfaces
+namespace BurnSystems.UserExceptionHandler
 {
     /// <summary>
     /// Defines the interface, that needs to be implemented
