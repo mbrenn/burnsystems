@@ -16,6 +16,7 @@ namespace BurnSystems.UserExceptionHandler
         /// Handles or throws the exception
         /// </summary>
         /// <param name="exc">Exception to be handled.</param>
-        void HandleException(Exception exc);
+        /// <returns>True, if the exception was handled by at least one item</returns>
+        bool HandleException(Exception exc);
     }
 }

@@ -31,7 +31,7 @@ namespace BurnSystems.UserExceptionHandler
         /// Handles the exceptions
         /// </summary>
         /// <param name="exc">Exceptions to be handled</param>
-        public void HandleException(Exception exc)
+        public bool HandleException(Exception exc)
         {
             // Null handler, will not handle exception
             if (this.handlers == null)
@@ -51,6 +51,8 @@ namespace BurnSystems.UserExceptionHandler
             {
                 throw new NotHandledException("Not handled", exc);
             }
+
+            return handled;
         }
     }
 }
