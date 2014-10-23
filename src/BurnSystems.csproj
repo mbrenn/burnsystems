@@ -158,6 +158,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ObjectProperty.cs" />
     <Compile Include="FileHelper.cs" />
+    <Compile Include="License\NonGPLInterfaceAttribute.cs" />
     <Compile Include="UserExceptionHandler\IExceptionHandling.cs" />
     <Compile Include="UserExceptionHandler\IUserExceptionHandler.cs" />
     <Compile Include="Interfaces\IXElement.cs" />
