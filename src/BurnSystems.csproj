@@ -311,6 +311,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BurnSystems_AGPL.snk" />
+    <None Include="Plugins\Plugins.cd" />
   </ItemGroup>
   <ItemGroup />
   <ProjectExtensions>
