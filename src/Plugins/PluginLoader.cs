@@ -153,7 +153,7 @@ namespace BurnSystems.Plugins
             var source = this.plugins.ToList();
             this.Plugins.Clear();
 
-            bool hasAdded;
+            var hasAdded = false;
             do
             {
                 hasAdded = false;
@@ -195,7 +195,7 @@ namespace BurnSystems.Plugins
                 }
 
                 var types = source.Select(x => x.Type.FullName).Aggregate((x, y) => string.Format("{0}, {1}", x, y));
-                throw new InvalidOperationException(types);
+                throw new InvalidOperationException("Circular dependencies: " + types);
             }
         }
     }
