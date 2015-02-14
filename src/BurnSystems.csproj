@@ -276,6 +276,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="BurnSystems.nuspec" />
     <None Include="packages.config" />
     <None Include="Plugins\Plugins.cd" />
   </ItemGroup>
