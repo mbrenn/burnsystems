@@ -82,25 +82,6 @@
     <Compile Include="Database\Objects\MapperTests.cs" />
     <Compile Include="Database\Objects\Person.cs" />
     <Compile Include="DateTimeHelperTests.cs" />
-    <Compile Include="ObjectActivation\ActivationBlockTests.cs" />
-    <Compile Include="ObjectActivation\ActivationContainerTests.cs" />
-    <Compile Include="ObjectActivation\BindAlsoToTests.cs" />
-    <Compile Include="ObjectActivation\ByItselfTests.cs" />
-    <Compile Include="ObjectActivation\Objects\CalculationContainer.cs" />
-    <Compile Include="ObjectActivation\Objects\Calculator.cs" />
-    <Compile Include="ObjectActivation\EnablerCriteriaTests.cs" />
-    <Compile Include="ObjectActivation\ICalculator.cs" />
-    <Compile Include="ObjectActivation\InstanceBuilderTests.cs" />
-    <Compile Include="ObjectActivation\Objects\CalculatorWithDatabase.cs" />
-    <Compile Include="ObjectActivation\Objects\ConstructorTest.cs" />
-    <Compile Include="ObjectActivation\Objects\Context.cs" />
-    <Compile Include="ObjectActivation\Objects\DatabaseDummy.cs" />
-    <Compile Include="ObjectActivation\Objects\MandatoryCalculatorContainer.cs" />
-    <Compile Include="ObjectActivation\Objects\Player.cs" />
-    <Compile Include="ObjectActivation\Objects\Rules.cs" />
-    <Compile Include="ObjectActivation\Objects\Town.cs" />
-    <Compile Include="ObjectActivation\Objects\WebContext.cs" />
-    <Compile Include="ObjectActivation\Objects\WebRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources_UnitTest.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -111,9 +92,6 @@
     <Compile Include="UserExceptionHandler\TestUserExceptionHandler.cs" />
     <Compile Include="XmlHelperTests.cs" />
     <Compile Include="Xml\XmlTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -142,7 +120,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

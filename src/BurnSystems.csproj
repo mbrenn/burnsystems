@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BurnSystems</RootNamespace>
     <AssemblyName>BurnSystems</AssemblyName>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>BurnSystems_AGPL.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -139,10 +140,6 @@
     <Compile Include="Collections\TypedContainer.cs" />
     <Compile Include="Collections\XmlList.cs" />
     <Compile Include="Collections\XmlSetList.cs" />
-    <Compile Include="CommandLineEvaluater.cs" />
-    <Compile Include="CommandLine\ICommandLineDefinition.cs" />
-    <Compile Include="CommandLine\OptionalArgument.cs" />
-    <Compile Include="CommandLine\RequiresArgument.cs" />
     <Compile Include="Database\ConnectionFactory.cs" />
     <Compile Include="Database\Helper.cs" />
     <Compile Include="Database\Objects\AssignmentInfo.cs" />
@@ -171,39 +168,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LocalizationBS.resx</DependentUpon>
     </Compile>
-    <Compile Include="Logging\ClassLogger.cs" />
-    <Compile Include="Logging\DebugProvider.cs" />
-    <Compile Include="Logging\Extensions.cs" />
     <Compile Include="Net\Json\IJsonObject.cs" />
     <Compile Include="Net\Json\JsonBoolean.cs" />
     <Compile Include="Net\Json\JsonList.cs" />
     <Compile Include="Net\Json\JsonNumber.cs" />
     <Compile Include="Net\Json\JsonObject.cs" />
     <Compile Include="Net\Json\JsonString.cs" />
-    <Compile Include="ObjectActivation\ActivationBlock.cs" />
-    <Compile Include="ObjectActivation\ActivationContainer.cs" />
-    <Compile Include="ObjectActivation\ActivationContainerExtensions.cs" />
-    <Compile Include="ObjectActivation\ActivationInfo.cs" />
-    <Compile Include="ObjectActivation\ActiveInstance.cs" />
-    <Compile Include="ObjectActivation\ActiveInstanceCollection.cs" />
-    <Compile Include="ObjectActivation\BindAlsoToAttribute.cs" />
-    <Compile Include="ObjectActivation\BindingHelperExtension.cs" />
-    <Compile Include="ObjectActivation\BindingHelper.cs" />
-    <Compile Include="ObjectActivation\Global.cs" />
-    <Compile Include="ObjectActivation\InjectAttribute.cs" />
-    <Compile Include="ObjectActivation\IActivates.cs" />
-    <Compile Include="ObjectActivation\InstanceBuilder.cs" />
-    <Compile Include="ObjectActivation\InstantiationCacheEntry.cs" />
-    <Compile Include="ObjectActivation\ObjectActivationException.cs" />
-    <Compile Include="ObjectActivation\PostActivationInfo.cs" />
-    <Compile Include="ObjectActivation\Criteria\ByNameCriteria.cs" />
-    <Compile Include="ObjectActivation\Criteria\ByTypeCriteria.cs" />
-    <Compile Include="ObjectActivation\CriteriaCatalogue.cs" />
-    <Compile Include="ObjectActivation\Enabler\ByNameEnabler.cs" />
-    <Compile Include="ObjectActivation\Enabler\ByTypeEnabler.cs" />
-    <Compile Include="ObjectActivation\ICriteria.cs" />
-    <Compile Include="ObjectActivation\IEnabler.cs" />
-    <Compile Include="ObjectActivation\StatementLoader.cs" />
     <Compile Include="Plugins\PluginDependencyAttribute.cs" />
     <Compile Include="Plugins\PluginInfo.cs" />
     <Compile Include="Plugins\PluginLoader.cs" />
@@ -232,13 +202,6 @@
     <Compile Include="Interfaces\IUserAuthentication.cs" />
     <Compile Include="Interfaces\IXmlNode.cs" />
     <Compile Include="IO\DirectTextReader.cs" />
-    <Compile Include="Logging\ConsoleProvider.cs" />
-    <Compile Include="Logging\FileProvider.cs" />
-    <Compile Include="Logging\ILog.cs" />
-    <Compile Include="Logging\ILogProvider.cs" />
-    <Compile Include="Logging\Log.cs" />
-    <Compile Include="Logging\LogCreator.cs" />
-    <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Net\HttpPostRequest.cs" />
     <Compile Include="Net\MultipartFormData.cs" />
@@ -259,6 +222,9 @@
     <Compile Include="Xml\Html\HtmlTable.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="BurnSystems.Logger">
+      <HintPath>..\packages\BurnSystems.Logger.1.0.2.0\lib\net45\BurnSystems.Logger.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
@@ -310,7 +276,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BurnSystems_AGPL.snk" />
+    <None Include="packages.config" />
     <None Include="Plugins\Plugins.cd" />
   </ItemGroup>
   <ItemGroup />

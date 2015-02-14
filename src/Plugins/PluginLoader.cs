@@ -17,7 +17,7 @@ namespace BurnSystems.Plugins
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using BurnSystems.Logging;
+    using BurnSystems.Logger;
 
     /// <summary>
     /// This class implements a plugin loader for applications. 

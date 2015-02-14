@@ -16,7 +16,7 @@ namespace BurnSystems.Serialization
     using System.Globalization;
     using System.Runtime.Serialization;
     using BurnSystems.Collections;
-    using BurnSystems.Logging;
+    using BurnSystems.Logger;
     using BurnSystems.Test;
 
     /// <summary>

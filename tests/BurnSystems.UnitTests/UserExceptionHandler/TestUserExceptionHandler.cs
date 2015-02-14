@@ -62,6 +62,5 @@ namespace BurnSystems.UnitTests.UserExceptionHandler
                 return false;
             }
         }
-
     }
 }
