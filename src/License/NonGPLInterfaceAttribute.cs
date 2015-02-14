@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BurnSystems.License
 {
     /// <summary>
-    /// Defines that components, implementing the given interface, does not to satisfy 
+    /// Defines that components, implementing the given interface, do not need to satisfy 
     /// the GPL licence, even if the product itself is under GPL licence.
     /// This attribute does not have any other purpose and will not affect the 
     /// runtime
