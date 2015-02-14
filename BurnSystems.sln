@@ -1,9 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSystems", "src\BurnSystems.csproj", "{42023D16-AFD1-4D99-BC39-9EF46982EB54}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSystems.UnitTests", "tests\BurnSystems.UnitTests\BurnSystems.UnitTests.csproj", "{FCC18E68-AF8F-4527-AF60-9A601BE16560}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7999891F-D2E0-4F8E-837D-F96860F56CBD}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,13 +39,16 @@ Global
 		{FCC18E68-AF8F-4527-AF60-9A601BE16560}.Release|x86.ActiveCfg = Release|x86
 		{FCC18E68-AF8F-4527-AF60-9A601BE16560}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = tests\BurnSystems.UnitTests\BurnSystems.UnitTests.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = Hierarchical
 		$1.ResourceNamePolicy = FileName
-		$0.TextStylePolicy = $2
+		$0.TextStylePolicy = $6
 		$2.RemoveTrailingWhitespace = True
 		$2.EolMarker = Windows
 		$2.inheritsSet = VisualStudio
@@ -46,19 +58,16 @@ Global
 		$3.inheritsSet = Mono
 		$3.inheritsScope = text/x-csharp
 		$3.scope = text/x-csharp
-		$0.TextStylePolicy = $4
 		$4.RemoveTrailingWhitespace = True
 		$4.EolMarker = Windows
 		$4.inheritsSet = VisualStudio
 		$4.inheritsScope = text/plain
 		$4.scope = text/plain
-		$0.TextStylePolicy = $5
 		$5.RemoveTrailingWhitespace = True
 		$5.EolMarker = Windows
 		$5.inheritsSet = VisualStudio
 		$5.inheritsScope = text/plain
 		$5.scope = application/x-resource
-		$0.TextStylePolicy = $6
 		$6.RemoveTrailingWhitespace = True
 		$6.EolMarker = Windows
 		$6.inheritsSet = VisualStudio
@@ -67,8 +76,5 @@ Global
 		$0.StandardHeader = $7
 		$7.Text = 
 		$7.IncludeInNewFiles = True
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
