@@ -13,7 +13,7 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.IO;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// Serializes an object into a stream

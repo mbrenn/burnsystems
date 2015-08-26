@@ -17,7 +17,7 @@ namespace BurnSystems.Serialization
     using System.Linq;
     using System.Reflection;
     using BurnSystems.Collections;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// Deserializes a stream and returns an object. 

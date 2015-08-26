@@ -18,7 +18,7 @@ namespace BurnSystems
     using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// Helperclass for improving access to xml documents

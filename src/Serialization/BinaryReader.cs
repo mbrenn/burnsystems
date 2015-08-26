@@ -15,7 +15,7 @@ namespace BurnSystems.Serialization
     using System.Globalization;
     using System.IO;
     using System.Text;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// This class is an implementation of a binary reader for serialization.

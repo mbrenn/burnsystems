@@ -15,7 +15,7 @@ namespace BurnSystems.Synchronisation
     using System.Collections.Generic;
     using System.Text;
     using BurnSystems.Interfaces;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// Eine einfache Locking-Klasse, die für das Locken 

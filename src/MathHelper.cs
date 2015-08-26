@@ -15,7 +15,7 @@ namespace BurnSystems
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using BurnSystems.Test;
+    using Test;
     using System.Threading;
 
     /// <summary>

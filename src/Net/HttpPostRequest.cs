@@ -16,7 +16,7 @@ namespace BurnSystems.Net
     using System.Net;
     using System.Text;
     using System.Web;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// über diese Klasse nutzt die internen .Net-Routinen und stellt

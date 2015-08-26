@@ -18,7 +18,7 @@ namespace BurnSystems
     using System.Reflection;
     using System.Security;
     using System.Xml.Linq;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// This helper class offers some method to determine environment information

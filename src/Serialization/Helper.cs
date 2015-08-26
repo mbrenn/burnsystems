@@ -14,7 +14,7 @@ namespace BurnSystems.Serialization
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// Type of container

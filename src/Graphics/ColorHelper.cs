@@ -14,7 +14,7 @@ namespace BurnSystems.Graphics
     using System;
     using System.Drawing;
     using System.Globalization;
-    using BurnSystems.Test;
+    using Test;
     
     /// <summary>
     /// This is a small helper class for converting colors to hex and back. 

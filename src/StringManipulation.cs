@@ -18,7 +18,7 @@ namespace BurnSystems
     using System.Globalization;
     using System.IO;
     using System.Text;
-    using BurnSystems.Test;
+    using Test;
     using System.Text.RegularExpressions;
 
     /// <summary>

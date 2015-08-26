@@ -13,7 +13,7 @@ namespace BurnSystems.Serialization
 {
     using System;
     using System.Collections.Generic;
-    using BurnSystems.Test;
+    using Test;
 
     /// <summary>
     /// This visitor visits an object and calls the necessary method in 

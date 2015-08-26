@@ -14,7 +14,7 @@ namespace BurnSystems.Plugins
     using System;
     using System.Collections.Generic;
     using System.Xml.Linq;
-    using BurnSystems.Test;
+    using Test;
     using System.Reflection;
 
     /// <summary>
