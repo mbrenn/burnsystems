@@ -38,8 +38,8 @@ namespace BurnSystems.Collections
         /// <param name="second">Second value to be stored</param>
         public Pair(TFirst first, TSecond second)
         {
-            this.First = first;
-            this.Second = second;
+            First = first;
+            Second = second;
         }
 
         /// <summary>
@@ -68,9 +68,9 @@ namespace BurnSystems.Collections
         {
             return string.Format(
                 CultureInfo.CurrentUICulture,
-                "{0}, {1}", 
-                this.First.ToString(), 
-                this.Second.ToString());
+                "{0}, {1}",
+                First.ToString(),
+                Second.ToString());
         }
 
         /// <summary>
@@ -83,9 +83,9 @@ namespace BurnSystems.Collections
             switch (name)
             {
                 case "First":
-                    return this.First;
+                    return First;
                 case "Second":
-                    return this.Second;
+                    return Second;
                 default:
                     return null;
             }
@@ -116,8 +116,8 @@ namespace BurnSystems.Collections
                 return false;
             }
 
-            return pair.First.Equals(this.First)
-                && pair.Second.Equals(this.Second);
+            return pair.First.Equals(First)
+                && pair.Second.Equals(Second);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace BurnSystems.Collections
         /// <returns>Hashcade of the pair</returns>
         public override int GetHashCode()
         {
-            return this.First.GetHashCode() ^ this.Second.GetHashCode();
+            return First.GetHashCode() ^ Second.GetHashCode();
         }
     }
 }

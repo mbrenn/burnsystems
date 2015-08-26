@@ -52,8 +52,8 @@ namespace BurnSystems.Serialization
             // Null object
             if (value == null)
             {
-                this.writer.StartContainer(ContainerType.Data);
-                this.writer.StartDataContainer(DataType.Null);
+                writer.StartContainer(ContainerType.Data);
+                writer.StartDataContainer(DataType.Null);
                 return;
             }
 
@@ -65,13 +65,13 @@ namespace BurnSystems.Serialization
             // Write
             if (Helper.IsNativeType(type))
             {
-                this.writer.StartContainer(ContainerType.Data);
-                this.writer.StartDataContainer(DataType.Native);
-                this.writer.WriteNativeType(value);
+                writer.StartContainer(ContainerType.Data);
+                writer.StartDataContainer(DataType.Native);
+                writer.WriteNativeType(value);
             }
             else if (Helper.IsEnumeration(type))
             {
-                this.ParseEnumObject(value);
+                ParseEnumObject(value);
             }
             else if (Helper.IsArray(type))
             {
@@ -79,16 +79,16 @@ namespace BurnSystems.Serialization
                 if (type.IsClass || type.IsArray)
                 {
                     bool alreadyInserted;
-                    objectId = this.serializer.RegisterObject(value, out alreadyInserted);
+                    objectId = serializer.RegisterObject(value, out alreadyInserted);
                     if (alreadyInserted)
                     {
-                        this.writer.StartContainer(ContainerType.Reference);
-                        this.writer.WriteReference(objectId);
+                        writer.StartContainer(ContainerType.Reference);
+                        writer.WriteReference(objectId);
                         return;
                     }
                 }
 
-                this.ParseArrayObject(value, objectId);
+                ParseArrayObject(value, objectId);
             }
             else
             {
@@ -96,17 +96,17 @@ namespace BurnSystems.Serialization
                 if (type.IsClass || type.IsArray)
                 {
                     bool alreadyInserted;
-                    objectId = this.serializer.RegisterObject(value, out alreadyInserted);
+                    objectId = serializer.RegisterObject(value, out alreadyInserted);
                     if (alreadyInserted)
                     {
-                        this.writer.StartContainer(ContainerType.Reference);
-                        this.writer.WriteReference(objectId);
+                        writer.StartContainer(ContainerType.Reference);
+                        writer.WriteReference(objectId);
                         return;
                     }
                 }
 
                 // Complex type
-                this.ParseComplexObject(value, objectId);
+                ParseComplexObject(value, objectId);
             }
         }
 
@@ -118,11 +118,11 @@ namespace BurnSystems.Serialization
         {
             var type = value.GetType();
 
-            var typeEntry = this.serializer.RegisterType(type);
+            var typeEntry = serializer.RegisterType(type);
 
-            this.writer.StartContainer(ContainerType.Data);
-            this.writer.StartDataContainer(DataType.Enum);
-            this.writer.WriteEnumType(typeEntry.TypeId, value as Enum);
+            writer.StartContainer(ContainerType.Data);
+            writer.StartDataContainer(DataType.Enum);
+            writer.WriteEnumType(typeEntry.TypeId, value as Enum);
         }
 
         /// <summary>
@@ -134,17 +134,17 @@ namespace BurnSystems.Serialization
         {
             var type = value.GetType();
 
-            var typeEntry = this.serializer.RegisterType(type);
-            
+            var typeEntry = serializer.RegisterType(type);
+
             // Get the properties of 'Type' class object.            
-            this.writer.StartContainer(ContainerType.Data);
-            this.writer.StartDataContainer(DataType.Complex);
-            this.writer.StartComplexType(typeEntry.TypeId, objectId, typeEntry.Fields.Count);
+            writer.StartContainer(ContainerType.Data);
+            writer.StartDataContainer(DataType.Complex);
+            writer.StartComplexType(typeEntry.TypeId, objectId, typeEntry.Fields.Count);
 
             foreach (var field in typeEntry.Fields) 
             {
-                this.writer.WritePropertyId(field.FieldId);
-                this.ParseObject(field.FieldInfo.GetValue(value));
+                writer.WritePropertyId(field.FieldId);
+                ParseObject(field.FieldInfo.GetValue(value));
             }
         }
 
@@ -160,10 +160,10 @@ namespace BurnSystems.Serialization
             var elementType = arrayType.GetElementType();
             Ensure.IsNotNull(elementType);
 
-            var elementTypeEntry = this.serializer.RegisterType(elementType);
+            var elementTypeEntry = serializer.RegisterType(elementType);
 
-            this.writer.StartContainer(ContainerType.Data);
-            this.writer.StartDataContainer(DataType.Array);            
+            writer.StartContainer(ContainerType.Data);
+            writer.StartDataContainer(DataType.Array);            
 
             // Got dimensions
             var dimensions = array.Rank;
@@ -174,7 +174,7 @@ namespace BurnSystems.Serialization
                 dimensionList.Add(length);
             }
 
-            this.writer.StartArrayType(
+            writer.StartArrayType(
                 elementTypeEntry.TypeId, 
                 objectId, 
                 dimensions, 
@@ -209,7 +209,7 @@ namespace BurnSystems.Serialization
 
                 if (inloop)
                 {
-                    this.ParseObject(array.GetValue(index));
+                    ParseObject(array.GetValue(index));
 
                     // Increase index
                     index[0]++;

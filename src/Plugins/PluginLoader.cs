@@ -44,7 +44,7 @@ namespace BurnSystems.Plugins
         /// </summary>
         public List<PluginInfo<T>> Plugins
         {
-            get { return this.plugins; }
+            get { return plugins; }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace BurnSystems.Plugins
                         var plugin = Activator.CreateInstance(type) as T;
                         var pluginInfo = new PluginInfo<T>(assembly, type, plugin);
 
-                        this.plugins.Add(pluginInfo);
+                        plugins.Add(pluginInfo);
                     }
                 }
                 catch (Exception exc)
@@ -102,11 +102,11 @@ namespace BurnSystems.Plugins
             {
                 // Checks if assembly is in cache
                 Assembly assembly;
-                if (!this.assemblies.TryGetValue(assemblyPath, out assembly))
+                if (!assemblies.TryGetValue(assemblyPath, out assembly))
                 {
                     assembly = EnvironmentHelper.GetOrLoadAssembly(assemblyPath);
 
-                    this.assemblies[assemblyPath] = assembly;
+                    assemblies[assemblyPath] = assembly;
                 }
 
                 // Gets type
@@ -129,7 +129,7 @@ namespace BurnSystems.Plugins
                 var plugin = Activator.CreateInstance(typeOfPlugin) as T;
                 var pluginInfo = new PluginInfo<T>(assembly, typeOfPlugin, plugin);
 
-                this.plugins.Add(pluginInfo);
+                plugins.Add(pluginInfo);
 
                 return plugin;
             }
@@ -150,8 +150,8 @@ namespace BurnSystems.Plugins
         {
             // First sort the plugins
             // Source of order... After sorting, this class has to be empty
-            var source = this.plugins.ToList();
-            this.Plugins.Clear();
+            var source = plugins.ToList();
+            Plugins.Clear();
 
             var hasAdded = false;
             do
@@ -161,9 +161,9 @@ namespace BurnSystems.Plugins
                 {
                     var element = source[n];
                     if (element.Dependencies.All(
-                        x => this.Plugins.Exists(y => y.Type == x)))
+                        x => Plugins.Exists(y => y.Type == x)))
                     {
-                        this.Plugins.Add(element);
+                        Plugins.Add(element);
                         source.RemoveAt(n);
                         n--;
 

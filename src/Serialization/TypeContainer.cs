@@ -42,7 +42,7 @@ namespace BurnSystems.Serialization
         /// </summary>
         public List<TypeEntry> Types
         {
-            get { return this.types; }
+            get { return types; }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace BurnSystems.Serialization
             // Creates new entry
             var typeEntry = new TypeEntry();
 
-            this.lastIndex++;
-            typeEntry.TypeId = this.lastIndex;
+            lastIndex++;
+            typeEntry.TypeId = lastIndex;
 
             // Sets typeid etc
             typeEntry.Type = type;
@@ -69,7 +69,7 @@ namespace BurnSystems.Serialization
                 // Adds generic arguments
                 foreach (var genericType in type.GetGenericArguments())
                 {
-                    var genericTypeEntry = this.FindType(genericType);
+                    var genericTypeEntry = FindType(genericType);
                     Ensure.IsNotNull(genericTypeEntry);
                     typeEntry.GenericArguments.Add(genericTypeEntry.TypeId);
                 }
@@ -97,7 +97,7 @@ namespace BurnSystems.Serialization
                 thisType = thisType.BaseType;
             }
 
-            this.types.Add(typeEntry);
+            types.Add(typeEntry);
 
             return typeEntry;
         }
@@ -109,7 +109,7 @@ namespace BurnSystems.Serialization
         /// <returns>Found type</returns>
         public TypeEntry FindType(string name)
         {
-            return ListHelper.Find(this.Types, x => x.Name == name);
+            return ListHelper.Find(Types, x => x.Name == name);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace BurnSystems.Serialization
         /// <returns>Found type</returns>
         public TypeEntry FindType(long typeId)
         {
-            return ListHelper.Find(this.Types, x => x.TypeId == typeId);
+            return ListHelper.Find(Types, x => x.TypeId == typeId);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace BurnSystems.Serialization
         /// <returns>Found type</returns>
         public TypeEntry FindType(Type type)
         {
-            return ListHelper.Find(this.Types, x => x.Type == type);
+            return ListHelper.Find(Types, x => x.Type == type);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace BurnSystems.Serialization
         /// <param name="typeEntry">Typeentry to be added</param>
         internal void AddType(TypeEntry typeEntry)
         {
-            this.types.Add(typeEntry);
+            types.Add(typeEntry);
         }
     }
 }

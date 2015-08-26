@@ -31,7 +31,7 @@ namespace BurnSystems.AdoNet.Queries
         /// <param name="queryText">Querytext to be used</param>
         public FreeQuery(string queryText)
         {
-            this.QueryText = queryText;
+            QueryText = queryText;
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace BurnSystems.AdoNet.Queries
         public override System.Data.IDbCommand GetCommand(DbConnection connection)
         {
             var command = connection.CreateCommand();
-            command.CommandText = this.QueryText;
+            command.CommandText = QueryText;
 
-            foreach (var pair in this.parameters)
+            foreach (var pair in parameters)
             {
                 var parameter = command.CreateParameter();
                 parameter.ParameterName = pair.Key;
@@ -73,7 +73,7 @@ namespace BurnSystems.AdoNet.Queries
         /// <param name="value">Value to be added</param>
         public void AddParameter(string parametername, object value)
         {
-            this.parameters[parametername] = value;
+            parameters[parametername] = value;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace BurnSystems.AdoNet.Queries
         /// <returns>The query text</returns>
         public override string ToString()
         {
-            return this.QueryText;
+            return QueryText;
         }
     }
 }

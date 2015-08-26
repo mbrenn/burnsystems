@@ -33,9 +33,9 @@ namespace BurnSystems.Database.Objects
         /// <param name="connection">Databaseconnection to be used</param>
         public Mapper(string tableName, DbConnection connection)
         {
-            this.TableName = tableName;
-            this.Connection = connection;
-            this.converter = new Converter<T>();
+            TableName = tableName;
+            Connection = connection;
+            converter = new Converter<T>();
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace BurnSystems.Database.Objects
         /// <param name="converter">Converter used to convert instances</param>
         public Mapper(string tableName, DbConnection connection, IConverter<T> converter)
         {
-            this.TableName = tableName;
-            this.Connection = connection;
+            TableName = tableName;
+            Connection = connection;
             this.converter = converter;
         }
 
@@ -76,13 +76,13 @@ namespace BurnSystems.Database.Objects
         /// <returns>Id of the new item</returns>
         public long Add(T t)
         {
-            var data = this.converter.ConvertToDatabaseObject(t, false);
-            var insertQuery = new InsertQuery(this.TableName, data);
-            this.Connection.ExecuteNonQuery(insertQuery);
+            var data = converter.ConvertToDatabaseObject(t, false);
+            var insertQuery = new InsertQuery(TableName, data);
+            Connection.ExecuteNonQuery(insertQuery);
 
-            var freeQuery = new FreeQuery(string.Format("SELECT MAX({0}) FROM {1}", this.converter.PrimaryKeyName, this.TableName));
-            var id = this.Connection.ExecuteScalar<long>(freeQuery);
-            this.converter.SetId(t, id);
+            var freeQuery = new FreeQuery(string.Format("SELECT MAX({0}) FROM {1}", converter.PrimaryKeyName, TableName));
+            var id = Connection.ExecuteScalar<long>(freeQuery);
+            converter.SetId(t, id);
 
             return id;
         }
@@ -92,8 +92,8 @@ namespace BurnSystems.Database.Objects
         /// </summary>
         public void Clear()
         {
-            var deleteQuery = new DeleteQuery(this.TableName);
-            this.Connection.ExecuteNonQuery(deleteQuery);
+            var deleteQuery = new DeleteQuery(TableName);
+            Connection.ExecuteNonQuery(deleteQuery);
         }
 
         /// <summary>
@@ -103,10 +103,10 @@ namespace BurnSystems.Database.Objects
         public void Delete(long id)
         {
             var where = new Dictionary<string, object>();
-            where[this.converter.PrimaryKeyName] = id;
+            where[converter.PrimaryKeyName] = id;
 
-            var deleteQuery = new DeleteQuery(this.TableName, where);
-            this.Connection.ExecuteNonQuery(deleteQuery);
+            var deleteQuery = new DeleteQuery(TableName, where);
+            Connection.ExecuteNonQuery(deleteQuery);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace BurnSystems.Database.Objects
         /// <param name="t">Item to be removed</param>
         public void Delete(T t)
         {
-            this.Delete(this.converter.GetId(t));
+            Delete(converter.GetId(t));
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace BurnSystems.Database.Objects
         /// <param name="where">Dictionary containing where constraint</param>
         public void Delete(Dictionary<string, object> where)
         {
-            var deleteQuery = new DeleteQuery(this.TableName, where);
-            this.Connection.ExecuteNonQuery(deleteQuery);
+            var deleteQuery = new DeleteQuery(TableName, where);
+            Connection.ExecuteNonQuery(deleteQuery);
         }
 
         /// <summary>
@@ -135,12 +135,12 @@ namespace BurnSystems.Database.Objects
         public void Update(T t)
         {
             var where = new Dictionary<string, object>();
-            where[this.converter.PrimaryKeyName] = this.converter.GetId(t);
+            where[converter.PrimaryKeyName] = converter.GetId(t);
 
-            var data = this.converter.ConvertToDatabaseObject(t, false);
+            var data = converter.ConvertToDatabaseObject(t, false);
 
-            var updateQuery = new UpdateQuery(this.TableName, data, where);
-            this.Connection.ExecuteNonQuery(updateQuery);
+            var updateQuery = new UpdateQuery(TableName, data, where);
+            Connection.ExecuteNonQuery(updateQuery);
         }
 
         /// <summary>
@@ -151,15 +151,15 @@ namespace BurnSystems.Database.Objects
         public T Get(long id)
         {
             var where = new Dictionary<string, object>();
-            where[this.converter.PrimaryKeyName] = id;
+            where[converter.PrimaryKeyName] = id;
 
-            var selectQuery = new SelectQuery(this.TableName, where);
+            var selectQuery = new SelectQuery(TableName, where);
 
-            foreach (var reader in this.Connection.ExecuteEnumeration(selectQuery))
+            foreach (var reader in Connection.ExecuteEnumeration(selectQuery))
             {
                 var data = ConvertToDictionary(reader);
 
-                return this.converter.ConvertToInstance(data);
+                return converter.ConvertToInstance(data);
             }
 
             return default(T);
@@ -171,15 +171,15 @@ namespace BurnSystems.Database.Objects
         /// <returns>Array of items</returns>
         public T[] GetAll()
         {
-            var selectQuery = new SelectQuery(this.TableName);
+            var selectQuery = new SelectQuery(TableName);
 
             var result = new List<T>();
 
-            foreach (var reader in this.Connection.ExecuteEnumeration(selectQuery))
+            foreach (var reader in Connection.ExecuteEnumeration(selectQuery))
             {
                 var data = ConvertToDictionary(reader);
 
-                result.Add(this.converter.ConvertToInstance(data));
+                result.Add(converter.ConvertToInstance(data));
             }
 
             return result.ToArray();
@@ -192,7 +192,7 @@ namespace BurnSystems.Database.Objects
         /// <returns>Array of items to be returned</returns>
         public T[] Get(Dictionary<string, object> where)
         {
-            var selectQuery = new SelectQuery(this.TableName, where);
+            var selectQuery = new SelectQuery(TableName, where);
             return Get(selectQuery);
         }
 
@@ -206,7 +206,7 @@ namespace BurnSystems.Database.Objects
         {
             var data = new Dictionary<string, object>();
             data[key] = value;
-            return this.Get(data);
+            return Get(data);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace BurnSystems.Database.Objects
         /// <returns>Array of items to be returned</returns>
         public T[] Get(string query)
         {
-            return this.Get(new FreeQuery(query));
+            return Get(new FreeQuery(query));
         }
 
         /// <summary>
@@ -228,11 +228,11 @@ namespace BurnSystems.Database.Objects
         {
             var result = new List<T>();
 
-            foreach (var reader in this.Connection.ExecuteEnumeration(selectQuery))
+            foreach (var reader in Connection.ExecuteEnumeration(selectQuery))
             {
                 var data = ConvertToDictionary(reader);
 
-                result.Add(this.converter.ConvertToInstance(data));
+                result.Add(converter.ConvertToInstance(data));
             }
 
             return result.ToArray();
@@ -246,7 +246,7 @@ namespace BurnSystems.Database.Objects
         public T ConvertToInstance(System.Data.IDataReader reader)
         {
             var data = ConvertToDictionary(reader);
-            return this.converter.ConvertToInstance(data);
+            return converter.ConvertToInstance(data);
         }
 
         /// <summary>

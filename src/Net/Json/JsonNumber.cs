@@ -40,7 +40,7 @@ namespace BurnSystems.Net.Json
         /// <returns>This object as a json string</returns>
         public override string ToString()
         {
-            return this.value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

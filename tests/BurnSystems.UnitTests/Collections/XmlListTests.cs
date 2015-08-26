@@ -47,17 +47,17 @@ namespace BurnSystems.UnitTests.Collections
                     return false;
                 }
 
-                return entity.Name == this.Name
-                    && entity.Prename == this.Prename
-                    && entity.Age == this.Age;
+                return entity.Name == Name
+                    && entity.Prename == Prename
+                    && entity.Age == Age;
             }
 
             public override int GetHashCode()
             {
                 return
-                    this.Name.GetHashCode() ^
-                    this.Prename.GetHashCode() ^
-                    this.Age.GetHashCode();
+                    Name.GetHashCode() ^
+                    Prename.GetHashCode() ^
+                    Age.GetHashCode();
             }
         }
 
@@ -191,14 +191,14 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
+            list.Add(Person1);
+            list.Add(Person2);
 
             Assert.That(list.Count, Is.EqualTo(2));
             Assert.That(list[0], Is.EqualTo(Person1));
             Assert.That(list[1], Is.EqualTo(Person2));
 
-            list.Add(this.Person3);
+            list.Add(Person3);
 
             Assert.That(list.Count, Is.EqualTo(3));
         }
@@ -208,9 +208,9 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
-            list.Add(this.Person3);
+            list.Add(Person1);
+            list.Add(Person2);
+            list.Add(Person3);
 
             Assert.That(list.Count, Is.EqualTo(3));
 
@@ -226,9 +226,9 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person3);
-            list.Insert(1, this.Person2);
+            list.Add(Person1);
+            list.Add(Person3);
+            list.Insert(1, Person2);
 
             Assert.That(list.Count, Is.EqualTo(3));
             Assert.That(list[0], Is.EqualTo(Person1));
@@ -241,21 +241,21 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
-            list.Add(this.Person3);
+            list.Add(Person1);
+            list.Add(Person2);
+            list.Add(Person3);
 
-            Assert.That(list.Remove(this.Person2), Is.True);
+            Assert.That(list.Remove(Person2), Is.True);
             Assert.That(list.Count, Is.EqualTo(2));
             Assert.That(list[0], Is.EqualTo(Person1));
             Assert.That(list[1], Is.EqualTo(Person3));
 
-            list.Remove(this.Person1);
-            list.Remove(this.Person3);
+            list.Remove(Person1);
+            list.Remove(Person3);
 
             Assert.That(list.Count, Is.EqualTo(0));
 
-            Assert.That(list.Remove(this.Person2), Is.False);
+            Assert.That(list.Remove(Person2), Is.False);
         }
 
         [Test]
@@ -263,17 +263,17 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
-            list.Add(this.Person3);
+            list.Add(Person1);
+            list.Add(Person2);
+            list.Add(Person3);
 
             Assert.That(list.Count, Is.EqualTo(3));
-            Assert.That(list.IndexOf(this.Person1), Is.EqualTo(0));
-            Assert.That(list.IndexOf(this.Person2), Is.EqualTo(1));
-            Assert.That(list.IndexOf(this.Person3), Is.EqualTo(2));
+            Assert.That(list.IndexOf(Person1), Is.EqualTo(0));
+            Assert.That(list.IndexOf(Person2), Is.EqualTo(1));
+            Assert.That(list.IndexOf(Person3), Is.EqualTo(2));
 
-            list.Remove(this.Person2);
-            Assert.That(list.IndexOf(this.Person2), Is.EqualTo(-1));
+            list.Remove(Person2);
+            Assert.That(list.IndexOf(Person2), Is.EqualTo(-1));
         }
 
         [Test]
@@ -281,14 +281,14 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
+            list.Add(Person1);
+            list.Add(Person2);
 
             Assert.That(list.Count, Is.EqualTo(2));
-            Assert.That(list.IndexOf(this.Person1), Is.EqualTo(0));
-            Assert.That(list.IndexOf(this.Person2), Is.EqualTo(1));
+            Assert.That(list.IndexOf(Person1), Is.EqualTo(0));
+            Assert.That(list.IndexOf(Person2), Is.EqualTo(1));
 
-            list[1] = this.Person3;
+            list[1] = Person3;
 
             Assert.That(list.Count, Is.EqualTo(2));
             Assert.That(list[1], Is.EqualTo(Person3));
@@ -299,15 +299,15 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
+            list.Add(Person1);
+            list.Add(Person2);
 
             Assert.That(list.Count, Is.EqualTo(2));
 
             list.Clear();
 
             Assert.That(list.Count, Is.EqualTo(0));
-            Assert.That(list.IndexOf(this.Person2), Is.EqualTo(-1));
+            Assert.That(list.IndexOf(Person2), Is.EqualTo(-1));
         }
 
         [Test]
@@ -323,16 +323,16 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
+            list.Add(Person1);
+            list.Add(Person2);
 
             var count = 0;
             foreach (var element in list)
             {
                 count++;
 
-                Assert.That(element.Equals(this.Person1) || element.Equals(this.Person2), Is.True);
-                Assert.That(element.Equals(this.Person3), Is.False);
+                Assert.That(element.Equals(Person1) || element.Equals(Person2), Is.True);
+                Assert.That(element.Equals(Person3), Is.False);
             }
 
             Assert.That(count, Is.EqualTo(2));
@@ -343,9 +343,9 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
-            list.Add(this.Person3);
+            list.Add(Person1);
+            list.Add(Person2);
+            list.Add(Person3);
 
             Assert.That(list.Any(x => x.Age == 25), Is.True);
             Assert.That(list.Any(x => x.Age == 99), Is.False);
@@ -360,22 +360,22 @@ namespace BurnSystems.UnitTests.Collections
         {
             var list = EmptyRootElement;
 
-            list.Add(this.Person1);
-            list.Add(this.Person2);
-            list.Add(this.Person3);
+            list.Add(Person1);
+            list.Add(Person2);
+            list.Add(Person3);
 
             var array = new Entity[10];
 
             list.CopyTo(array, 1);
 
-            Assert.That(array[1], Is.EqualTo(this.Person1));
-            Assert.That(array[2], Is.EqualTo(this.Person2));
-            Assert.That(array[3], Is.EqualTo(this.Person3));
+            Assert.That(array[1], Is.EqualTo(Person1));
+            Assert.That(array[2], Is.EqualTo(Person2));
+            Assert.That(array[3], Is.EqualTo(Person3));
 
             list.CopyTo(array, 3);
-            Assert.That(array[3], Is.EqualTo(this.Person1));
-            Assert.That(array[4], Is.EqualTo(this.Person2));
-            Assert.That(array[5], Is.EqualTo(this.Person3));
+            Assert.That(array[3], Is.EqualTo(Person1));
+            Assert.That(array[4], Is.EqualTo(Person2));
+            Assert.That(array[5], Is.EqualTo(Person3));
         }
 
         /// <summary>

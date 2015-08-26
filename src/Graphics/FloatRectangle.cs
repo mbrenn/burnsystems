@@ -31,8 +31,8 @@ namespace BurnSystems.Graphics
         /// <param name="height">Height of rectangle</param>
         public FloatRectangle(double width, double height)
         {
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
         }
 
         /// <summary>
@@ -44,10 +44,10 @@ namespace BurnSystems.Graphics
         /// <param name="height">Height of rectangle</param>
         public FloatRectangle(double left, double top, double width, double height)
         {
-            this.Left = left;
-            this.Top = top;
-            this.Width = width;
-            this.Height = height;
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace BurnSystems.Graphics
         /// </summary>
         public double Right
         {
-            get { return this.Left + this.Width; }
-            set { this.Width = value - this.Left; }
+            get { return Left + Width; }
+            set { Width = value - Left; }
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace BurnSystems.Graphics
         /// </summary>
         public double Bottom
         {
-            get { return this.Top + this.Height; }
-            set { this.Height = value - this.Top; }
+            get { return Top + Height; }
+            set { Height = value - Top; }
         }
 
         /// <summary>

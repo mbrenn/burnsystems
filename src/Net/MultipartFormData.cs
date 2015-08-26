@@ -30,7 +30,7 @@ namespace BurnSystems.Net
         /// </summary>
         public List<MultipartFormDataPart> Parts
         {
-            get { return this.parts; }
+            get { return parts; }
         }
     }
 }

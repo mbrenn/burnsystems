@@ -86,13 +86,13 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestDatabaseConnection()
         {
-            this.ExecuteDatabaseAction((dbConnection) => {});
+            ExecuteDatabaseAction((dbConnection) => {});
         }
 
         [Test]
         public void TestInsertPerson()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
 
@@ -113,7 +113,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestInsertPersonWithNullValues()
         {
-            this.ExecuteDatabaseAction((sqlConnection) => 
+            ExecuteDatabaseAction((sqlConnection) => 
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
 
@@ -137,7 +137,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestSelectPerson()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -164,7 +164,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestSelectPersonByWhere()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -188,7 +188,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestSelectPersonById()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -210,7 +210,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestSelectPersonByWrongId()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 Person p1;
@@ -226,7 +226,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestDeletePersonByInstance()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -247,7 +247,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestDeletePersonById()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -268,7 +268,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestUpdatePerson()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);
@@ -292,7 +292,7 @@ namespace BurnSystems.UnitTests.Database.Objects
         [Test]
         public void TestUpdatePersonWithNullValues()
         {
-            this.ExecuteDatabaseAction((sqlConnection) =>
+            ExecuteDatabaseAction((sqlConnection) =>
             {
                 var mapper = new Mapper<Person>("persons", sqlConnection);
                 InsertPersons(mapper);

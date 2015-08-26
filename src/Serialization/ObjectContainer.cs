@@ -39,8 +39,8 @@ namespace BurnSystems.Serialization
         /// </summary>
         public ObjectContainer()
         {
-            this.objectToNumber = new Dictionary<object, long>(new ObjectComparer());
-            this.numberToObject = new Dictionary<long, object>();
+            objectToNumber = new Dictionary<object, long>(new ObjectComparer());
+            numberToObject = new Dictionary<long, object>();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace BurnSystems.Serialization
         {
             // Check, if object exists
             long result;
-            if (this.objectToNumber.TryGetValue(value, out result))
+            if (objectToNumber.TryGetValue(value, out result))
             {
                 alreadyInserted = true;
                 return result;
@@ -61,10 +61,10 @@ namespace BurnSystems.Serialization
 
             // Add new entry
             alreadyInserted = false;
-            this.lastIndex++;
-            result = this.lastIndex;
-            this.objectToNumber[value] = this.lastIndex;
-            this.numberToObject[this.lastIndex] = value;
+            lastIndex++;
+            result = lastIndex;
+            objectToNumber[value] = lastIndex;
+            numberToObject[lastIndex] = value;
 
             return result;
         }
@@ -76,8 +76,8 @@ namespace BurnSystems.Serialization
         /// <param name="value">Object to be added</param>
         public void AddObject(long objectId, object value)
         {
-            this.objectToNumber[value] = objectId;
-            this.numberToObject[objectId] = value;
+            objectToNumber[value] = objectId;
+            numberToObject[objectId] = value;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace BurnSystems.Serialization
         /// <returns>Found object</returns>
         public object FindObjectById(long objectId)
         {
-            return this.numberToObject[objectId];
+            return numberToObject[objectId];
         }
 
         /// <summary>

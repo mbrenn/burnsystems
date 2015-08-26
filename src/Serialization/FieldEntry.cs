@@ -51,7 +51,7 @@ namespace BurnSystems.Serialization
         /// <returns>Name of field</returns>
         public override string ToString()
         {
-            return this.Name;
+            return Name;
         }
     }
 }

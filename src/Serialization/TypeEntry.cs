@@ -68,7 +68,7 @@ namespace BurnSystems.Serialization
         /// </summary>
         public List<FieldEntry> Fields
         {
-            get { return this.fields; }
+            get { return fields; }
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace BurnSystems.Serialization
         /// </summary>
         public List<long> GenericArguments
         {
-            get { return this.genericArguments; }
+            get { return genericArguments; }
         }
 
         /// <summary>
@@ -87,13 +87,13 @@ namespace BurnSystems.Serialization
         {
             var fieldEntry = new FieldEntry();
 
-            this.lastIndex++;
-            fieldEntry.FieldId = this.lastIndex;
+            lastIndex++;
+            fieldEntry.FieldId = lastIndex;
 
             fieldEntry.FieldInfo = field;
 
             fieldEntry.Name = field.Name;
-            this.Fields.Add(fieldEntry);
+            Fields.Add(fieldEntry);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace BurnSystems.Serialization
         /// <returns>Found field entry or null, if not found</returns>
         public FieldEntry FindField(long fieldId)
         {
-            return ListHelper.Find(this.fields, x => x.FieldId == fieldId);
+            return ListHelper.Find(fields, x => x.FieldId == fieldId);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace BurnSystems.Serialization
         /// <returns>Found field entry or null, if not found</returns>
         public FieldEntry FindField(string fieldName)
         {
-            return ListHelper.Find(this.fields, x => x.Name == fieldName);
+            return ListHelper.Find(fields, x => x.Name == fieldName);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace BurnSystems.Serialization
         /// <returns>Name of type</returns>
         public override string ToString()
         {
-            return this.Name;
+            return Name;
         }
     }
 }

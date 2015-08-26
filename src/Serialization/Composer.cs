@@ -40,10 +40,10 @@ namespace BurnSystems.Serialization
         /// <param name="binaryReader">Used binaray reader</param>
         public Composer(Deserializer deserializer, BinaryReader binaryReader)
         {
-            this.Deserializer = deserializer;
-            this.BinaryReader = binaryReader;
+            Deserializer = deserializer;
+            BinaryReader = binaryReader;
 
-            this.AddDefaultTranslations();
+            AddDefaultTranslations();
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace BurnSystems.Serialization
         /// to target function</param>
         public void AddTranslation<TSource, TTarget>(Func<TSource, TTarget> translation)
         {
-            this.translations[new Pair<Type, Type>(typeof(TSource), typeof(TTarget))]
+            translations[new Pair<Type, Type>(typeof(TSource), typeof(TTarget))]
                 = x => translation((TSource)x);
         }
 
@@ -85,17 +85,17 @@ namespace BurnSystems.Serialization
         {
             while (true)
             {
-                var containerType = this.BinaryReader.ReadContainerType();
+                var containerType = BinaryReader.ReadContainerType();
 
                 switch (containerType)
                 {
                     case ContainerType.Type:
-                        this.ReadType();
+                        ReadType();
                         break;
                     case ContainerType.Data:
-                        return this.ReadData();
+                        return ReadData();
                     case ContainerType.Reference:
-                        return this.ReadReference();
+                        return ReadReference();
                     default:
                         throw new InvalidOperationException(
                             LocalizationBS.BinaryWriter_UnknownContainerType);
@@ -109,7 +109,7 @@ namespace BurnSystems.Serialization
         /// <returns>Read object</returns>
         public object ReadData()
         {
-            var dataType = this.BinaryReader.ReadDataType();
+            var dataType = BinaryReader.ReadDataType();
             object result = null;
 
             switch (dataType)
@@ -118,16 +118,16 @@ namespace BurnSystems.Serialization
                     result = null;
                     break;
                 case DataType.Native:
-                    result = this.ReadNativeType();
+                    result = ReadNativeType();
                     break;
                 case DataType.Array:
-                    result = this.ReadArrayType();
+                    result = ReadArrayType();
                     break;
                 case DataType.Complex:
-                    result = this.ReadComplexType();
+                    result = ReadComplexType();
                     break;
                 case DataType.Enum:
-                    result = this.ReadEnumType();
+                    result = ReadEnumType();
                     break;
                 default:
                     throw new InvalidOperationException(
@@ -142,9 +142,9 @@ namespace BurnSystems.Serialization
         /// </summary>
         public void ReadType()
         {
-            var typeEntry = this.BinaryReader.ReadTypeEntry();
+            var typeEntry = BinaryReader.ReadTypeEntry();
 
-            this.Deserializer.RegisterType(typeEntry);            
+            Deserializer.RegisterType(typeEntry);            
         }
 
         /// <summary>
@@ -153,9 +153,9 @@ namespace BurnSystems.Serialization
         /// <returns>Read reference</returns>
         public object ReadReference()
         {
-            var referenceHeader = this.BinaryReader.ReadReferenceHeader();
+            var referenceHeader = BinaryReader.ReadReferenceHeader();
 
-            return this.Deserializer.ObjectContainer.FindObjectById(referenceHeader.ObjectId);
+            return Deserializer.ObjectContainer.FindObjectById(referenceHeader.ObjectId);
         }
 
         /// <summary>
@@ -163,10 +163,10 @@ namespace BurnSystems.Serialization
         /// </summary>
         private void AddDefaultTranslations()
         {
-            this.AddTranslation<long, int>(x => Convert.ToInt32(x));
-            this.AddTranslation<int, long>(x => Convert.ToInt64(x));
-            this.AddTranslation<float, double>(x => Convert.ToDouble(x));
-            this.AddTranslation<double, float>(x => Convert.ToSingle(x));
+            AddTranslation<long, int>(x => Convert.ToInt32(x));
+            AddTranslation<int, long>(x => Convert.ToInt64(x));
+            AddTranslation<float, double>(x => Convert.ToDouble(x));
+            AddTranslation<double, float>(x => Convert.ToSingle(x));
         }
 
         /// <summary>
@@ -175,10 +175,10 @@ namespace BurnSystems.Serialization
         /// <returns>Read enumeration</returns>
         private object ReadEnumType()
         {
-            var typeId = this.BinaryReader.ReadInt64();
-            var value = this.BinaryReader.ReadNativeObject();
+            var typeId = BinaryReader.ReadInt64();
+            var value = BinaryReader.ReadNativeObject();
 
-            var typeEntry = this.Deserializer.TypeContainer.FindType(typeId);
+            var typeEntry = Deserializer.TypeContainer.FindType(typeId);
             Ensure.IsNotNull(typeEntry);
 
             return Enum.ToObject(typeEntry.Type, value);
@@ -191,20 +191,20 @@ namespace BurnSystems.Serialization
         private object ReadComplexType()
         {
             // Reads complex header
-            var complexHeader = this.BinaryReader.ReadComplexHeader();
+            var complexHeader = BinaryReader.ReadComplexHeader();
 
-            var type = this.Deserializer.TypeContainer.FindType(
+            var type = Deserializer.TypeContainer.FindType(
                 complexHeader.TypeId);
             Ensure.IsNotNull(type);
 
             var value = FormatterServices.GetSafeUninitializedObject(type.Type);
-            this.Deserializer.ObjectContainer.AddObject(complexHeader.ObjectId, value);
+            Deserializer.ObjectContainer.AddObject(complexHeader.ObjectId, value);
 
             for (var n = 0; n < complexHeader.FieldCount; n++)
             {
-                var propertyId = this.BinaryReader.ReadInt32();
+                var propertyId = BinaryReader.ReadInt32();
 
-                var valueProperty = this.ReadObject();
+                var valueProperty = ReadObject();
 
                 // Tries to get field
                 var field = type.FindField(propertyId);
@@ -220,7 +220,7 @@ namespace BurnSystems.Serialization
                             valueProperty.GetType(),
                             field.FieldInfo.FieldType);
                         Func<object, object> translator;
-                        if (this.translations.TryGetValue(pair, out translator))
+                        if (translations.TryGetValue(pair, out translator))
                         {
                             field.FieldInfo.SetValue(
                                 value,
@@ -265,7 +265,7 @@ namespace BurnSystems.Serialization
         /// <returns>Read Array Type</returns>
         private object ReadArrayType()
         {
-            var arrayHeader = this.BinaryReader.ReadArrayHeader();
+            var arrayHeader = BinaryReader.ReadArrayHeader();
 
             // Gets the list
             var dimensions = arrayHeader.DimensionCount;
@@ -278,10 +278,10 @@ namespace BurnSystems.Serialization
             }
 
             // Creates the array
-            var elementType = this.Deserializer.TypeContainer.FindType(
+            var elementType = Deserializer.TypeContainer.FindType(
                 arrayHeader.TypeId);
             var array = Array.CreateInstance(elementType.Type, dimensionList.ToArray());
-            this.Deserializer.ObjectContainer.AddObject(arrayHeader.ObjectId, array);
+            Deserializer.ObjectContainer.AddObject(arrayHeader.ObjectId, array);
 
             // Enumerates the array
             int[] index = new int[dimensions];
@@ -312,7 +312,7 @@ namespace BurnSystems.Serialization
 
                 if (inloop)
                 {
-                    var value = this.ReadObject();
+                    var value = ReadObject();
                     array.SetValue(value, index);
 
                     // Increase index
@@ -329,7 +329,7 @@ namespace BurnSystems.Serialization
         /// <returns>Read native type</returns>
         private object ReadNativeType()
         {
-            var value = this.BinaryReader.ReadNativeObject();
+            var value = BinaryReader.ReadNativeObject();
             return value;
         }
     }

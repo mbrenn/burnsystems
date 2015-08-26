@@ -44,7 +44,7 @@ namespace BurnSystems.AdoNet.Queries
             command.CommandText = string.Format(
                 CultureInfo.InvariantCulture,
                 "DROP TABLE {0}",
-                this.tablename);
+                tablename);
 
             return command;
         }

@@ -34,7 +34,7 @@ namespace BurnSystems.UserExceptionHandler
         public bool HandleException(Exception exc)
         {
             // Null handler, will not handle exception
-            if (this.handlers == null)
+            if (handlers == null)
             {
                 throw new NotHandledException("Not handled", exc);
             }

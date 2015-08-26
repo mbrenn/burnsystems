@@ -31,7 +31,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public int Count
         {
-            get { return this.dictionary.Count; }
+            get { return dictionary.Count; }
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public ICollection<string> Keys
         {
-            get { return this.dictionary.Keys; }
+            get { return dictionary.Keys; }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public ICollection<T> Values
         {
-            get { return this.dictionary.Values; }
+            get { return dictionary.Values; }
         }
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace BurnSystems.Collections
         /// will be thrown.</returns>
         public T this[string key]
         {
-            get { return this.dictionary[key]; }
-            set { this.Add(key, value); }
+            get { return dictionary[key]; }
+            set { Add(key, value); }
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Object to be added</param>
         public void Add(T item)
         {
-            this.dictionary[item.Key] = item;
+            dictionary[item.Key] = item;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if the object was found and removed</returns>
         public bool Remove(string key)
         {
-            return this.dictionary.Remove(key);
+            return dictionary.Remove(key);
         }
 
         #region IDictionary<string,T> Member
@@ -104,7 +104,7 @@ namespace BurnSystems.Collections
                 throw new ArgumentException("key != value.key");
             }
 
-            this.Add(value);
+            Add(value);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if key exists</returns>
         public bool ContainsKey(string key)
         {
-            return this.dictionary.ContainsKey(key);
+            return dictionary.ContainsKey(key);
         }
     
         /// <summary>
@@ -125,7 +125,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if value exists</returns>
         public bool TryGetValue(string key, out T value)
         {
-            return this.dictionary.TryGetValue(key, out value);
+            return dictionary.TryGetValue(key, out value);
         }
         
         #endregion
@@ -138,7 +138,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Entry to be added</param>
         public void Add(KeyValuePair<string, T> item)
         {
-            this.Add(item.Key, item.Value);
+            Add(item.Key, item.Value);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Clear()
         {
-            this.dictionary.Clear();
+            dictionary.Clear();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if it exists</returns>
         public bool Contains(KeyValuePair<string, T> item)
         {
-            return this.dictionary.ContainsKey(item.Key)
+            return dictionary.ContainsKey(item.Key)
                 && (item.Value.Key == item.Key);
         }
 
@@ -179,7 +179,7 @@ namespace BurnSystems.Collections
         {
             if (item.Key == item.Value.Key)
             {
-                return this.Remove(item.Key);
+                return Remove(item.Key);
             }
 
             return false;
@@ -195,7 +195,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of this collection</returns>
         public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
         {
-            return this.dictionary.GetEnumerator();
+            return dictionary.GetEnumerator();
         }
 
         #endregion
@@ -208,7 +208,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of this collection</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.dictionary.GetEnumerator();
+            return dictionary.GetEnumerator();
         }
 
         #endregion

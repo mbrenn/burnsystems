@@ -53,7 +53,7 @@ namespace BurnSystems.Collections
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
         public XmlSetList(IEnumerable<XElement> elements, IXElementConverter<T> converter)
         {
-            this.containers = elements.Cast<XContainer>();
+            containers = elements.Cast<XContainer>();
             this.converter = converter;
         }
 
@@ -67,7 +67,7 @@ namespace BurnSystems.Collections
             var pos = 0;
 
             foreach (var entity in
-                this.containers.Elements()
+                containers.Elements()
                     .Select(x => converter.Convert(x)))
             {
                 if ((item == null && entity == null)
@@ -89,12 +89,12 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Insert(int index, T item)
         {
-            var element = this.containers.Elements()
+            var element = containers.Elements()
                 .ElementAtOrDefault(index - 1);
 
             if (element == null)
             {
-                this.containers.Last().Add(converter.Convert(item));
+                containers.Last().Add(converter.Convert(item));
             }
             else
             {
@@ -108,7 +108,7 @@ namespace BurnSystems.Collections
         /// <param name="index">Index of the item</param>
         public void RemoveAt(int index)
         {
-            var element = this.containers.Elements().ElementAtOrDefault(index);
+            var element = containers.Elements().ElementAtOrDefault(index);
             if (element != null)
             {
                 element.Remove();
@@ -124,19 +124,19 @@ namespace BurnSystems.Collections
         {
             get
             {
-                var element = this.containers.Elements().ElementAt(index);
+                var element = containers.Elements().ElementAt(index);
                 return converter.Convert(element);
             }
             set
             {
-                var element = this.containers.Elements().ElementAtOrDefault(index);
+                var element = containers.Elements().ElementAtOrDefault(index);
                 if (element != null)
                 {
                     element.ReplaceWith(converter.Convert(value));
                 }
                 else
                 {
-                    this.containers.Last().Add(converter.Convert(value));
+                    containers.Last().Add(converter.Convert(value));
                 }
             }
         }
@@ -147,7 +147,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            this.containers.Last().Add(converter.Convert(item));
+            containers.Last().Add(converter.Convert(item));
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Clear()
         {
-            foreach (var container in this.containers)
+            foreach (var container in containers)
             {
                 container.RemoveNodes();
             }
@@ -168,7 +168,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if item is included</returns>
         public bool Contains(T item)
         {
-            return this.IndexOf(item) != -1;
+            return IndexOf(item) != -1;
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace BurnSystems.Collections
         {
             get
             {
-                var count = this.containers.Elements().Count();
+                var count = containers.Elements().Count();
                 return count;
             }
         }
@@ -228,10 +228,10 @@ namespace BurnSystems.Collections
         /// <returns>True, if item has been removed</returns>
         public bool Remove(T item)
         {
-            var position = this.IndexOf(item);
+            var position = IndexOf(item);
             if (position != -1)
             {
-                this.RemoveAt(position);
+                RemoveAt(position);
                 return true;
             }
 
@@ -245,7 +245,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator for the list</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var item in this.containers.Elements()
+            foreach (var item in containers.Elements()
                 .Select(x => converter.Convert(x)))
             {
                 yield return item;
@@ -259,7 +259,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator for the list</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <summary>

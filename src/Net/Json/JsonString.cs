@@ -43,7 +43,7 @@ namespace BurnSystems.Net.Json
             return string.Format(
                 CultureInfo.InvariantCulture,
                 "\"{0}\"",
-                this.value
+                value
                     .Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
                     .Replace("\t", "\\t")

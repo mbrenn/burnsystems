@@ -35,7 +35,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public NiceDictionary()
         {
-            this.dictionary = new Dictionary<TKey, TValue>();
+            dictionary = new Dictionary<TKey, TValue>();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public ICollection<TKey> Keys
         {
-            get { return this.dictionary.Keys; }
+            get { return dictionary.Keys; }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public int Count
         {
-            get { return this.dictionary.Count; }
+            get { return dictionary.Count; }
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public bool IsReadOnly
         {
-            get { return ((IDictionary<TKey, TValue>)this.dictionary).IsReadOnly; }
+            get { return ((IDictionary<TKey, TValue>)dictionary).IsReadOnly; }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public ICollection<TValue> Values
         {
-            get { return this.dictionary.Values; }
+            get { return dictionary.Values; }
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace BurnSystems.Collections
             {
                 TValue value;
 
-                if (this.dictionary.TryGetValue(key, out value))
+                if (dictionary.TryGetValue(key, out value))
                 {
                     return value;
                 }
@@ -91,7 +91,7 @@ namespace BurnSystems.Collections
 
             set
             {
-                this.dictionary[key] = value;
+                dictionary[key] = value;
             }
         }
 
@@ -104,7 +104,7 @@ namespace BurnSystems.Collections
         /// <param name="value">Value to be added</param>
         public void Add(TKey key, TValue value)
         {
-            this.dictionary.Add(key, value);
+            dictionary.Add(key, value);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if key exists</returns>
         public bool ContainsKey(TKey key)
         {
-            return this.dictionary.ContainsKey(key);
+            return dictionary.ContainsKey(key);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if entry is removed</returns>
         public bool Remove(TKey key)
         {
-            return this.dictionary.Remove(key);
+            return dictionary.Remove(key);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if value is found</returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return this.dictionary.TryGetValue(key, out value);
+            return dictionary.TryGetValue(key, out value);
         }
 
         #endregion
@@ -148,7 +148,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            this.dictionary.Add(item.Key, item.Value);
+            dictionary.Add(item.Key, item.Value);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Clear()
         {
-            this.dictionary.Clear();
+            dictionary.Clear();
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if exists</returns>
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return ((IDictionary<TKey, TValue>)this.dictionary).Contains(item);
+            return ((IDictionary<TKey, TValue>)dictionary).Contains(item);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace BurnSystems.Collections
         /// <param name="arrayIndex">Used index</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            ((IDictionary<TKey, TValue>)this.dictionary).CopyTo(array, arrayIndex);
+            ((IDictionary<TKey, TValue>)dictionary).CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace BurnSystems.Collections
         /// <returns>True, if removal was successful</returns>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return this.dictionary.Remove(item.Key);
+            return dictionary.Remove(item.Key);
         }
 
         #endregion
@@ -199,7 +199,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of dictionary</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return this.dictionary.GetEnumerator();
+            return dictionary.GetEnumerator();
         }
 
         #endregion
@@ -212,7 +212,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of dictionary</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.dictionary.GetEnumerator();
+            return dictionary.GetEnumerator();
         }
 
         #endregion

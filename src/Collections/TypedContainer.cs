@@ -32,7 +32,7 @@ namespace BurnSystems.Collections
         /// <param name="instance">Instance to be added</param>
         public void Add(object instance)
         {
-            this.instances.Add(instance);
+            instances.Add(instance);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BurnSystems.Collections
             T found = default(T);
             var alreadyFound = false;
 
-            foreach (var instance in this.instances)
+            foreach (var instance in instances)
             {
                 if (instance is T)
                 {
@@ -70,7 +70,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumeration of found types</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            return this.instances.
+            return instances.
                 Where(x => x is T)
                 .Cast<T>();
         }

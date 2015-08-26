@@ -35,7 +35,7 @@ namespace BurnSystems.Serialization
         /// </summary>
         public TypeContainer TypeContainer
         {
-            get { return this.typeContainer; }
+            get { return typeContainer; }
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace BurnSystems.Serialization
         /// </summary>
         internal ObjectContainer ObjectContainer
         {
-            get { return this.objectContainer; }
+            get { return objectContainer; }
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace BurnSystems.Serialization
         /// <returns>Id of registered object</returns>
         public long RegisterObject(object value, out bool alreadyInserted)
         {
-            return this.objectContainer.AddObject(value, out alreadyInserted);
+            return objectContainer.AddObject(value, out alreadyInserted);
         }
     }
 }

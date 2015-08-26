@@ -37,9 +37,9 @@ namespace BurnSystems.Synchronisation
             DateTime timeOut,
             ThreadAbortAction threadAbortDelegate)
         {
-            this.Thread = thread;
-            this.TimeOut = timeOut;
-            this.OnThreadAbort = threadAbortDelegate;
+            Thread = thread;
+            TimeOut = timeOut;
+            OnThreadAbort = threadAbortDelegate;
         }
 
         /// <summary>

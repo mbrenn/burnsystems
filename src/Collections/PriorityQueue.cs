@@ -38,7 +38,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public PriorityQueue()
         {
-            this.comparer =
+            comparer =
                 (x, y) =>
                     ((IComparable)x).CompareTo((IComparable)y);
         }
@@ -59,7 +59,7 @@ namespace BurnSystems.Collections
         {
             get
             {
-                return this.elements.Count;
+                return elements.Count;
             }
         }
 
@@ -70,9 +70,9 @@ namespace BurnSystems.Collections
         public void Add(T item)
         {
             bool exists;
-            var position = this.GetPosition(item, out exists);
+            var position = GetPosition(item, out exists);
 
-            this.elements.Insert(position, item);
+            elements.Insert(position, item);
         }
 
         /// <summary>
@@ -82,11 +82,11 @@ namespace BurnSystems.Collections
         public void Remove(T item)
         {
             bool exists;
-            var position = this.GetPosition(item, out exists);
+            var position = GetPosition(item, out exists);
 
             if (exists)
             {
-                this.elements.RemoveAt(position);
+                elements.RemoveAt(position);
             }
         }
 
@@ -99,7 +99,7 @@ namespace BurnSystems.Collections
         {
             bool exists;
 
-            this.GetPosition(item, out exists);
+            GetPosition(item, out exists);
             return exists;
         }
 
@@ -109,12 +109,12 @@ namespace BurnSystems.Collections
         /// <returns>First entry to be added</returns>
         public T Peek()
         {
-            if (this.Count == 0)
+            if (Count == 0)
             {
                 return default(T);
             }
 
-            return this.elements[0];
+            return elements[0];
         }
 
         /// <summary>
@@ -123,14 +123,14 @@ namespace BurnSystems.Collections
         /// <returns>Object to be popped.</returns>
         public T Pop()
         {
-            if (this.Count == 0)
+            if (Count == 0)
             {
                 return default(T);
             }
 
             // Not fast, but beautiful
-            var result = this.elements[0];
-            this.elements.RemoveAt(0);
+            var result = elements[0];
+            elements.RemoveAt(0);
             return result;
         }
 
@@ -139,7 +139,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Clear()
         {
-            this.elements.Clear();
+            elements.Clear();
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace BurnSystems.Collections
         /// <returns>Array of elements</returns>
         public T[] GetElements()
         {
-            return this.elements.ToArray();
+            return elements.ToArray();
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator enumerating all elements</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return this.elements.GetEnumerator();
+            return elements.GetEnumerator();
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace BurnSystems.Collections
         public void Resort()
         {
             // Resort in inverse order because the smallest objects are at the end
-            this.elements.Sort((x, y) => this.comparer(y, x));
+            elements.Sort((x, y) => comparer(y, x));
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator enumerating all elements</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.elements.GetEnumerator();
+            return elements.GetEnumerator();
         }
 
         /// <summary>
@@ -186,19 +186,19 @@ namespace BurnSystems.Collections
         /// <returns>Position of entry, which be the one of the entry. </returns>
         private int GetPosition(T item, out bool exists)
         {
-            if (this.Count == 0)
+            if (Count == 0)
             {
                 exists = false;
                 return 0;
             }
 
             var left = 0;
-            var right = this.Count; // Exclusive border
+            var right = Count; // Exclusive border
 
             var current = (left + right) / 2;
-            while (left < right && current < this.Count)
+            while (left < right && current < Count)
             {
-                var compareValue = this.comparer(item, this.elements[current]);
+                var compareValue = comparer(item, elements[current]);
 
                 if (compareValue >= 0)
                 {
@@ -213,14 +213,14 @@ namespace BurnSystems.Collections
             }
 
             // Found ?! 
-            if (current >= this.Count)
+            if (current >= Count)
             {
                 exists = false;
                 return current;
             }
             else
             {
-                exists = this.elements[current].Equals(item);
+                exists = elements[current].Equals(item);
                 return current;
             }
         }

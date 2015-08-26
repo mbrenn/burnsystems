@@ -42,7 +42,7 @@ namespace BurnSystems.Net
         /// </summary>
         public NiceDictionary<string, string> ContentDisposition
         {
-            get { return this.contentDisposition; }
+            get { return contentDisposition; }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace BurnSystems.Net
         /// </summary>
         public List<Pair<string, string>> Headers
         {
-            get { return this.headers; }
+            get { return headers; }
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace BurnSystems.Net
             get
             {
                 var pair =
-                    this.Headers.Find(x => x.First == headerName);
+                    Headers.Find(x => x.First == headerName);
                 if (pair != null)
                 {
                     return pair.Second;

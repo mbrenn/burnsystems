@@ -41,8 +41,8 @@ namespace BurnSystems.UnitTests.Collections
         {
             public Item(string key, string value)
             {
-                this.Key = key;
-                this.Value = value;
+                Key = key;
+                Value = value;
             }
 
             /// <summary>

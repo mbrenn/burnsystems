@@ -68,17 +68,17 @@ namespace BurnSystems.AdoNet.Queries
 
             statement.AppendFormat(
                     CultureInfo.InvariantCulture, 
-                    "UPDATE {0} SET ", 
-                    this.tablename);
+                    "UPDATE {0} SET ",
+                    tablename);
 
             // Check, if data is empty
-            if (this.data.Count == 0)
+            if (data.Count == 0)
             {
                 throw new InvalidOperationException("Data is empty: this.data.Count");
             }
 
             bool isFirstLoop = true;
-            foreach (var pair in this.data)
+            foreach (var pair in data)
             {
                 if (!isFirstLoop)
                 {
@@ -88,7 +88,7 @@ namespace BurnSystems.AdoNet.Queries
                 statement.AppendFormat(
                     CultureInfo.InvariantCulture,
                     "{0}.{1}=@set{1}",
-                    this.tablename,
+                    tablename,
                     pair.Key);
 
                 var parameter = command.CreateParameter();
@@ -102,12 +102,12 @@ namespace BurnSystems.AdoNet.Queries
             }
 
             // Append where statement if necessary
-            if (this.where != null)
+            if (where != null)
             {
                 statement.AppendFormat(
                     CultureInfo.InvariantCulture,
                     " WHERE {0}",
-                    MakeWhereStatement(command, this.where));
+                    MakeWhereStatement(command, where));
             }
 
             command.CommandText = statement.ToString();

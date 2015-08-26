@@ -44,7 +44,7 @@ namespace BurnSystems.Net.Json
         {
             foreach (var value in list)
             {
-                this.List.Add(
+                List.Add(
                     JsonObject.ConvertObject(value));
             }
         }
@@ -54,7 +54,7 @@ namespace BurnSystems.Net.Json
         /// </summary>
         public List<IJsonObject> List
         {
-            get { return this.list; }
+            get { return list; }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace BurnSystems.Net.Json
 
             var komma = string.Empty;
 
-            foreach (var item in this.List)
+            foreach (var item in List)
             {
                 stringBuilder.AppendFormat(
                     CultureInfo.InvariantCulture,
@@ -90,7 +90,7 @@ namespace BurnSystems.Net.Json
         /// <param name="value">Value to be added</param>
         public void Add(object value)
         {
-            this.List.Add(
+            List.Add(
                 JsonObject.ConvertObject(value));
         }
     }

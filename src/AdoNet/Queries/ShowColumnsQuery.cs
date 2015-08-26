@@ -43,8 +43,8 @@ namespace BurnSystems.AdoNet.Queries
             var command = connection.CreateCommand();
             command.CommandText = string.Format(
                 CultureInfo.InvariantCulture,
-                "SHOW COLUMNS FROM {0}", 
-                this.tablename);
+                "SHOW COLUMNS FROM {0}",
+                tablename);
             return command;
         }
     }

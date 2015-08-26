@@ -42,12 +42,12 @@ namespace BurnSystems.Synchronisation
         {
             if (EnvironmentHelper.IsMono)
             {
-                this.nativeLock =
+                nativeLock =
                     new ReaderWriterLock();
             }
             else
             {
-                this.nativeLockSlim
+                nativeLockSlim
                     = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
             }
         }
@@ -59,14 +59,14 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of readlock</returns>
         public IDisposable GetReadLock()
         {
-            if (this.nativeLockSlim != null)
+            if (nativeLockSlim != null)
             {
-                this.nativeLockSlim.EnterReadLock();
+                nativeLockSlim.EnterReadLock();
                 return new ReaderLockSlim(this);
             }
             else
             {
-                this.nativeLock.AcquireReaderLock(-1);
+                nativeLock.AcquireReaderLock(-1);
                 return new ReaderLock(this);
             }
         }
@@ -78,14 +78,14 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of writelock</returns>
         public IDisposable GetWriteLock()
         {
-            if (this.nativeLockSlim != null)
+            if (nativeLockSlim != null)
             {
-                this.nativeLockSlim.EnterWriteLock();
+                nativeLockSlim.EnterWriteLock();
                 return new WriterLockSlim(this);
             }
             else
             {
-                this.nativeLock.AcquireWriterLock(-1);
+                nativeLock.AcquireWriterLock(-1);
                 return new WriterLock(this);
             }
         }
@@ -95,7 +95,7 @@ namespace BurnSystems.Synchronisation
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -105,9 +105,9 @@ namespace BurnSystems.Synchronisation
         /// <param name="disposing">True, if called by dispose</param>
         private void Dispose(bool disposing)
         {
-            if (disposing && this.nativeLockSlim != null)
+            if (disposing && nativeLockSlim != null)
             {
-                this.nativeLockSlim.Dispose();
+                nativeLockSlim.Dispose();
             }
         }
 
@@ -136,7 +136,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             ~ReaderLockSlim()
             {
-                this.Dispose(false);
+                Dispose(false);
             }
 
             /// <summary>
@@ -147,7 +147,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLockSlim.ExitReadLock();
+                    readWriteLock.nativeLockSlim.ExitReadLock();
                 }
             }
 
@@ -156,7 +156,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             public void Dispose()
             {
-                this.Dispose(true);
+                Dispose(true);
                 GC.SuppressFinalize(this);
             }
         }
@@ -186,7 +186,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             ~ReaderLock()
             {
-                this.Dispose(false);
+                Dispose(false);
             }
 
             /// <summary>
@@ -197,7 +197,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLock.ReleaseReaderLock();
+                    readWriteLock.nativeLock.ReleaseReaderLock();
                 }
             }
 
@@ -206,7 +206,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             public void Dispose()
             {
-                this.Dispose(true);
+                Dispose(true);
                 GC.SuppressFinalize(this);
             }
         }
@@ -236,7 +236,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             ~WriterLockSlim()
             {
-                this.Dispose(false);
+                Dispose(false);
             }
 
             /// <summary>
@@ -247,7 +247,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLockSlim.ExitWriteLock();
+                    readWriteLock.nativeLockSlim.ExitWriteLock();
                 }
             }
             
@@ -256,7 +256,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             public void Dispose()
             {
-                this.Dispose(true);
+                Dispose(true);
                 GC.SuppressFinalize(this);
             }
         }
@@ -286,7 +286,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             ~WriterLock()
             {
-                this.Dispose(false);
+                Dispose(false);
             }
 
             /// <summary>
@@ -297,7 +297,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    this.readWriteLock.nativeLock.ReleaseWriterLock();
+                    readWriteLock.nativeLock.ReleaseWriterLock();
                 }
             }
 
@@ -306,7 +306,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             public void Dispose()
             {
-                this.Dispose(true);
+                Dispose(true);
                 GC.SuppressFinalize(this);
             }
         }

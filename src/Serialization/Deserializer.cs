@@ -51,7 +51,7 @@ namespace BurnSystems.Serialization
         /// <returns>Returns deserialized object</returns>
         public object Deserialize()
         {
-            var binaryReader = new BinaryReader(this.stream);
+            var binaryReader = new BinaryReader(stream);
 
             // Reads the header
             binaryReader.CheckHeader();
@@ -72,7 +72,7 @@ namespace BurnSystems.Serialization
             Type type = null;
 
             // Tries to find the type in the table
-            this.typeTranslation.TryGetValue(typeEntry.Name, out type);
+            typeTranslation.TryGetValue(typeEntry.Name, out type);
 
             // If not found in table, look in the assemblies
             if (type == null)
@@ -93,7 +93,7 @@ namespace BurnSystems.Serialization
             if (typeEntry.GenericArguments.Count > 0)
             {
                 var genericTypes = typeEntry.GenericArguments
-                    .Select(x => this.TypeContainer.FindType(x).Type)
+                    .Select(x => TypeContainer.FindType(x).Type)
                     .ToArray();
 
                 type = type.MakeGenericType(genericTypes);
@@ -118,7 +118,7 @@ namespace BurnSystems.Serialization
                 }
             }
 
-            this.TypeContainer.AddType(typeEntry);
+            TypeContainer.AddType(typeEntry);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace BurnSystems.Serialization
         /// translated. </param>
         public void AddTypeTranslation(string typeName, Type translatedType)
         {
-            this.typeTranslation[typeName] = translatedType;
+            typeTranslation[typeName] = translatedType;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BurnSystems.Database.Objects
         /// <param name="columnName">Name of the column associated to this property</param>
         public DatabaseKeyAttribute(string columnName)
         {
-            this.ColumnName = columnName;
+            ColumnName = columnName;
         }
 
         /// <summary>

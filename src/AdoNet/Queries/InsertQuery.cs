@@ -78,7 +78,7 @@ namespace BurnSystems.AdoNet.Queries
 
             // Makes left and right part
             bool first = true;
-            foreach (var pair in this.data)
+            foreach (var pair in data)
             {
                 if (!first)
                 {
@@ -101,14 +101,14 @@ namespace BurnSystems.AdoNet.Queries
 
             // Makes query
             string queryText;
-            var delayedText = this.IsDelayed ? " DELAYED " : string.Empty;
+            var delayedText = IsDelayed ? " DELAYED " : string.Empty;
             
-            if (!this.UseReplaceSyntax)
+            if (!UseReplaceSyntax)
             {
                 queryText = string.Format(
                     CultureInfo.InvariantCulture,
                     "INSERT {3} INTO {0} ({1}) VALUES ({2})",
-                    this.tablename,
+                    tablename,
                     leftPart.ToString(),
                     rightPart.ToString(), 
                     delayedText);
@@ -118,7 +118,7 @@ namespace BurnSystems.AdoNet.Queries
                 queryText = string.Format(
                     CultureInfo.InvariantCulture,
                     "REPLACE {3} INTO {0} ({1}) VALUES ({2})",
-                    this.tablename,
+                    tablename,
                     leftPart.ToString(),
                     rightPart.ToString(), 
                     delayedText);

@@ -51,9 +51,9 @@ namespace BurnSystems.AdoNet.Queries
             command.CommandText =
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "ALTER TABLE {0} DROP COLUMN {1}", 
-                    this.tablename,
-                    this.columnname);
+                    "ALTER TABLE {0} DROP COLUMN {1}",
+                    tablename,
+                    columnname);
             return command;
         }
     }

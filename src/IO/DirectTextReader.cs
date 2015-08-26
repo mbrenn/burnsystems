@@ -47,7 +47,7 @@ namespace BurnSystems.IO
             {
                 int currentByte;
 
-                while ((currentByte = this.stream.ReadByte()) != -1)
+                while ((currentByte = stream.ReadByte()) != -1)
                 {
                     if (currentByte == 10)
                     {

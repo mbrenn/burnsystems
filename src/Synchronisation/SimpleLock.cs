@@ -51,7 +51,7 @@ namespace BurnSystems.Synchronisation
         /// </summary>
         ~SimpleLock()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         #region IDisposable Member
@@ -61,7 +61,7 @@ namespace BurnSystems.Synchronisation
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -71,10 +71,10 @@ namespace BurnSystems.Synchronisation
         /// <param name="disposing">Called by Dispose</param>
         private void Dispose(bool disposing)
         {
-            if (disposing && !this.disposed)
+            if (disposing && !disposed)
             {
-                this.disposed = true;
-                this.lockable.Unlock();
+                disposed = true;
+                lockable.Unlock();
             }
         }       
 

@@ -37,12 +37,12 @@ namespace BurnSystems.Net.Json
         {
             get
             {
-                return this.properties[key];
+                return properties[key];
             }
 
             set
             {
-                this.properties[key] = ConvertObject(value);
+                properties[key] = ConvertObject(value);
             }
         }
 
@@ -136,7 +136,7 @@ namespace BurnSystems.Net.Json
             result.Append('{');
 
             var komma = string.Empty;
-            foreach (var pair in this.properties)
+            foreach (var pair in properties)
             {
                 if (pair.Value == null)
                 {

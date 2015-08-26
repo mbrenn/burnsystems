@@ -64,8 +64,8 @@ namespace BurnSystems.AdoNet.Queries
             command.CommandText = string.Format(
                 CultureInfo.InvariantCulture,
                 "DELETE FROM {0} WHERE {1}",
-                this.tablename,
-                MakeWhereStatement(command, this.where));
+                tablename,
+                MakeWhereStatement(command, where));
 
             return command;
         }

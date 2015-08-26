@@ -57,7 +57,7 @@ namespace BurnSystems.Serialization
         /// </summary>
         public List<int> Dimensions
         {
-            get { return this.dimensions; }
+            get { return dimensions; }
         }
     }
 }

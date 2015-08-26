@@ -35,7 +35,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public ObjectContainer()
         {
-            this.objects = new Dictionary<string, object>();
+            objects = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace BurnSystems.Collections
         /// <param name="copy">Objectcontainer to be copied</param>
         public ObjectContainer(ObjectContainer copy)
         {
-            this.objects = new Dictionary<string, object>(copy.objects);
+            objects = new Dictionary<string, object>(copy.objects);
         }
 
         /// <summary>
@@ -56,17 +56,17 @@ namespace BurnSystems.Collections
         {
             get
             {
-                lock (this.objects)
+                lock (objects)
                 {
-                    return this.objects[key];
+                    return objects[key];
                 }
             }
 
             set
             {
-                lock (this.objects)
+                lock (objects)
                 {
-                    this.SetObject(key, value);
+                    SetObject(key, value);
                 }
             }
         }
@@ -82,11 +82,11 @@ namespace BurnSystems.Collections
         {
             try
             {
-                lock (this.objects)
+                lock (objects)
                 {
                     object result;
 
-                    if (this.objects.TryGetValue(key, out result))
+                    if (objects.TryGetValue(key, out result))
                     {
                         return (T)result;
                     }
@@ -109,15 +109,15 @@ namespace BurnSystems.Collections
         /// <param name="value">Value of object</param>
         public void SetObject<T>(string key, T value)
         {
-            lock (this.objects)
+            lock (objects)
             {
                 if (value == null)
                 {
-                    this.objects.Remove(key);
+                    objects.Remove(key);
                 }
                 else
                 {
-                    this.objects[key] = value;
+                    objects[key] = value;
                 }
             }
         }
@@ -131,10 +131,10 @@ namespace BurnSystems.Collections
         /// <returns>true, if the object was found</returns>
         public bool TryGetValue<T>(string key, out T result)
         {
-            lock (this.objects)
+            lock (objects)
             {
                 object temp;
-                var exists = this.objects.TryGetValue(key, out temp);
+                var exists = objects.TryGetValue(key, out temp);
                 if (exists && temp is T)
                 {
                     result = (T)temp;
@@ -170,7 +170,7 @@ namespace BurnSystems.Collections
             {
                 case "GetSummary":
                     return StringManipulation.Join(
-                        this.objects.Select(
+                        objects.Select(
                             x => string.Format(
                                 CultureInfo.InvariantCulture,
                                 "{0}: {1}",
@@ -190,7 +190,7 @@ namespace BurnSystems.Collections
         {
             List<KeyValuePair<string, object>> copy;
 
-            copy = this.objects.ToList();
+            copy = objects.ToList();
 
             return copy.GetEnumerator();
         }
@@ -203,10 +203,10 @@ namespace BurnSystems.Collections
         {
             List<KeyValuePair<string, object>> copy;
 
-            lock (this.objects)
+            lock (objects)
             {
                 // Copies the items in synchronisation
-                copy = this.objects.ToList();
+                copy = objects.ToList();
             }
 
             return copy.GetEnumerator();

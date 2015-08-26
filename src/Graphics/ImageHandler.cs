@@ -42,7 +42,7 @@ namespace BurnSystems.Graphics
         /// <param name="stream">Stream containing the image</param>
         public ImageHandler(Stream stream)
         {
-            this.image = Image.FromStream(stream);
+            image = Image.FromStream(stream);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace BurnSystems.Graphics
         {
             using (var stream = new MemoryStream(imageData))
             {
-                this.image = Image.FromStream(stream);
+                image = Image.FromStream(stream);
             }
         }
 
@@ -62,7 +62,7 @@ namespace BurnSystems.Graphics
         /// </summary>
         ~ImageHandler()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace BurnSystems.Graphics
         /// </summary>
         public Image Image
         {
-            get { return this.image; }
+            get { return image; }
         }   
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace BurnSystems.Graphics
         /// <param name="height">Height of border</param>
         public void ResizeToBorder(int width, int height)
         {
-            double factor = width / (double)this.image.Width;
-            factor = System.Math.Min(factor, height / (double)this.image.Height);
+            double factor = width / (double)image.Width;
+            factor = System.Math.Min(factor, height / (double)image.Height);
 
             // Checks, if image needs to be shrinked
             if (factor > 1)
@@ -110,12 +110,12 @@ namespace BurnSystems.Graphics
                 return;
             }
 
-            int newWidth = (int)(this.image.Width * factor);
-            int newHeight = (int)(this.image.Height * factor);
+            int newWidth = (int)(image.Width * factor);
+            int newHeight = (int)(image.Height * factor);
 
-            Image newImage = new Bitmap(this.image, new Size(newWidth, newHeight));
-            this.image.Dispose();
-            this.image = newImage;
+            Image newImage = new Bitmap(image, new Size(newWidth, newHeight));
+            image.Dispose();
+            image = newImage;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace BurnSystems.Graphics
         /// <param name="size">Targetsize of image</param>
         public void ResizeToBorder(Size size)
         {
-            this.ResizeToBorder(size.Width, size.Height);
+            ResizeToBorder(size.Width, size.Height);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace BurnSystems.Graphics
         /// <returns>Cloned image</returns>
         public Image CloneImage()
         {
-            return (Image)this.image.Clone();
+            return (Image)image.Clone();
         }
 
         #region IDisposable Members
@@ -143,7 +143,7 @@ namespace BurnSystems.Graphics
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -155,10 +155,10 @@ namespace BurnSystems.Graphics
         {
             if (disposing)
             {
-                if (this.image != null)
+                if (image != null)
                 {
-                    this.image.Dispose();
-                    this.image = null;
+                    image.Dispose();
+                    image = null;
                 }
             }
         }

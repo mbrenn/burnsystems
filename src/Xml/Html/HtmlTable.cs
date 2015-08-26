@@ -31,8 +31,8 @@ namespace BurnSystems.Xml.Html
         /// </summary>
         public void AddRow()
         {
-            this.currentRow = new HtmlElement("tr");
-            this.Add(this.currentRow);
+            currentRow = new HtmlElement("tr");
+            Add(currentRow);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace BurnSystems.Xml.Html
         /// <param name="content">Content being added to the cell</param>
         public void AddCellWithContent(string content)
         {
-            this.currentRow.Add(
+            currentRow.Add(
                 new HtmlElement("td", content));
         }
 
@@ -51,7 +51,7 @@ namespace BurnSystems.Xml.Html
         /// <param name="content">Content being added to the cell</param>
         public void AddHeaderCellWithContent(string content)
         {
-            this.currentRow.Add(
+            currentRow.Add(
                 new HtmlElement("th", content));
         }
 
@@ -62,7 +62,7 @@ namespace BurnSystems.Xml.Html
         /// container</param>
         public void AddCellWithContent(params object[] elements)
         {
-            this.currentRow.Add(
+            currentRow.Add(
                 new HtmlElement("td", elements));
         }
 
@@ -74,7 +74,7 @@ namespace BurnSystems.Xml.Html
         /// container</param>
         public void AddHeaderCellWithContent(params object[] elements)
         {
-            this.currentRow.Add(
+            currentRow.Add(
                 new HtmlElement("th", elements));
         }
     }

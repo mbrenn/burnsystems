@@ -117,7 +117,7 @@ namespace BurnSystems.Serialization
         public void WriteHeader()
         {
             var bytes = Encoding.UTF8.GetBytes(Helper.StreamHeaderText);
-            this.stream.Write(bytes, 0, bytes.Length);
+            stream.Write(bytes, 0, bytes.Length);
 
             byte[] versionBytes = new[]
             {
@@ -127,7 +127,7 @@ namespace BurnSystems.Serialization
                 (byte)Helper.StreamVersion.Revision
             };
 
-            this.stream.Write(versionBytes, 0, versionBytes.Length);
+            stream.Write(versionBytes, 0, versionBytes.Length);
         }
 
         /// <summary>
@@ -139,13 +139,13 @@ namespace BurnSystems.Serialization
             switch (containerType)
             {
                 case ContainerType.Type:
-                    this.stream.WriteByte(0x01);
+                    stream.WriteByte(0x01);
                     break;
                 case ContainerType.Data:
-                    this.stream.WriteByte(0x02);
+                    stream.WriteByte(0x02);
                     break;
                 case ContainerType.Reference:
-                    this.stream.WriteByte(0x03);
+                    stream.WriteByte(0x03);
                     break;
                 default:
                     throw new InvalidOperationException(LocalizationBS.BinaryWriter_UnknownContainerType);
@@ -159,34 +159,34 @@ namespace BurnSystems.Serialization
         public void WriteType(TypeEntry typeEntry)
         {
             // Writes Type if
-            this.WriteInt64(typeEntry.TypeId);
+            WriteInt64(typeEntry.TypeId);
 
             // Writes typename
             var typeNameAsBytes = Encoding.UTF8.GetBytes(typeEntry.Name);
 
-            this.WriteInt32(typeNameAsBytes.Length);
-            this.stream.Write(typeNameAsBytes, 0, typeNameAsBytes.Length);
+            WriteInt32(typeNameAsBytes.Length);
+            stream.Write(typeNameAsBytes, 0, typeNameAsBytes.Length);
 
-            this.WriteInt32(typeEntry.GenericArguments.Count);
+            WriteInt32(typeEntry.GenericArguments.Count);
             foreach (var typeEntryId in typeEntry.GenericArguments)            
             {
-                this.WriteInt64(typeEntryId);
+                WriteInt64(typeEntryId);
             }
 
             // Writes number of fields
-            this.WriteInt32(typeEntry.Fields.Count);
+            WriteInt32(typeEntry.Fields.Count);
 
             // Write fields
             foreach (var field in typeEntry.Fields)
             {
                 // Field id
-                this.WriteInt32(field.FieldId);
+                WriteInt32(field.FieldId);
 
                 // Fieldname
                 var propertyNameAsBytes = Encoding.UTF8.GetBytes(field.Name);
 
-                this.WriteInt32(propertyNameAsBytes.Length);
-                this.stream.Write(propertyNameAsBytes, 0, propertyNameAsBytes.Length);
+                WriteInt32(propertyNameAsBytes.Length);
+                stream.Write(propertyNameAsBytes, 0, propertyNameAsBytes.Length);
             }
         }
 
@@ -199,19 +199,19 @@ namespace BurnSystems.Serialization
             switch (dataType)
             {
                 case DataType.Null:
-                    this.stream.WriteByte(0x01);
+                    stream.WriteByte(0x01);
                     break;
                 case DataType.Native:
-                    this.stream.WriteByte(0x02);
+                    stream.WriteByte(0x02);
                     break;
                 case DataType.Array:
-                    this.stream.WriteByte(0x03);
+                    stream.WriteByte(0x03);
                     break;
                 case DataType.Complex:
-                    this.stream.WriteByte(0x04);
+                    stream.WriteByte(0x04);
                     break;
                 case DataType.Enum:
-                    this.stream.WriteByte(0x05);
+                    stream.WriteByte(0x05);
                     break;
                 default:
                     throw new InvalidOperationException(LocalizationBS.BinaryWriter_UnknownContainerType);
@@ -228,14 +228,14 @@ namespace BurnSystems.Serialization
             var nativeTypeId = Helper.ConvertNativeTypeToNumber(type);
 
             // Write native type
-            this.WriteInt32(nativeTypeId);
+            WriteInt32(nativeTypeId);
 
             // Gets the value
             var valueBytes = ConvertNativeObject(value, type);
 
             // Writes length and value
-            this.WriteInt32(valueBytes.Length);
-            this.stream.Write(valueBytes, 0, valueBytes.Length);
+            WriteInt32(valueBytes.Length);
+            stream.Write(valueBytes, 0, valueBytes.Length);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace BurnSystems.Serialization
         /// <param name="objectId">Id of reference object</param>
         public void WriteReference(long objectId)
         {
-            this.WriteInt64(objectId);
+            WriteInt64(objectId);
         }
 
         /// <summary>
@@ -255,11 +255,11 @@ namespace BurnSystems.Serialization
         /// <param name="fieldCount">Number of fields</param>
         public void StartComplexType(long typeId, long objectId, int fieldCount)
         {
-            this.WriteInt64(typeId);
+            WriteInt64(typeId);
 
-            this.WriteInt64(objectId);
+            WriteInt64(objectId);
 
-            this.WriteInt32(fieldCount);
+            WriteInt32(fieldCount);
         }
 
         /// <summary>
@@ -271,15 +271,15 @@ namespace BurnSystems.Serialization
         /// <param name="dimensions">Array of Dimensions</param>
         public void StartArrayType(long elementTypeId, long objectId, int dimensionCount, IEnumerable<int> dimensions)
         {
-            this.WriteInt64(elementTypeId);
+            WriteInt64(elementTypeId);
 
-            this.WriteInt64(objectId);
+            WriteInt64(objectId);
 
-            this.WriteInt32(dimensionCount);
+            WriteInt32(dimensionCount);
 
             foreach (var dimension in dimensions)
             {
-                this.WriteInt32(dimension);
+                WriteInt32(dimension);
             }
         }
 
@@ -289,7 +289,7 @@ namespace BurnSystems.Serialization
         /// <param name="propertyId">Id of property to be added</param>
         public void WritePropertyId(int propertyId)
         {
-            this.WriteInt32(propertyId);
+            WriteInt32(propertyId);
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace BurnSystems.Serialization
         public void WriteInt32(int value)
         {
             var bytes = BitConverter.GetBytes(value);
-            this.stream.Write(bytes, 0, bytes.Length);
+            stream.Write(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace BurnSystems.Serialization
         public void WriteInt64(long value)
         {
             var bytes = BitConverter.GetBytes(value);
-            this.stream.Write(bytes, 0, bytes.Length);
+            stream.Write(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -319,9 +319,9 @@ namespace BurnSystems.Serialization
         /// <param name="enumeration">Value of enumeration</param>
         internal void WriteEnumType(long typeId, Enum enumeration)
         {
-            this.WriteInt64(typeId);
+            WriteInt64(typeId);
 
-            this.WriteNativeType((enumeration as IConvertible).ToInt32(null));
+            WriteNativeType((enumeration as IConvertible).ToInt32(null));
         }
     }
 }

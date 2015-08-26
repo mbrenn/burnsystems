@@ -59,7 +59,7 @@ namespace BurnSystems.Plugins
         /// </summary>
         public List<Type> Dependencies
         {
-            get { return this.dependencies; }
+            get { return dependencies; }
         }
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace BurnSystems.Plugins
         /// <param name="instance">Instance of the object that has been created</param>
         public PluginInfo(Assembly assembly, Type type, T instance)
         {
-            this.Assembly = assembly;
-            this.Type = type;
-            this.Instance = instance;
-            this.UpdateDependencies();
+            Assembly = assembly;
+            Type = type;
+            Instance = instance;
+            UpdateDependencies();
         }
 
         /// <summary>
@@ -81,16 +81,16 @@ namespace BurnSystems.Plugins
         /// </summary>
         private void UpdateDependencies()
         {
-            this.Dependencies.Clear();
+            Dependencies.Clear();
 
-            var attributes = this.Type.GetCustomAttributes(
+            var attributes = Type.GetCustomAttributes(
                 typeof(PluginDependencyAttribute), true);
             foreach (var attributeRaw in attributes)
             {
                 var attribute = attributeRaw as PluginDependencyAttribute;
                 Ensure.IsNotNull(attribute);
 
-                this.Dependencies.Add(attribute.Type);
+                Dependencies.Add(attribute.Type);
             }
         }
 
@@ -100,9 +100,9 @@ namespace BurnSystems.Plugins
         /// <returns>Name of the associated type</returns>
         public override string ToString()
         {
-            if (this.Type != null)
+            if (Type != null)
             {
-                return this.Type.FullName;
+                return Type.FullName;
             }
 
             return "PluginInfo, Unknown Type";

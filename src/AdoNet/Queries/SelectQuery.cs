@@ -55,7 +55,7 @@ namespace BurnSystems.AdoNet.Queries
         public SelectQuery(string tablename)
         {
             this.tablename = tablename;
-            this.columns = "*";
+            columns = "*";
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace BurnSystems.AdoNet.Queries
         {
             this.tablename = tablename;
             this.where = where;
-            this.columns = "*";
+            columns = "*";
         }
 
         /// <summary>
@@ -113,8 +113,8 @@ namespace BurnSystems.AdoNet.Queries
         /// </summary>
         public int LimitFrom
         {
-            get { return this.limitFrom; }
-            set { this.limitFrom = value; }
+            get { return limitFrom; }
+            set { limitFrom = value; }
         }
 
         /// <summary>
@@ -122,8 +122,8 @@ namespace BurnSystems.AdoNet.Queries
         /// </summary>
         public int LimitCount
         {
-            get { return this.limitCount; }
-            set { this.limitCount = value; }
+            get { return limitCount; }
+            set { limitCount = value; }
         }
 
         /// <summary>
@@ -141,35 +141,35 @@ namespace BurnSystems.AdoNet.Queries
             statement.AppendFormat(
                 CultureInfo.InvariantCulture,
                 "SELECT {0} FROM {1}",
-                this.columns,
-                this.tablename);
+                columns,
+                tablename);
 
             // Where Statement
-            if ((this.where != null) && (this.where.Count > 0))
+            if ((where != null) && (where.Count > 0))
             {
                 statement.Append(" WHERE ");
-                statement.Append(MakeWhereStatement(command, this.where));
+                statement.Append(MakeWhereStatement(command, where));
             }
 
             // Order By Statement
-            if (!string.IsNullOrEmpty(this.OrderBy))
+            if (!string.IsNullOrEmpty(OrderBy))
             {
                 statement.Append(" ORDER BY ");
-                statement.Append(this.OrderBy);
+                statement.Append(OrderBy);
             }
 
             // Limits
-            if (this.LimitCount != -1)
+            if (LimitCount != -1)
             {
                 statement.Append(" LIMIT ");
 
-                if (this.LimitFrom != -1)
+                if (LimitFrom != -1)
                 {
-                    statement.Append(this.LimitFrom);
+                    statement.Append(LimitFrom);
                     statement.Append(',');
                 }
 
-                statement.Append(this.LimitCount);
+                statement.Append(LimitCount);
             }
 
             command.CommandText = statement.ToString();

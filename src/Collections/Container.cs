@@ -31,7 +31,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be stored.</param>
         public Container(T item)
         {
-            this.Item = item;
+            Item = item;
         }
 
         /// <summary>

@@ -66,8 +66,8 @@ namespace BurnSystems.Net
         /// </summary>
         public long MaxStreamSize
         {
-            get { return this.maxStreamSize; }
-            set { this.maxStreamSize = value; }
+            get { return maxStreamSize; }
+            set { maxStreamSize = value; }
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace BurnSystems.Net
                 {
                     var readBytes = stream.Read(tempBuffer, 0, ChunkSize);
 
-                    if (readBytes == 0 || numberOfBytes > this.MaxStreamSize)
+                    if (readBytes == 0 || numberOfBytes > MaxStreamSize)
                     {
                         break;
                     }
@@ -108,12 +108,12 @@ namespace BurnSystems.Net
 
                 // First part: Search for boundary
                 var buffer = memoryStream.GetBuffer();
-                this.SearchForBoundary(ref offset, buffer);
+                SearchForBoundary(ref offset, buffer);
 
                 MultipartFormDataPart part;
                 do
                 {
-                    part = this.ReadPart(ref offset, buffer);
+                    part = ReadPart(ref offset, buffer);
                     if (part != null)
                     {
                         result.Parts.Add(part);
@@ -172,7 +172,7 @@ namespace BurnSystems.Net
         /// <param name="buffer">Buffer storing the message</param>
         private void SearchForBoundary(ref int offset, byte[] buffer)
         {
-            var result = ListHelper.IndexOf(buffer, this.boundary, offset);
+            var result = ListHelper.IndexOf(buffer, boundary, offset);
 
             if (result == -1)
             {
@@ -181,7 +181,7 @@ namespace BurnSystems.Net
             else
             {
                 // 2 is added for CRLF
-                offset = result + this.boundary.Length + 2;
+                offset = result + boundary.Length + 2;
             }
         }
 
@@ -235,7 +235,7 @@ namespace BurnSystems.Net
             }
 
             // Headers are read, now search for endboundary and quit
-            var nextBoundaryPos = ListHelper.IndexOf(buffer, this.boundary, offset);
+            var nextBoundaryPos = ListHelper.IndexOf(buffer, boundary, offset);
             if (nextBoundaryPos == -1)
             {
                 return null;
@@ -251,7 +251,7 @@ namespace BurnSystems.Net
             }
 
             // Start of Boundary + Length of Boundary + 2
-            offset = nextBoundaryPos + this.boundary.Length + 2;
+            offset = nextBoundaryPos + boundary.Length + 2;
 
             return result;
         }

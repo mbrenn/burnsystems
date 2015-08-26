@@ -47,7 +47,7 @@ namespace BurnSystems.Net
         /// </summary>
         public Dictionary<string, string> PostVariables
         {
-            get { return this.postVariables; }
+            get { return postVariables; }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace BurnSystems.Net
         /// <returns>Webresponse of request</returns>
         public HttpWebResponse GetResponse(string url)
         {
-            return this.GetResponse(new Uri(url));
+            return GetResponse(new Uri(url));
         }
 
         /// <summary>
@@ -67,14 +67,14 @@ namespace BurnSystems.Net
         /// <returns>Webresponse of request</returns>
         public HttpWebResponse GetResponse(Uri url)
         {
-            if (this.request == null)
+            if (request == null)
             {
-                this.request = WebRequest.Create(url) as HttpWebRequest;
-                Ensure.IsNotNull(this.request);
+                request = WebRequest.Create(url) as HttpWebRequest;
+                Ensure.IsNotNull(request);
 
                 var builder = new StringBuilder();
                 var first = true;
-                foreach (KeyValuePair<string, string> pair in this.postVariables)
+                foreach (KeyValuePair<string, string> pair in postVariables)
                 {
                     if (!first)
                     {
@@ -89,23 +89,23 @@ namespace BurnSystems.Net
                 }
 
                 byte[] postData = Encoding.ASCII.GetBytes(builder.ToString());
-                this.request.Method = "POST";
-                this.request.ContentLength = postData.Length;
-                this.request.ContentType = 
+                request.Method = "POST";
+                request.ContentLength = postData.Length;
+                request.ContentType = 
                     "application/x-www-form-urlencoded; encoding='utf-8'";
 
-                using (var stream = this.request.GetRequestStream())
+                using (var stream = request.GetRequestStream())
                 {
                     stream.Write(postData, 0, postData.Length);
                 }
             }
 
-            if (this.response == null)
+            if (response == null)
             {
-                this.response = this.request.GetResponse() as HttpWebResponse;
+                response = request.GetResponse() as HttpWebResponse;
             }
 
-            return this.response;
+            return response;
         }
     }
 }

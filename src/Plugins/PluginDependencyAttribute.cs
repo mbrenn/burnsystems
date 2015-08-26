@@ -27,7 +27,7 @@ namespace BurnSystems.Plugins
         /// <param name="type">Parameter to which the type is dependend</param>
         public PluginDependencyAttribute(Type type)
         {
-            this.Type = type;
+            Type = type;
         }
 
         /// <summary>

@@ -46,12 +46,12 @@ namespace BurnSystems.Serialization
         /// </summary>
         /// <param name="value">Value to be serialized</param>
         public void Serialize(object value)
-        {            
-            this.writer = new BinaryWriter(this.stream);
-            var visitor = new Visitor(this, this.writer);
+        {
+            writer = new BinaryWriter(stream);
+            var visitor = new Visitor(this, writer);
 
             // Writes header
-            this.writer.WriteHeader();
+            writer.WriteHeader();
 
             visitor.ParseObject(value);
         }
@@ -64,7 +64,7 @@ namespace BurnSystems.Serialization
         /// <returns>Created entry</returns>
         public TypeEntry RegisterType(Type type)
         {
-            var typeEntry = this.TypeContainer.FindType(type);
+            var typeEntry = TypeContainer.FindType(type);
 
             if (typeEntry == null)
             {
@@ -73,15 +73,15 @@ namespace BurnSystems.Serialization
                 {
                     foreach (var genericType in type.GetGenericArguments())
                     {
-                        this.RegisterType(genericType);
+                        RegisterType(genericType);
                     }
                 }
 
                 // Adds a new type
-                typeEntry = this.TypeContainer.AddType(type);
+                typeEntry = TypeContainer.AddType(type);
 
-                this.writer.StartContainer(ContainerType.Type);
-                this.writer.WriteType(typeEntry);
+                writer.StartContainer(ContainerType.Type);
+                writer.WriteType(typeEntry);
             }
 
             return typeEntry;

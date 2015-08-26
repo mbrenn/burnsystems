@@ -59,11 +59,11 @@ namespace BurnSystems.Extensions
             switch (name)
             {
                 case "Name":
-                    return this.Name;
+                    return Name;
                 case "Value":
-                    return this.Value;
+                    return Value;
                 case "ValueText":
-                    return this.ValueText;
+                    return ValueText;
                 default:
                     return null;
             }
@@ -88,8 +88,8 @@ namespace BurnSystems.Extensions
         {
             return string.Format(
                 "{0}: {1}",
-                this.Name,
-                this.ValueText);
+                Name,
+                ValueText);
         }
     }
 }

@@ -229,7 +229,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             ~WatchHelper()
             {
-                this.Dispose(false);
+                Dispose(false);
             }
 
             #region IDisposable Member
@@ -240,7 +240,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             public void Dispose()
             {
-                this.Dispose(true);
+                Dispose(true);
                 GC.SuppressFinalize(this);
             }
 
@@ -251,7 +251,7 @@ namespace BurnSystems.Synchronisation
             /// called by Dispose()</param>
             public void Dispose(bool disposing)
             {
-                ThreadWatcher.UnwatchThread(this.thread);
+                ThreadWatcher.UnwatchThread(thread);
             }
 
             #endregion

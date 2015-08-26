@@ -293,7 +293,7 @@ namespace BurnSystems
             /// <returns>Result of Call</returns>
             public override double NextDouble()
             {
-                return this.LocalRandomGenerator.NextDouble();
+                return LocalRandomGenerator.NextDouble();
             }
 
             /// <summary>
@@ -302,7 +302,7 @@ namespace BurnSystems
             /// <returns>Result of Call</returns>
             public override int Next()
             {
-                return this.LocalRandomGenerator.Next();
+                return LocalRandomGenerator.Next();
             }
 
             /// <summary>
@@ -312,7 +312,7 @@ namespace BurnSystems
             /// <returns>Result of Call</returns>
             public override int Next(int maxValue)
             {
-                return this.LocalRandomGenerator.Next(maxValue);
+                return LocalRandomGenerator.Next(maxValue);
             }
 
             /// <summary>
@@ -323,7 +323,7 @@ namespace BurnSystems
             /// <returns>Result of Call</returns>
             public override int Next(int minValue, int maxValue)
             {
-                return this.LocalRandomGenerator.Next(minValue, maxValue);
+                return LocalRandomGenerator.Next(minValue, maxValue);
             }
 
             /// <summary>
@@ -332,7 +332,7 @@ namespace BurnSystems
             /// <param name="buffer">Parameter for buffer</param>
             public override void NextBytes(byte[] buffer)
             {
-                this.LocalRandomGenerator.NextBytes(buffer);
+                LocalRandomGenerator.NextBytes(buffer);
             }
         }
     }
