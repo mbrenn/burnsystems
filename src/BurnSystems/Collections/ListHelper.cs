@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using BurnSystems.Test;
 
 namespace BurnSystems.Collections

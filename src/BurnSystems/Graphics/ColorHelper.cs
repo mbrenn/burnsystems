@@ -1,6 +1,5 @@
 namespace BurnSystems.Graphics
 {
-    using System;
     using System.Drawing;
     using System.Globalization;
     using Test;

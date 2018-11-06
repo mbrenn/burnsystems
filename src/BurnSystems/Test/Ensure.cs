@@ -2,7 +2,6 @@
 {
     using System;
     using System.Globalization;
-    using BurnSystems.Collections;
     using System.Linq.Expressions;
 
     /// <summary>

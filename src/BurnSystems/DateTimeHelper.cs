@@ -1,9 +1,6 @@
 ﻿namespace BurnSystems
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// This static helper class is used to manipulate DateTime-Structures

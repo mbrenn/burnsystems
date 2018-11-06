@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-
-namespace BurnSystems.Xml.Html
+﻿namespace BurnSystems.Xml.Html
 {
     /// <summary>
     /// Defines an html table

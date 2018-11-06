@@ -1,8 +1,6 @@
 ﻿namespace BurnSystems.Net.Json
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// This interface has to be implemented by all objects that can

@@ -1,9 +1,5 @@
 ﻿namespace BurnSystems.Serialization
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// This header stores the data for a complex structure
     /// </summary>

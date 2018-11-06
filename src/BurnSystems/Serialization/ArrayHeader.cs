@@ -1,8 +1,6 @@
 ﻿namespace BurnSystems.Serialization
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// This class stores the value of the array header

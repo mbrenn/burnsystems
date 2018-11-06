@@ -7,7 +7,6 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
-    using System.Dynamic;
 
     /// <summary>
     /// This static class stores the extension methods for every object.

@@ -1,9 +1,5 @@
 ﻿namespace BurnSystems.Serialization
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// The base class for serialization and deserialization.
     /// </summary>

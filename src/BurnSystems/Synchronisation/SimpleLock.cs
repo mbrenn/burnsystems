@@ -1,8 +1,6 @@
 namespace BurnSystems.Synchronisation
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using BurnSystems.Interfaces;
     using Test;
 

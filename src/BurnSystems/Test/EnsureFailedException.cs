@@ -1,8 +1,6 @@
 ﻿namespace BurnSystems.Test
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// This method is thrown, when an ensure check failes

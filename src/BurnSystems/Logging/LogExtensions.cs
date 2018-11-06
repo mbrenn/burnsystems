@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BurnSystems.Logging
+﻿namespace BurnSystems.Logging
 {
     /// <summary>
     /// Extends the interface ILog with several useful functions

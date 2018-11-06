@@ -5,7 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using BurnSystems.Collections;
     using Test;
 
     /// <summary>
