@@ -1,7 +1,7 @@
 namespace BurnSystems.Synchronisation
 {
     using System;
-    using BurnSystems.Interfaces;
+    using Interfaces;
     using Test;
 
     /// <summary>

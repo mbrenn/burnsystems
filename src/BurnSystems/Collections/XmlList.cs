@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
-    using BurnSystems.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// This implements the IList interface on an XContainer element. 

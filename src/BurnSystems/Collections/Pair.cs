@@ -3,7 +3,7 @@ namespace BurnSystems.Collections
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using BurnSystems.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// Stores a pair of two object

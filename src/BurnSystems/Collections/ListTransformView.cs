@@ -58,8 +58,8 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Detach()
         {
-            var notifyPropertyChanged = this.list as INotifyPropertyChanged;
-            var notifyCollectionChanged = this.list as INotifyCollectionChanged;
+            var notifyPropertyChanged = list as INotifyPropertyChanged;
+            var notifyCollectionChanged = list as INotifyCollectionChanged;
             notifyPropertyChanged.PropertyChanged -= new PropertyChangedEventHandler(OnPropertyChanged);
             notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(OnCollectionChanged);
         }
@@ -148,7 +148,7 @@ namespace BurnSystems.Collections
         /// <param name="e">Arguments of event</param>
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var ev = this.PropertyChanged;
+            var ev = PropertyChanged;
             if (ev != null)
             {
                 ev(sender, e);
@@ -164,7 +164,7 @@ namespace BurnSystems.Collections
         {
             var found = -1;
 
-            foreach (var element in this.list.Select(x => this.selector(x)))
+            foreach (var element in list.Select(x => selector(x)))
             {
                 found++;
                 if (element == null && item == null)
@@ -215,7 +215,7 @@ namespace BurnSystems.Collections
         {
             get
             {
-                return this.selector(this.list[index]);
+                return selector(list[index]);
             }
             set
             {
@@ -247,7 +247,7 @@ namespace BurnSystems.Collections
         /// <returns>True, if item is in list</returns>
         public bool Contains(Q item)
         {
-            return this.IndexOf(item) != -1;
+            return IndexOf(item) != -1;
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public int Count
         {
-            get { return this.list.Count; }
+            get { return list.Count; }
         }
 
         /// <summary>
@@ -312,9 +312,9 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator for the instance</returns>
         public IEnumerator<Q> GetEnumerator()
         {
-            foreach (var item in this.list)
+            foreach (var item in list)
             {
-                yield return this.selector(item);
+                yield return selector(item);
             }
         }
 
@@ -324,9 +324,9 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator for the instance</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (var item in this.list)
+            foreach (var item in list)
             {
-                yield return this.selector(item);
+                yield return selector(item);
             }
         }
 
@@ -347,7 +347,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if item is included</returns>
         public bool Contains(object value)
         {
-            return this.IndexOf(value) != -1;
+            return IndexOf(value) != -1;
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace BurnSystems.Collections
                 return -1;
             }
 
-            return this.IndexOf((Q) value);
+            return IndexOf((Q) value);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public object SyncRoot
         {
-            get { return this.syncRoot; }
+            get { return syncRoot; }
         }
 
         /// <summary>

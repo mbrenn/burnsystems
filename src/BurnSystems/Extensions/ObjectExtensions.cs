@@ -225,11 +225,11 @@
             {
                 return Convert.ToDecimal(value);
             }
-            else if (type == typeof(System.DateTime))
+            else if (type == typeof(DateTime))
             {
                 return Convert.ToDateTime(value);
             }
-            else if (type == typeof(System.Boolean))
+            else if (type == typeof(Boolean))
             {
                 return Convert.ToBoolean(value);
             }

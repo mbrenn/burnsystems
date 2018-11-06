@@ -94,7 +94,7 @@
             /// <returns>true, if both objects are equal</returns>
             bool IEqualityComparer<object>.Equals(object x, object y)
             {
-                return object.ReferenceEquals(x, y);
+                return ReferenceEquals(x, y);
             }
 
             /// <summary>

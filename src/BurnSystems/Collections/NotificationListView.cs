@@ -27,7 +27,7 @@
         /// </summary>
         public NotificationListView()
         {
-            this.container = new List<T>();
+            container = new List<T>();
         }
         
         /// <summary>
@@ -36,7 +36,7 @@
         /// <param name="list">List to be set</param>
         public NotificationListView(IList<T> list)
         {
-            this.container = list;
+            container = list;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// <returns>Position of the item or -1.</returns>
         public int IndexOf(T item)
         {
-            return this.container.IndexOf(item);
+            return container.IndexOf(item);
         }
 
         /// <summary>
@@ -56,10 +56,10 @@
         /// <param name="item">Item that shall be added</param>
         public void Insert(int index, T item)
         {
-            this.container.Insert(index, item);
-            this.OnPropertyChanged("Count");
-            this.OnPropertyChanged("Item[]");
-            this.OnCollectionChanged(
+            container.Insert(index, item);
+            OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
+            OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(
                     NotifyCollectionChangedAction.Add, 
                     item, 
@@ -73,10 +73,10 @@
         public void RemoveAt(int index)
         {
             var item = this[index];
-            this.container.RemoveAt(index);
-            this.OnPropertyChanged("Count");
-            this.OnPropertyChanged("Item[]");
-            this.OnCollectionChanged(
+            container.RemoveAt(index);
+            OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
+            OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(
                     NotifyCollectionChangedAction.Remove,
                     item,
@@ -92,14 +92,14 @@
         {
             get
             {
-                return this.container[index];
+                return container[index];
             }
             set
             {
                 T oldItem = this[index];
-                this.container[index] = value;
-                this.OnPropertyChanged("Item[]");
-                this.OnCollectionChanged(
+                container[index] = value;
+                OnPropertyChanged("Item[]");
+                OnCollectionChanged(
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Replace,
                         value,
@@ -114,14 +114,14 @@
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            this.container.Add(item);
-            this.OnPropertyChanged("Count");
-            this.OnPropertyChanged("Item[]");
-            this.OnCollectionChanged(
+            container.Add(item);
+            OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
+            OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(
                     NotifyCollectionChangedAction.Add,
                     item,
-                    this.Count - 1));
+                    Count - 1));
         }
 
         /// <summary>
@@ -129,10 +129,10 @@
         /// </summary>
         public void Clear()
         {
-            this.container.Clear();
-            this.OnPropertyChanged("Count");
-            this.OnPropertyChanged("Item[]");
-            this.OnCollectionChanged(
+            container.Clear();
+            OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
+            OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(
                     NotifyCollectionChangedAction.Reset));
         }
@@ -144,7 +144,7 @@
         /// <returns>True, if container contains the value</returns>
         public bool Contains(T item)
         {
-            return this.container.Contains(item);
+            return container.Contains(item);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
-            this.container.CopyTo(array, arrayIndex);
+            container.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@
         /// </summary>
         public int Count
         {
-            get { return this.container.Count; }
+            get { return container.Count; }
         }
 
         /// <summary>
@@ -171,7 +171,7 @@
         /// </summary>
         public bool IsReadOnly
         {
-            get { return this.container.IsReadOnly; }
+            get { return container.IsReadOnly; }
         }
 
         /// <summary>
@@ -181,13 +181,13 @@
         /// <returns>true, if item has been removed</returns>
         public bool Remove(T item)
         {
-            var index = this.IndexOf(item);
+            var index = IndexOf(item);
             if (index == -1)
             {
                 return false;
             }
 
-            this.RemoveAt(index);
+            RemoveAt(index);
             return true;
         }
 
@@ -197,16 +197,16 @@
         /// <returns>Enumerator of the container</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return this.container.GetEnumerator();
+            return container.GetEnumerator();
         }
 
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>Enumerator of the container</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.container.GetEnumerator();
+            return container.GetEnumerator();
         }
 
         /// <summary>
@@ -215,7 +215,7 @@
         /// <param name="propertyName">Name of the property</param>
         private void OnPropertyChanged(string propertyName)
         {
-            var e = this.PropertyChanged;
+            var e = PropertyChanged;
             if (e != null)
             {
                 e(this, new PropertyChangedEventArgs(propertyName));
@@ -233,7 +233,7 @@
         /// <param name="args">Arguments of the event</param>
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
-            var e = this.CollectionChanged;
+            var e = CollectionChanged;
             if (e != null)
             {
                 e(this, args);
@@ -259,8 +259,8 @@
                 throw new InvalidCastException("value");
             }
 
-            this.Add((T)value);
-            return this.Count - 1;
+            Add((T)value);
+            return Count - 1;
         }
 
         /// <summary>
@@ -275,7 +275,7 @@
                 return false;
             }
 
-            return this.Contains((T)value);
+            return Contains((T)value);
         }
 
         /// <summary>
@@ -290,7 +290,7 @@
                 return -1;
             }
 
-            return this.IndexOf((T)value);
+            return IndexOf((T)value);
         }
 
         /// <summary>
@@ -305,7 +305,7 @@
                 throw new InvalidCastException("value");
             }
 
-            this.Insert(index, (T)value);
+            Insert(index, (T)value);
         }
 
         /// <summary>
@@ -327,7 +327,7 @@
                 return;
             }
 
-            this.Remove((T)value);
+            Remove((T)value);
         }
 
         /// <summary>
@@ -357,9 +357,9 @@
         /// </summary>
         /// <param name="array">Array to be filled</param>
         /// <param name="index">Index where to start</param>
-        public void CopyTo(System.Array array, int index)
+        public void CopyTo(Array array, int index)
         {
-            ((IList)this.container).CopyTo(array, index);
+            ((IList)container).CopyTo(array, index);
         }
 
         /// <summary>
@@ -375,7 +375,7 @@
         /// </summary>
         public object SyncRoot
         {
-            get { return this.syncRoot; }
+            get { return syncRoot; }
         }
 
         #endregion

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using BurnSystems.Collections;
+    using Collections;
 
     /// <summary>
     /// This class defines the different types

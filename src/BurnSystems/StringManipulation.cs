@@ -239,7 +239,7 @@
                 return null;
             }
 
-            var utf8 = new System.Text.UTF8Encoding();
+            var utf8 = new UTF8Encoding();
 
             var bytes = utf8.GetBytes(data);
             return Sha1(bytes);

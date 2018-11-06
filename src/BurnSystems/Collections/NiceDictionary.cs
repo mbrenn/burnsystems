@@ -2,7 +2,7 @@ namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
-    using BurnSystems.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// Dieses Dictionary entspricht dem normalen Dictionary, nur dass 

@@ -232,7 +232,7 @@ namespace BurnSystems.Synchronisation
             /// called by Dispose()</param>
             public void Dispose(bool disposing)
             {
-                ThreadWatcher.UnwatchThread(thread);
+                UnwatchThread(thread);
             }
 
             #endregion

@@ -7,7 +7,7 @@
     /// to another plugin. The Pluginloader has to load the plugins in 
     /// the correct order. 
     /// </summary>
-    [global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public sealed class PluginDependencyAttribute : Attribute
     {
         /// <summary>

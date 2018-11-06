@@ -5,7 +5,7 @@
     /// <summary>
     /// This method is thrown, when an ensure check failes
     /// </summary>
-    [global::System.Serializable]
+    [Serializable]
     public class EnsureFailedException : Exception
     {
         /// <summary>

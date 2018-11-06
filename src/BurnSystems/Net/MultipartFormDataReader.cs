@@ -3,7 +3,7 @@ namespace BurnSystems.Net
     using System;
     using System.IO;
     using System.Text;
-    using BurnSystems.Collections;
+    using Collections;
 
     /// <summary>
     /// Reads a stream and returns a MultipartFormData-Instance. 
@@ -27,7 +27,7 @@ namespace BurnSystems.Net
         /// <param name="boundary">Used Boundary</param>
         public MultipartFormDataReader(string boundary)
         {
-            this.boundary = ASCIIEncoding.ASCII.GetBytes(boundary);
+            this.boundary = Encoding.ASCII.GetBytes(boundary);
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace BurnSystems.Net
                 if (currentByte == 13 || currentByte == 10)
                 {
                     // Convert region between start and currentposition to String
-                    var headerText = ASCIIEncoding.ASCII.GetString(
+                    var headerText = Encoding.ASCII.GetString(
                         buffer, 
                         start,
                         offset - start);

@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using BurnSystems.Extensions;
-    using BurnSystems.Interfaces;
+    using Extensions;
+    using Interfaces;
 
     /// <summary>
     /// The objectcontainer stores the objects

@@ -811,7 +811,7 @@ namespace BurnSystems.Collections
             // One thread, simple execution
             if (numberOfThreads == 1)
             {
-                ListHelper.ForEach(items, action);
+                ForEach(items, action);
                 return;
             }
 

@@ -14,12 +14,12 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Native lockstructure
         /// </summary>
-        private readonly System.Threading.ReaderWriterLockSlim nativeLockSlim;
+        private readonly ReaderWriterLockSlim nativeLockSlim;
 
         /// <summary>
         /// Native lockstructure for mono
         /// </summary>
-        private readonly System.Threading.ReaderWriterLock nativeLock;
+        private readonly ReaderWriterLock nativeLock;
 
         /// <summary>
         /// Initializes a new instance of the ReadWriteLock class.
