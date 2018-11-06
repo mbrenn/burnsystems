@@ -24,15 +24,9 @@
         /// <returns>Value behind the key</returns>
         public object this[string key]
         {
-            get
-            {
-                return properties[key];
-            }
+            get => properties[key];
 
-            set
-            {
-                properties[key] = ConvertObject(value);
-            }
+            set => properties[key] = ConvertObject(value);
         }
 
         /// <summary>

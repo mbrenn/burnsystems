@@ -90,10 +90,7 @@
         /// <returns>Item of the element</returns>
         public T this[int index]
         {
-            get
-            {
-                return container[index];
-            }
+            get => container[index];
             set
             {
                 T oldItem = this[index];
@@ -161,18 +158,12 @@
         /// <summary>
         /// Gets the number of elements contained in the container.
         /// </summary>
-        public int Count
-        {
-            get { return container.Count; }
-        }
+        public int Count => container.Count;
 
         /// <summary>
         /// Gets a value indicating whether the container is read only
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return container.IsReadOnly; }
-        }
+        public bool IsReadOnly => container.IsReadOnly;
 
         /// <summary>
         /// Removes a specific item
@@ -311,10 +302,7 @@
         /// <summary>
         /// Returns false
         /// </summary>
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         /// <summary>
         /// Removes an item
@@ -337,10 +325,7 @@
         /// <returns>Found object</returns>
         object IList.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
+            get => this[index];
             set
             {
                 if (!(value is T))
@@ -365,18 +350,12 @@
         /// <summary>
         /// Gets the information whether the list is synchronized
         /// </summary>
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         /// <summary>
         /// Gets the synchronisation object
         /// </summary>
-        public object SyncRoot
-        {
-            get { return syncRoot; }
-        }
+        public object SyncRoot => syncRoot;
 
         #endregion
     }

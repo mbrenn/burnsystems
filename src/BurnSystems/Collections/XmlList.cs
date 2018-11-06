@@ -178,18 +178,12 @@
         /// <summary>
         /// Gets the number of elements
         /// </summary>
-        public int Count
-        {
-            get { return container.Elements().Count(); }
-        }
+        public int Count => container.Elements().Count();
 
         /// <summary>
         /// Gets a value indicating whether the list is read-only
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Removes a specific item from xml list

@@ -55,18 +55,12 @@
         /// <summary>
         /// Gets the methods
         /// </summary>
-        public List<FieldEntry> Fields
-        {
-            get { return fields; }
-        }
+        public List<FieldEntry> Fields => fields;
 
         /// <summary>
         /// Gets the generic arguments
         /// </summary>
-        public List<long> GenericArguments
-        {
-            get { return genericArguments; }
-        }
+        public List<long> GenericArguments => genericArguments;
 
         /// <summary>
         /// Adds a field to this type

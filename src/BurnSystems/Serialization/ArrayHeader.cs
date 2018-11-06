@@ -42,9 +42,6 @@
         /// <summary>
         /// Gets a list of dimensions
         /// </summary>
-        public List<int> Dimensions
-        {
-            get { return dimensions; }
-        }
+        public List<int> Dimensions => dimensions;
     }
 }

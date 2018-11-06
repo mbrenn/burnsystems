@@ -44,13 +44,7 @@
         /// <summary>
         /// Gets the number of elements
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return elements.Count;
-            }
-        }
+        public int Count => elements.Count;
 
         /// <summary>
         /// Adds a new item to priorityqueue

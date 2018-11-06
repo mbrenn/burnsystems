@@ -30,34 +30,22 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gets a collection of keys
         /// </summary>
-        public ICollection<TKey> Keys
-        {
-            get { return dictionary.Keys; }
-        }
+        public ICollection<TKey> Keys => dictionary.Keys;
 
         /// <summary>
         /// Gets the number of entries
         /// </summary>
-        public int Count
-        {
-            get { return dictionary.Count; }
-        }
+        public int Count => dictionary.Count;
 
         /// <summary>
         /// Gets a value indicating whether this instance is readonly
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return ((IDictionary<TKey, TValue>)dictionary).IsReadOnly; }
-        }
+        public bool IsReadOnly => ((IDictionary<TKey, TValue>)dictionary).IsReadOnly;
 
         /// <summary>
         /// Gets a collection of values
         /// </summary>
-        public ICollection<TValue> Values
-        {
-            get { return dictionary.Values; }
-        }
+        public ICollection<TValue> Values => dictionary.Values;
 
         /// <summary>
         /// Gets a specific entry or null, if not found
@@ -78,10 +66,7 @@ namespace BurnSystems.Collections
                 return default(TValue);
             }
 
-            set
-            {
-                dictionary[key] = value;
-            }
+            set => dictionary[key] = value;
         }
 
         #region IDictionary<TKey,TValue> Member

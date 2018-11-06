@@ -41,10 +41,7 @@
         /// <summary>
         /// Gets a list of json objects
         /// </summary>
-        public List<IJsonObject> List
-        {
-            get { return list; }
-        }
+        public List<IJsonObject> List => list;
 
         /// <summary>
         /// Converts the list to a json string

@@ -62,8 +62,8 @@ namespace BurnSystems.Graphics
         /// </summary>
         public double Right
         {
-            get { return Left + Width; }
-            set { Width = value - Left; }
+            get => Left + Width;
+            set => Width = value - Left;
         }
 
         /// <summary>
@@ -71,8 +71,8 @@ namespace BurnSystems.Graphics
         /// </summary>
         public double Bottom
         {
-            get { return Top + Height; }
-            set { Height = value - Top; }
+            get => Top + Height;
+            set => Height = value - Top;
         }
 
         /// <summary>

@@ -17,9 +17,6 @@ namespace BurnSystems.Net
         /// <summary>
         /// Gets the different parts of the formdata
         /// </summary>
-        public List<MultipartFormDataPart> Parts
-        {
-            get { return parts; }
-        }
+        public List<MultipartFormDataPart> Parts => parts;
     }
 }

@@ -18,34 +18,22 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gets the number of entries
         /// </summary>
-        public int Count
-        {
-            get { return dictionary.Count; }
-        }
+        public int Count => dictionary.Count;
 
         /// <summary>
         /// Gets a value indicating whether this dictionary is read only
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Gets the collection of keys
         /// </summary>
-        public ICollection<string> Keys
-        {
-            get { return dictionary.Keys; }
-        }
+        public ICollection<string> Keys => dictionary.Keys;
 
         /// <summary>
         /// Gets a collection of values
         /// </summary>
-        public ICollection<T> Values
-        {
-            get { return dictionary.Values; }
-        }
+        public ICollection<T> Values => dictionary.Values;
 
         /// <summary>
         /// Returns an object with the given key
@@ -55,8 +43,8 @@ namespace BurnSystems.Collections
         /// will be thrown.</returns>
         public T this[string key]
         {
-            get { return dictionary[key]; }
-            set { Add(key, value); }
+            get => dictionary[key];
+            set => Add(key, value);
         }
 
         /// <summary>

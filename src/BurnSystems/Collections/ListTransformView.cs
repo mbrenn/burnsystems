@@ -213,14 +213,8 @@ namespace BurnSystems.Collections
         /// <returns>Element to be retrieved</returns>
         public Q this[int index]
         {
-            get
-            {
-                return selector(list[index]);
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get => selector(list[index]);
+            set => throw new NotImplementedException();
         }
 
         /// <summary>
@@ -283,18 +277,12 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gets the number of elements
         /// </summary>
-        public int Count
-        {
-            get { return list.Count; }
-        }
+        public int Count => list.Count;
 
         /// <summary>
         /// Gets a value indicating whether the list is read only
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
+        public bool IsReadOnly => true;
 
         /// <summary>
         /// Method is not implemented
@@ -380,10 +368,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// True, if this has a fixed size
         /// </summary>
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         /// <summary>
         /// Not implemented
@@ -401,14 +386,8 @@ namespace BurnSystems.Collections
         /// <returns>Requested object</returns>
         object IList.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get => this[index];
+            set => throw new NotImplementedException();
         }
 
         /// <summary>
@@ -444,18 +423,12 @@ namespace BurnSystems.Collections
         /// <summary>
         /// True, if the instance is synchronized.
         /// </summary>
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         /// <summary>
         /// Gets the synchronisation root
         /// </summary>
-        public object SyncRoot
-        {
-            get { return syncRoot; }
-        }
+        public object SyncRoot => syncRoot;
 
         /// <summary>
         /// This event is called, when a property has been changed

@@ -13,7 +13,7 @@
         /// <summary>
         /// Stores a list of dependencies
         /// </summary>
-        private List<Type> dependencies = new List<Type>();
+        private readonly List<Type> _dependencies = new List<Type>();
 
         /// <summary>
         /// Gets or sets the instance of the plugin
@@ -45,10 +45,7 @@
         /// <summary>
         /// Gets a list of dependencies
         /// </summary>
-        public List<Type> Dependencies
-        {
-            get { return dependencies; }
-        }
+        public List<Type> Dependencies => _dependencies;
 
         /// <summary>
         /// Initializes a new instance of the PluginInfo class.

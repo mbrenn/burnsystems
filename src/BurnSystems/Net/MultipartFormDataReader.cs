@@ -55,8 +55,8 @@ namespace BurnSystems.Net
         /// </summary>
         public long MaxStreamSize
         {
-            get { return maxStreamSize; }
-            set { maxStreamSize = value; }
+            get => maxStreamSize;
+            set => maxStreamSize = value;
         }
 
         /// <summary>

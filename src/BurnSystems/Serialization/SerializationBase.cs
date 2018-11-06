@@ -18,18 +18,12 @@
         /// <summary>
         /// Gets the typecontainer
         /// </summary>
-        public TypeContainer TypeContainer
-        {
-            get { return typeContainer; }
-        }
+        public TypeContainer TypeContainer => typeContainer;
 
         /// <summary>
         /// Gets the container, storing the object
         /// </summary>
-        internal ObjectContainer ObjectContainer
-        {
-            get { return objectContainer; }
-        }
+        internal ObjectContainer ObjectContainer => objectContainer;
 
         /// <summary>
         /// Registers a new object

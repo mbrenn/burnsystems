@@ -34,10 +34,7 @@ namespace BurnSystems.Net
         /// Gets the dictionary with variables, which should be sent
         /// as POST-Request
         /// </summary>
-        public Dictionary<string, string> PostVariables
-        {
-            get { return postVariables; }
-        }
+        public Dictionary<string, string> PostVariables => postVariables;
 
         /// <summary>
         /// Gibt die Webresponse für diesen Request zurück

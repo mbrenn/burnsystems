@@ -205,10 +205,7 @@
         /// <summary>
         /// Gets a value indicating whether the list is read-only
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Removes a specific item from xml list

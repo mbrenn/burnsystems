@@ -33,14 +33,8 @@
         /// Gets a value indicating whether the environment is currently running
         /// under mono
         /// </summary>
-        public static bool IsMono
-        {
-            get
-            {
-                return isMono;
-            }
-        }
-        
+        public static bool IsMono => isMono;
+
         /// <summary>
         /// Gets or loads an assembly. If assembly is already loaded by process, 
         /// it will be directly returned. If it is not available, it will be loaded

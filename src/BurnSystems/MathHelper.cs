@@ -21,10 +21,7 @@
         /// <summary>
         /// Gets a threadsafe random instance
         /// </summary>
-        public static Random Random
-        {
-            get { return random.Value; }
-        }
+        public static Random Random => random.Value;
 
         /// <summary>
         /// Gets the earliest of both timespans

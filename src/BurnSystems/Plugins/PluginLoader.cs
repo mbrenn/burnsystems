@@ -32,10 +32,7 @@ namespace BurnSystems.Plugins
         /// <summary>
         /// Gets all plugins
         /// </summary>
-        public List<PluginInfo<T>> Plugins
-        {
-            get { return plugins; }
-        }
+        public List<PluginInfo<T>> Plugins => plugins;
 
         /// <summary>
         /// Initializes a new instance of the PluginLoader class. 
@@ -59,7 +56,7 @@ namespace BurnSystems.Plugins
                     // Gets all types in assembly, which implement the interface IUmbraPlugin and 
                     // have the UmbraPluginAttribute
                     foreach (var type in assembly.GetTypes()
-                        .Where(x => x.GetCustomAttributes(typeAttribute, false).Count() > 0)
+                        .Where(x => x.GetCustomAttributes(typeAttribute, false).Length > 0)
                         .Where(x => x.GetInterfaces().Any(y => y.FullName == typeof(T).FullName)))
                     {
                         var plugin = Activator.CreateInstance(type) as T;

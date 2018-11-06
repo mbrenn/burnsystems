@@ -29,18 +29,12 @@ namespace BurnSystems.Net
         /// <summary>
         /// Gets the elements of the content-disposition header
         /// </summary>
-        public NiceDictionary<string, string> ContentDisposition
-        {
-            get { return contentDisposition; }
-        }
+        public NiceDictionary<string, string> ContentDisposition => contentDisposition;
 
         /// <summary>
         /// Gets a list of headers
         /// </summary>
-        public List<Pair<string, string>> Headers
-        {
-            get { return headers; }
-        }
+        public List<Pair<string, string>> Headers => headers;
 
         /// <summary>
         /// Gets or sets the content of this part

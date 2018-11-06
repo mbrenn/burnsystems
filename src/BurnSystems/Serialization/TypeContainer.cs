@@ -29,10 +29,7 @@
         /// <summary>
         /// Gets the list of types
         /// </summary>
-        public List<TypeEntry> Types
-        {
-            get { return types; }
-        }
+        public List<TypeEntry> Types => types;
 
         /// <summary>
         /// Adds a new type
