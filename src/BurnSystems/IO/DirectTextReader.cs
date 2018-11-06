@@ -1,15 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="DirectTextReader.cs" company="Martin Brenn">
-//     Alle Rechte vorbehalten. 
-// 
-//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
-//     der AGPL lizenziert. 
-//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
-//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace BurnSystems.IO
+﻿namespace BurnSystems.IO
 {
     using System.IO;
     using System.Text;

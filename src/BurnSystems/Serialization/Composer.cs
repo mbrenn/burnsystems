@@ -10,6 +10,7 @@
 //-----------------------------------------------------------------------
 
 using System.Diagnostics;
+using BurnSystems.Logging;
 
 namespace BurnSystems.Serialization
 {
@@ -24,6 +25,8 @@ namespace BurnSystems.Serialization
     /// </summary>
     public class Composer
     {
+        private static readonly ClassLogger Logger = new ClassLogger(typeof(Composer));
+
         /// <summary>
         /// These translations are used to translate the
         /// read values into the target type. 
@@ -231,6 +234,8 @@ namespace BurnSystems.Serialization
                                 LocalizationBS.Composer_WrongTypeTransformed,
                                 valueProperty.GetType().FullName,
                                 field.FieldInfo.FieldType.FullName);
+
+                            Logger.Warn(logMessage);
                         }
                         else
                         {
@@ -239,6 +244,8 @@ namespace BurnSystems.Serialization
                                 LocalizationBS.Composer_WrongTypeFound,
                                 valueProperty.GetType().FullName,
                                 field.FieldInfo.FieldType.FullName);
+
+                            Logger.Warn(logMessage);
                         }
                     }
                     else

@@ -1,17 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="StringManipulation.cs" company="Martin Brenn">
-//     Alle Rechte vorbehalten. 
-// 
-//     Die Inhalte dieser Datei sind ebenfalls automatisch unter 
-//     der AGPL lizenziert. 
-//     http://www.fsf.org/licensing/licenses/agpl-3.0.html
-//     Weitere Informationen: http://de.wikipedia.org/wiki/AGPL
-// </copyright>
-//-----------------------------------------------------------------------
-
-// (c) by BurnSystems '06
-
-namespace BurnSystems
+﻿namespace BurnSystems
 {
     using System;
     using System.Collections.Generic;
