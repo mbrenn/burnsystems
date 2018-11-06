@@ -33,7 +33,7 @@ namespace BurnSystems.Serialization
         /// The dictionary stores in the key the pair of source and target-Type
         /// and in the value the transformation from source to targetobject
         /// </summary>
-        private Dictionary<Pair<Type, Type>, Func<object, object>> translations =
+        private readonly Dictionary<Pair<Type, Type>, Func<object, object>> _translations =
             new Dictionary<Pair<Type, Type>, Func<object, object>>();
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace BurnSystems.Serialization
         /// to target function</param>
         public void AddTranslation<TSource, TTarget>(Func<TSource, TTarget> translation)
         {
-            translations[new Pair<Type, Type>(typeof(TSource), typeof(TTarget))]
+            _translations[new Pair<Type, Type>(typeof(TSource), typeof(TTarget))]
                 = x => translation((TSource)x);
         }
 
@@ -223,7 +223,7 @@ namespace BurnSystems.Serialization
                             valueProperty.GetType(),
                             field.FieldInfo.FieldType);
                         Func<object, object> translator;
-                        if (translations.TryGetValue(pair, out translator))
+                        if (_translations.TryGetValue(pair, out translator))
                         {
                             field.FieldInfo.SetValue(
                                 value,

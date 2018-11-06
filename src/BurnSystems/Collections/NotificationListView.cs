@@ -15,19 +15,19 @@
         /// <summary>
         /// Stores the synchronisation root
         /// </summary>
-        private object syncRoot = new object();
+        private readonly object _syncRoot = new object();
 
         /// <summary>
         /// Stores the list that has been abstracted
         /// </summary>
-        private IList<T> container;
+        private readonly IList<T> _container;
 
         /// <summary>
         /// Initializes a new instance of the NotificationListView class
         /// </summary>
         public NotificationListView()
         {
-            container = new List<T>();
+            _container = new List<T>();
         }
         
         /// <summary>
@@ -36,7 +36,7 @@
         /// <param name="list">List to be set</param>
         public NotificationListView(IList<T> list)
         {
-            container = list;
+            _container = list;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// <returns>Position of the item or -1.</returns>
         public int IndexOf(T item)
         {
-            return container.IndexOf(item);
+            return _container.IndexOf(item);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@
         /// <param name="item">Item that shall be added</param>
         public void Insert(int index, T item)
         {
-            container.Insert(index, item);
+            _container.Insert(index, item);
             OnPropertyChanged("Count");
             OnPropertyChanged("Item[]");
             OnCollectionChanged(
@@ -73,7 +73,7 @@
         public void RemoveAt(int index)
         {
             var item = this[index];
-            container.RemoveAt(index);
+            _container.RemoveAt(index);
             OnPropertyChanged("Count");
             OnPropertyChanged("Item[]");
             OnCollectionChanged(
@@ -90,11 +90,11 @@
         /// <returns>Item of the element</returns>
         public T this[int index]
         {
-            get => container[index];
+            get => _container[index];
             set
             {
                 T oldItem = this[index];
-                container[index] = value;
+                _container[index] = value;
                 OnPropertyChanged("Item[]");
                 OnCollectionChanged(
                     new NotifyCollectionChangedEventArgs(
@@ -111,7 +111,7 @@
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            container.Add(item);
+            _container.Add(item);
             OnPropertyChanged("Count");
             OnPropertyChanged("Item[]");
             OnCollectionChanged(
@@ -126,7 +126,7 @@
         /// </summary>
         public void Clear()
         {
-            container.Clear();
+            _container.Clear();
             OnPropertyChanged("Count");
             OnPropertyChanged("Item[]");
             OnCollectionChanged(
@@ -141,7 +141,7 @@
         /// <returns>True, if container contains the value</returns>
         public bool Contains(T item)
         {
-            return container.Contains(item);
+            return _container.Contains(item);
         }
 
         /// <summary>
@@ -152,18 +152,18 @@
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
-            container.CopyTo(array, arrayIndex);
+            _container.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
         /// Gets the number of elements contained in the container.
         /// </summary>
-        public int Count => container.Count;
+        public int Count => _container.Count;
 
         /// <summary>
         /// Gets a value indicating whether the container is read only
         /// </summary>
-        public bool IsReadOnly => container.IsReadOnly;
+        public bool IsReadOnly => _container.IsReadOnly;
 
         /// <summary>
         /// Removes a specific item
@@ -188,7 +188,7 @@
         /// <returns>Enumerator of the container</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return container.GetEnumerator();
+            return _container.GetEnumerator();
         }
 
         /// <summary>
@@ -197,7 +197,7 @@
         /// <returns>Enumerator of the container</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return container.GetEnumerator();
+            return _container.GetEnumerator();
         }
 
         /// <summary>
@@ -344,7 +344,7 @@
         /// <param name="index">Index where to start</param>
         public void CopyTo(Array array, int index)
         {
-            ((IList)container).CopyTo(array, index);
+            ((IList)_container).CopyTo(array, index);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@
         /// <summary>
         /// Gets the synchronisation object
         /// </summary>
-        public object SyncRoot => syncRoot;
+        public object SyncRoot => _syncRoot;
 
         #endregion
     }

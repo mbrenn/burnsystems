@@ -17,14 +17,14 @@
         /// <summary>
         /// Stores the objects
         /// </summary>
-        private Dictionary<string, object> objects;
+        private readonly Dictionary<string, object> _objects;
 
         /// <summary>
         /// Initializes a new instance of the ObjectContainer class.
         /// </summary>
         public ObjectContainer()
         {
-            objects = new Dictionary<string, object>();
+            _objects = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@
         /// <param name="copy">Objectcontainer to be copied</param>
         public ObjectContainer(ObjectContainer copy)
         {
-            objects = new Dictionary<string, object>(copy.objects);
+            _objects = new Dictionary<string, object>(copy._objects);
         }
 
         /// <summary>
@@ -45,15 +45,15 @@
         {
             get
             {
-                lock (objects)
+                lock (_objects)
                 {
-                    return objects[key];
+                    return _objects[key];
                 }
             }
 
             set
             {
-                lock (objects)
+                lock (_objects)
                 {
                     SetObject(key, value);
                 }
@@ -71,11 +71,11 @@
         {
             try
             {
-                lock (objects)
+                lock (_objects)
                 {
                     object result;
 
-                    if (objects.TryGetValue(key, out result))
+                    if (_objects.TryGetValue(key, out result))
                     {
                         return (T)result;
                     }
@@ -98,15 +98,15 @@
         /// <param name="value">Value of object</param>
         public void SetObject<T>(string key, T value)
         {
-            lock (objects)
+            lock (_objects)
             {
                 if (value == null)
                 {
-                    objects.Remove(key);
+                    _objects.Remove(key);
                 }
                 else
                 {
-                    objects[key] = value;
+                    _objects[key] = value;
                 }
             }
         }
@@ -120,10 +120,10 @@
         /// <returns>true, if the object was found</returns>
         public bool TryGetValue<T>(string key, out T result)
         {
-            lock (objects)
+            lock (_objects)
             {
                 object temp;
-                var exists = objects.TryGetValue(key, out temp);
+                var exists = _objects.TryGetValue(key, out temp);
                 if (exists && temp is T)
                 {
                     result = (T)temp;
@@ -159,7 +159,7 @@
             {
                 case "GetSummary":
                     return StringManipulation.Join(
-                        objects.Select(
+                        _objects.Select(
                             x => string.Format(
                                 CultureInfo.InvariantCulture,
                                 "{0}: {1}",
@@ -179,7 +179,7 @@
         {
             List<KeyValuePair<string, object>> copy;
 
-            copy = objects.ToList();
+            copy = _objects.ToList();
 
             return copy.GetEnumerator();
         }
@@ -192,10 +192,10 @@
         {
             List<KeyValuePair<string, object>> copy;
 
-            lock (objects)
+            lock (_objects)
             {
                 // Copies the items in synchronisation
-                copy = objects.ToList();
+                copy = _objects.ToList();
             }
 
             return copy.GetEnumerator();

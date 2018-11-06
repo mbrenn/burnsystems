@@ -13,12 +13,12 @@
         /// <summary>
         /// Storage for elements
         /// </summary>
-        private List<T> elements = new List<T>();
+        private readonly List<T> _elements = new List<T>();
 
         /// <summary>
         /// Comparer for elements
         /// </summary>
-        private Comparison<T> comparer;
+        private readonly Comparison<T> _comparer;
 
         /// <summary>
         /// Initializes a new instance of the PriorityQueue class.
@@ -27,7 +27,7 @@
         /// </summary>
         public PriorityQueue()
         {
-            comparer =
+            _comparer =
                 (x, y) =>
                     ((IComparable)x).CompareTo((IComparable)y);
         }
@@ -38,13 +38,13 @@
         /// <param name="comparer">Comparer to be used</param>
         public PriorityQueue(Comparison<T> comparer)
         {
-            this.comparer = comparer;
+            this._comparer = comparer;
         }
 
         /// <summary>
         /// Gets the number of elements
         /// </summary>
-        public int Count => elements.Count;
+        public int Count => _elements.Count;
 
         /// <summary>
         /// Adds a new item to priorityqueue
@@ -55,7 +55,7 @@
             bool exists;
             var position = GetPosition(item, out exists);
 
-            elements.Insert(position, item);
+            _elements.Insert(position, item);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@
 
             if (exists)
             {
-                elements.RemoveAt(position);
+                _elements.RemoveAt(position);
             }
         }
 
@@ -97,7 +97,7 @@
                 return default(T);
             }
 
-            return elements[0];
+            return _elements[0];
         }
 
         /// <summary>
@@ -112,8 +112,8 @@
             }
 
             // Not fast, but beautiful
-            var result = elements[0];
-            elements.RemoveAt(0);
+            var result = _elements[0];
+            _elements.RemoveAt(0);
             return result;
         }
 
@@ -122,7 +122,7 @@
         /// </summary>
         public void Clear()
         {
-            elements.Clear();
+            _elements.Clear();
         }
 
         /// <summary>
@@ -131,7 +131,7 @@
         /// <returns>Array of elements</returns>
         public T[] GetElements()
         {
-            return elements.ToArray();
+            return _elements.ToArray();
         }
 
         /// <summary>
@@ -140,7 +140,7 @@
         /// <returns>Enumerator enumerating all elements</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return elements.GetEnumerator();
+            return _elements.GetEnumerator();
         }
 
         /// <summary>
@@ -149,7 +149,7 @@
         public void Resort()
         {
             // Resort in inverse order because the smallest objects are at the end
-            elements.Sort((x, y) => comparer(y, x));
+            _elements.Sort((x, y) => _comparer(y, x));
         }
 
         /// <summary>
@@ -158,7 +158,7 @@
         /// <returns>Enumerator enumerating all elements</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return elements.GetEnumerator();
+            return _elements.GetEnumerator();
         }
 
         /// <summary>
@@ -181,7 +181,7 @@
             var current = (left + right) / 2;
             while (left < right && current < Count)
             {
-                var compareValue = comparer(item, elements[current]);
+                var compareValue = _comparer(item, _elements[current]);
 
                 if (compareValue >= 0)
                 {
@@ -203,7 +203,7 @@
             }
             else
             {
-                exists = elements[current].Equals(item);
+                exists = _elements[current].Equals(item);
                 return current;
             }
         }

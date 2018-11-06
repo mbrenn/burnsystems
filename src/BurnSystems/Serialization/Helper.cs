@@ -85,33 +85,33 @@
         /// <summary>
         /// Dictionary for converting number to native type
         /// </summary>
-        private static Dictionary<int, Type> numberToNativeType = new Dictionary<int, Type>();
+        private static readonly Dictionary<int, Type> NumberToNativeType = new Dictionary<int, Type>();
 
         /// <summary>
         /// Dictionary for converting type to number
         /// </summary>
-        private static Dictionary<Type, int> nativeTypeToNumber = new Dictionary<Type, int>();
+        private static readonly Dictionary<Type, int> NativeTypeToNumber = new Dictionary<Type, int>();
 
         /// <summary>
         /// Initializes static members of the Helper class.
         /// </summary>
         static Helper()
         {
-            numberToNativeType[1] = typeof(bool);
-            numberToNativeType[2] = typeof(byte);
-            numberToNativeType[3] = typeof(short);
-            numberToNativeType[4] = typeof(int);
-            numberToNativeType[5] = typeof(long);
-            numberToNativeType[6] = typeof(ushort);
-            numberToNativeType[7] = typeof(ulong);
-            numberToNativeType[8] = typeof(float);
-            numberToNativeType[9] = typeof(double);
-            numberToNativeType[10] = typeof(char);
-            numberToNativeType[11] = typeof(string);
+            NumberToNativeType[1] = typeof(bool);
+            NumberToNativeType[2] = typeof(byte);
+            NumberToNativeType[3] = typeof(short);
+            NumberToNativeType[4] = typeof(int);
+            NumberToNativeType[5] = typeof(long);
+            NumberToNativeType[6] = typeof(ushort);
+            NumberToNativeType[7] = typeof(ulong);
+            NumberToNativeType[8] = typeof(float);
+            NumberToNativeType[9] = typeof(double);
+            NumberToNativeType[10] = typeof(char);
+            NumberToNativeType[11] = typeof(string);
 
-            foreach (var pair in numberToNativeType)
+            foreach (var pair in NumberToNativeType)
             {
-                nativeTypeToNumber[pair.Value] = pair.Key;
+                NativeTypeToNumber[pair.Value] = pair.Key;
             }
         }        
 
@@ -141,7 +141,7 @@
         {
             Ensure.IsNotNull(type);
 
-            return nativeTypeToNumber.ContainsKey(type);
+            return NativeTypeToNumber.ContainsKey(type);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@
         /// <returns>Id of native type</returns>
         public static int ConvertNativeTypeToNumber(Type type)
         {
-            return nativeTypeToNumber[type];
+            return NativeTypeToNumber[type];
         }
 
         /// <summary>
@@ -183,7 +183,7 @@
         /// <returns>Type of the native type</returns>
         public static Type ConvertNumberToNativeType(int typeId)
         {
-            return numberToNativeType[typeId];
+            return NumberToNativeType[typeId];
         }
     }
 }

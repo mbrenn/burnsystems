@@ -14,12 +14,12 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Native lockstructure
         /// </summary>
-        private readonly ReaderWriterLockSlim nativeLockSlim;
+        private readonly ReaderWriterLockSlim _nativeLockSlim;
 
         /// <summary>
         /// Native lockstructure for mono
         /// </summary>
-        private readonly ReaderWriterLock nativeLock;
+        private readonly ReaderWriterLock _nativeLock;
 
         /// <summary>
         /// Initializes a new instance of the ReadWriteLock class.
@@ -29,12 +29,12 @@ namespace BurnSystems.Synchronisation
         {
             if (EnvironmentHelper.IsMono)
             {
-                nativeLock =
+                _nativeLock =
                     new ReaderWriterLock();
             }
             else
             {
-                nativeLockSlim
+                _nativeLockSlim
                     = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
             }
         }
@@ -46,14 +46,14 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of readlock</returns>
         public IDisposable GetReadLock()
         {
-            if (nativeLockSlim != null)
+            if (_nativeLockSlim != null)
             {
-                nativeLockSlim.EnterReadLock();
+                _nativeLockSlim.EnterReadLock();
                 return new ReaderLockSlim(this);
             }
             else
             {
-                nativeLock.AcquireReaderLock(-1);
+                _nativeLock.AcquireReaderLock(-1);
                 return new ReaderLock(this);
             }
         }
@@ -65,14 +65,14 @@ namespace BurnSystems.Synchronisation
         /// <returns>Object controlling the lifetime of writelock</returns>
         public IDisposable GetWriteLock()
         {
-            if (nativeLockSlim != null)
+            if (_nativeLockSlim != null)
             {
-                nativeLockSlim.EnterWriteLock();
+                _nativeLockSlim.EnterWriteLock();
                 return new WriterLockSlim(this);
             }
             else
             {
-                nativeLock.AcquireWriterLock(-1);
+                _nativeLock.AcquireWriterLock(-1);
                 return new WriterLock(this);
             }
         }
@@ -92,9 +92,9 @@ namespace BurnSystems.Synchronisation
         /// <param name="disposing">True, if called by dispose</param>
         private void Dispose(bool disposing)
         {
-            if (disposing && nativeLockSlim != null)
+            if (disposing && _nativeLockSlim != null)
             {
-                nativeLockSlim.Dispose();
+                _nativeLockSlim.Dispose();
             }
         }
 
@@ -106,7 +106,7 @@ namespace BurnSystems.Synchronisation
             /// <summary>
             /// Reference to readwritelock-object
             /// </summary>
-            private ReadWriteLock readWriteLock;
+            private readonly ReadWriteLock _readWriteLock;
 
             /// <summary>
             /// Initializes a new instance of the ReaderLockSlim class.
@@ -115,7 +115,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public ReaderLockSlim(ReadWriteLock readWriteLock)
             {
-                this.readWriteLock = readWriteLock;
+                this._readWriteLock = readWriteLock;
             }
 
             /// <summary>
@@ -134,7 +134,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    readWriteLock.nativeLockSlim.ExitReadLock();
+                    _readWriteLock._nativeLockSlim.ExitReadLock();
                 }
             }
 
@@ -156,7 +156,7 @@ namespace BurnSystems.Synchronisation
             /// <summary>
             /// Reference to readwritelock-object
             /// </summary>
-            private ReadWriteLock readWriteLock;
+            private readonly ReadWriteLock _readWriteLock;
 
             /// <summary>
             /// Initializes a new instance of the ReaderLock class.
@@ -165,7 +165,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public ReaderLock(ReadWriteLock readWriteLock)
             {
-                this.readWriteLock = readWriteLock;
+                this._readWriteLock = readWriteLock;
             }
 
             /// <summary>
@@ -184,7 +184,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    readWriteLock.nativeLock.ReleaseReaderLock();
+                    _readWriteLock._nativeLock.ReleaseReaderLock();
                 }
             }
 
@@ -206,7 +206,7 @@ namespace BurnSystems.Synchronisation
             /// <summary>
             /// Reference to readwritelock-object
             /// </summary>
-            private ReadWriteLock readWriteLock;
+            private readonly ReadWriteLock _readWriteLock;
 
             /// <summary>
             /// Initializes a new instance of the WriterLockSlim class.
@@ -215,7 +215,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public WriterLockSlim(ReadWriteLock readWriteLock)
             {
-                this.readWriteLock = readWriteLock;
+                this._readWriteLock = readWriteLock;
             }
 
             /// <summary>
@@ -234,7 +234,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    readWriteLock.nativeLockSlim.ExitWriteLock();
+                    _readWriteLock._nativeLockSlim.ExitWriteLock();
                 }
             }
             
@@ -256,7 +256,7 @@ namespace BurnSystems.Synchronisation
             /// <summary>
             /// Reference to readwritelock-object
             /// </summary>
-            private ReadWriteLock readWriteLock;
+            private readonly ReadWriteLock _readWriteLock;
 
             /// <summary>
             /// Initializes a new instance of the WriterLock class.
@@ -265,7 +265,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public WriterLock(ReadWriteLock readWriteLock)
             {
-                this.readWriteLock = readWriteLock;
+                this._readWriteLock = readWriteLock;
             }
 
             /// <summary>
@@ -284,7 +284,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    readWriteLock.nativeLock.ReleaseWriterLock();
+                    _readWriteLock._nativeLock.ReleaseWriterLock();
                 }
             }
 

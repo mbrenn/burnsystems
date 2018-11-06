@@ -13,12 +13,12 @@
         /// <summary>
         /// Stream, where the object will be stored
         /// </summary>
-        private Stream stream;
+        private readonly Stream _stream;
 
         /// <summary>
         /// The binarywriter to be used
         /// </summary>
-        private BinaryWriter writer;
+        private BinaryWriter _writer;
 
         /// <summary>
         /// Initializes a new instance of the Serializer class.
@@ -27,7 +27,7 @@
         public Serializer(Stream stream)
         {
             Ensure.IsNotNull(stream);
-            this.stream = stream;
+            this._stream = stream;
         }
 
         /// <summary>
@@ -36,11 +36,11 @@
         /// <param name="value">Value to be serialized</param>
         public void Serialize(object value)
         {
-            writer = new BinaryWriter(stream);
-            var visitor = new Visitor(this, writer);
+            _writer = new BinaryWriter(_stream);
+            var visitor = new Visitor(this, _writer);
 
             // Writes header
-            writer.WriteHeader();
+            _writer.WriteHeader();
 
             visitor.ParseObject(value);
         }
@@ -69,8 +69,8 @@
                 // Adds a new type
                 typeEntry = TypeContainer.AddType(type);
 
-                writer.StartContainer(ContainerType.Type);
-                writer.WriteType(typeEntry);
+                _writer.StartContainer(ContainerType.Type);
+                _writer.WriteType(typeEntry);
             }
 
             return typeEntry;

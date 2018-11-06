@@ -13,7 +13,7 @@
         /// <summary>
         /// Stores the object that has been stored within the instances
         /// </summary>
-        private List<object> instances = new List<object>();
+        private readonly List<object> _instances = new List<object>();
 
         /// <summary>
         /// Adds an object to the container
@@ -21,7 +21,7 @@
         /// <param name="instance">Instance to be added</param>
         public void Add(object instance)
         {
-            instances.Add(instance);
+            _instances.Add(instance);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@
             T found = default(T);
             var alreadyFound = false;
 
-            foreach (var instance in instances)
+            foreach (var instance in _instances)
             {
                 if (instance is T)
                 {
@@ -59,7 +59,7 @@
         /// <returns>Enumeration of found types</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            return instances.
+            return _instances.
                 Where(x => x is T)
                 .Cast<T>();
         }

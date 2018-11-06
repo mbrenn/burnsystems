@@ -13,17 +13,17 @@
         /// <summary>
         /// The methods of this type
         /// </summary>
-        private List<FieldEntry> fields = new List<FieldEntry>();
+        private readonly List<FieldEntry> _fields = new List<FieldEntry>();
 
         /// <summary>
         /// The generic arguments of the type
         /// </summary>
-        private List<long> genericArguments = new List<long>();
+        private readonly List<long> _genericArguments = new List<long>();
 
         /// <summary>
         /// Id of the last index
         /// </summary>
-        private int lastIndex;
+        private int _lastIndex;
 
         /// <summary>
         /// Gets or sets the id of the type
@@ -55,12 +55,12 @@
         /// <summary>
         /// Gets the methods
         /// </summary>
-        public List<FieldEntry> Fields => fields;
+        public List<FieldEntry> Fields => _fields;
 
         /// <summary>
         /// Gets the generic arguments
         /// </summary>
-        public List<long> GenericArguments => genericArguments;
+        public List<long> GenericArguments => _genericArguments;
 
         /// <summary>
         /// Adds a field to this type
@@ -70,8 +70,8 @@
         {
             var fieldEntry = new FieldEntry();
 
-            lastIndex++;
-            fieldEntry.FieldId = lastIndex;
+            _lastIndex++;
+            fieldEntry.FieldId = _lastIndex;
 
             fieldEntry.FieldInfo = field;
 
@@ -86,7 +86,7 @@
         /// <returns>Found field entry or null, if not found</returns>
         public FieldEntry FindField(long fieldId)
         {
-            return ListHelper.Find(fields, x => x.FieldId == fieldId);
+            return ListHelper.Find(_fields, x => x.FieldId == fieldId);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@
         /// <returns>Found field entry or null, if not found</returns>
         public FieldEntry FindField(string fieldName)
         {
-            return ListHelper.Find(fields, x => x.Name == fieldName);
+            return ListHelper.Find(_fields, x => x.Name == fieldName);
         }
 
         /// <summary>

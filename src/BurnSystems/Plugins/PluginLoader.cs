@@ -21,18 +21,18 @@ namespace BurnSystems.Plugins
         /// <summary>
         /// Cache for loaded assemblies
         /// </summary>
-        private Dictionary<string, Assembly> assemblies =
+        private readonly Dictionary<string, Assembly> _assemblies =
             new Dictionary<string, Assembly>();
 
         /// <summary>
         /// Stores the list of loaded plugins
         /// </summary>
-        private List<PluginInfo<T>> plugins = new List<PluginInfo<T>>();
+        private readonly List<PluginInfo<T>> _plugins = new List<PluginInfo<T>>();
 
         /// <summary>
         /// Gets all plugins
         /// </summary>
-        public List<PluginInfo<T>> Plugins => plugins;
+        public List<PluginInfo<T>> Plugins => _plugins;
 
         /// <summary>
         /// Initializes a new instance of the PluginLoader class. 
@@ -62,7 +62,7 @@ namespace BurnSystems.Plugins
                         var plugin = Activator.CreateInstance(type) as T;
                         var pluginInfo = new PluginInfo<T>(assembly, type, plugin);
 
-                        plugins.Add(pluginInfo);
+                        _plugins.Add(pluginInfo);
                     }
                 }
                 catch (Exception exc)
@@ -88,11 +88,11 @@ namespace BurnSystems.Plugins
             {
                 // Checks if assembly is in cache
                 Assembly assembly;
-                if (!assemblies.TryGetValue(assemblyPath, out assembly))
+                if (!_assemblies.TryGetValue(assemblyPath, out assembly))
                 {
                     assembly = EnvironmentHelper.GetOrLoadAssembly(assemblyPath);
 
-                    assemblies[assemblyPath] = assembly;
+                    _assemblies[assemblyPath] = assembly;
                 }
 
                 // Gets type
@@ -115,7 +115,7 @@ namespace BurnSystems.Plugins
                 var plugin = Activator.CreateInstance(typeOfPlugin) as T;
                 var pluginInfo = new PluginInfo<T>(assembly, typeOfPlugin, plugin);
 
-                plugins.Add(pluginInfo);
+                _plugins.Add(pluginInfo);
 
                 return plugin;
             }
@@ -136,7 +136,7 @@ namespace BurnSystems.Plugins
         {
             // First sort the plugins
             // Source of order... After sorting, this class has to be empty
-            var source = plugins.ToList();
+            var source = _plugins.ToList();
             Plugins.Clear();
 
             var hasAdded = false;

@@ -17,24 +17,24 @@ namespace BurnSystems.Net
         /// <summary>
         /// Used WebRequest
         /// </summary>
-        private HttpWebRequest request;
+        private HttpWebRequest _request;
 
         /// <summary>
         /// Used WebResponse
         /// </summary>
-        private HttpWebResponse response;
+        private HttpWebResponse _response;
 
         /// <summary>
         /// Variables, which should be send as POST variables
         /// </summary>
-        private Dictionary<string, string> postVariables =
+        private readonly Dictionary<string, string> _postVariables =
             new Dictionary<string, string>();
 
         /// <summary>
         /// Gets the dictionary with variables, which should be sent
         /// as POST-Request
         /// </summary>
-        public Dictionary<string, string> PostVariables => postVariables;
+        public Dictionary<string, string> PostVariables => _postVariables;
 
         /// <summary>
         /// Gibt die Webresponse für diesen Request zurück
@@ -53,14 +53,14 @@ namespace BurnSystems.Net
         /// <returns>Webresponse of request</returns>
         public HttpWebResponse GetResponse(Uri url)
         {
-            if (request == null)
+            if (_request == null)
             {
-                request = WebRequest.Create(url) as HttpWebRequest;
-                Ensure.IsNotNull(request);
+                _request = WebRequest.Create(url) as HttpWebRequest;
+                Ensure.IsNotNull(_request);
 
                 var builder = new StringBuilder();
                 var first = true;
-                foreach (KeyValuePair<string, string> pair in postVariables)
+                foreach (KeyValuePair<string, string> pair in _postVariables)
                 {
                     if (!first)
                     {
@@ -75,23 +75,23 @@ namespace BurnSystems.Net
                 }
 
                 byte[] postData = Encoding.ASCII.GetBytes(builder.ToString());
-                request.Method = "POST";
-                request.ContentLength = postData.Length;
-                request.ContentType = 
+                _request.Method = "POST";
+                _request.ContentLength = postData.Length;
+                _request.ContentType = 
                     "application/x-www-form-urlencoded; encoding='utf-8'";
 
-                using (var stream = request.GetRequestStream())
+                using (var stream = _request.GetRequestStream())
                 {
                     stream.Write(postData, 0, postData.Length);
                 }
             }
 
-            if (response == null)
+            if (_response == null)
             {
-                response = request.GetResponse() as HttpWebResponse;
+                _response = _request.GetResponse() as HttpWebResponse;
             }
 
-            return response;
+            return _response;
         }
     }
 }

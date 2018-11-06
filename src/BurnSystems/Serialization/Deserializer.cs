@@ -15,13 +15,13 @@
         /// <summary>
         /// Stream, where the object will be stored
         /// </summary>
-        private Stream stream;
+        private readonly Stream _stream;
 
         /// <summary>
         /// Stores the translation table for translating 
         /// a type name to the corresponding type
         /// </summary>
-        private Dictionary<string, Type> typeTranslation =
+        private readonly Dictionary<string, Type> _typeTranslation =
             new Dictionary<string, Type>();
 
         /// <summary>
@@ -30,7 +30,7 @@
         /// <param name="stream">Stream with serialized objects</param>
         public Deserializer(Stream stream)
         {
-            this.stream = stream;
+            this._stream = stream;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@
         /// <returns>Returns deserialized object</returns>
         public object Deserialize()
         {
-            var binaryReader = new BinaryReader(stream);
+            var binaryReader = new BinaryReader(_stream);
 
             // Reads the header
             binaryReader.CheckHeader();
@@ -60,7 +60,7 @@
             Type type = null;
 
             // Tries to find the type in the table
-            typeTranslation.TryGetValue(typeEntry.Name, out type);
+            _typeTranslation.TryGetValue(typeEntry.Name, out type);
 
             // If not found in table, look in the assemblies
             if (type == null)
@@ -120,7 +120,7 @@
         /// translated. </param>
         public void AddTypeTranslation(string typeName, Type translatedType)
         {
-            typeTranslation[typeName] = translatedType;
+            _typeTranslation[typeName] = translatedType;
         }
     }
 }

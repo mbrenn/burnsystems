@@ -15,31 +15,31 @@ namespace BurnSystems.Synchronisation
         /// Liste der zu überwachenden Threads. Dieses Objekt
         /// ist auch für die 
         /// </summary>
-        private static List<ThreadWatcherItem> watchedThreads
+        private static readonly List<ThreadWatcherItem> WatchedThreads
             = new List<ThreadWatcherItem>();
 
         /// <summary>
         /// Flag, ob die Threads geprüft werden sollen.
         /// </summary>
-        private static volatile bool checkingThreads = false;
+        private static volatile bool _checkingThreads = false;
 
         /// <summary>
         /// Diese Loop überwacht die Threads auf Abbruch
         /// </summary>
-        private static Thread watchLoop;
+        private static Thread _watchLoop;
 
         /// <summary>
         /// Dieses Ereignis wird genutzt, um bei Bedarf 
         /// das Warten auf den Event zu unterbrechen.
         /// </summary>
-        private static AutoResetEvent resetEvent =
+        private static readonly AutoResetEvent ResetEvent =
             new AutoResetEvent(false);
 
         /// <summary>
         /// Die Zeit, die zwischen zwei Pollingvorgängen 
         /// maximal vergehen kann
         /// </summary>
-        private static TimeSpan pollingTime =
+        private static readonly TimeSpan PollingTime =
             TimeSpan.FromMilliseconds(1000);
 
         /// <summary>
@@ -71,23 +71,23 @@ namespace BurnSystems.Synchronisation
             TimeSpan timeOut,
             ThreadAbortAction actionDelegate)
         {
-            lock (watchedThreads)
+            lock (WatchedThreads)
             {
-                watchedThreads.Add(
+                WatchedThreads.Add(
                     new ThreadWatcherItem(
                         thread,
                         DateTime.Now + timeOut,
                         actionDelegate));
 
-                if (watchedThreads.Count == 1)
+                if (WatchedThreads.Count == 1)
                 {
                     // Startet den Thread
-                    checkingThreads = true;
-                    watchLoop = new Thread(WatchLoop);
-                    watchLoop.IsBackground = true;
-                    watchLoop.Priority = ThreadPriority.AboveNormal;
-                    watchLoop.Name = "BurnSystems.ThreadWatcher";
-                    watchLoop.Start();
+                    _checkingThreads = true;
+                    _watchLoop = new Thread(WatchLoop);
+                    _watchLoop.IsBackground = true;
+                    _watchLoop.Priority = ThreadPriority.AboveNormal;
+                    _watchLoop.Name = "BurnSystems.ThreadWatcher";
+                    _watchLoop.Start();
                 }
             }
 
@@ -101,23 +101,23 @@ namespace BurnSystems.Synchronisation
         /// heruntergenommen werden soll.</param>
         private static void UnwatchThread(Thread thread)
         {
-            lock (watchedThreads)
+            lock (WatchedThreads)
             {
-                var item = watchedThreads.Find(
+                var item = WatchedThreads.Find(
                     x => x.Thread.ManagedThreadId == thread.ManagedThreadId);
                 if (item != null)
                 {
-                    watchedThreads.Remove(item);
+                    WatchedThreads.Remove(item);
                 }
 
-                if (watchedThreads.Count == 0)
+                if (WatchedThreads.Count == 0)
                 {
                     // Kein Thread mehr zu beobachten, stoppe Loop
-                    checkingThreads = false;
+                    _checkingThreads = false;
                 }
             }
 
-            resetEvent.Set();
+            ResetEvent.Set();
         }
 
         /// <summary>
@@ -126,11 +126,11 @@ namespace BurnSystems.Synchronisation
         /// </summary>
         private static void WatchLoop()
         {
-            while (checkingThreads)
+            while (_checkingThreads)
             {
-                resetEvent.WaitOne(pollingTime, false);
+                ResetEvent.WaitOne(PollingTime, false);
 
-                lock (watchedThreads)
+                lock (WatchedThreads)
                 {
                     // Überprüft, ob eine der Threads getötet werden soll
                     var now = DateTime.Now;
@@ -142,9 +142,9 @@ namespace BurnSystems.Synchronisation
                         continue;
                     }
 
-                    for (var n = 0; n < watchedThreads.Count; n++)
+                    for (var n = 0; n < WatchedThreads.Count; n++)
                     {
-                        var item = watchedThreads[n];
+                        var item = WatchedThreads[n];
                         if (item == null)
                         {
                             continue;
@@ -170,14 +170,14 @@ namespace BurnSystems.Synchronisation
                     // Entfernt nun die Threads aus der internen Liste
                     foreach (var item in threadsToBeRemoved)
                     {
-                        watchedThreads.Remove(item);
+                        WatchedThreads.Remove(item);
                     }
 
                     // Wenn kein Thread mehr zu beobachten ist, so 
                     // wird dann die Überwachung eingestellt. 
-                    checkingThreads =
-                        watchedThreads.Count != 0;
-                    if (!checkingThreads)
+                    _checkingThreads =
+                        WatchedThreads.Count != 0;
+                    if (!_checkingThreads)
                     {
                         break;
                     }
@@ -194,7 +194,7 @@ namespace BurnSystems.Synchronisation
             /// <summary>
             /// Der Thread, der überwacht wird. 
             /// </summary>
-            private Thread thread;
+            private readonly Thread _thread;
 
             /// <summary>
             /// Initializes a new instance of the WatchHelper class.
@@ -202,7 +202,7 @@ namespace BurnSystems.Synchronisation
             /// <param name="thread">Thread to be watched</param>
             public WatchHelper(Thread thread)
             {
-                this.thread = thread;
+                this._thread = thread;
             }
 
             /// <summary>
@@ -232,7 +232,7 @@ namespace BurnSystems.Synchronisation
             /// called by Dispose()</param>
             public void Dispose(bool disposing)
             {
-                UnwatchThread(thread);
+                UnwatchThread(_thread);
             }
 
             #endregion

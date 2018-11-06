@@ -13,12 +13,12 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// The lockable structure, which is used by this simple lock
         /// </summary>
-        private ILockable lockable;
+        private readonly ILockable _lockable;
 
         /// <summary>
         /// Flag, if object was disposed
         /// </summary>
-        private bool disposed;
+        private bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the SimpleLock class. The object
@@ -29,8 +29,8 @@ namespace BurnSystems.Synchronisation
         {
             Ensure.IsNotNull(lockable);
 
-            this.lockable = lockable;
-            this.lockable.Lock();
+            this._lockable = lockable;
+            this._lockable.Lock();
         }
 
         /// <summary>
@@ -58,10 +58,10 @@ namespace BurnSystems.Synchronisation
         /// <param name="disposing">Called by Dispose</param>
         private void Dispose(bool disposing)
         {
-            if (disposing && !disposed)
+            if (disposing && !_disposed)
             {
-                disposed = true;
-                lockable.Unlock();
+                _disposed = true;
+                _lockable.Unlock();
             }
         }       
 

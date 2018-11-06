@@ -19,17 +19,17 @@
         /// <summary>
         /// List of types
         /// </summary>
-        private List<TypeEntry> types = new List<TypeEntry>();
+        private readonly List<TypeEntry> _types = new List<TypeEntry>();
 
         /// <summary>
         /// Id of the last index
         /// </summary>
-        private long lastIndex = NonNativeTypeIdOffset;
+        private long _lastIndex = NonNativeTypeIdOffset;
 
         /// <summary>
         /// Gets the list of types
         /// </summary>
-        public List<TypeEntry> Types => types;
+        public List<TypeEntry> Types => _types;
 
         /// <summary>
         /// Adds a new type
@@ -41,8 +41,8 @@
             // Creates new entry
             var typeEntry = new TypeEntry();
 
-            lastIndex++;
-            typeEntry.TypeId = lastIndex;
+            _lastIndex++;
+            typeEntry.TypeId = _lastIndex;
 
             // Sets typeid etc
             typeEntry.Type = type;
@@ -83,7 +83,7 @@
                 thisType = thisType.BaseType;
             }
 
-            types.Add(typeEntry);
+            _types.Add(typeEntry);
 
             return typeEntry;
         }
@@ -124,7 +124,7 @@
         /// <param name="typeEntry">Typeentry to be added</param>
         internal void AddType(TypeEntry typeEntry)
         {
-            types.Add(typeEntry);
+            _types.Add(typeEntry);
         }
     }
 }

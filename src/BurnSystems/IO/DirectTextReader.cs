@@ -13,7 +13,7 @@
         /// <summary>
         /// Stream to be used for direct streaming
         /// </summary>
-        private Stream stream;
+        private readonly Stream _stream;
 
         /// <summary>
         /// Initializes a new instance of the DirectTextReader class.
@@ -21,7 +21,7 @@
         /// <param name="stream">Stream to be used</param>
         public DirectTextReader(Stream stream)
         {
-            this.stream = stream;
+            this._stream = stream;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@
             {
                 int currentByte;
 
-                while ((currentByte = stream.ReadByte()) != -1)
+                while ((currentByte = _stream.ReadByte()) != -1)
                 {
                     if (currentByte == 10)
                     {

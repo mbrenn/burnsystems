@@ -15,7 +15,7 @@
         /// <summary>
         /// Stores the list of json objects
         /// </summary>
-        private List<IJsonObject> list =
+        private readonly List<IJsonObject> _list =
             new List<IJsonObject>();
 
         /// <summary>
@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets a list of json objects
         /// </summary>
-        public List<IJsonObject> List => list;
+        public List<IJsonObject> List => _list;
 
         /// <summary>
         /// Converts the list to a json string

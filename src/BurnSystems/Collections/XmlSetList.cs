@@ -17,12 +17,12 @@
         /// <summary>
         /// Stores the converter
         /// </summary>
-        private IXElementConverter<T> converter;
+        private readonly IXElementConverter<T> _converter;
 
         /// <summary>
         /// Container node being associated the list
         /// </summary>
-        private IEnumerable<XContainer> containers;
+        private readonly IEnumerable<XContainer> _containers;
 
         /// <summary>
         /// Initializes a new instance of the XmlList class.
@@ -31,8 +31,8 @@
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
         public XmlSetList(IEnumerable<XContainer> containers, IXElementConverter<T> converter)
         {
-            this.containers = containers;
-            this.converter = converter;
+            this._containers = containers;
+            this._converter = converter;
         }
 
         /// <summary>
@@ -42,8 +42,8 @@
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
         public XmlSetList(IEnumerable<XElement> elements, IXElementConverter<T> converter)
         {
-            containers = elements.Cast<XContainer>();
-            this.converter = converter;
+            _containers = elements.Cast<XContainer>();
+            this._converter = converter;
         }
 
         /// <summary>
@@ -56,8 +56,8 @@
             var pos = 0;
 
             foreach (var entity in
-                containers.Elements()
-                    .Select(x => converter.Convert(x)))
+                _containers.Elements()
+                    .Select(x => _converter.Convert(x)))
             {
                 if ((item == null && entity == null)
                     || (entity != null && entity.Equals(item)))
@@ -78,16 +78,16 @@
         /// <param name="item">Item to be added</param>
         public void Insert(int index, T item)
         {
-            var element = containers.Elements()
+            var element = _containers.Elements()
                 .ElementAtOrDefault(index - 1);
 
             if (element == null)
             {
-                containers.Last().Add(converter.Convert(item));
+                _containers.Last().Add(_converter.Convert(item));
             }
             else
             {
-                element.AddAfterSelf(converter.Convert(item));
+                element.AddAfterSelf(_converter.Convert(item));
             }
         }
 
@@ -97,7 +97,7 @@
         /// <param name="index">Index of the item</param>
         public void RemoveAt(int index)
         {
-            var element = containers.Elements().ElementAtOrDefault(index);
+            var element = _containers.Elements().ElementAtOrDefault(index);
             if (element != null)
             {
                 element.Remove();
@@ -113,19 +113,19 @@
         {
             get
             {
-                var element = containers.Elements().ElementAt(index);
-                return converter.Convert(element);
+                var element = _containers.Elements().ElementAt(index);
+                return _converter.Convert(element);
             }
             set
             {
-                var element = containers.Elements().ElementAtOrDefault(index);
+                var element = _containers.Elements().ElementAtOrDefault(index);
                 if (element != null)
                 {
-                    element.ReplaceWith(converter.Convert(value));
+                    element.ReplaceWith(_converter.Convert(value));
                 }
                 else
                 {
-                    containers.Last().Add(converter.Convert(value));
+                    _containers.Last().Add(_converter.Convert(value));
                 }
             }
         }
@@ -136,7 +136,7 @@
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            containers.Last().Add(converter.Convert(item));
+            _containers.Last().Add(_converter.Convert(item));
         }
 
         /// <summary>
@@ -144,7 +144,7 @@
         /// </summary>
         public void Clear()
         {
-            foreach (var container in containers)
+            foreach (var container in _containers)
             {
                 container.RemoveNodes();
             }
@@ -197,7 +197,7 @@
         {
             get
             {
-                var count = containers.Elements().Count();
+                var count = _containers.Elements().Count();
                 return count;
             }
         }
@@ -231,8 +231,8 @@
         /// <returns>Enumerator for the list</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var item in containers.Elements()
-                .Select(x => converter.Convert(x)))
+            foreach (var item in _containers.Elements()
+                .Select(x => _converter.Convert(x)))
             {
                 yield return item;
             }

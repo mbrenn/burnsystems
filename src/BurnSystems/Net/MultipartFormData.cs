@@ -11,12 +11,12 @@ namespace BurnSystems.Net
         /// <summary>
         /// List of parts
         /// </summary>
-        private List<MultipartFormDataPart> parts =
+        private readonly List<MultipartFormDataPart> _parts =
             new List<MultipartFormDataPart>();
 
         /// <summary>
         /// Gets the different parts of the formdata
         /// </summary>
-        public List<MultipartFormDataPart> Parts => parts;
+        public List<MultipartFormDataPart> Parts => _parts;
     }
 }

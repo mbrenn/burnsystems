@@ -12,7 +12,7 @@
         /// <summary>
         /// Value of the instance
         /// </summary>
-        private double value;
+        private readonly double _value;
 
         /// <summary>
         /// Initializes a new instance of the JsonNumber class.
@@ -20,7 +20,7 @@
         /// <param name="value">Value to be set</param>
         public JsonNumber(double value)
         {
-            this.value = value;
+            this._value = value;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
         /// <returns>This object as a json string</returns>
         public override string ToString()
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

@@ -14,7 +14,7 @@
         /// <summary>
         /// Stores the properties 
         /// </summary>
-        private Dictionary<string, IJsonObject> properties =
+        private readonly Dictionary<string, IJsonObject> _properties =
             new Dictionary<string, IJsonObject>();
 
         /// <summary>
@@ -24,9 +24,9 @@
         /// <returns>Value behind the key</returns>
         public object this[string key]
         {
-            get => properties[key];
+            get => _properties[key];
 
-            set => properties[key] = ConvertObject(value);
+            set => _properties[key] = ConvertObject(value);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@
 
             foreach (var pair in value)
             {
-                result.properties[pair.Key] = ConvertObject(pair.Value);
+                result._properties[pair.Key] = ConvertObject(pair.Value);
             }
 
             return result;
@@ -119,7 +119,7 @@
             result.Append('{');
 
             var komma = string.Empty;
-            foreach (var pair in properties)
+            foreach (var pair in _properties)
             {
                 if (pair.Value == null)
                 {

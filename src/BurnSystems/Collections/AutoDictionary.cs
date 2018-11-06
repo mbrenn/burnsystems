@@ -13,12 +13,12 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Object storing the instances
         /// </summary>
-        private Dictionary<string, T> dictionary = new Dictionary<string, T>();
+        private readonly Dictionary<string, T> _dictionary = new Dictionary<string, T>();
 
         /// <summary>
         /// Gets the number of entries
         /// </summary>
-        public int Count => dictionary.Count;
+        public int Count => _dictionary.Count;
 
         /// <summary>
         /// Gets a value indicating whether this dictionary is read only
@@ -28,12 +28,12 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gets the collection of keys
         /// </summary>
-        public ICollection<string> Keys => dictionary.Keys;
+        public ICollection<string> Keys => _dictionary.Keys;
 
         /// <summary>
         /// Gets a collection of values
         /// </summary>
-        public ICollection<T> Values => dictionary.Values;
+        public ICollection<T> Values => _dictionary.Values;
 
         /// <summary>
         /// Returns an object with the given key
@@ -43,7 +43,7 @@ namespace BurnSystems.Collections
         /// will be thrown.</returns>
         public T this[string key]
         {
-            get => dictionary[key];
+            get => _dictionary[key];
             set => Add(key, value);
         }
 
@@ -54,7 +54,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Object to be added</param>
         public void Add(T item)
         {
-            dictionary[item.Key] = item;
+            _dictionary[item.Key] = item;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if the object was found and removed</returns>
         public bool Remove(string key)
         {
-            return dictionary.Remove(key);
+            return _dictionary.Remove(key);
         }
 
         #region IDictionary<string,T> Member
@@ -91,7 +91,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if key exists</returns>
         public bool ContainsKey(string key)
         {
-            return dictionary.ContainsKey(key);
+            return _dictionary.ContainsKey(key);
         }
     
         /// <summary>
@@ -102,7 +102,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if value exists</returns>
         public bool TryGetValue(string key, out T value)
         {
-            return dictionary.TryGetValue(key, out value);
+            return _dictionary.TryGetValue(key, out value);
         }
         
         #endregion
@@ -123,7 +123,7 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Clear()
         {
-            dictionary.Clear();
+            _dictionary.Clear();
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace BurnSystems.Collections
         /// <returns>true, if it exists</returns>
         public bool Contains(KeyValuePair<string, T> item)
         {
-            return dictionary.ContainsKey(item.Key)
+            return _dictionary.ContainsKey(item.Key)
                 && (item.Value.Key == item.Key);
         }
 
@@ -172,7 +172,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of this collection</returns>
         public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
         {
-            return dictionary.GetEnumerator();
+            return _dictionary.GetEnumerator();
         }
 
         #endregion
@@ -185,7 +185,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator of this collection</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return dictionary.GetEnumerator();
+            return _dictionary.GetEnumerator();
         }
 
         #endregion

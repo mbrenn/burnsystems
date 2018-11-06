@@ -17,7 +17,7 @@
         /// <summary>
         /// Stores, whether the environment is currently running under mono
         /// </summary>
-        private static readonly bool isMono;
+        public static bool IsMono { get; }
 
         /// <summary>
         /// Initializes static members of the EnvironmentHelper class.
@@ -26,14 +26,8 @@
         {
             // Gets the type, only implemented by mono
             var t = Type.GetType("Mono.Runtime");
-            isMono = t != null;
+            IsMono = t != null;
         }
-
-        /// <summary>
-        /// Gets a value indicating whether the environment is currently running
-        /// under mono
-        /// </summary>
-        public static bool IsMono => isMono;
 
         /// <summary>
         /// Gets or loads an assembly. If assembly is already loaded by process, 

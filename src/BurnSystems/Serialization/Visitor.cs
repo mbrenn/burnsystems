@@ -14,12 +14,12 @@
         /// <summary>
         /// Serializer to be used
         /// </summary>
-        private Serializer serializer;
+        private readonly Serializer _serializer;
 
         /// <summary>
         /// Binary writer to be used
         /// </summary>
-        private BinaryWriter writer;
+        private readonly BinaryWriter _writer;
 
         /// <summary>
         /// Initializes a new instance of the Visitor class.
@@ -28,8 +28,8 @@
         /// <param name="writer">Writer to be used</param>
         public Visitor(Serializer serializer, BinaryWriter writer)
         {
-            this.serializer = serializer;
-            this.writer = writer;
+            this._serializer = serializer;
+            this._writer = writer;
         }
 
         /// <summary>
@@ -41,8 +41,8 @@
             // Null object
             if (value == null)
             {
-                writer.StartContainer(ContainerType.Data);
-                writer.StartDataContainer(DataType.Null);
+                _writer.StartContainer(ContainerType.Data);
+                _writer.StartDataContainer(DataType.Null);
                 return;
             }
 
@@ -54,9 +54,9 @@
             // Write
             if (Helper.IsNativeType(type))
             {
-                writer.StartContainer(ContainerType.Data);
-                writer.StartDataContainer(DataType.Native);
-                writer.WriteNativeType(value);
+                _writer.StartContainer(ContainerType.Data);
+                _writer.StartDataContainer(DataType.Native);
+                _writer.WriteNativeType(value);
             }
             else if (Helper.IsEnumeration(type))
             {
@@ -68,11 +68,11 @@
                 if (type.IsClass || type.IsArray)
                 {
                     bool alreadyInserted;
-                    objectId = serializer.RegisterObject(value, out alreadyInserted);
+                    objectId = _serializer.RegisterObject(value, out alreadyInserted);
                     if (alreadyInserted)
                     {
-                        writer.StartContainer(ContainerType.Reference);
-                        writer.WriteReference(objectId);
+                        _writer.StartContainer(ContainerType.Reference);
+                        _writer.WriteReference(objectId);
                         return;
                     }
                 }
@@ -85,11 +85,11 @@
                 if (type.IsClass || type.IsArray)
                 {
                     bool alreadyInserted;
-                    objectId = serializer.RegisterObject(value, out alreadyInserted);
+                    objectId = _serializer.RegisterObject(value, out alreadyInserted);
                     if (alreadyInserted)
                     {
-                        writer.StartContainer(ContainerType.Reference);
-                        writer.WriteReference(objectId);
+                        _writer.StartContainer(ContainerType.Reference);
+                        _writer.WriteReference(objectId);
                         return;
                     }
                 }
@@ -107,11 +107,11 @@
         {
             var type = value.GetType();
 
-            var typeEntry = serializer.RegisterType(type);
+            var typeEntry = _serializer.RegisterType(type);
 
-            writer.StartContainer(ContainerType.Data);
-            writer.StartDataContainer(DataType.Enum);
-            writer.WriteEnumType(typeEntry.TypeId, value as Enum);
+            _writer.StartContainer(ContainerType.Data);
+            _writer.StartDataContainer(DataType.Enum);
+            _writer.WriteEnumType(typeEntry.TypeId, value as Enum);
         }
 
         /// <summary>
@@ -123,16 +123,16 @@
         {
             var type = value.GetType();
 
-            var typeEntry = serializer.RegisterType(type);
+            var typeEntry = _serializer.RegisterType(type);
 
             // Get the properties of 'Type' class object.            
-            writer.StartContainer(ContainerType.Data);
-            writer.StartDataContainer(DataType.Complex);
-            writer.StartComplexType(typeEntry.TypeId, objectId, typeEntry.Fields.Count);
+            _writer.StartContainer(ContainerType.Data);
+            _writer.StartDataContainer(DataType.Complex);
+            _writer.StartComplexType(typeEntry.TypeId, objectId, typeEntry.Fields.Count);
 
             foreach (var field in typeEntry.Fields) 
             {
-                writer.WritePropertyId(field.FieldId);
+                _writer.WritePropertyId(field.FieldId);
                 ParseObject(field.FieldInfo.GetValue(value));
             }
         }
@@ -149,10 +149,10 @@
             var elementType = arrayType.GetElementType();
             Ensure.IsNotNull(elementType);
 
-            var elementTypeEntry = serializer.RegisterType(elementType);
+            var elementTypeEntry = _serializer.RegisterType(elementType);
 
-            writer.StartContainer(ContainerType.Data);
-            writer.StartDataContainer(DataType.Array);            
+            _writer.StartContainer(ContainerType.Data);
+            _writer.StartDataContainer(DataType.Array);            
 
             // Got dimensions
             var dimensions = array.Rank;
@@ -163,7 +163,7 @@
                 dimensionList.Add(length);
             }
 
-            writer.StartArrayType(
+            _writer.StartArrayType(
                 elementTypeEntry.TypeId, 
                 objectId, 
                 dimensions, 

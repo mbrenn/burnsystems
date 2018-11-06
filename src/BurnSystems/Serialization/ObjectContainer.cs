@@ -11,25 +11,25 @@
         /// <summary>
         /// Stores the object and associates them to a number
         /// </summary>
-        private Dictionary<object, long> objectToNumber;
+        private readonly Dictionary<object, long> _objectToNumber;
 
         /// <summary>
         /// Stores the number and associates an object
         /// </summary>
-        private Dictionary<long, object> numberToObject;
+        private readonly Dictionary<long, object> _numberToObject;
 
         /// <summary>
         /// Last index of the inserted object
         /// </summary>
-        private long lastIndex;
+        private long _lastIndex;
 
         /// <summary>
         /// Initializes a new instance of the ObjectContainer class.
         /// </summary>
         public ObjectContainer()
         {
-            objectToNumber = new Dictionary<object, long>(new ObjectComparer());
-            numberToObject = new Dictionary<long, object>();
+            _objectToNumber = new Dictionary<object, long>(new ObjectComparer());
+            _numberToObject = new Dictionary<long, object>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@
         {
             // Check, if object exists
             long result;
-            if (objectToNumber.TryGetValue(value, out result))
+            if (_objectToNumber.TryGetValue(value, out result))
             {
                 alreadyInserted = true;
                 return result;
@@ -50,10 +50,10 @@
 
             // Add new entry
             alreadyInserted = false;
-            lastIndex++;
-            result = lastIndex;
-            objectToNumber[value] = lastIndex;
-            numberToObject[lastIndex] = value;
+            _lastIndex++;
+            result = _lastIndex;
+            _objectToNumber[value] = _lastIndex;
+            _numberToObject[_lastIndex] = value;
 
             return result;
         }
@@ -65,8 +65,8 @@
         /// <param name="value">Object to be added</param>
         public void AddObject(long objectId, object value)
         {
-            objectToNumber[value] = objectId;
-            numberToObject[objectId] = value;
+            _objectToNumber[value] = objectId;
+            _numberToObject[objectId] = value;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@
         /// <returns>Found object</returns>
         public object FindObjectById(long objectId)
         {
-            return numberToObject[objectId];
+            return _numberToObject[objectId];
         }
 
         /// <summary>

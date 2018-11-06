@@ -14,7 +14,7 @@
         /// <summary>
         /// Stream to be used for serialization
         /// </summary>
-        private Stream stream;
+        private readonly Stream _stream;
 
         /// <summary>
         /// Initializes a new instance of the BinaryWriter class.
@@ -22,7 +22,7 @@
         /// <param name="stream">Stream to be used for serialization</param>
         public BinaryWriter(Stream stream)
         {
-            this.stream = stream;
+            this._stream = stream;
         }
 
         /// <summary>
@@ -106,7 +106,7 @@
         public void WriteHeader()
         {
             var bytes = Encoding.UTF8.GetBytes(Helper.StreamHeaderText);
-            stream.Write(bytes, 0, bytes.Length);
+            _stream.Write(bytes, 0, bytes.Length);
 
             byte[] versionBytes = new[]
             {
@@ -116,7 +116,7 @@
                 (byte)Helper.StreamVersion.Revision
             };
 
-            stream.Write(versionBytes, 0, versionBytes.Length);
+            _stream.Write(versionBytes, 0, versionBytes.Length);
         }
 
         /// <summary>
@@ -128,13 +128,13 @@
             switch (containerType)
             {
                 case ContainerType.Type:
-                    stream.WriteByte(0x01);
+                    _stream.WriteByte(0x01);
                     break;
                 case ContainerType.Data:
-                    stream.WriteByte(0x02);
+                    _stream.WriteByte(0x02);
                     break;
                 case ContainerType.Reference:
-                    stream.WriteByte(0x03);
+                    _stream.WriteByte(0x03);
                     break;
                 default:
                     throw new InvalidOperationException(LocalizationBS.BinaryWriter_UnknownContainerType);
@@ -154,7 +154,7 @@
             var typeNameAsBytes = Encoding.UTF8.GetBytes(typeEntry.Name);
 
             WriteInt32(typeNameAsBytes.Length);
-            stream.Write(typeNameAsBytes, 0, typeNameAsBytes.Length);
+            _stream.Write(typeNameAsBytes, 0, typeNameAsBytes.Length);
 
             WriteInt32(typeEntry.GenericArguments.Count);
             foreach (var typeEntryId in typeEntry.GenericArguments)            
@@ -175,7 +175,7 @@
                 var propertyNameAsBytes = Encoding.UTF8.GetBytes(field.Name);
 
                 WriteInt32(propertyNameAsBytes.Length);
-                stream.Write(propertyNameAsBytes, 0, propertyNameAsBytes.Length);
+                _stream.Write(propertyNameAsBytes, 0, propertyNameAsBytes.Length);
             }
         }
 
@@ -188,19 +188,19 @@
             switch (dataType)
             {
                 case DataType.Null:
-                    stream.WriteByte(0x01);
+                    _stream.WriteByte(0x01);
                     break;
                 case DataType.Native:
-                    stream.WriteByte(0x02);
+                    _stream.WriteByte(0x02);
                     break;
                 case DataType.Array:
-                    stream.WriteByte(0x03);
+                    _stream.WriteByte(0x03);
                     break;
                 case DataType.Complex:
-                    stream.WriteByte(0x04);
+                    _stream.WriteByte(0x04);
                     break;
                 case DataType.Enum:
-                    stream.WriteByte(0x05);
+                    _stream.WriteByte(0x05);
                     break;
                 default:
                     throw new InvalidOperationException(LocalizationBS.BinaryWriter_UnknownContainerType);
@@ -224,7 +224,7 @@
 
             // Writes length and value
             WriteInt32(valueBytes.Length);
-            stream.Write(valueBytes, 0, valueBytes.Length);
+            _stream.Write(valueBytes, 0, valueBytes.Length);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@
         public void WriteInt32(int value)
         {
             var bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            _stream.Write(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -298,7 +298,7 @@
         public void WriteInt64(long value)
         {
             var bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            _stream.Write(bytes, 0, bytes.Length);
         }
 
         /// <summary>

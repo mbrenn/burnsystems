@@ -10,7 +10,7 @@
         /// <summary>
         /// List of dimensionsizes
         /// </summary>
-        private List<int> dimensions = new List<int>();
+        private readonly List<int> _dimensions = new List<int>();
 
         /// <summary>
         /// Gets or sets the id of type
@@ -42,6 +42,6 @@
         /// <summary>
         /// Gets a list of dimensions
         /// </summary>
-        public List<int> Dimensions => dimensions;
+        public List<int> Dimensions => _dimensions;
     }
 }

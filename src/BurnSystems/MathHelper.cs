@@ -16,12 +16,13 @@
         /// <summary>
         /// Eine Zufallsvariable
         /// </summary>
-        private static ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random(Guid.NewGuid().GetHashCode()));
+        private static readonly ThreadLocal<Random> RandomInThread 
+            = new ThreadLocal<Random>(() => new Random(Guid.NewGuid().GetHashCode()));
 
         /// <summary>
         /// Gets a threadsafe random instance
         /// </summary>
-        public static Random Random => random.Value;
+        public static Random Random => RandomInThread.Value;
 
         /// <summary>
         /// Gets the earliest of both timespans
@@ -249,24 +250,24 @@
             /// <summary>
             /// Object for synchronisation
             /// </summary>
-            private object syncObject = new object();
+            private readonly object _syncObject = new object();
 
             [ThreadStatic]
-            private static Random localRandomGenerator;
+            private static Random _localRandomGenerator;
 
             private Random LocalRandomGenerator
             {
                 get
                 {
-                    var inst = localRandomGenerator;
+                    var inst = _localRandomGenerator;
                     if (inst == null)
                     {
                         int seed;
-                        lock (syncObject)
+                        lock (_syncObject)
                         {
                             seed = base.Next();
                         }
-                        localRandomGenerator = inst = new Random(seed);
+                        _localRandomGenerator = inst = new Random(seed);
                     }
 
                     return inst;

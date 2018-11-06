@@ -14,7 +14,7 @@
         /// <summary>
         /// Stream to be used for binary
         /// </summary>
-        private Stream stream;
+        private readonly Stream _stream;
 
         /// <summary>
         /// Initializes a new instance of the BinaryReader class.
@@ -22,7 +22,7 @@
         /// <param name="stream">Stream to be used for serialization</param>
         public BinaryReader(Stream stream)
         {
-            this.stream = stream;
+            this._stream = stream;
         }
 
         /// <summary>
@@ -108,7 +108,7 @@
             // Reads string
             var headerBytes = Encoding.UTF8.GetBytes(Helper.StreamHeaderText);
             var bytes = new byte[headerBytes.Length];
-            stream.Read(bytes, 0, bytes.Length);
+            _stream.Read(bytes, 0, bytes.Length);
             if (Encoding.UTF8.GetString(bytes) != Helper.StreamHeaderText)
             {
                 throw new InvalidOperationException(LocalizationBS.BinaryReader_InvalidHeader);
@@ -116,7 +116,7 @@
 
             // Reads version
             var versionBytes = new byte[4];
-            stream.Read(versionBytes, 0, versionBytes.Length);
+            _stream.Read(versionBytes, 0, versionBytes.Length);
             if (versionBytes[0] != 0x01 || versionBytes[1] != 0x00 || versionBytes[2] != 0x00 || versionBytes[3] != 0x00)
             {
                 throw new InvalidOperationException(LocalizationBS.BinaryReader_InvalidHeader);
@@ -179,7 +179,7 @@
             Ensure.IsGreaterOrEqual(length, 0);
 
             var bytes = new byte[length];
-            stream.Read(bytes, 0, length);
+            _stream.Read(bytes, 0, length);
             return ConvertObject(bytes, nativeType);
         }
 
@@ -196,7 +196,7 @@
             Ensure.IsSmaller(typeNameLength, 10000);
 
             var typeNameBytes = new byte[typeNameLength];
-            stream.Read(typeNameBytes, 0, typeNameLength);
+            _stream.Read(typeNameBytes, 0, typeNameLength);
             
             // Create type entry
             var typeEntry = new TypeEntry();
@@ -224,7 +224,7 @@
                 Ensure.IsSmaller(fieldNameLength, 10000);
 
                 var fieldNameBytes = new byte[fieldNameLength];
-                stream.Read(fieldNameBytes, 0, fieldNameLength);
+                _stream.Read(fieldNameBytes, 0, fieldNameLength);
 
                 var fieldEntry = new FieldEntry();
                 fieldEntry.FieldId = fieldId;
@@ -288,7 +288,7 @@
         /// <returns>Read integer</returns>
         public byte ReadByte()
         {
-            return (byte)stream.ReadByte();
+            return (byte)_stream.ReadByte();
         }
 
         /// <summary>
@@ -298,7 +298,7 @@
         public int ReadInt32()
         {
             var bytes = new byte[4];
-            stream.Read(bytes, 0, 4);
+            _stream.Read(bytes, 0, 4);
 
             return BitConverter.ToInt32(bytes, 0);
         }
@@ -310,7 +310,7 @@
         public long ReadInt64()
         {
             var bytes = new byte[8];
-            stream.Read(bytes, 0, 8);
+            _stream.Read(bytes, 0, 8);
 
             return BitConverter.ToInt64(bytes, 0);
         }

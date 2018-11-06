@@ -13,7 +13,7 @@ namespace BurnSystems.UserExceptionHandler
         /// <summary>
         /// Stores a list of possible handlers
         /// </summary>
-        public IEnumerable<IUserExceptionHandler> handlers { get; set; }
+        public IEnumerable<IUserExceptionHandler> Handlers { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the StandardExceptionHandling class
@@ -21,7 +21,7 @@ namespace BurnSystems.UserExceptionHandler
         /// <param name="handlers">Handlers to be used</param>
         public StandardExceptionHandling(IEnumerable<IUserExceptionHandler> handlers)
         {
-            this.handlers = handlers;
+            this.Handlers = handlers;
         }
 
         /// <summary>
@@ -31,14 +31,14 @@ namespace BurnSystems.UserExceptionHandler
         public bool HandleException(Exception exc)
         {
             // Null handler, will not handle exception
-            if (handlers == null)
+            if (Handlers == null)
             {
                 throw new NotHandledException("Not handled", exc);
             }
 
             // Try to handle the exception
             var handled = false;
-            foreach (var handler in handlers)
+            foreach (var handler in Handlers)
             {
                 handled |= handler.Handle(exc);
             }

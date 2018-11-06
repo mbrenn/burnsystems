@@ -12,7 +12,7 @@
         /// <summary>
         /// Value of the instance
         /// </summary>
-        private string value;
+        private readonly string _value;
 
         /// <summary>
         /// Initializes a new instance of the JsonString class.
@@ -20,7 +20,7 @@
         /// <param name="value">Value to be set</param>
         public JsonString(string value)
         {
-            this.value = value;
+            this._value = value;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@
             return string.Format(
                 CultureInfo.InvariantCulture,
                 "\"{0}\"",
-                value
+                _value
                     .Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
                     .Replace("\t", "\\t")

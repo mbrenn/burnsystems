@@ -11,7 +11,7 @@
         /// <summary>
         /// Stores the value
         /// </summary>
-        private bool value;
+        private readonly bool _value;
 
         /// <summary>
         /// Initializes a new instance of the JsonBoolean class.
@@ -19,7 +19,7 @@
         /// <param name="value">Value to be set</param>
         public JsonBoolean(bool value)
         {
-            this.value = value;
+            this._value = value;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@
         /// <returns>This object as a json string</returns>
         public override string ToString()
         {
-            return value ? "true" : "false";
+            return _value ? "true" : "false";
         }
     }
 }

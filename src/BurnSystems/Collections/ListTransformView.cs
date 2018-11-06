@@ -17,29 +17,29 @@ namespace BurnSystems.Collections
     /// </summary>
     /// <typeparam name="T">Type of the elements of the list that is the source type</typeparam>
     /// <typeparam name="Q">Type of the elements of the list, that shall be delivered</typeparam>    
-	public class ListTransformView<T, Q> : IList<Q>, IList, INotifyPropertyChanged //, INotifyCollectionChanged
+	public class ListTransformView<T, TQ> : IList<TQ>, IList, INotifyPropertyChanged //, INotifyCollectionChanged
     {
         /// <summary>
         /// Stores the synchronization root
         /// </summary>
-        private object syncRoot = new object();
+        private readonly object _syncRoot = new object();
 
         /// <summary>
         /// Stores the selector
         /// </summary>
-        private Func<T, Q> selector;
+        private readonly Func<T, TQ> _selector;
 
         /// <summary>
         /// Stores the list
         /// </summary>
-        private IList<T> list;
+        private readonly IList<T> _list;
 
         /// <summary>
         /// Initializes a new instance of the ListTransformView
         /// </summary>
         /// <param name="list">List to be transformed</param>
         /// <param name="selector">Selector to be used for transformation</param>
-        public ListTransformView(IList<T> list ,Func<T,Q> selector)
+        public ListTransformView(IList<T> list ,Func<T,TQ> selector)
         {
             var notifyPropertyChanged = list as INotifyPropertyChanged;
             var notifyCollectionChanged = list as INotifyCollectionChanged;
@@ -49,8 +49,8 @@ namespace BurnSystems.Collections
             notifyPropertyChanged.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
             notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
 
-            this.list = list;
-            this.selector = selector;
+            this._list = list;
+            this._selector = selector;
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Detach()
         {
-            var notifyPropertyChanged = list as INotifyPropertyChanged;
-            var notifyCollectionChanged = list as INotifyCollectionChanged;
+            var notifyPropertyChanged = _list as INotifyPropertyChanged;
+            var notifyCollectionChanged = _list as INotifyCollectionChanged;
             notifyPropertyChanged.PropertyChanged -= new PropertyChangedEventHandler(OnPropertyChanged);
             notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(OnCollectionChanged);
         }
@@ -160,11 +160,11 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="item">Item to be queried</param>
         /// <returns>Index of the item</returns>
-        public int IndexOf(Q item)
+        public int IndexOf(TQ item)
         {
             var found = -1;
 
-            foreach (var element in list.Select(x => selector(x)))
+            foreach (var element in _list.Select(x => _selector(x)))
             {
                 found++;
                 if (element == null && item == null)
@@ -191,7 +191,7 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="index">Index of the element</param>
         /// <param name="item">Element to be added</param>
-        public void Insert(int index, Q item)
+        public void Insert(int index, TQ item)
         {
             throw new NotImplementedException();
         }
@@ -211,9 +211,9 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="index">Index of the element</param>
         /// <returns>Element to be retrieved</returns>
-        public Q this[int index]
+        public TQ this[int index]
         {
-            get => selector(list[index]);
+            get => _selector(_list[index]);
             set => throw new NotImplementedException();
         }
 
@@ -221,7 +221,7 @@ namespace BurnSystems.Collections
         /// This method is not implemented
         /// </summary>
         /// <param name="item">Item to be added</param>
-        public void Add(Q item)
+        public void Add(TQ item)
         {
             throw new NotImplementedException();
         }
@@ -239,7 +239,7 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="item">Item to be checked</param>
         /// <returns>True, if item is in list</returns>
-        public bool Contains(Q item)
+        public bool Contains(TQ item)
         {
             return IndexOf(item) != -1;
         }
@@ -249,7 +249,7 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="array">Array to be used</param>
         /// <param name="arrayIndex">Position where the data shall be copied</param>
-        public void CopyTo(Q[] array, int arrayIndex)
+        public void CopyTo(TQ[] array, int arrayIndex)
         {
             if (array == null)
             {
@@ -277,7 +277,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gets the number of elements
         /// </summary>
-        public int Count => list.Count;
+        public int Count => _list.Count;
 
         /// <summary>
         /// Gets a value indicating whether the list is read only
@@ -289,7 +289,7 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="item">Item to be removed</param>
         /// <returns>true, if item has been removed</returns>
-        public bool Remove(Q item)
+        public bool Remove(TQ item)
         {
             throw new NotImplementedException();
         }
@@ -298,11 +298,11 @@ namespace BurnSystems.Collections
         /// Gets the enumerator
         /// </summary>
         /// <returns>Enumerator for the instance</returns>
-        public IEnumerator<Q> GetEnumerator()
+        public IEnumerator<TQ> GetEnumerator()
         {
-            foreach (var item in list)
+            foreach (var item in _list)
             {
-                yield return selector(item);
+                yield return _selector(item);
             }
         }
 
@@ -312,9 +312,9 @@ namespace BurnSystems.Collections
         /// <returns>Enumerator for the instance</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (var item in list)
+            foreach (var item in _list)
             {
-                yield return selector(item);
+                yield return _selector(item);
             }
         }
 
@@ -345,14 +345,14 @@ namespace BurnSystems.Collections
         /// <returns>Index of item or -1 if not existing</returns>
         public int IndexOf(object value)
         {
-            var realValue = value is Q;
+            var realValue = value is TQ;
             if (!realValue && value != null)
             {
                 // Not null, but not of type value
                 return -1;
             }
 
-            return IndexOf((Q) value);
+            return IndexOf((TQ) value);
         }
 
         /// <summary>
@@ -428,7 +428,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gets the synchronisation root
         /// </summary>
-        public object SyncRoot => syncRoot;
+        public object SyncRoot => _syncRoot;
 
         /// <summary>
         /// This event is called, when a property has been changed

@@ -17,12 +17,12 @@
         /// <summary>
         /// Stores the converter
         /// </summary>
-        private IXElementConverter<T> converter;
+        private readonly IXElementConverter<T> _converter;
 
         /// <summary>
         /// Container node being associated the list
         /// </summary>
-        private XContainer container;
+        private readonly XContainer _container;
 
         /// <summary>
         /// Initializes a new instance of the XmlList class.
@@ -31,8 +31,8 @@
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
         public XmlList(XContainer container, IXElementConverter<T> converter)
         {
-            this.container = container;
-            this.converter = converter;
+            this._container = container;
+            this._converter = converter;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@
             var pos = 0;
 
             foreach (var entity in
-                container.Elements()
-                    .Select(x => converter.Convert(x)))
+                _container.Elements()
+                    .Select(x => _converter.Convert(x)))
             {
                 if (entity != null && entity.Equals(item))
                 {
@@ -66,16 +66,16 @@
         /// <param name="item">Item to be added</param>
         public void Insert(int index, T item)
         {
-            var element = container.Elements()
+            var element = _container.Elements()
                 .ElementAtOrDefault(index - 1);
 
             if (element == null)
             {
-                container.Add(converter.Convert(item));
+                _container.Add(_converter.Convert(item));
             }
             else
             {
-                element.AddAfterSelf(converter.Convert(item));
+                element.AddAfterSelf(_converter.Convert(item));
             }
         }
 
@@ -85,7 +85,7 @@
         /// <param name="index">Index of the item</param>
         public void RemoveAt(int index)
         {
-            var element = container.Elements().ElementAtOrDefault(index);
+            var element = _container.Elements().ElementAtOrDefault(index);
             if (element != null)
             {
                 element.Remove();
@@ -101,19 +101,19 @@
         {
             get
             {
-                var element = container.Elements().ElementAt(index);
-                return converter.Convert(element);
+                var element = _container.Elements().ElementAt(index);
+                return _converter.Convert(element);
             }
             set
             {
-                var element = container.Elements().ElementAtOrDefault(index);
+                var element = _container.Elements().ElementAtOrDefault(index);
                 if (element != null)
                 {
-                    element.ReplaceWith(converter.Convert(value));
+                    element.ReplaceWith(_converter.Convert(value));
                 }
                 else
                 {
-                    container.Add(converter.Convert(value));
+                    _container.Add(_converter.Convert(value));
                 }
             }
         }
@@ -124,7 +124,7 @@
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            container.Add(converter.Convert(item));
+            _container.Add(_converter.Convert(item));
         }
 
         /// <summary>
@@ -132,7 +132,7 @@
         /// </summary>
         public void Clear()
         {
-            container.RemoveNodes();
+            _container.RemoveNodes();
         }
 
         /// <summary>
@@ -178,7 +178,7 @@
         /// <summary>
         /// Gets the number of elements
         /// </summary>
-        public int Count => container.Elements().Count();
+        public int Count => _container.Elements().Count();
 
         /// <summary>
         /// Gets a value indicating whether the list is read-only
@@ -209,8 +209,8 @@
         /// <returns>Enumerator for the list</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var item in container.Elements()
-                .Select(x => converter.Convert(x))
+            foreach (var item in _container.Elements()
+                .Select(x => _converter.Convert(x))
                 .Where(x => x != null))
             {
                 yield return item;
@@ -261,17 +261,17 @@
         /// <summary>
         /// Converts an attribute of all subelements to a specific type
         /// </summary>
-        internal class AttributeEntityConverter<Q> : IXElementConverter<Q>
+        internal class AttributeEntityConverter<TQ> : IXElementConverter<TQ>
         {
             /// <summary>
             /// Name of the node
             /// </summary>
-            private string nodeName;
+            private readonly string _nodeName;
             
             /// <summary>
             /// Name of the attribute
             /// </summary>
-            private string attributeName;
+            private readonly string _attributeName;
 
             /// <summary>
             /// Initializes a new instance of the AttributeEntityConverter class
@@ -280,8 +280,8 @@
             /// <param name="attributeName">Name of the attribute</param>
             public AttributeEntityConverter(string nodeName, string attributeName)
             {
-                this.nodeName = nodeName;
-                this.attributeName = attributeName;
+                this._nodeName = nodeName;
+                this._attributeName = attributeName;
             }
 
             /// <summary>
@@ -289,20 +289,20 @@
             /// </summary>
             /// <param name="element"></param>
             /// <returns></returns>
-            public Q Convert(XElement element)
+            public TQ Convert(XElement element)
             {
-                if (element.Name != nodeName)
+                if (element.Name != _nodeName)
                 {
-                    return default(Q);
+                    return default(TQ);
                 }
 
-                var attribute = element.Attribute(attributeName);
+                var attribute = element.Attribute(_attributeName);
                 if (attribute == null)
                 {
-                    return default(Q);
+                    return default(TQ);
                 }
 
-                return (Q)System.Convert.ChangeType(attribute.Value, typeof(Q));
+                return (TQ)System.Convert.ChangeType(attribute.Value, typeof(TQ));
             }
 
             /// <summary>
@@ -310,23 +310,23 @@
             /// </summary>
             /// <param name="entity">Entity to be converted</param>
             /// <returns>Entity as an XElement</returns>
-            public XElement Convert(Q entity)
+            public XElement Convert(TQ entity)
             {
                 return new XElement(
-                    nodeName,
-                    new XAttribute(attributeName, entity.ToString()));
+                    _nodeName,
+                    new XAttribute(_attributeName, entity.ToString()));
             }
         }
 
         /// <summary>
         /// Converts an element of all subelements to a specific type
         /// </summary>
-        internal class ElementEntityConverter<Q> : IXElementConverter<Q>
+        internal class ElementEntityConverter<TQ> : IXElementConverter<TQ>
         {
             /// <summary>
             /// Name of the node
             /// </summary>
-            private string nodeName;
+            private readonly string _nodeName;
 
             /// <summary>
             /// Initializes a new instance of the AttributeEntityConverter class
@@ -334,7 +334,7 @@
             /// <param name="nodeName">Name of the node</param>
             public ElementEntityConverter(string nodeName)
             {
-                this.nodeName = nodeName;
+                this._nodeName = nodeName;
             }
 
             /// <summary>
@@ -342,14 +342,14 @@
             /// </summary>
             /// <param name="element"></param>
             /// <returns></returns>
-            public Q Convert(XElement element)
+            public TQ Convert(XElement element)
             {
-                if (element.Name != nodeName)
+                if (element.Name != _nodeName)
                 {
-                    return default(Q);
+                    return default(TQ);
                 }
 
-                return (Q)System.Convert.ChangeType(element.Value, typeof(Q));
+                return (TQ)System.Convert.ChangeType(element.Value, typeof(TQ));
             }
 
             /// <summary>
@@ -357,10 +357,10 @@
             /// </summary>
             /// <param name="entity">Entity to be converted</param>
             /// <returns>Entity as an XElement</returns>
-            public XElement Convert(Q entity)
+            public XElement Convert(TQ entity)
             {
                 return new XElement(
-                    nodeName,
+                    _nodeName,
                     entity.ToString());
             }
         }
