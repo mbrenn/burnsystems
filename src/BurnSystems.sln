@@ -1,0 +1,96 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSystems", "BurnSystems\BurnSystems.csproj", "{5B491372-1DAE-4B30-991D-CD82BC83A0A5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurnSystems.Logging.Console", "BurnSystems.Logging.Console\BurnSystems.Logging.Console.csproj", "{4D00FFD9-DA4A-4948-AE13-86C06A924D14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurnSystems.Logging.Tests", "BurnSystems.Logging.Tests\BurnSystems.Logging.Tests.csproj", "{95718A3D-8243-4A94-909C-724574D084B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSystems.Tests", "BurnSystems.Tests\BurnSystems.Tests.csproj", "{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Debug|x86.Build.0 = Debug|Any CPU
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Release|x86.ActiveCfg = Release|Any CPU
+		{5B491372-1DAE-4B30-991D-CD82BC83A0A5}.Release|x86.Build.0 = Release|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Debug|x86.Build.0 = Debug|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Release|x86.ActiveCfg = Release|Any CPU
+		{4D00FFD9-DA4A-4948-AE13-86C06A924D14}.Release|x86.Build.0 = Release|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{95718A3D-8243-4A94-909C-724574D084B6}.Release|x86.Build.0 = Release|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Debug|x86.Build.0 = Debug|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Release|x86.ActiveCfg = Release|Any CPU
+		{D1AAD0EA-4297-4323-BA84-4ECD8FB79D13}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA37E9F8-E697-467A-A6B2-E633110C6B3A}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = tests\BurnSystems.UnitTests\BurnSystems.UnitTests.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = Hierarchical
+		$1.ResourceNamePolicy = FileName
+		$0.TextStylePolicy = $6
+		$2.RemoveTrailingWhitespace = True
+		$2.EolMarker = Windows
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+		$4.RemoveTrailingWhitespace = True
+		$4.EolMarker = Windows
+		$4.inheritsSet = VisualStudio
+		$4.inheritsScope = text/plain
+		$4.scope = text/plain
+		$5.RemoveTrailingWhitespace = True
+		$5.EolMarker = Windows
+		$5.inheritsSet = VisualStudio
+		$5.inheritsScope = text/plain
+		$5.scope = application/x-resource
+		$6.RemoveTrailingWhitespace = True
+		$6.EolMarker = Windows
+		$6.inheritsSet = VisualStudio
+		$6.inheritsScope = text/plain
+		$6.scope = text/x-sql
+		$0.StandardHeader = $7
+		$7.Text = 
+		$7.IncludeInNewFiles = True
+	EndGlobalSection
+EndGlobal

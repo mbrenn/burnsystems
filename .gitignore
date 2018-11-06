@@ -7,6 +7,7 @@
 *.suo
 *.user
 *.sln.docstates
+.vs/*
 
 # Build results
 
@@ -156,3 +157,19 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/src/.vs/config/applicationhost.config
+/src/DatenMeister.SourceGeneration.Console/uml.cs
+/src/DatenMeister.SourceGeneration.Console/primitivetypes.cs
+/src/DatenMeister.SourceGeneration.Console/mof.cs
+/src/DatenMeister.SourceGeneration.Console/FillTheUML.cs
+/src/DatenMeister.SourceGeneration.Console/FillThePrimitiveTypes.cs
+/src/DatenMeister.SourceGeneration.Console/FillTheMOF.cs
+/nuget-packages/All
+/src/scripts/assembly/*.pdb
+/src/scripts/assembly/*.dll
+
+project.lock.json
+*.js.map
+/src/DatenMeister.Web.Application/App_Data/Database
+/src/.vs
+/src/DatenMeister.Web.Application/htdocs/img/icons
