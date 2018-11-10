@@ -21,7 +21,7 @@
         /// <param name="stream">Stream to be used</param>
         public DirectTextReader(Stream stream)
         {
-            this._stream = stream;
+            _stream = stream;
         }
 
         /// <summary>

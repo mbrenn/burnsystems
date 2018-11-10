@@ -30,7 +30,7 @@
         /// <param name="stream">Stream with serialized objects</param>
         public Deserializer(Stream stream)
         {
-            this._stream = stream;
+            _stream = stream;
         }
 
         /// <summary>

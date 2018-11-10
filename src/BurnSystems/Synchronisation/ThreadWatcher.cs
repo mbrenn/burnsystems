@@ -202,7 +202,7 @@ namespace BurnSystems.Synchronisation
             /// <param name="thread">Thread to be watched</param>
             public WatchHelper(Thread thread)
             {
-                this._thread = thread;
+                _thread = thread;
             }
 
             /// <summary>

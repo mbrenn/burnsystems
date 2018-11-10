@@ -21,7 +21,7 @@ namespace BurnSystems.UserExceptionHandler
         /// <param name="handlers">Handlers to be used</param>
         public StandardExceptionHandling(IEnumerable<IUserExceptionHandler> handlers)
         {
-            this.Handlers = handlers;
+            Handlers = handlers;
         }
 
         /// <summary>

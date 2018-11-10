@@ -22,7 +22,7 @@
         /// <param name="stream">Stream to be used for serialization</param>
         public BinaryWriter(Stream stream)
         {
-            this._stream = stream;
+            _stream = stream;
         }
 
         /// <summary>

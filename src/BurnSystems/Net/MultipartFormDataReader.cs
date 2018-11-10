@@ -29,7 +29,7 @@ namespace BurnSystems.Net
         /// <param name="boundary">Used Boundary</param>
         public MultipartFormDataReader(string boundary)
         {
-            this._boundary = Encoding.ASCII.GetBytes(boundary);
+            _boundary = Encoding.ASCII.GetBytes(boundary);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace BurnSystems.Net
         /// <param name="encoding">Encoding of stream</param>
         public MultipartFormDataReader(string boundary, Encoding encoding)
         {
-            this._boundary = encoding.GetBytes(boundary);
+            _boundary = encoding.GetBytes(boundary);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace BurnSystems.Net
         /// <param name="boundary">Used Boundary</param>
         public MultipartFormDataReader(byte[] boundary)
         {
-            this._boundary = boundary;
+            _boundary = boundary;
         }
 
         /// <summary>

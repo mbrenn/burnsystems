@@ -49,8 +49,8 @@ namespace BurnSystems.Collections
             notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
             notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
 
-            this._list = list;
-            this._selector = selector;
+            _list = list;
+            _selector = selector;
         }
 
         /// <summary>

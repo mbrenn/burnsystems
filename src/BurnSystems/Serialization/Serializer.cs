@@ -27,7 +27,7 @@
         public Serializer(Stream stream)
         {
             Ensure.IsNotNull(stream);
-            this._stream = stream;
+            _stream = stream;
         }
 
         /// <summary>
