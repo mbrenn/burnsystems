@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BurnSystems.Net
 {
     using System;
@@ -130,7 +132,7 @@ namespace BurnSystems.Net
             var left = headerText.Substring(0, posColon).Trim();
             var right = headerText.Substring(posColon + 1).Trim();
 
-            part.Headers.Add(new Pair<string, string>(left, right));
+            part.Headers.Add(new KeyValuePair<string, string>(left, right));
 
             if (left == "Content-Disposition")
             {
