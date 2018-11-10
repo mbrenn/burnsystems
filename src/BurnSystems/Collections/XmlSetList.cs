@@ -42,7 +42,7 @@
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
         public XmlSetList(IEnumerable<XElement> elements, IXElementConverter<T> converter)
         {
-            _containers = elements.Cast<XContainer>();
+            _containers = elements;
             _converter = converter;
         }
 
