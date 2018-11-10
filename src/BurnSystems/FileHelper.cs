@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="sourcePath">Path containing the source</param>
         /// <param name="targetPath">Path containing the target</param>
-        /// <param name="doOverwrite">Flag, if file shall be overwritte</param>
+        /// <param name="doOverwrite">Flag, if file shall be overwritten</param>
         public static void CopyDirectory(string sourcePath, string targetPath, bool doOverwrite = false)
         {
             if (!Directory.Exists(targetPath))

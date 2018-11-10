@@ -35,7 +35,7 @@
         {
             var result = value.Replace("\\", "\\\\");
             result = result.Replace("\"", "\\\"");
-            return result = result.Replace("\'", "\\\'");
+            return result.Replace("\'", "\\\'");
         }
 
         /// <summary>
@@ -49,18 +49,6 @@
             var result = value.Replace("\\\"", "\"");
             result = result.Replace("\\\'", "\'");
             return result.Replace("\\\\", "\\");
-        }
-
-        /// <summary>
-        /// This method is equivalent to HttpUtility, except the encoding of
-        /// the slash '/'. 
-        /// </summary>
-        /// <param name="value">String to be encoded</param>
-        /// <returns>Encoded string</returns>
-        public static string UrlEncode(this string value)
-        {
-            return System.Web.HttpUtility.UrlEncode(value).Replace("%2f", "/")
-                .Replace("%3a", ":");
         }
 
         /// <summary>
@@ -180,26 +168,13 @@
         /// <param name="value">String to be shortened</param>
         /// <param name="maxLength">Maximum length of string after calling this method. The ellipses
         /// is not counted</param>
-        /// <returns>Shortened string</returns>
-        public static string ShortenString(this string value, int maxLength)
-        {
-            return ShortenString(value, maxLength, "...");
-        }
-
-        /// <summary>
-        /// Shortens string to a specific length and adds ellipsis, if they are
-        /// necessary. 
-        /// </summary>
-        /// <param name="value">String to be shortened</param>
-        /// <param name="maxLength">Maximum length of string after calling this method. The ellipses
-        /// is not counted</param>
         /// <param name="ellipsis">Die genutzte Ellipsis, wenn der String zu lang ist.</param>
         /// <returns>Shortened string</returns>
-        public static string ShortenString(this string value, int maxLength, string ellipsis)
+        public static string ShortenString(this string value, int maxLength, string ellipsis = "...")
         {
             if (maxLength < 0)
             {
-                throw new ArgumentException("nMaxLength < 0");
+                throw new ArgumentException($"{nameof(maxLength)} < 0");
             }
 
             if (value.Length > maxLength)
@@ -252,24 +227,10 @@
         /// <returns>Hash as string</returns>
         public static string Sha1(this byte[] bytes)
         {
-            byte[] result;
             var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
-            result = sha1.ComputeHash(bytes);
+            var result = sha1.ComputeHash(bytes);
 
             return ToHexString(result);
-        }
-
-        /// <summary>
-        /// Gets content of a textfile 
-        /// </summary>
-        /// <param name="filename">Path to file to be read</param>
-        /// <returns>Content of file</returns>
-        /// <exception cref="FileNotFoundException">This exception is thrown, when
-        /// the file was not found</exception>
-        [Obsolete("Use System.IO.File.ReadAllText")]
-        public static string GetTextfileContent(string filename)
-        {
-            return File.ReadAllText(filename);
         }
 
         /// <summary>
@@ -322,13 +283,7 @@
         /// <returns>String being converted</returns>
         public static string Nl2Br(this string value)
         {
-            // Returns null for null strings
-            if (value == null)
-            {
-                return null;
-            }
-
-            return value.Replace("\n", "<br />").Replace("\r", string.Empty);
+            return value?.Replace("\n", "<br />").Replace("\r", string.Empty);
         }
 
         /// <summary>
@@ -340,7 +295,7 @@
         /// <param name="paddingValue">Zeichen, das hinzugefügt werden soll. </param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>length</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingRight(this string value, int length, char paddingValue)
+        public static string PaddingRight(this string value, int length, char paddingValue = ' ')
         {
             var stringLength = value.Length;
 
@@ -365,19 +320,6 @@
         }
 
         /// <summary>
-        /// Fügt an das Ende des Strings solange Leerzeichen
-        /// hinzu bis der String die Länge <c>nLength</c> erreicht.
-        /// </summary>
-        /// <param name="value">String, der geändert werden soll</param>
-        /// <param name="length">Länge des Strings</param>
-        /// <returns>Aufgefüllter String. Ist der String länger als <c>length</c>,
-        /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingRight(this string value, int length)
-        {
-            return PaddingRight(value, length, ' ');
-        }
-
-        /// <summary>
         /// Fügt an den Anfang des Strings solange Zeichen von <c>paddingValue</c>
         /// hinzu bis der String die Länge <c>length</c> erreicht.
         /// </summary>
@@ -386,7 +328,7 @@
         /// <param name="paddingValue">Zeichen, das hinzugefügt werden soll. </param>
         /// <returns>Aufgefüllter String. Ist der String länger als <c>nLength</c>,
         /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingLeft(this string value, int length, char paddingValue)
+        public static string PaddingLeft(this string value, int length, char paddingValue = ' ')
         {
             var stringLength = value.Length;
 
@@ -409,19 +351,6 @@
 
             builder.Append(value);
             return builder.ToString();
-        }
-
-        /// <summary>
-        /// Fügt an den Anfang des Strings solange Leerzeichen
-        /// hinzu bis der String die Länge <c>length</c> erreicht.
-        /// </summary>
-        /// <param name="value">String, der geändert werden soll</param>
-        /// <param name="length">Länge des Strings</param>
-        /// <returns>Aufgefüllter String. Ist der String länger als <c>length</c>,
-        /// so wird ein gekürzter String zurückgegeben. </returns>
-        public static string PaddingLeft(this string value, int length)
-        {
-            return PaddingLeft(value, length, ' ');
         }
 
         /// <summary>
@@ -472,7 +401,7 @@
             while (true)
             {
                 var index = value.IndexOfAny(
-                    new char[] { ' ', '\r', '\n' },
+                    new[] { ' ', '\r', '\n' },
                     currentPos);
 
                 if (index == -1)
