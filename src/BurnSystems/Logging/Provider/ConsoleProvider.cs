@@ -29,7 +29,8 @@ namespace BurnSystems.Logging.Provider
                 var timePassed = DateTime.Now - TheLog.TimeCreated;
                 var old = Console.ForegroundColor;
                 Console.ForegroundColor = _consoleColors[(int) logMessage.LogLevel - 1];
-                Console.WriteLine($"{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)}: {logMessage}");
+                Console.WriteLine($"{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)}: " +
+                                  $"{logMessage}");
                 Console.ForegroundColor = old;
             }
         }

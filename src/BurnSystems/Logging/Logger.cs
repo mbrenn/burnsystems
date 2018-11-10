@@ -1,9 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BurnSystems.Logging
 {
     public class Logger : ILogger
     {
+        /// <summary>
+        /// Gets maximum text length of all log messages
+        /// </summary>
+        public static int MaxLengthLogLevel { get; }
+
         /// <summary>
         /// Stores the list of providers
         /// </summary>
@@ -13,6 +20,15 @@ namespace BurnSystems.Logging
         /// Gets or sets the log level threshold for the logging
         /// </summary>
         public LogLevel LogLevelThreshold { get; set; } = LogLevel.Trace;
+
+        /// <summary>
+        /// Performs the static initialization
+        /// </summary>
+        static Logger()
+        {
+            // Gets the maximum length of the log messages by going through the iteration
+            MaxLengthLogLevel = Enum.GetNames(typeof(LogLevel)).Max(x => x.Length);
+        }
 
         /// <summary>
         /// Adds the provider being used for logging

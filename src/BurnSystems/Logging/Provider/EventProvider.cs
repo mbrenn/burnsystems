@@ -8,6 +8,11 @@ namespace BurnSystems.Logging.Provider
     public class EventProvider : ILogProvider
     {
         /// <summary>
+        /// Gets the event provider as a singleton provider
+        /// </summary>
+        public static EventProvider TheOne { get; }= new EventProvider();
+
+        /// <summary>
         /// This event is thrown, when a log message is received
         /// </summary>
         public event EventHandler<LogEventArgs> MessageReceived;

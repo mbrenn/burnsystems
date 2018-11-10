@@ -33,7 +33,8 @@ namespace BurnSystems.Logging.Provider
 
                 var timePassed = DateTime.Now - TheLog.TimeCreated;
                 _file.WriteLine(
-                    $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};{logMessage.LogLevel};{logMessage.Category};{logMessage.Message}");
+                    $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};" +
+                    $"{logMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)};{logMessage.Category};{logMessage.Message}");
                 _file.Flush();
             }
         }

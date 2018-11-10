@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace BurnSystems.Logging.Provider
 {
@@ -13,5 +14,14 @@ namespace BurnSystems.Logging.Provider
         /// Gets or sets the date at which the log was created
         /// </summary>
         public DateTime Created;
+
+        public override string ToString()
+        {
+            var timePassed = Created - TheLog.TimeCreated;
+            return 
+                $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};" +
+                $"[{LogMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}];{LogMessage.Category};{LogMessage.Message}";
+
+        }
     }
 }

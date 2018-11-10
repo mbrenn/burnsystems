@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BurnSystems.Logging.Provider
 {
@@ -13,14 +14,28 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Gets the messages that are received
         /// </summary>
-        public List<InMemoryLogMessage> Messages { get; }= new List<InMemoryLogMessage>();
+        private readonly List<InMemoryLogMessage> _messages = new List<InMemoryLogMessage>();
+
+        /// <summary>
+        /// Gets the messages being received
+        /// </summary>
+        public List<InMemoryLogMessage> Messages
+        {
+            get
+            {
+                lock (_messages)
+                {
+                    return _messages.ToList();
+                }
+            }
+        }
 
         public void LogMessage(LogMessage logMessage)
         {
             lock (Messages)
             {
-                Messages.Add(
-                    new InMemoryLogMessage()
+                _messages.Add(
+                    new InMemoryLogMessage
                     {
                         LogMessage = logMessage,
                         Created = DateTime.Now

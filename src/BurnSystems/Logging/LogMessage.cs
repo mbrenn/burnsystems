@@ -24,10 +24,10 @@
         {
             if (string.IsNullOrEmpty(Category))
             {
-                return $"[{LogLevel}]: {Message}";
+                return $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}]: {Message}";
             }
 
-            return $"[{LogLevel}] {Category}: {Message}";
+            return $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}] {Category}: {Message}";
         }
     }
 }
