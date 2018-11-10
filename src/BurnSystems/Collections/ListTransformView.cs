@@ -46,11 +46,11 @@ namespace BurnSystems.Collections
             Ensure.IsTrue(notifyCollectionChanged != null);
             Ensure.IsTrue(notifyPropertyChanged != null);
 
-            notifyPropertyChanged.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
-            notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
+            notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
 
-            this._list = list;
-            this._selector = selector;
+            _list = list;
+            _selector = selector;
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace BurnSystems.Collections
         {
             var notifyPropertyChanged = _list as INotifyPropertyChanged;
             var notifyCollectionChanged = _list as INotifyCollectionChanged;
-            notifyPropertyChanged.PropertyChanged -= new PropertyChangedEventHandler(OnPropertyChanged);
-            notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            notifyPropertyChanged.PropertyChanged -= OnPropertyChanged;
+            notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
         }
         
 		
@@ -149,10 +149,7 @@ namespace BurnSystems.Collections
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var ev = PropertyChanged;
-            if (ev != null)
-            {
-                ev(sender, e);
-            }
+            ev?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -435,10 +432,5 @@ namespace BurnSystems.Collections
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// This event is called, when a collection has been changed.
-        /// This method is not implemented in Mono
-        /// </summary>
-        //public event NotifyCollectionChangedEventHandler CollectionChanged;
     }
 }

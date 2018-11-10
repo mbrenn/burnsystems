@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BurnSystems.Net
 {
     using System;
@@ -27,7 +29,7 @@ namespace BurnSystems.Net
         /// <param name="boundary">Used Boundary</param>
         public MultipartFormDataReader(string boundary)
         {
-            this._boundary = Encoding.ASCII.GetBytes(boundary);
+            _boundary = Encoding.ASCII.GetBytes(boundary);
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace BurnSystems.Net
         /// <param name="encoding">Encoding of stream</param>
         public MultipartFormDataReader(string boundary, Encoding encoding)
         {
-            this._boundary = encoding.GetBytes(boundary);
+            _boundary = encoding.GetBytes(boundary);
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace BurnSystems.Net
         /// <param name="boundary">Used Boundary</param>
         public MultipartFormDataReader(byte[] boundary)
         {
-            this._boundary = boundary;
+            _boundary = boundary;
         }
 
         /// <summary>
@@ -130,7 +132,7 @@ namespace BurnSystems.Net
             var left = headerText.Substring(0, posColon).Trim();
             var right = headerText.Substring(posColon + 1).Trim();
 
-            part.Headers.Add(new Pair<string, string>(left, right));
+            part.Headers.Add(new KeyValuePair<string, string>(left, right));
 
             if (left == "Content-Disposition")
             {
@@ -207,7 +209,7 @@ namespace BurnSystems.Net
                     // Skip '\n'
                     offset += 2;
                     start = offset;
-                    if (String.IsNullOrEmpty(headerText.Trim()))
+                    if (string.IsNullOrEmpty(headerText.Trim()))
                     {
                         // Header has been read
                         break;

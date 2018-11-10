@@ -111,7 +111,7 @@ namespace BurnSystems
 
             if (xmlAttribute == null)
             {
-                throw new InvalidOperationException(String.Format(
+                throw new InvalidOperationException(string.Format(
                     CultureInfo.CurrentUICulture,
                     LocalizationBS.XmlHelper_AttributeNotFound,
                     attributeName,
@@ -139,7 +139,7 @@ namespace BurnSystems
 
             if (xmlAttribute == null)
             {
-                throw new InvalidOperationException(String.Format(
+                throw new InvalidOperationException(string.Format(
                     CultureInfo.CurrentUICulture,
                     LocalizationBS.XmlHelper_AttributeNotFound,
                     attributeName,
@@ -165,7 +165,7 @@ namespace BurnSystems
             XmlNode xmlFoundNode = xmlNode.SelectSingleNode(xpathQuery);
             if (xmlFoundNode == null)
             {
-                throw new InvalidOperationException(String.Format(
+                throw new InvalidOperationException(string.Format(
                     CultureInfo.CurrentUICulture,
                     LocalizationBS.XmlHelper_NodeNotFound,
                     xpathQuery,

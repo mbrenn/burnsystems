@@ -29,8 +29,8 @@ namespace BurnSystems.Synchronisation
         {
             Ensure.IsNotNull(lockable);
 
-            this._lockable = lockable;
-            this._lockable.Lock();
+            _lockable = lockable;
+            _lockable.Lock();
         }
 
         /// <summary>

@@ -38,7 +38,7 @@
         /// <param name="comparer">Comparer to be used</param>
         public PriorityQueue(Comparison<T> comparer)
         {
-            this._comparer = comparer;
+            _comparer = comparer;
         }
 
         /// <summary>

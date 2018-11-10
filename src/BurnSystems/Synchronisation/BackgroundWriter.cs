@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BurnSystems.Logging;
 
 namespace BurnSystems.Synchronisation
 {
@@ -8,6 +9,11 @@ namespace BurnSystems.Synchronisation
     /// </summary>
     public class BackgroundWriter
     {
+        /// <summary>
+        /// Defines the logger for the background writer
+        /// </summary>
+        private static readonly ClassLogger Logger = new ClassLogger(typeof(BackgroundWriter));
+
         /// <summary>
         /// Gets or sets the time that the background worker will wait after the last
         /// adding of content
@@ -121,7 +127,8 @@ namespace BurnSystems.Synchronisation
         {
             lock (_syncObject)
             {
-                Console.WriteLine($"Store: {(DateTime.Now - _started).TotalSeconds:n3} since start. {(DateTime.Now - _lastStore).TotalSeconds:n3}");
+                Logger.Debug(
+                    $"Store: {(DateTime.Now - _started).TotalSeconds:n3} since start. {(DateTime.Now - _lastStore).TotalSeconds:n3}");
             }
         }
 
@@ -133,7 +140,7 @@ namespace BurnSystems.Synchronisation
             while (!_stored)
             {
                 var tickTime = GetNextTick();
-                Console.WriteLine($"Left time: {tickTime.TotalSeconds:n3}");
+                Logger.Trace($"Left time: {tickTime.TotalSeconds:n3}");
 
                 if (tickTime.TotalSeconds <= Threshold.TotalSeconds)
                 {

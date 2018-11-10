@@ -9,32 +9,14 @@ namespace BurnSystems.Net
     public class MultipartFormDataPart
     {
         /// <summary>
-        /// Stores the elements of the content-disposition header 
-        /// </summary>
-        private readonly NiceDictionary<string, string> _contentDisposition =
-            new NiceDictionary<string, string>();
-
-        /// <summary>
-        /// Stores a list of all header
-        /// </summary>
-        private readonly List<Pair<string, string>> _headers = new List<Pair<string, string>>();
-
-        /// <summary>
-        /// Initializes a new instance of the MultipartFormDataPart class.
-        /// </summary>
-        public MultipartFormDataPart()
-        {
-        }
-
-        /// <summary>
         /// Gets the elements of the content-disposition header
         /// </summary>
-        public NiceDictionary<string, string> ContentDisposition => _contentDisposition;
+        public NiceDictionary<string, string> ContentDisposition { get; } = new NiceDictionary<string, string>();
 
         /// <summary>
         /// Gets a list of headers
         /// </summary>
-        public List<Pair<string, string>> Headers => _headers;
+        public List<KeyValuePair<string, string>> Headers { get; } = new List<KeyValuePair<string, string>>();
 
         /// <summary>
         /// Gets or sets the content of this part
@@ -55,13 +37,8 @@ namespace BurnSystems.Net
             get
             {
                 var pair =
-                    Headers.Find(x => x.First == headerName);
-                if (pair != null)
-                {
-                    return pair.Second;
-                }
-
-                return null;
+                    Headers.Find(x => x.Key == headerName);
+                return pair.Value;
             }
         }
     }

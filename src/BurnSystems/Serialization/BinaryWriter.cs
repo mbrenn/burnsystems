@@ -22,7 +22,7 @@
         /// <param name="stream">Stream to be used for serialization</param>
         public BinaryWriter(Stream stream)
         {
-            this._stream = stream;
+            _stream = stream;
         }
 
         /// <summary>
@@ -35,12 +35,12 @@
         {
             if (type == typeof(bool))
             {
-                return new byte[] { (byte)(((bool)value) ? 0x01 : 0x00) };
+                return new[] { (byte)(((bool)value) ? 0x01 : 0x00) };
             }
 
             if (type == typeof(byte))
             {
-                return new byte[] { (byte)value };
+                return new[] { (byte)value };
             }
 
             if (type == typeof(short))

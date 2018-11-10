@@ -229,7 +229,7 @@
             {
                 return Convert.ToDateTime(value);
             }
-            else if (type == typeof(Boolean))
+            else if (type == typeof(bool))
             {
                 return Convert.ToBoolean(value);
             }

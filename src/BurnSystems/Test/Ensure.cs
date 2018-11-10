@@ -202,7 +202,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "Is: {0}, Should: {1}",
                         value.ToString(),
@@ -227,7 +227,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "Is: {0}, Should: {1}",
                         value.ToString(),
@@ -256,7 +256,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} != {1}",
                         value.ToString(),
@@ -283,7 +283,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} > {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -306,7 +306,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} > {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -329,7 +329,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} > {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -352,7 +352,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} > {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -375,7 +375,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} > {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -398,7 +398,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} > {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -425,7 +425,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} >= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -448,7 +448,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} >= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -471,7 +471,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} >= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -494,7 +494,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} >= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -517,7 +517,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} >= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -540,7 +540,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} >= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -567,7 +567,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} < {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -590,7 +590,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} < {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -613,7 +613,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} < {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -636,7 +636,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} < {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -659,7 +659,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} < {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -682,7 +682,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} < {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -709,7 +709,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} <= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -732,7 +732,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} <= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -755,7 +755,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} <= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -778,7 +778,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} <= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -801,7 +801,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} <= {1}",
                         value.ToString(CultureInfo.CurrentCulture),
@@ -824,7 +824,7 @@
             else
             {
                 throw new EnsureFailedException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} <= {1}",
                         value.ToString(CultureInfo.CurrentCulture),

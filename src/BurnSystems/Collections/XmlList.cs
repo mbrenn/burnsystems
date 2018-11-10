@@ -31,8 +31,8 @@
         /// <param name="converter">Converter to be used to convert items to xml and vice versa</param>
         public XmlList(XContainer container, IXElementConverter<T> converter)
         {
-            this._container = container;
-            this._converter = converter;
+            _container = container;
+            _converter = converter;
         }
 
         /// <summary>
@@ -280,8 +280,8 @@
             /// <param name="attributeName">Name of the attribute</param>
             public AttributeEntityConverter(string nodeName, string attributeName)
             {
-                this._nodeName = nodeName;
-                this._attributeName = attributeName;
+                _nodeName = nodeName;
+                _attributeName = attributeName;
             }
 
             /// <summary>
@@ -334,7 +334,7 @@
             /// <param name="nodeName">Name of the node</param>
             public ElementEntityConverter(string nodeName)
             {
-                this._nodeName = nodeName;
+                _nodeName = nodeName;
             }
 
             /// <summary>

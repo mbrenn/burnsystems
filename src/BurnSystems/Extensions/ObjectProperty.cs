@@ -6,7 +6,7 @@
     /// <summary>
     /// This helper class stores the property information
     /// </summary>
-    public class ObjectProperty : IParserObject
+    public class ObjectProperty
     {
         /// <summary>
         /// Gets or sets the name of the property
@@ -72,10 +72,7 @@
         /// <returns>Value of property</returns>
         public override string ToString()
         {
-            return string.Format(
-                "{0}: {1}",
-                Name,
-                ValueText);
+            return $"{Name}: {ValueText}";
         }
     }
 }

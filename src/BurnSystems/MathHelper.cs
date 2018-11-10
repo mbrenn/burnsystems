@@ -219,7 +219,7 @@
             int minutes = (totalSeconds / 60) % 60;
             int hours = totalSeconds / 3600;
 
-            return String.Format(
+            return string.Format(
                 CultureInfo.InvariantCulture,
                 "{0}:{1}:{2}",
                 MakeTwoDigits(hours),
@@ -240,87 +240,6 @@
             }
 
             return digit.ToString(CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Threadsafe class of random. 
-        /// </summary>
-        private class RandomThreadSafe : Random
-        {
-            /// <summary>
-            /// Object for synchronisation
-            /// </summary>
-            private readonly object _syncObject = new object();
-
-            [ThreadStatic]
-            private static Random _localRandomGenerator;
-
-            private Random LocalRandomGenerator
-            {
-                get
-                {
-                    var inst = _localRandomGenerator;
-                    if (inst == null)
-                    {
-                        int seed;
-                        lock (_syncObject)
-                        {
-                            seed = base.Next();
-                        }
-                        _localRandomGenerator = inst = new Random(seed);
-                    }
-
-                    return inst;
-                }
-            }
-
-            /// <summary>
-            /// Calls Random.NextDouble()
-            /// </summary>
-            /// <returns>Result of Call</returns>
-            public override double NextDouble()
-            {
-                return LocalRandomGenerator.NextDouble();
-            }
-
-            /// <summary>
-            /// Calls Random.Next()
-            /// </summary>
-            /// <returns>Result of Call</returns>
-            public override int Next()
-            {
-                return LocalRandomGenerator.Next();
-            }
-
-            /// <summary>
-            /// Calls Random.Next()
-            /// </summary>
-            /// <param name="maxValue">Parameter for Random.Next</param>
-            /// <returns>Result of Call</returns>
-            public override int Next(int maxValue)
-            {
-                return LocalRandomGenerator.Next(maxValue);
-            }
-
-            /// <summary>
-            /// Calls Random.Next()            
-            /// </summary>
-            /// <param name="minValue">First Parameter for Random.Next</param>
-            /// <param name="maxValue">Second Parameter for Random.Next</param>
-            /// <returns>Result of Call</returns>
-            public override int Next(int minValue, int maxValue)
-            {
-                return LocalRandomGenerator.Next(minValue, maxValue);
-            }
-
-            /// <summary>
-            /// Calls Random.NextBytes()
-            /// </summary>
-            /// <param name="buffer">Parameter for buffer</param>
-            public override void NextBytes(byte[] buffer)
-            {
-                LocalRandomGenerator.NextBytes(buffer);
-            }
         }
     }
 }

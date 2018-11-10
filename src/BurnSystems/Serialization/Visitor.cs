@@ -28,8 +28,8 @@
         /// <param name="writer">Writer to be used</param>
         public Visitor(Serializer serializer, BinaryWriter writer)
         {
-            this._serializer = serializer;
-            this._writer = writer;
+            _serializer = serializer;
+            _writer = writer;
         }
 
         /// <summary>

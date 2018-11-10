@@ -74,7 +74,7 @@
             {
                 // Assembly not found
                 throw new InvalidOperationException(
-                    String.Format(
+                    string.Format(
                         CultureInfo.InvariantCulture,
                         LocalizationBS.EnvironmentHelper_AssemblyNotFound, 
                         assemblyPath));

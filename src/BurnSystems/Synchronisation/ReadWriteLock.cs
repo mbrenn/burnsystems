@@ -115,7 +115,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public ReaderLockSlim(ReadWriteLock readWriteLock)
             {
-                this._readWriteLock = readWriteLock;
+                _readWriteLock = readWriteLock;
             }
 
             /// <summary>
@@ -165,7 +165,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public ReaderLock(ReadWriteLock readWriteLock)
             {
-                this._readWriteLock = readWriteLock;
+                _readWriteLock = readWriteLock;
             }
 
             /// <summary>
@@ -215,7 +215,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public WriterLockSlim(ReadWriteLock readWriteLock)
             {
-                this._readWriteLock = readWriteLock;
+                _readWriteLock = readWriteLock;
             }
 
             /// <summary>
@@ -265,7 +265,7 @@ namespace BurnSystems.Synchronisation
             /// which should be controlled by this lock.</param>
             public WriterLock(ReadWriteLock readWriteLock)
             {
-                this._readWriteLock = readWriteLock;
+                _readWriteLock = readWriteLock;
             }
 
             /// <summary>

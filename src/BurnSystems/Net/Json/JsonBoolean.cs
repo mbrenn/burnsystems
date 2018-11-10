@@ -19,7 +19,7 @@
         /// <param name="value">Value to be set</param>
         public JsonBoolean(bool value)
         {
-            this._value = value;
+            _value = value;
         }
 
         /// <summary>

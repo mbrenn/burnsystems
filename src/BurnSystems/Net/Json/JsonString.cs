@@ -20,7 +20,7 @@
         /// <param name="value">Value to be set</param>
         public JsonString(string value)
         {
-            this._value = value;
+            _value = value;
         }
 
         /// <summary>

@@ -33,8 +33,8 @@ namespace BurnSystems.Serialization
         /// The dictionary stores in the key the pair of source and target-Type
         /// and in the value the transformation from source to targetobject
         /// </summary>
-        private readonly Dictionary<Pair<Type, Type>, Func<object, object>> _translations =
-            new Dictionary<Pair<Type, Type>, Func<object, object>>();
+        private readonly Dictionary<KeyValuePair<Type, Type>, Func<object, object>> _translations =
+            new Dictionary<KeyValuePair<Type, Type>, Func<object, object>>();
 
         /// <summary>
         /// Initializes a new instance of the Composer class.
@@ -76,7 +76,7 @@ namespace BurnSystems.Serialization
         /// to target function</param>
         public void AddTranslation<TSource, TTarget>(Func<TSource, TTarget> translation)
         {
-            _translations[new Pair<Type, Type>(typeof(TSource), typeof(TTarget))]
+            _translations[new KeyValuePair<Type, Type>(typeof(TSource), typeof(TTarget))]
                 = x => translation((TSource)x);
         }
 
@@ -219,11 +219,10 @@ namespace BurnSystems.Serialization
                         !field.FieldInfo.FieldType.IsAssignableFrom(valueProperty.GetType()))
                     {
                         // Try to convert. 
-                        var pair = new Pair<Type, Type>(
+                        var pair = new KeyValuePair<Type, Type>(
                             valueProperty.GetType(),
                             field.FieldInfo.FieldType);
-                        Func<object, object> translator;
-                        if (_translations.TryGetValue(pair, out translator))
+                        if (_translations.TryGetValue(pair, out var translator))
                         {
                             field.FieldInfo.SetValue(
                                 value,
