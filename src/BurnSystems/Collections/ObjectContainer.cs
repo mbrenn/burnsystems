@@ -12,7 +12,7 @@
     /// and offers a method to get an access to the objects
     /// </summary>
     [Serializable]
-    public class ObjectContainer : IParserObject, IEnumerable<KeyValuePair<string, object>>
+    public class ObjectContainer : IEnumerable<KeyValuePair<string, object>>
     {
         /// <summary>
         /// Stores the objects
