@@ -209,7 +209,7 @@ namespace BurnSystems.Net
                     // Skip '\n'
                     offset += 2;
                     start = offset;
-                    if (String.IsNullOrEmpty(headerText.Trim()))
+                    if (string.IsNullOrEmpty(headerText.Trim()))
                     {
                         // Header has been read
                         break;

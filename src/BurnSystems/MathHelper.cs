@@ -219,7 +219,7 @@
             int minutes = (totalSeconds / 60) % 60;
             int hours = totalSeconds / 3600;
 
-            return String.Format(
+            return string.Format(
                 CultureInfo.InvariantCulture,
                 "{0}:{1}:{2}",
                 MakeTwoDigits(hours),

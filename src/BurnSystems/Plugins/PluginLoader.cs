@@ -100,14 +100,14 @@ namespace BurnSystems.Plugins
                 if (typeOfPlugin == null)
                 {
                     throw new InvalidOperationException(
-                        String.Format(
+                        string.Format(
                             LocalizationBS.PluginLoader_TypeNotFound, typeName, assemblyPath));
                 }
 
                 if (!typeof(T).IsAssignableFrom(typeOfPlugin))
                 {
                     throw new InvalidOperationException(
-                        String.Format(
+                        string.Format(
                             LocalizationBS.PluginLoader_NoPlugin, typeName));
                 }
 

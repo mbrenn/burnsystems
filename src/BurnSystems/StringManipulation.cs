@@ -635,7 +635,7 @@
         /// <returns>true, if this is a valid mail</returns>
         public static bool IsValidEmail(this string email)
         {
-            if (String.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(email))
                 return false;
 
             // Use IdnMapping class to convert Unicode domain names. 
