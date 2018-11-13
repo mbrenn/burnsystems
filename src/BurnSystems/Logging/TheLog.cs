@@ -1,4 +1,5 @@
 ﻿using System;
+using BurnSystems.Logging.Provider;
 
 namespace BurnSystems.Logging
 {
@@ -88,6 +89,16 @@ namespace BurnSystems.Logging
         {
             get => Singleton.LogLevelThreshold;
             set => Singleton.LogLevelThreshold = value;
+        }
+
+
+        /// <summary>
+        /// Defines the event that a new message has been logged. This event is thread-safe, only one event is thrown at one time
+        /// </summary>
+        public static event EventHandler<LogEventArgs> MessageLogged
+        {
+            add => Singleton.MessageLogged += value;
+            remove => Singleton.MessageLogged -= value;
         }
     }
 }
