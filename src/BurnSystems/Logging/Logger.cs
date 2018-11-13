@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BurnSystems.Logging.Provider;
 
 namespace BurnSystems.Logging
 {
@@ -20,6 +21,11 @@ namespace BurnSystems.Logging
         /// Gets or sets the log level threshold for the logging
         /// </summary>
         public LogLevel LogLevelThreshold { get; set; } = LogLevel.Trace;
+
+        /// <summary>
+        /// Defines the event that a new message has been logged. This event is thread-safe, only one event is thrown at one time
+        /// </summary>
+        public event EventHandler<LogEventArgs> MessageLogged;
 
         /// <summary>
         /// Performs the static initialization
@@ -68,6 +74,8 @@ namespace BurnSystems.Logging
 
                 provider.Provider.LogMessage(message);
             }
+
+            OnMessageLogged(new LogEventArgs(message));
         }
 
         /// <summary>
@@ -89,6 +97,18 @@ namespace BurnSystems.Logging
         public void ClearProviders()
         {
             _providers.Clear();
+        }
+
+        /// <summary>
+        /// The event allowing the throwing of an event
+        /// </summary>
+        /// <param name="e">Arguments defining the event</param>
+        protected virtual void OnMessageLogged(LogEventArgs e)
+        {
+            lock (_providers)
+            {
+                MessageLogged?.Invoke(this, e);
+            }
         }
     }
 }
