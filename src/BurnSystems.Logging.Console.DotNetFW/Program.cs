@@ -1,8 +1,7 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using System.Threading;
 using BurnSystems.Logging.Provider;
 
-namespace BurnSystems.Logging.Console
+namespace BurnSystems.Logging.Console.DotNetFW
 {
     class Program
     {
@@ -26,7 +25,7 @@ namespace BurnSystems.Logging.Console
             new WorkingMan().Work();
 
             System.Console.WriteLine("Press key");
-            System.Console.ReadKey();
+            //System.Console.ReadKey();
         }
     }
 }
