@@ -16,7 +16,7 @@ namespace LogMeister.Server.Example
             {
                 if (IsPrime(n))
                 {
-                    TheLog.Info($"{n} is prime");
+                    TheLog.Info($"{n} is prime", "Prime found");
                 }
             }
         }

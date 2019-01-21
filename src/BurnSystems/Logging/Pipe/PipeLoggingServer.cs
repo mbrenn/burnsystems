@@ -15,10 +15,7 @@ namespace BurnSystems.Logging.Pipe
             try
             {
                 var pipe = new NamedPipeServerStream(pipeName, PipeDirection.InOut, 10);
-                Console.WriteLine("Waiting for connection");
                 pipe.WaitForConnection();
-                Console.WriteLine("Connected");
-
                 lock (_stream)
                 {
                     _stream.Add(pipe);
@@ -26,7 +23,6 @@ namespace BurnSystems.Logging.Pipe
 
                 Task.Run(() =>
                  {
-                     Console.WriteLine("Creating next pipe server server");
                      Start(pipeName);
                  });
             }
@@ -41,7 +37,6 @@ namespace BurnSystems.Logging.Pipe
             lock (_stream)
             {
                 var bytes = LogMessageSerializer.ConvertMessage(message);
-                Console.WriteLine(BitConverter.ToString(bytes));
 
                 if (_stream.Count == 0)
                 {
