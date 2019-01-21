@@ -40,6 +40,9 @@ namespace BurnSystems.Logging.Pipe
         {
             lock (_stream)
             {
+                var bytes = LogMessageSerializer.ConvertMessage(message);
+                Console.WriteLine(BitConverter.ToString(bytes));
+
                 if (_stream.Count == 0)
                 {
                     // Not connected
@@ -50,10 +53,7 @@ namespace BurnSystems.Logging.Pipe
                 {
                     try
                     {
-                        var bytes = LogMessageSerializer.ConvertMessage(message);
                         stream.Write(bytes, 0, bytes.Length);
-                        stream.WriteByte(13);
-                        stream.WriteByte(10);
                         stream.Flush();
 
                     }

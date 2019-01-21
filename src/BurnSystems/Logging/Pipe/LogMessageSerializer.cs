@@ -69,7 +69,7 @@ namespace BurnSystems.Logging.Pipe
             var bytes = Encoding.UTF8.GetBytes(text);
             SetInteger32(bytes.Length, result, ref offset);
 
-            Array.Copy(bytes, result, bytes.Length);
+            Array.Copy(bytes, 0, result, offset, bytes.Length);
 
             offset += bytes.Length;
         }
@@ -84,8 +84,8 @@ namespace BurnSystems.Logging.Pipe
         public static int GetInteger16(byte[] bytes, ref int offset)
         {
             var result =
-                bytes[offset + 0] +
-                bytes[offset + 1] >> 8;
+                (bytes[offset + 0]) +
+                (bytes[offset + 1] << 8);
             offset += 2;
             return result;
         }
@@ -94,9 +94,9 @@ namespace BurnSystems.Logging.Pipe
         {
             var result =
                 bytes[offset + 0] +
-                bytes[offset + 1] >> 8 +
-                bytes[offset + 2] >> 16 +
-                bytes[offset + 3] >> 24;
+                (bytes[offset + 1] << 8) +
+                (bytes[offset + 2] << 16) +
+                (bytes[offset + 3] << 24);
             offset += 4;
             return result;
         }
@@ -109,20 +109,21 @@ namespace BurnSystems.Logging.Pipe
             return result;
         }
 
-        public async static Task<LogMessage> ParseMessage(Stream stream)
+        public static async Task<LogMessage> ParseMessage(Stream stream)
         {
             var buffer = new byte[4];
             var offset = 0;
-            await stream.ReadAsync(buffer, 0, 2);
+            await ReadBytesFromStream(stream, buffer, 2);
             var messageId = GetInteger16(buffer, ref offset);
+            offset = 0;
 
             if (messageId == 0x0001)
             {
-                await stream.ReadAsync(buffer, 0, 4);
+                await ReadBytesFromStream(stream, buffer, 4);
                 var length = GetInteger32(buffer, ref offset);
 
                 buffer = new byte[length];
-                await stream.ReadAsync(buffer, 0, length);
+                await ReadBytesFromStream(stream, buffer, length);
                 return ParseLogMessage(buffer);
             }
 
@@ -132,12 +133,40 @@ namespace BurnSystems.Logging.Pipe
         public static LogMessage ParseLogMessage(byte[] message)
         {
             var offset = 0;
-            var result = new LogMessage();
-            result.LogLevel = (LogLevel)GetInteger8(message, ref offset);
-
-            result.Category = GetString(message, ref offset);
-            result.Message = GetString(message, ref offset);
+            var result = new LogMessage
+            {
+                LogLevel = (LogLevel) GetInteger8(message, ref offset),
+                Category = GetString(message, ref offset),
+                Message = GetString(message, ref offset)
+            };
             return result;
+        }
+
+        /// <summary>
+        /// Reads data into a complete array, throwing an EndOfStreamException
+        /// if the stream runs out of data first, or if an IOException
+        /// naturally occurs.
+        ///
+        /// Source: http://jonskeet.uk/csharp/readbinary.html
+        /// </summary>
+        /// <param name="stream">The stream to read data from</param>
+        /// <param name="data">The array to read bytes into. The array
+        /// will be completely filled from the stream, so an appropriate
+        /// size must be given.</param>
+        /// <param name="length">Length of the array to read</param>
+        public static async Task ReadBytesFromStream(Stream stream, byte[] data, int length)
+        {
+            var offset = 0;
+            var remaining = length;
+            while (remaining > 0)
+            {
+                var read = await stream.ReadAsync(data, offset, remaining);
+                if (read <= 0)
+                    throw new EndOfStreamException
+                        ($"End of stream reached with {remaining} bytes left to read");
+                remaining -= read;
+                offset += read;
+            }
         }
 
     }

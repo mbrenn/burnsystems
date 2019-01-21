@@ -12,22 +12,25 @@ namespace BurnSystems.Logging.Pipe
         public async Task Start(string pipeName)
         {
             _pipe = new NamedPipeClientStream(".", pipeName);
-            Console.WriteLine("Connecting");
             await _pipe.ConnectAsync();
-            Console.WriteLine("Connected");
 
-            while (true)
+            try
             {
-                var result = await LogMessageSerializer.ParseMessage(_pipe);
-                if (result == null)
+                while (true)
                 {
-                    break;
+                    var result = await LogMessageSerializer.ParseMessage(_pipe);
+                    if (result == null)
+                    {
+                        // Message is not known
+                        continue;
+                    }
+
+                    Console.WriteLine(result.ToString());
                 }
-
-                Console.WriteLine(result.ToString());
             }
-
-            Console.WriteLine("Reading done");
+            catch (EndOfStreamException)
+            {
+            }
         }
 
         #region IDisposable Support
@@ -39,7 +42,8 @@ namespace BurnSystems.Logging.Pipe
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    _pipe?.Dispose();
+                    _pipe = null;
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
