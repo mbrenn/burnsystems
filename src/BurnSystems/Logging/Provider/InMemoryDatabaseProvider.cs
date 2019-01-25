@@ -47,7 +47,7 @@ namespace BurnSystems.Logging.Provider
         {
             lock (Messages)
             {
-                Messages.Clear();
+                _messages.Clear();
             }
         }
     }
