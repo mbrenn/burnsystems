@@ -5,7 +5,6 @@
     using System.Globalization;
     using System.Linq;
     using Extensions;
-    using Interfaces;
 
     /// <summary>
     /// The objectcontainer stores the objects

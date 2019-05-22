@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace BurnSystems.Net
 {
-    using System;
     using System.IO;
     using System.Text;
     using Collections;

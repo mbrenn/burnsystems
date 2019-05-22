@@ -18,7 +18,6 @@ namespace BurnSystems.Serialization
     using System.Collections.Generic;
     using System.Globalization;
     using System.Runtime.Serialization;
-    using Collections;
 
     /// <summary>
     /// The composer class helps to recompose the object
