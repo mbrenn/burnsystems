@@ -5,11 +5,11 @@
     /// </summary>
     public enum LogLevel
     {
-        Trace = 1,
-        Debug = 2,
-        Info = 3,
-        Warn = 4,
-        Error = 5,
-        Fatal = 6
+        Trace = 0x01,
+        Debug = 0x02,
+        Info = 0x03,
+        Warn = 0x04,
+        Error = 0x05,
+        Fatal = 0x06
     }
 }
