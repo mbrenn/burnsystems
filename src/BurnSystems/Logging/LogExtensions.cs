@@ -11,7 +11,7 @@
         /// <param name="logLevel">The loglevel to be logged</param>
         /// <param name="messageText">Message to be filtered</param>
         /// <param name="category">Category of the</param>
-        public static void Log(this ILogger logger, LogLevel logLevel, string messageText, string category)
+        public static void Log(this ILogger logger, LogLevel logLevel, string messageText, string? category)
         {
             var message = new LogMessage
             {
@@ -28,32 +28,32 @@
             logger.Log(logLevel, message, string.Empty);
         }
 
-        public static void Trace(this ILogger logger, string message, string category = null)
+        public static void Trace(this ILogger logger, string message, string? category = null)
         {
             logger.Log(LogLevel.Trace, message, category);
         }
 
-        public static void Debug(this ILogger logger, string message, string category = null)
+        public static void Debug(this ILogger logger, string message, string? category = null)
         {
             logger.Log(LogLevel.Debug, message, category);
         }
 
-        public static void Info(this ILogger logger, string message, string category = null)
+        public static void Info(this ILogger logger, string message, string? category = null)
         {
             logger.Log(LogLevel.Info, message, category);
         }
 
-        public static void Fatal(this ILogger logger, string message, string category = null)
+        public static void Fatal(this ILogger logger, string message, string? category = null)
         {
             logger.Log(LogLevel.Fatal, message, category);
         }
 
-        public static void Warn(this ILogger logger, string message, string category = null)
+        public static void Warn(this ILogger logger, string message, string? category = null)
         {
             logger.Log(LogLevel.Warn, message, category);
         }
 
-        public static void Error(this ILogger logger, string message, string category = null)
+        public static void Error(this ILogger logger, string message, string? category = null)
         {
             logger.Log(LogLevel.Error, message, category);
         }

@@ -21,7 +21,7 @@ namespace BurnSystems.Net
         /// <summary>
         /// Gets or sets the content of this part
         /// </summary>
-        public byte[] Content
+        public byte[]? Content
         {
             get;
             set;

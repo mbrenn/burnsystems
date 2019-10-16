@@ -20,7 +20,7 @@
         /// <returns>List of properties</returns>
         public static IList<ObjectProperty> GetFieldValues(this object item)
         {
-            List<ObjectProperty> result = new List<ObjectProperty>();
+            var result = new List<ObjectProperty>();
 
             var type = item.GetType();
             while (type != null)
@@ -45,7 +45,7 @@
         /// <returns>List of properties</returns>
         public static IList<ObjectProperty> GetPropertyValues(this object item)
         {
-            List<ObjectProperty> result = new List<ObjectProperty>();
+            var result = new List<ObjectProperty>();
 
             var type = item.GetType();
             while (type != null)

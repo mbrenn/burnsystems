@@ -1,4 +1,6 @@
-﻿namespace BurnSystems.Collections
+﻿using System.Data;
+
+namespace BurnSystems.Collections
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +31,15 @@
         {
             _comparer =
                 (x, y) =>
-                    ((IComparable)x).CompareTo((IComparable)y);
+                {
+                    if (x == null || y == null)
+                    {
+                        throw new InvalidOperationException("One of the two values are null");
+                    }
+                    
+                    return ((IComparable) x).CompareTo((IComparable) y);
+                };
+
         }
 
         /// <summary>
@@ -52,8 +62,7 @@
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            bool exists;
-            var position = GetPosition(item, out exists);
+            var position = GetPosition(item, out var exists);
 
             _elements.Insert(position, item);
         }
@@ -64,8 +73,7 @@
         /// <param name="item">Item to be removed</param>
         public void Remove(T item)
         {
-            bool exists;
-            var position = GetPosition(item, out exists);
+            var position = GetPosition(item, out var exists);
 
             if (exists)
             {
@@ -80,9 +88,7 @@
         /// <returns>True, if item exists in list</returns>
         public bool Exists(T item)
         {
-            bool exists;
-
-            GetPosition(item, out exists);
+            GetPosition(item, out var exists);
             return exists;
         }
 
@@ -94,7 +100,7 @@
         {
             if (Count == 0)
             {
-                return default(T);
+                return default!;
             }
 
             return _elements[0];
@@ -108,7 +114,7 @@
         {
             if (Count == 0)
             {
-                return default(T);
+                return default!;
             }
 
             // Not fast, but beautiful
@@ -203,7 +209,7 @@
             }
             else
             {
-                exists = _elements[current].Equals(item);
+                exists = _elements[current]?.Equals(item) == true;
                 return current;
             }
         }

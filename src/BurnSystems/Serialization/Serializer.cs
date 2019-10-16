@@ -18,7 +18,7 @@
         /// <summary>
         /// The binarywriter to be used
         /// </summary>
-        private BinaryWriter _writer;
+        private BinaryWriter? _writer;
 
         /// <summary>
         /// Initializes a new instance of the Serializer class.
@@ -53,6 +53,8 @@
         /// <returns>Created entry</returns>
         public TypeEntry RegisterType(Type type)
         {
+            if (_writer == null) throw new InvalidOperationException("No writer is defined");
+
             var typeEntry = TypeContainer.FindType(type);
 
             if (typeEntry == null)

@@ -14,12 +14,12 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Native lockstructure
         /// </summary>
-        private readonly ReaderWriterLockSlim _nativeLockSlim;
+        private readonly ReaderWriterLockSlim? _nativeLockSlim;
 
         /// <summary>
         /// Native lockstructure for mono
         /// </summary>
-        private readonly ReaderWriterLock _nativeLock;
+        private readonly ReaderWriterLock? _nativeLock;
 
         /// <summary>
         /// Initializes a new instance of the ReadWriteLock class.
@@ -51,11 +51,14 @@ namespace BurnSystems.Synchronisation
                 _nativeLockSlim.EnterReadLock();
                 return new ReaderLockSlim(this);
             }
-            else
+
+            if ( _nativeLock != null)
             {
                 _nativeLock.AcquireReaderLock(-1);
                 return new ReaderLock(this);
             }
+
+            throw new InvalidOperationException("Both locks are null");
         }
 
         /// <summary>
@@ -70,11 +73,14 @@ namespace BurnSystems.Synchronisation
                 _nativeLockSlim.EnterWriteLock();
                 return new WriterLockSlim(this);
             }
-            else
+
+            if (_nativeLock != null)
             {
                 _nativeLock.AcquireWriterLock(-1);
                 return new WriterLock(this);
             }
+
+            throw new InvalidOperationException("Both locks are null");
         }
 
         /// <summary>
@@ -92,9 +98,9 @@ namespace BurnSystems.Synchronisation
         /// <param name="disposing">True, if called by dispose</param>
         private void Dispose(bool disposing)
         {
-            if (disposing && _nativeLockSlim != null)
+            if (disposing)
             {
-                _nativeLockSlim.Dispose();
+                _nativeLockSlim?.Dispose();
             }
         }
 
@@ -134,7 +140,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    _readWriteLock._nativeLockSlim.ExitReadLock();
+                    _readWriteLock._nativeLockSlim?.ExitReadLock();
                 }
             }
 
@@ -184,7 +190,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    _readWriteLock._nativeLock.ReleaseReaderLock();
+                    _readWriteLock._nativeLock?.ReleaseReaderLock();
                 }
             }
 
@@ -234,7 +240,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    _readWriteLock._nativeLockSlim.ExitWriteLock();
+                    _readWriteLock._nativeLockSlim?.ExitWriteLock();
                 }
             }
             
@@ -284,7 +290,7 @@ namespace BurnSystems.Synchronisation
             {
                 if (disposing)
                 {
-                    _readWriteLock._nativeLock.ReleaseWriterLock();
+                    _readWriteLock._nativeLock?.ReleaseWriterLock();
                 }
             }
 

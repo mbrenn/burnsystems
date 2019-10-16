@@ -38,7 +38,7 @@
         /// <returns>Loaded or already loaded assembly.</returns>
         public static Assembly GetOrLoadAssembly(string assemblyPath)
         {
-            Assembly assembly = null;
+            Assembly? assembly = null;
 
             // Checks whether the assembly has already been loaded
             var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -122,7 +122,7 @@
             }
 
             // Loads the assembly
-            Assembly assembly = null;
+            Assembly? assembly = null;
 
             if (xmlPath != null)
             {
@@ -144,25 +144,30 @@
             }
             else
             {
+                // xmlStrongname is not null due to the fact that xmlPath is null
+
                 // Strong name
                 var strongName = xmlStrongname.Value;
-                assembly = AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(x => x.FullName == strongName)
-                    .FirstOrDefault();
+                assembly = AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .FirstOrDefault(x => x.FullName == strongName);
 
-                if (assembly == null)
+                try
                 {
-                    assembly = AppDomain.CurrentDomain.Load(strongName);
-                }
 
-                // Check if assembly is still null
-                if (assembly == null)
+                    if (assembly == null)
+                    {
+                        assembly = AppDomain.CurrentDomain.Load(strongName);
+                    }
+                }
+                catch (Exception e)
                 {
                     throw new InvalidOperationException(
                         string.Format(
                             CultureInfo.InvariantCulture,
                             LocalizationBS.EnvironmentHelper_AssemblyNotFound,
-                            strongName));
+                            strongName),
+                        e.InnerException);
                 }
             }
 
@@ -170,7 +175,7 @@
             Ensure.IsNotNull(assembly);
 
             // Now, it's time to get the type in the assembly
-            var type = assembly.GetType(xmlFullname.Value);
+            var type = assembly?.GetType(xmlFullname.Value);
             if (type == null)
             {
                 throw new InvalidOperationException(
@@ -191,10 +196,10 @@
         /// <returns>Found type object</returns>
         public static Type GetTypeByName(string typeName)
         {
-            return AppDomain.CurrentDomain.GetAssemblies()
+            return AppDomain.CurrentDomain
+                .GetAssemblies()
                 .SelectMany(x => x.GetTypes())
-                .Where(x => x.FullName == typeName)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.FullName == typeName);
         }
     }
 }

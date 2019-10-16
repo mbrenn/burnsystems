@@ -24,7 +24,7 @@ namespace BurnSystems.Synchronisation
         public ThreadWatcherItem(
             Thread thread, 
             DateTime timeOut,
-            ThreadAbortAction threadAbortDelegate)
+            ThreadAbortAction? threadAbortDelegate)
         {
             Thread = thread;
             TimeOut = timeOut;
@@ -52,7 +52,7 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Gets or sets the delegate to be called, if thread is aborted by threadwatcher
         /// </summary>
-        public ThreadAbortAction OnThreadAbort
+        public ThreadAbortAction? OnThreadAbort
         {
             get;
             set;

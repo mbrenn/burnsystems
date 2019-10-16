@@ -20,11 +20,6 @@ namespace BurnSystems.Collections
 	public class ListTransformView<T, TQ> : IList<TQ>, IList, INotifyPropertyChanged //, INotifyCollectionChanged
     {
         /// <summary>
-        /// Stores the synchronization root
-        /// </summary>
-        private readonly object _syncRoot = new object();
-
-        /// <summary>
         /// Stores the selector
         /// </summary>
         private readonly Func<T, TQ> _selector;
@@ -35,17 +30,42 @@ namespace BurnSystems.Collections
         private readonly IList<T> _list;
 
         /// <summary>
+        /// True, if this has a fixed size
+        /// </summary>
+        public bool IsFixedSize => false;
+
+        /// <summary>
+        /// True, if the instance is synchronized.
+        /// </summary>
+        public bool IsSynchronized => false;
+
+        /// <summary>
+        /// Gets the synchronisation root
+        /// </summary>
+        public object SyncRoot { get; } = new object();
+
+        /// <summary>
+        /// This event is called, when a property has been changed
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
         /// Initializes a new instance of the ListTransformView
         /// </summary>
         /// <param name="list">List to be transformed</param>
         /// <param name="selector">Selector to be used for transformation</param>
         public ListTransformView(IList<T> list ,Func<T,TQ> selector)
         {
-            var notifyPropertyChanged = list as INotifyPropertyChanged;
-            var notifyCollectionChanged = list as INotifyCollectionChanged;
-            Ensure.IsTrue(notifyCollectionChanged != null);
-            Ensure.IsTrue(notifyPropertyChanged != null);
+            if (!(list is INotifyCollectionChanged notifyCollectionChanged))
+            {
+                throw new InvalidOperationException("list is not of type INotifyCollectionChanged");
+            }
 
+            if (!(list is INotifyPropertyChanged notifyPropertyChanged))
+            {
+                throw new InvalidOperationException("list is not of type INotifyPropertyChanged");
+            }
+            
             notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
             notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
 
@@ -60,6 +80,16 @@ namespace BurnSystems.Collections
         {
             var notifyPropertyChanged = _list as INotifyPropertyChanged;
             var notifyCollectionChanged = _list as INotifyCollectionChanged;
+            if (notifyCollectionChanged == null)
+            {
+                throw new InvalidOperationException("list is not of type INotifyCollectionChanged");
+            }
+
+            if (notifyPropertyChanged == null)
+            {
+                throw new InvalidOperationException("list is not of type INotifyPropertyChanged");
+            }
+            
             notifyPropertyChanged.PropertyChanged -= OnPropertyChanged;
             notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
         }
@@ -343,7 +373,7 @@ namespace BurnSystems.Collections
         public int IndexOf(object value)
         {
             var realValue = value is TQ;
-            if (!realValue && value != null)
+            if (!realValue)
             {
                 // Not null, but not of type value
                 return -1;
@@ -363,11 +393,6 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
-        /// True, if this has a fixed size
-        /// </summary>
-        public bool IsFixedSize => false;
-
-        /// <summary>
         /// Not implemented
         /// </summary>
         /// <param name="value">Item to be removed</param>
@@ -381,7 +406,7 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="index">Index of the item</param>
         /// <returns>Requested object</returns>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => this[index];
             set => throw new NotImplementedException();
@@ -416,21 +441,6 @@ namespace BurnSystems.Collections
                 }
             }
         }
-
-        /// <summary>
-        /// True, if the instance is synchronized.
-        /// </summary>
-        public bool IsSynchronized => false;
-
-        /// <summary>
-        /// Gets the synchronisation root
-        /// </summary>
-        public object SyncRoot => _syncRoot;
-
-        /// <summary>
-        /// This event is called, when a property has been changed
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
     }
 }

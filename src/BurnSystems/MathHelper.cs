@@ -1,4 +1,6 @@
-﻿namespace BurnSystems
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace BurnSystems
 {
     using System;
     using System.Collections.Generic;
@@ -125,8 +127,8 @@
         /// if there are no values in enumeration</returns>
         public static T Min<T>(IEnumerable<T> objects) where T : IComparable<T>
         {
-            bool first = true;
-            T result = default(T);
+            var first = true;
+            T result = default!;
 
             foreach (var obj in objects)
             {
@@ -154,7 +156,7 @@
         public static T Max<T>(IEnumerable<T> objects) where T : IComparable<T>
         {
             var first = true;
-            T result = default(T);
+            T result = default!;
 
             foreach (var obj in objects)
             {
@@ -165,7 +167,7 @@
                 }
                 else
                 {
-                    result = (result.CompareTo(obj) == 1) ? result : obj;
+                    result = (result?.CompareTo(obj) == 1) ? result : obj;
                 }
             }
 
@@ -214,10 +216,10 @@
                 return LocalizationBS.TimeSpan_MaxValue;
             }
 
-            int totalSeconds = (int)Math.Round(timeSpan.TotalSeconds);
-            int seconds = totalSeconds % 60;
-            int minutes = (totalSeconds / 60) % 60;
-            int hours = totalSeconds / 3600;
+            var totalSeconds = (int)Math.Round(timeSpan.TotalSeconds);
+            var seconds = totalSeconds % 60;
+            var minutes = (totalSeconds / 60) % 60;
+            var hours = totalSeconds / 3600;
 
             return string.Format(
                 CultureInfo.InvariantCulture,

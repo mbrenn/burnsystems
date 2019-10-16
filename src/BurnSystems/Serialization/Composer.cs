@@ -33,8 +33,8 @@ namespace BurnSystems.Serialization
         /// The dictionary stores in the key the pair of source and target-Type
         /// and in the value the transformation from source to targetobject
         /// </summary>
-        private readonly Dictionary<KeyValuePair<Type, Type>, Func<object, object>> _translations =
-            new Dictionary<KeyValuePair<Type, Type>, Func<object, object>>();
+        private readonly Dictionary<KeyValuePair<Type, Type>, Func<object, object?>> _translations =
+            new Dictionary<KeyValuePair<Type, Type>, Func<object, object?>>();
 
         /// <summary>
         /// Initializes a new instance of the Composer class.
@@ -76,15 +76,18 @@ namespace BurnSystems.Serialization
         /// to target function</param>
         public void AddTranslation<TSource, TTarget>(Func<TSource, TTarget> translation)
         {
+            if (translation == null) throw new ArgumentNullException(nameof(translation));
+
             _translations[new KeyValuePair<Type, Type>(typeof(TSource), typeof(TTarget))]
-                = x => translation((TSource)x);
+                = x => translation((TSource) x);
+
         }
 
         /// <summary>
         /// Reads the object from the binary reader
         /// </summary>
         /// <returns>Read object</returns>
-        public object ReadObject()
+        public object? ReadObject()
         {
             while (true)
             {
@@ -110,10 +113,10 @@ namespace BurnSystems.Serialization
         /// Reads a dataobject
         /// </summary>
         /// <returns>Read object</returns>
-        public object ReadData()
+        public object? ReadData()
         {
             var dataType = BinaryReader.ReadDataType();
-            object result = null;
+            object? result;
 
             switch (dataType)
             {
@@ -166,10 +169,10 @@ namespace BurnSystems.Serialization
         /// </summary>
         private void AddDefaultTranslations()
         {
-            AddTranslation<long, int>(x => Convert.ToInt32(x));
-            AddTranslation<int, long>(x => Convert.ToInt64(x));
-            AddTranslation<float, double>(x => Convert.ToDouble(x));
-            AddTranslation<double, float>(x => Convert.ToSingle(x));
+            AddTranslation<long, int>(Convert.ToInt32);
+            AddTranslation<int, long>(Convert.ToInt64);
+            AddTranslation<float, double>(Convert.ToDouble);
+            AddTranslation<double, float>(Convert.ToSingle);
         }
 
         /// <summary>
@@ -184,7 +187,7 @@ namespace BurnSystems.Serialization
             var typeEntry = Deserializer.TypeContainer.FindType(typeId);
             Debug.Assert(typeEntry != null);
 
-            return Enum.ToObject(typeEntry.Type, value);
+            return Enum.ToObject(typeEntry!.Type, value);
         }
 
         /// <summary>
@@ -196,9 +199,8 @@ namespace BurnSystems.Serialization
             // Reads complex header
             var complexHeader = BinaryReader.ReadComplexHeader();
 
-            var type = Deserializer.TypeContainer.FindType(
-                complexHeader.TypeId);
-            Debug.Assert(type != null);
+            var type = Deserializer.TypeContainer.FindType(complexHeader.TypeId);
+            if ( type == null ) throw new InvalidOperationException("type is null");
 
             var value = FormatterServices.GetSafeUninitializedObject(type.Type);
             Deserializer.ObjectContainer.AddObject(complexHeader.ObjectId, value);
@@ -211,12 +213,12 @@ namespace BurnSystems.Serialization
 
                 // Tries to get field
                 var field = type.FindField(propertyId);
-                Debug.Assert(field != null);
+                if (field == null) throw new InvalidOperationException("field is null");
 
                 if (field.FieldInfo != null)
                 {
                     if (valueProperty != null &&
-                        !field.FieldInfo.FieldType.IsAssignableFrom(valueProperty.GetType()))
+                        !field.FieldInfo.FieldType.IsInstanceOfType(valueProperty))
                     {
                         // Try to convert. 
                         var pair = new KeyValuePair<Type, Type>(
@@ -282,7 +284,7 @@ namespace BurnSystems.Serialization
             Deserializer.ObjectContainer.AddObject(arrayHeader.ObjectId, array);
 
             // Enumerates the array
-            int[] index = new int[dimensions];
+            var index = new int[dimensions];
             index.Initialize();
 
             var inloop = true;

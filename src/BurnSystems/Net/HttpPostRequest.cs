@@ -17,12 +17,7 @@ namespace BurnSystems.Net
         /// <summary>
         /// Used WebRequest
         /// </summary>
-        private HttpWebRequest _request;
-
-        /// <summary>
-        /// Used WebResponse
-        /// </summary>
-        private HttpWebResponse _response;
+        private HttpWebRequest? _request;
 
         /// <summary>
         /// Variables, which should be send as POST variables
@@ -56,11 +51,14 @@ namespace BurnSystems.Net
             if (_request == null)
             {
                 _request = WebRequest.Create(url) as HttpWebRequest;
-                Ensure.IsNotNull(_request);
+                if (_request == null)
+                {
+                    throw new InvalidOperationException("WebRequest to " + url + " failed");
+                }
 
                 var builder = new StringBuilder();
                 var first = true;
-                foreach (KeyValuePair<string, string> pair in _postVariables)
+                foreach (var pair in _postVariables)
                 {
                     if (!first)
                     {
@@ -74,24 +72,17 @@ namespace BurnSystems.Net
                     first = false;
                 }
 
-                byte[] postData = Encoding.ASCII.GetBytes(builder.ToString());
+                var postData = Encoding.ASCII.GetBytes(builder.ToString());
                 _request.Method = "POST";
                 _request.ContentLength = postData.Length;
                 _request.ContentType = 
                     "application/x-www-form-urlencoded; encoding='utf-8'";
 
-                using (var stream = _request.GetRequestStream())
-                {
-                    stream.Write(postData, 0, postData.Length);
-                }
+                using var stream = _request.GetRequestStream();
+                stream.Write(postData, 0, postData.Length);
             }
 
-            if (_response == null)
-            {
-                _response = _request.GetResponse() as HttpWebResponse;
-            }
-
-            return _response;
+            return (HttpWebResponse) _request.GetResponse();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace BurnSystems.Collections
     /// </summary>
     /// <typeparam name="TKey">Type of key</typeparam>
     /// <typeparam name="TValue">Type of values in dictionary</typeparam>
-    [Serializable()]
+    [Serializable]
     public class NiceDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IHasIndex<TKey, TValue>
     {
         /// <summary>
@@ -56,14 +56,12 @@ namespace BurnSystems.Collections
         {
             get
             {
-                TValue value;
-
-                if (_dictionary.TryGetValue(key, out value))
+                if (_dictionary.TryGetValue(key, out var value))
                 {
                     return value;
                 }
 
-                return default(TValue);
+                return default!;
             }
 
             set => _dictionary[key] = value;

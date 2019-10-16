@@ -37,7 +37,7 @@
         /// Serializes the given object into the stream
         /// </summary>
         /// <returns>Returns deserialized object</returns>
-        public object Deserialize()
+        public object? Deserialize()
         {
             var binaryReader = new BinaryReader(_stream);
 
@@ -57,10 +57,14 @@
         public void RegisterType(TypeEntry typeEntry)
         {
             // Gets the type
-            Type type = null;
+
+            if (typeEntry.Name == null)
+            {
+                throw new InvalidOperationException("typeEntry.Name is null");
+            }
 
             // Tries to find the type in the table
-            _typeTranslation.TryGetValue(typeEntry.Name, out type);
+            _typeTranslation.TryGetValue(typeEntry.Name, out var type);
 
             // If not found in table, look in the assemblies
             if (type == null)
@@ -75,7 +79,10 @@
                 }
             }
 
-            Ensure.IsNotNull(type, typeEntry.Name);
+            if (type == null)
+            {
+                throw new InvalidOperationException("The given type " + type + " was not found");
+            }
 
             // Gets generic arguments
             if (typeEntry.GenericArguments.Count > 0)

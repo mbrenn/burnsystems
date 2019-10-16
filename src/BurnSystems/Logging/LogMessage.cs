@@ -13,15 +13,17 @@
         /// <summary>
         /// Gets or sets the category of the message
         /// </summary>
-        public string Category { get; set; }
+        public string? Category { get; set; }
 
         /// <summary>
         /// Gets or sets the message text to be stored
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         public override string ToString()
         {
+            Message ??= string.Empty;
+
             if (string.IsNullOrEmpty(Category))
             {
                 return $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}]: {Message}";

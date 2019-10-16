@@ -39,7 +39,7 @@ namespace BurnSystems.Graphics
                 return Color.White;
             }
 
-            int start = hexValue[0] == '#' ? 1 : 0;
+            var start = hexValue[0] == '#' ? 1 : 0;
 
             if (hexValue.Length != start + 6)
             {

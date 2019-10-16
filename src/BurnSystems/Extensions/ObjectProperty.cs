@@ -11,7 +11,7 @@
         /// <summary>
         /// Gets or sets the name of the property
         /// </summary>
-        public string Name
+        public string? Name
         {
             get;
             set;
@@ -20,7 +20,7 @@
         /// <summary>
         /// Gets or sets the value of the property
         /// </summary>
-        public object Value
+        public object? Value
         {
             get;
             set;
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets or sets the value of the property
         /// </summary>
-        public string ValueText
+        public string? ValueText
         {
             get;
             set;
@@ -40,7 +40,7 @@
         /// </summary>
         /// <param name="name">Name of requested property</param>
         /// <returns>Property behind this object</returns>
-        public object GetProperty(string name)
+        public object? GetProperty(string name)
         {
             switch (name)
             {
@@ -61,7 +61,7 @@
         /// <param name="functionName">Name of function</param>
         /// <param name="parameters">Parameters for the function</param>
         /// <returns>Return of function</returns>
-        public object ExecuteFunction(string functionName, IList<object> parameters)
+        public object? ExecuteFunction(string functionName, IList<object> parameters)
         {
             return null;
         }

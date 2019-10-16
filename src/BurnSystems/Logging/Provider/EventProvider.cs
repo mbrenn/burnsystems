@@ -15,7 +15,7 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// This event is thrown, when a log message is received
         /// </summary>
-        public event EventHandler<LogEventArgs> MessageReceived;
+        public event EventHandler<LogEventArgs>? MessageReceived;
 
         protected virtual void OnMessageReceived(LogEventArgs e)
         {

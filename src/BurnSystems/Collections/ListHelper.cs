@@ -112,7 +112,7 @@ namespace BurnSystems.Collections
         {
             Ensure.IsNotNull(list);
 
-            foreach (T element in list)
+            foreach (var element in list)
             {
                 action(element);
             }
@@ -153,7 +153,7 @@ namespace BurnSystems.Collections
         {
             Ensure.IsNotNull(list);
 
-            foreach (T element in list)
+            foreach (var element in list)
             {
                 if (predicate(element))
                 {
@@ -161,7 +161,7 @@ namespace BurnSystems.Collections
                 }
             }
 
-            return default(T);
+            return default!;
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace BurnSystems.Collections
 
             foreach (var currentItem in list)
             {
-                if (currentItem.Equals(item))
+                if (currentItem?.Equals(item) == true)
                 {
                     return true;
                 }
@@ -436,7 +436,7 @@ namespace BurnSystems.Collections
                 return item;
             }
 
-            return default(T);
+            return default!;
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace BurnSystems.Collections
 
             if (source.Count == 0)
             {
-                return default(T);
+                return default!;
             }
 
             return source[0];
@@ -469,7 +469,7 @@ namespace BurnSystems.Collections
         {
             Ensure.IsNotNull(source);
 
-            var result = default(T);
+            var result = default(T)!;
             foreach (var item in source)
             {
                 result = item;
@@ -491,7 +491,7 @@ namespace BurnSystems.Collections
 
             if (source.Count == 0)
             {
-                return default(T);
+                return default!;
             }
 
             return source[source.Count - 1];
@@ -608,7 +608,7 @@ namespace BurnSystems.Collections
 
             var copiedList = new List<T>(list);
             var position = 0;
-            int removed = 0;
+            var removed = 0;
             foreach (var element in copiedList)
             {
                 if (predicate(element))
@@ -637,22 +637,18 @@ namespace BurnSystems.Collections
         /// <returns>Position of first occurance</returns>
         public static int IndexOf<T>(T[] hayStick, T[] needle, int startPosition)
         {
-            Ensure.IsNotNull(hayStick);
-            Ensure.IsNotNull(needle);
-
             // Do standard error checking here.
             if (hayStick == null)
             {
-                throw new ArgumentNullException("hayStick");
+                throw new ArgumentNullException(nameof(hayStick));
             }
 
             if (needle == null)
             {
-                throw new ArgumentNullException("needle");
+                throw new ArgumentNullException(nameof(needle));
             }
 
             // Found?
-            bool found = false;
 
             // Cycle through each byte of the searched.  Do not search past
             // searched.Length - find.Length bytes, since it's impossible
@@ -660,14 +656,14 @@ namespace BurnSystems.Collections
             for (var index = startPosition; index <= hayStick.Length - needle.Length; ++index)
             {
                 // Assume the values matched.
-                found = true;
+                var found = true;
 
                 // Search in the values to be found.
                 for (var subIndex = 0L; subIndex < needle.Length; ++subIndex)
                 {
                     // Check the value in the searched array vs the value
                     // in the find array.
-                    if (!needle[subIndex].Equals(hayStick[index + subIndex]))
+                    if (!needle[subIndex]?.Equals(hayStick[index + subIndex]) == true)
                     {
                         // The values did not match.
                         found = false;
@@ -711,7 +707,7 @@ namespace BurnSystems.Collections
             }
 
             var count = list.Count;
-            for (int j = 1; j < count; j++)
+            for (var j = 1; j < count; j++)
             {
                 var key = list[j];
 
@@ -735,13 +731,13 @@ namespace BurnSystems.Collections
         {
             Ensure.IsNotNull(source);
 
-            int height = source.GetLength(0);
-            int width = source.GetLength(1);
+            var height = source.GetLength(0);
+            var width = source.GetLength(1);
 
             var result = new T[height, width];
-            for (int n = 0; n < height; n++)
+            for (var n = 0; n < height; n++)
             {
-                for (int m = 0; m < width; m++)
+                for (var m = 0; m < width; m++)
                 {
                     result[n, m] = source[n, m];
                 }
@@ -895,19 +891,17 @@ namespace BurnSystems.Collections
         /// <returns>The minimum element</returns>
         public static T FindMin<T>(IEnumerable<T> list, Func<T, IComparable> function)
         {
-            T smallest = default(T);
-            IComparable smallestValue = null;
-            bool first = true;
+            T smallest = default!;
+            IComparable? smallestValue = null;
 
             foreach (var element in list)
             {
                 var value = function(element);
-                if (first
+                if (smallestValue == null
                     || smallestValue.CompareTo(value) > 0)
                 {
                     smallestValue = value;
                     smallest = element;
-                    first = false;
                 }
             }
 
@@ -926,19 +920,17 @@ namespace BurnSystems.Collections
         {
             Ensure.IsNotNull(list);
 
-            T smallest = default(T);
-            IComparable smallestValue = null;
-            bool first = true;
+            T smallest = default!;
+            IComparable? smallestValue = null;
 
             foreach (var element in list)
             {
                 var value = function(element);
-                if (first
+                if (smallestValue == null
                     || smallestValue.CompareTo(value) < 0)
                 {
                     smallestValue = value;
                     smallest = element;
-                    first = false;
                 }
             }
 
@@ -1030,13 +1022,14 @@ namespace BurnSystems.Collections
         /// <returns>true, if both lists have the same elements</returns>
         public static bool HasSameElementsAs<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
         {
-#if DEBUG
-            Ensure.That(list1.All(x => x != null), "list1 contains a null element");
-            Ensure.That(list2.All(x => x != null), "list2 contains a null element");
-#endif
             var cnt = new Dictionary<T, int>();
-            foreach (T s in list1)
+            foreach (var s in list1)
             {
+                if (s == null)
+                {
+                    throw new InvalidOperationException("List contains a null element");
+                }
+
                 if (cnt.ContainsKey(s))
                 {
                     cnt[s]++;
@@ -1047,8 +1040,13 @@ namespace BurnSystems.Collections
                 }
             }
 
-            foreach (T s in list2)
+            foreach (var s in list2)
             {
+                if (s == null)
+                {
+                    throw new InvalidOperationException("List contains a null element");
+                }
+                
                 if (cnt.ContainsKey(s))
                 {
                     cnt[s]--;
@@ -1058,6 +1056,7 @@ namespace BurnSystems.Collections
                     return false;
                 }
             }
+            
             return cnt.Values.All(c => c == 0);
         }
     }

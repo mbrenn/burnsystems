@@ -21,12 +21,12 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Flag, ob die Threads geprüft werden sollen.
         /// </summary>
-        private static volatile bool _checkingThreads = false;
+        private static volatile bool _checkingThreads;
 
         /// <summary>
         /// Diese Loop überwacht die Threads auf Abbruch
         /// </summary>
-        private static Thread _watchLoop;
+        private static Thread? _watchLoop;
 
         /// <summary>
         /// Dieses Ereignis wird genutzt, um bei Bedarf 
@@ -69,7 +69,7 @@ namespace BurnSystems.Synchronisation
         public static IDisposable WatchThread(
             Thread thread,
             TimeSpan timeOut,
-            ThreadAbortAction actionDelegate)
+            ThreadAbortAction? actionDelegate)
         {
             lock (WatchedThreads)
             {
@@ -83,10 +83,12 @@ namespace BurnSystems.Synchronisation
                 {
                     // Startet den Thread
                     _checkingThreads = true;
-                    _watchLoop = new Thread(WatchLoop);
-                    _watchLoop.IsBackground = true;
-                    _watchLoop.Priority = ThreadPriority.AboveNormal;
-                    _watchLoop.Name = "BurnSystems.ThreadWatcher";
+                    _watchLoop = new Thread(WatchLoop)
+                    {
+                        IsBackground = true,
+                        Priority = ThreadPriority.AboveNormal,
+                        Name = "BurnSystems.ThreadWatcher"
+                    };
                     _watchLoop.Start();
                 }
             }
@@ -155,10 +157,7 @@ namespace BurnSystems.Synchronisation
                             // Thread muss getötet werden
 
                             item.Thread.Abort();
-                            if (item.OnThreadAbort != null)
-                            {
-                                item.OnThreadAbort();
-                            }
+                            item.OnThreadAbort?.Invoke();
                         }
 
                         if (!item.Thread.IsAlive)

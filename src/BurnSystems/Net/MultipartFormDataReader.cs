@@ -101,7 +101,7 @@ namespace BurnSystems.Net
                 var buffer = memoryStream.GetBuffer();
                 SearchForBoundary(ref offset, buffer);
 
-                MultipartFormDataPart part;
+                MultipartFormDataPart? part;
                 do
                 {
                     part = ReadPart(ref offset, buffer);
@@ -123,7 +123,7 @@ namespace BurnSystems.Net
         /// <param name="headerText">Headertext to be parsed</param>
         private static void EvaluateHeader(MultipartFormDataPart part, string headerText)
         {
-            int posColon = headerText.IndexOf(':');
+            var posColon = headerText.IndexOf(':');
             if (posColon == -1)
             {
                 return;
@@ -140,7 +140,7 @@ namespace BurnSystems.Net
 
                 foreach (var headerPart in splittedRight)
                 {
-                    int posColon2 = headerPart.IndexOf('=');
+                    var posColon2 = headerPart.IndexOf('=');
                     if (posColon2 == -1)
                     {
                         continue;
@@ -182,7 +182,7 @@ namespace BurnSystems.Net
         /// <param name="offset">Offset for reading</param>
         /// <param name="buffer">Buffer containing the values</param>
         /// <returns>A new part or null, if the stream is invalid</returns>
-        private MultipartFormDataPart ReadPart(ref int offset, byte[] buffer)
+        private MultipartFormDataPart? ReadPart(ref int offset, byte[] buffer)
         {
             var result = new MultipartFormDataPart();
 
@@ -197,7 +197,7 @@ namespace BurnSystems.Net
                     return null;
                 }
 
-                byte currentByte = buffer[offset];
+                var currentByte = buffer[offset];
                 if (currentByte == 13 || currentByte == 10)
                 {
                     // Convert region between start and currentposition to String
@@ -214,10 +214,8 @@ namespace BurnSystems.Net
                         // Header has been read
                         break;
                     }
-                    else
-                    {
-                        EvaluateHeader(result, headerText);
-                    }
+
+                    EvaluateHeader(result, headerText);
                 }
                 else
                 {

@@ -10,10 +10,12 @@ namespace BurnSystems.Logging.Provider
         private readonly bool _createNew;
         private readonly object _syncObject = new object();
 
-        private StreamWriter _file;
+        private StreamWriter? _file;
 
         public FileProvider(string filePath, bool createNew = false)
         {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
+
             _filePath = filePath;
             _createNew = createNew;
         }

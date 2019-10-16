@@ -28,6 +28,7 @@ namespace BurnSystems.Logging.Pipe
 
             // Identifier of message
             SetInteger16(0x0001, bytes, ref offset);
+
             // Length of total message
             SetInteger32(totalLength - 6, bytes, ref offset);
             // LogLevel
@@ -109,7 +110,7 @@ namespace BurnSystems.Logging.Pipe
             return result;
         }
 
-        public static async Task<LogMessage> ParseMessage(Stream stream)
+        public static async Task<LogMessage?> ParseMessage(Stream stream)
         {
             var buffer = new byte[4];
             var offset = 0;

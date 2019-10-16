@@ -32,7 +32,7 @@
         /// <returns>Object or null, if not found</returns>
         public T Get<T>()
         {
-            T found = default(T);
+            T found = default!;
             var alreadyFound = false;
 
             foreach (var instance in _instances)

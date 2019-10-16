@@ -15,6 +15,12 @@ namespace BurnSystems.Logging.Provider
         /// </summary>
         public DateTime Created;
 
+        public InMemoryLogMessage(LogMessage logMessage, DateTime created)
+        {
+            LogMessage = logMessage;
+            Created = created;
+        }
+
         public override string ToString()
         {
             var timePassed = Created - TheLog.TimeCreated;

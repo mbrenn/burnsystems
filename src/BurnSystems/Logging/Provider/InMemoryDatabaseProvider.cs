@@ -35,11 +35,7 @@ namespace BurnSystems.Logging.Provider
             lock (Messages)
             {
                 _messages.Add(
-                    new InMemoryLogMessage
-                    {
-                        LogMessage = logMessage,
-                        Created = DateTime.Now
-                    });
+                    new InMemoryLogMessage(logMessage, DateTime.Now));
             }
         }
         
