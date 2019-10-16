@@ -1,7 +1,6 @@
 ﻿namespace BurnSystems.Extensions
 {
     using System.Collections.Generic;
-    using Interfaces;
 
     /// <summary>
     /// This helper class stores the property information
