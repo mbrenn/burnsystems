@@ -145,6 +145,11 @@
             else
             {
                 // xmlStrongname is not null due to the fact that xmlPath is null
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                if (xmlStrongname == null)
+                {
+                    throw new InvalidOperationException("Cannot happen");
+                }
 
                 // Strong name
                 var strongName = xmlStrongname.Value;
@@ -154,7 +159,6 @@
 
                 try
                 {
-
                     if (assembly == null)
                     {
                         assembly = AppDomain.CurrentDomain.Load(strongName);

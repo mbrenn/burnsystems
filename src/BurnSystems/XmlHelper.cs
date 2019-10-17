@@ -26,14 +26,13 @@ namespace BurnSystems
         /// if the attribute was not found. </param>
         /// <returns>Defaultvalue or found Xml-Attribute</returns>
         public static string QueryXmlAttributeText(
-            XmlNode xmlNode, 
-            string attributeName, 
+            XmlNode xmlNode,
+            string attributeName,
             string defaultvalue)
         {
-            if (xmlNode == null) throw new ArgumentNullException(nameof(xmlNode));
-            Debug.Assert(xmlNode.Attributes != null, "xmlNode.Attributes != null");
-            Debug.Assert(attributeName != null, nameof(attributeName) + " != null");
-            
+            if (xmlNode?.Attributes == null) throw new ArgumentNullException(nameof(xmlNode));
+            if (attributeName == null) throw new ArgumentNullException(nameof(attributeName));
+
             var xmlAttribute = xmlNode.Attributes[attributeName];
 
             if (xmlAttribute == null)
