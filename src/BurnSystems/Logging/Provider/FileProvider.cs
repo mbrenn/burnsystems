@@ -34,9 +34,21 @@ namespace BurnSystems.Logging.Provider
                 }
 
                 var timePassed = DateTime.Now - TheLog.TimeCreated;
-                _file.WriteLine(
+
+                if (logMessage is ILogMetricMessage logMetricMessage)
+                {   _file.WriteLine(
                     $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};" +
-                    $"{logMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)};{logMessage.Category};{logMessage.Message}");
+                    $"{logMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)};{logMessage.Category};" +
+                    $"{logMessage.Message};{logMetricMessage.ValueText};{logMetricMessage.Unit}");
+                }
+                else
+                {
+                    _file.WriteLine(
+                        $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};" +
+                        $"{logMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)};{logMessage.Category};" +
+                        $"{logMessage.Message}");
+                }
+
                 _file.Flush();
             }
         }

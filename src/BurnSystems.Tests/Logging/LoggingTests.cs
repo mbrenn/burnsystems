@@ -1,12 +1,11 @@
-using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
+using BurnSystems.Logging;
 using BurnSystems.Logging.Provider;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
-namespace BurnSystems.Logging.Tests
+namespace BurnSystems.Tests.Logging
 {
-    [TestClass]
+    [TestFixture]
     public class LoggingTests
     {
         /// <summary>
@@ -14,10 +13,17 @@ namespace BurnSystems.Logging.Tests
         /// </summary>
         private readonly ClassLogger _logger = new ClassLogger(typeof(LoggingTests));
 
-        [TestMethod]
+        [SetUp]
+        public void Setup()
+        {
+            TheLog.ClearProviders();
+        }
+
+        [Test]
         public void TestFramework()
         {
             var inMemoryProvider = new InMemoryDatabaseProvider();
+            TheLog.FilterThreshold = LogLevel.Trace;
             TheLog.AddProvider(inMemoryProvider, LogLevel.Trace);
 
             TheLog.Info("Test");
@@ -33,7 +39,7 @@ namespace BurnSystems.Logging.Tests
             Assert.AreEqual(1, inMemoryProvider.Messages.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFiltering()
         {
             var inMemoryProvider = new InMemoryDatabaseProvider();
@@ -46,7 +52,7 @@ namespace BurnSystems.Logging.Tests
             Assert.AreEqual(2, inMemoryProvider.Messages.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFilteringOfLog()
         {
             var inMemoryProvider = new InMemoryDatabaseProvider();
@@ -61,7 +67,7 @@ namespace BurnSystems.Logging.Tests
             Assert.AreEqual(2, inMemoryProvider.Messages.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void TestClassLogger()
         {
             var inMemoryProvider = new InMemoryDatabaseProvider();
@@ -81,7 +87,7 @@ namespace BurnSystems.Logging.Tests
             Assert.IsTrue(inMemoryProvider.Messages[0].LogMessage.Category.Contains("ABC"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestConsoleLogger()
         {
             TheLog.AddProvider(new ConsoleProvider(), LogLevel.Info);
@@ -90,7 +96,7 @@ namespace BurnSystems.Logging.Tests
             _logger.Error("Error"); // will be shown
         }
 
-        [TestMethod]
+        [Test]
         public void TestLogLevel()
         {
             var database = new InMemoryDatabaseProvider();
@@ -112,7 +118,7 @@ namespace BurnSystems.Logging.Tests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestClassLoggerLevel()
         {
             TheLog.FilterThreshold = LogLevel.Trace;
@@ -137,7 +143,7 @@ namespace BurnSystems.Logging.Tests
             Assert.AreEqual(LogLevel.Debug, database.Messages[database.Messages.Count - 1].LogMessage.LogLevel);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFileLogging()
         {
             using (var fileProvider = new FileProvider("./test.txt", true))
@@ -179,7 +185,7 @@ namespace BurnSystems.Logging.Tests
             TheLog.ClearProviders();
         }
 
-        [TestMethod]
+        [Test]
         public void TestDebug()
         {
             TheLog.FilterThreshold = LogLevel.Trace;
@@ -187,7 +193,7 @@ namespace BurnSystems.Logging.Tests
             _logger.Info("Yeah");
         }
 
-        [TestMethod]
+        [Test]
         public void TestToString()
         {
             var logMessage = new LogMessage()
@@ -208,7 +214,7 @@ namespace BurnSystems.Logging.Tests
             Assert.IsTrue(y.Contains("DEF"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestEventProvider()
         {
             var x = 0;
