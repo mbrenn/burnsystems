@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Test;
     using System.Reflection;
 
     /// <summary>
@@ -73,7 +72,11 @@
             foreach (var attributeRaw in attributes)
             {
                 var attribute = attributeRaw as PluginDependencyAttribute;
-                Ensure.IsNotNull(attribute);
+                if (attribute == null)
+                {
+                    throw new InvalidOperationException("attribute is null: " +
+                                                        (attributeRaw?.ToString() ?? "Unknown"));
+                }
 
                 Dependencies.Add(attribute.Type);
             }
@@ -87,7 +90,7 @@
         {
             if (Type != null)
             {
-                return Type.FullName;
+                return Type.FullName ?? "Unknown Fullname";
             }
 
             return "PluginInfo, Unknown Type";

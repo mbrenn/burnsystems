@@ -37,7 +37,7 @@
         /// Versichert, dass das angegebene Objekt null ist. 
         /// </summary>
         /// <param name="value">Zu prüfendes Objekt</param>
-        public static void IsNull(object value)
+        public static void IsNull(object? value)
         {
             if (value != null)
             {
@@ -49,7 +49,7 @@
         /// Versichert, dass das angegebene Objekt nicht null ist
         /// </summary>
         /// <param name="value">Zu prüfendes Objekt</param>
-        public static void IsNotNull(object value)
+        public static void IsNotNull(object? value)
         {
             if (value == null)
             {
@@ -63,7 +63,7 @@
         /// <param name="value">Value to be checked</param>
         /// <param name="errorText">Errortext, which is thrown, if
         /// check fails</param>
-        public static void IsNotNull(object value, string errorText)
+        public static void IsNotNull(object? value, string errorText)
         {
             if (value == null)
             {
@@ -195,19 +195,22 @@
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void AreEqual<T>(T value, T reference)
         {
-            if (value.Equals(reference))
+            if (value == null && reference == null)
             {
                 return;
             }
-            else
+
+            if (value != null && reference != null && value.Equals(reference))
             {
-                throw new EnsureFailedException(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "Is: {0}, Should: {1}",
-                        value.ToString(),
-                        reference.ToString()));
+                return;
             }
+
+            throw new EnsureFailedException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Is: {0}, Should: {1}",
+                    value?.ToString() ?? "null",
+                    reference?.ToString() ?? "null"));
         }
 
         /// <summary>
@@ -220,20 +223,23 @@
         /// <param name="text">Error text</param>
         public static void AreEqual<T>(T value, T reference, string text)
         {
-            if (value.Equals(reference))
+            if (value == null && reference == null)
             {
                 return;
             }
-            else
+            
+            if (value == null || value.Equals(reference))
             {
-                throw new EnsureFailedException(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "Is: {0}, Should: {1}",
-                        value.ToString(),
-                        reference.ToString(),
-                        text));
+                return;
             }
+
+            throw new EnsureFailedException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Is: {0}, Should: {1}",
+                    value?.ToString(),
+                    reference?.ToString() ?? "null",
+                    text));
         }
 
         #endregion
@@ -249,19 +255,19 @@
         /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
         public static void AreNotEqual<T>(T value, T reference)
         {
-            if (!value.Equals(reference))
+            var bothNull = value == null && reference == null;
+            
+            if (bothNull || value != null && !value.Equals(reference))
             {
                 return;
             }
-            else
-            {
-                throw new EnsureFailedException(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "{0} != {1}",
-                        value.ToString(),
-                        reference.ToString()));
-            }
+
+            throw new EnsureFailedException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0} != {1}",
+                    value?.ToString() ?? "null",
+                    reference?.ToString() ?? "null"));
         }
 
         #endregion

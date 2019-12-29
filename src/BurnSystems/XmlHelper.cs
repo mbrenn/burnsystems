@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace BurnSystems
 {
     using System;
@@ -24,14 +26,14 @@ namespace BurnSystems
         /// if the attribute was not found. </param>
         /// <returns>Defaultvalue or found Xml-Attribute</returns>
         public static string QueryXmlAttributeText(
-            XmlNode xmlNode, 
-            string attributeName, 
+            XmlNode xmlNode,
+            string attributeName,
             string defaultvalue)
         {
-            Ensure.IsNotNull(xmlNode);
-            Ensure.IsNotNull(attributeName);
+            if (xmlNode?.Attributes == null) throw new ArgumentNullException(nameof(xmlNode));
+            if (attributeName == null) throw new ArgumentNullException(nameof(attributeName));
 
-            XmlAttribute xmlAttribute = xmlNode.Attributes[attributeName];
+            var xmlAttribute = xmlNode.Attributes[attributeName];
 
             if (xmlAttribute == null)
             {
@@ -55,7 +57,7 @@ namespace BurnSystems
             string attributeName,
             string defaultvalue)
         {
-            Ensure.IsNotNull(xmlNode);
+            if (xmlNode == null) throw new ArgumentNullException(nameof(xmlNode));
             Ensure.IsNotNull(attributeName);
 
             var xmlAttribute = xmlNode.Attribute(attributeName);
@@ -107,7 +109,7 @@ namespace BurnSystems
             Ensure.IsNotNull(attributeName);
             Ensure.IsNotNull(xmlNode.Attributes);
 
-            XmlAttribute xmlAttribute = xmlNode.Attributes[attributeName];
+            var xmlAttribute = xmlNode.Attributes[attributeName];
 
             if (xmlAttribute == null)
             {
@@ -162,7 +164,7 @@ namespace BurnSystems
             Ensure.IsNotNull(xmlNode);
             Ensure.IsNotNull(xpathQuery);
 
-            XmlNode xmlFoundNode = xmlNode.SelectSingleNode(xpathQuery);
+            var xmlFoundNode = xmlNode.SelectSingleNode(xpathQuery);
             if (xmlFoundNode == null)
             {
                 throw new InvalidOperationException(string.Format(
@@ -366,6 +368,8 @@ namespace BurnSystems
         /// <returns>Found attribute or created and attached attribute with <c>attributeName</c></returns>
         public static XAttribute GetOrCreateLastAttribute(this IEnumerable<XElement> elements, string attributeName, object defaultValue)
         {
+            elements = elements.ToList();
+            
             var foundAttribute = elements.Attributes(attributeName).LastOrDefault();
             if (foundAttribute == null)
             {
@@ -398,6 +402,7 @@ namespace BurnSystems
         /// <returns>Found node or created and attached element with <c>elementName</c></returns>
         public static IEnumerable<XAttribute> GetOrCreateAttributes(this IEnumerable<XElement> elements, string attributeName, string defaultValue)
         {
+            elements = elements.ToList();
             var found = false;
             var foundElements = elements.Attributes(attributeName);
 

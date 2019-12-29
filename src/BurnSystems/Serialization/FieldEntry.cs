@@ -19,7 +19,7 @@
         /// <summary>
         /// Gets or sets the name of the field
         /// </summary>
-        public string Name
+        public string? Name
         {
             get;
             set;
@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets the methodinfo
         /// </summary>
-        public FieldInfo FieldInfo
+        public FieldInfo? FieldInfo
         {
             get;
             set;
@@ -40,7 +40,7 @@
         /// <returns>Name of field</returns>
         public override string ToString()
         {
-            return Name;
+            return Name ?? "FieldEntry without a name";
         }
     }
 }

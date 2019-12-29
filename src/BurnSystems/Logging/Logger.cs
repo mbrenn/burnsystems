@@ -25,7 +25,7 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Defines the event that a new message has been logged. This event is thread-safe, only one event is thrown at one time
         /// </summary>
-        public event EventHandler<LogEventArgs> MessageLogged;
+        public event EventHandler<LogEventArgs>? MessageLogged;
 
         /// <summary>
         /// Performs the static initialization

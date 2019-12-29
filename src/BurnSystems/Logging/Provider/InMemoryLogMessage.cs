@@ -15,12 +15,25 @@ namespace BurnSystems.Logging.Provider
         /// </summary>
         public DateTime Created;
 
+        public InMemoryLogMessage(LogMessage logMessage, DateTime created)
+        {
+            LogMessage = logMessage;
+            Created = created;
+        }
+
         public override string ToString()
         {
             var timePassed = Created - TheLog.TimeCreated;
-            return 
-                $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};" +
-                $"[{LogMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}];{LogMessage.Category};{LogMessage.Message}";
+            if (LogMessage is ILogMetricMessage logMetricMessage)
+            {
+                return $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};" +
+                       $"{LogMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)};{LogMessage.Category};" +
+                       $"{LogMessage.Message};{logMetricMessage.ValueText};{logMetricMessage.Unit}";
+            }
+
+            return $"{DateTime.Now};{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)};" +
+                   $"{LogMessage.LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)};{LogMessage.Category};" +
+                   $"{LogMessage.Message}";
 
         }
     }

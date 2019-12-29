@@ -291,15 +291,16 @@
             /// <returns></returns>
             public TQ Convert(XElement element)
             {
+                if (element == null) throw new ArgumentNullException(nameof(element));
                 if (element.Name != _nodeName)
                 {
-                    return default(TQ);
+                    return default!;
                 }
 
                 var attribute = element.Attribute(_attributeName);
                 if (attribute == null)
                 {
-                    return default(TQ);
+                    return default!;
                 }
 
                 return (TQ)System.Convert.ChangeType(attribute.Value, typeof(TQ));
@@ -312,6 +313,7 @@
             /// <returns>Entity as an XElement</returns>
             public XElement Convert(TQ entity)
             {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
                 return new XElement(
                     _nodeName,
                     new XAttribute(_attributeName, entity.ToString()));
@@ -344,9 +346,10 @@
             /// <returns></returns>
             public TQ Convert(XElement element)
             {
+                if (element == null) throw new ArgumentNullException(nameof(element));
                 if (element.Name != _nodeName)
                 {
-                    return default(TQ);
+                    return default!;
                 }
 
                 return (TQ)System.Convert.ChangeType(element.Value, typeof(TQ));
@@ -359,6 +362,7 @@
             /// <returns>Entity as an XElement</returns>
             public XElement Convert(TQ entity)
             {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
                 return new XElement(
                     _nodeName,
                     entity.ToString());

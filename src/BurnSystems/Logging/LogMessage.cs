@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the content of the log message
     /// </summary>
-    public class LogMessage
+    public class LogMessage : ILogMessage
     {
         /// <summary>
         /// Gets or sets the loglevel of the message
@@ -13,15 +13,17 @@
         /// <summary>
         /// Gets or sets the category of the message
         /// </summary>
-        public string Category { get; set; }
+        public string Category { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the message text to be stored
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
         public override string ToString()
         {
+            Message ??= string.Empty;
+
             if (string.IsNullOrEmpty(Category))
             {
                 return $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}]: {Message}";

@@ -5,7 +5,6 @@
     using System.Globalization;
     using System.Linq;
     using Extensions;
-    using Interfaces;
 
     /// <summary>
     /// The objectcontainer stores the objects
@@ -73,20 +72,18 @@
             {
                 lock (_objects)
                 {
-                    object result;
-
-                    if (_objects.TryGetValue(key, out result))
+                    if (_objects.TryGetValue(key, out var result))
                     {
                         return (T)result;
                     }
 
-                    return default(T);
+                    return default!;
                 }
             }
             catch (InvalidCastException)
             {
                 // Invalid casting
-                return default(T);
+                return default!;
             }
         }
 
@@ -122,15 +119,14 @@
         {
             lock (_objects)
             {
-                object temp;
-                var exists = _objects.TryGetValue(key, out temp);
+                var exists = _objects.TryGetValue(key, out var temp);
                 if (exists && temp is T)
                 {
                     result = (T)temp;
                 }
                 else
                 {
-                    result = default(T);
+                    result = default!;
                 }
 
                 return exists;
@@ -142,7 +138,7 @@
         /// </summary>
         /// <param name="name">Name of requested property</param>
         /// <returns>Property behind this object</returns>
-        public object GetProperty(string name)
+        public object? GetProperty(string name)
         {
             return this[name];
         }
@@ -153,21 +149,24 @@
         /// <param name="functionName">Name of function</param>
         /// <param name="parameters">Parameters for the function</param>
         /// <returns>Return of function</returns>
-        public object ExecuteFunction(string functionName, IList<object> parameters)
+        public object? ExecuteFunction(string functionName, IList<object> parameters)
         {
-            switch (functionName)
+            lock (_objects)
             {
-                case "GetSummary":
-                    return StringManipulation.Join(
-                        _objects.Select(
-                            x => string.Format(
-                                CultureInfo.InvariantCulture,
-                                "{0}: {1}",
-                                x.Key,
-                                x.Value.ConvertToString())),
-                        "\n");
+                switch (functionName)
+                {
+                    case "GetSummary":
+                        return StringManipulation.Join(
+                            _objects.Select(
+                                x => string.Format(
+                                    CultureInfo.InvariantCulture,
+                                    "{0}: {1}",
+                                    x.Key,
+                                    x.Value.ConvertToString())),
+                            "\n");
+                }
             }
-            
+
             return null;
         }
 
@@ -177,11 +176,14 @@
         /// <returns>Items of the enumeration</returns>
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
-            List<KeyValuePair<string, object>> copy;
+            lock (_objects)
+            {
+                List<KeyValuePair<string, object>> copy;
 
-            copy = _objects.ToList();
+                copy = _objects.ToList();
 
-            return copy.GetEnumerator();
+                return copy.GetEnumerator();
+            }
         }
 
         /// <summary>

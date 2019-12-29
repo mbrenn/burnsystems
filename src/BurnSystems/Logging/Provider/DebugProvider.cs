@@ -13,7 +13,8 @@ namespace BurnSystems.Logging.Provider
             lock (SyncObject)
             {
                 var timePassed = DateTime.Now - TheLog.TimeCreated;
-                Debug.WriteLine($"{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)}: {logMessage}");
+                Debug.WriteLine(
+                    $"{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)}: {logMessage}");
             }
         }
     }

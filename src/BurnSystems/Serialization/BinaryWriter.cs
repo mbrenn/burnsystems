@@ -108,7 +108,7 @@
             var bytes = Encoding.UTF8.GetBytes(Helper.StreamHeaderText);
             _stream.Write(bytes, 0, bytes.Length);
 
-            byte[] versionBytes = new[]
+            var versionBytes = new[]
             {
                 (byte)Helper.StreamVersion.Major,
                 (byte)Helper.StreamVersion.Minor,

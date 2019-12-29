@@ -67,8 +67,7 @@
                 // Checks, if object is already in reference
                 if (type.IsClass || type.IsArray)
                 {
-                    bool alreadyInserted;
-                    objectId = _serializer.RegisterObject(value, out alreadyInserted);
+                    objectId = _serializer.RegisterObject(value, out var alreadyInserted);
                     if (alreadyInserted)
                     {
                         _writer.StartContainer(ContainerType.Reference);
@@ -84,8 +83,7 @@
                 // Checks, if object is already in reference
                 if (type.IsClass || type.IsArray)
                 {
-                    bool alreadyInserted;
-                    objectId = _serializer.RegisterObject(value, out alreadyInserted);
+                    objectId = _serializer.RegisterObject(value, out var alreadyInserted);
                     if (alreadyInserted)
                     {
                         _writer.StartContainer(ContainerType.Reference);
@@ -111,7 +109,7 @@
 
             _writer.StartContainer(ContainerType.Data);
             _writer.StartDataContainer(DataType.Enum);
-            _writer.WriteEnumType(typeEntry.TypeId, value as Enum);
+            _writer.WriteEnumType(typeEntry.TypeId, (Enum) value);
         }
 
         /// <summary>
@@ -133,6 +131,11 @@
             foreach (var field in typeEntry.Fields) 
             {
                 _writer.WritePropertyId(field.FieldId);
+                if (field.FieldInfo == null)
+                {
+                    throw new InvalidOperationException("field.FieldInfo is null");
+                }
+
                 ParseObject(field.FieldInfo.GetValue(value));
             }
         }
@@ -144,7 +147,12 @@
         /// <param name="objectId">Id of object</param>
         private void ParseArrayObject(object value, long objectId)
         {
-            Array array = value as Array;
+            var array = value as Array;
+            if (array == null)
+            {
+                throw new InvalidOperationException("Value is not of type Array");
+            }
+
             var arrayType = array.GetType();
             var elementType = arrayType.GetElementType();
             Ensure.IsNotNull(elementType);
@@ -170,7 +178,7 @@
                 dimensionList);
 
             // Go through all values
-            int[] index = new int[dimensions];
+            var index = new int[dimensions];
             index.Initialize();
 
             var inloop = true;

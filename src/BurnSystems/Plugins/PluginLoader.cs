@@ -60,6 +60,11 @@ namespace BurnSystems.Plugins
                         .Where(x => x.GetInterfaces().Any(y => y.FullName == typeof(T).FullName)))
                     {
                         var plugin = Activator.CreateInstance(type) as T;
+                        if (plugin == null)
+                        {
+                            throw new InvalidOperationException("Activator.CreateInstance has returned null");
+                        }
+
                         var pluginInfo = new PluginInfo<T>(assembly, type, plugin);
 
                         _plugins.Add(pluginInfo);
@@ -87,8 +92,7 @@ namespace BurnSystems.Plugins
             try
             {
                 // Checks if assembly is in cache
-                Assembly assembly;
-                if (!_assemblies.TryGetValue(assemblyPath, out assembly))
+                if (!_assemblies.TryGetValue(assemblyPath, out var assembly))
                 {
                     assembly = EnvironmentHelper.GetOrLoadAssembly(assemblyPath);
 
@@ -113,6 +117,11 @@ namespace BurnSystems.Plugins
 
                 // Creates the plugin and adds the plugin info
                 var plugin = Activator.CreateInstance(typeOfPlugin) as T;
+                if (plugin == null)
+                {
+                    throw new InvalidOperationException("Created Instance is null");
+                }
+
                 var pluginInfo = new PluginInfo<T>(assembly, typeOfPlugin, plugin);
 
                 _plugins.Add(pluginInfo);
@@ -180,7 +189,7 @@ namespace BurnSystems.Plugins
                     }
                 }
 
-                var types = source.Select(x => x.Type.FullName).Aggregate((x, y) => string.Format("{0}, {1}", x, y));
+                var types = source.Select(x => x.Type.FullName).Aggregate((x, y) => $"{x}, {y}");
                 throw new InvalidOperationException("Circular dependencies: " + types);
             }
         }

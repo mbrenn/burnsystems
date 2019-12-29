@@ -211,7 +211,7 @@
         {
             if (data == null)
             {
-                return null;
+                throw new ArgumentNullException(nameof(data));
             }
 
             var utf8 = new UTF8Encoding();
@@ -227,7 +227,7 @@
         /// <returns>Hash as string</returns>
         public static string Sha1(this byte[] bytes)
         {
-            var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+            using var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
             var result = sha1.ComputeHash(bytes);
 
             return ToHexString(result);
@@ -283,7 +283,12 @@
         /// <returns>String being converted</returns>
         public static string Nl2Br(this string value)
         {
-            return value?.Replace("\n", "<br />").Replace("\r", string.Empty);
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value.Replace("\n", "<br />").Replace("\r", string.Empty);
         }
 
         /// <summary>
@@ -395,8 +400,8 @@
 
             var lines = new List<string>();
 
-            int currentPos = 0;
-            int start = 0;
+            var currentPos = 0;
+            var start = 0;
 
             while (true)
             {
@@ -548,7 +553,7 @@
 
             if (prefixNumber == 0)
             {
-                return string.Format("{0:n0} {1}", doubleFileLength, prefix[0]);
+                return $"{doubleFileLength:n0} {prefix[0]}";
             }
             else
             {
@@ -593,9 +598,9 @@
         private static string DomainMapper(Match match)
         {
             // IdnMapping class with default property values.
-            IdnMapping idn = new IdnMapping();
+            var idn = new IdnMapping();
 
-            string domainName = match.Groups[2].Value;
+            var domainName = match.Groups[2].Value;
             try
             {
                 domainName = idn.GetAscii(domainName);
@@ -626,7 +631,7 @@
                 return text.ToUpper();
             }
 
-            return string.Format("{0}{1}", char.ToUpper(text[0]), text.Substring(1));
+            return $"{char.ToUpper(text[0])}{text.Substring(1)}";
         }
     }
 }

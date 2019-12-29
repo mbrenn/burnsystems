@@ -199,9 +199,11 @@
             _stream.Read(typeNameBytes, 0, typeNameLength);
             
             // Create type entry
-            var typeEntry = new TypeEntry();
-            typeEntry.TypeId = typeId;
-            typeEntry.Name = Encoding.UTF8.GetString(typeNameBytes);
+            var typeEntry = new TypeEntry
+            {
+                TypeId = typeId, 
+                Name = Encoding.UTF8.GetString(typeNameBytes)
+            };
 
             // Read generic arguments
             var genericArgumentCount = ReadInt32();

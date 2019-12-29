@@ -7,7 +7,10 @@ namespace BurnSystems.Logging.Pipe
 {
     public class PipeLoggingClient : IDisposable
     {
-        NamedPipeClientStream _pipe;
+        /// <summary>
+        /// Defines the pipe to be used for the logging
+        /// </summary>
+        private NamedPipeClientStream? _pipe;
 
         public async Task Start(string pipeName)
         {
@@ -48,7 +51,6 @@ namespace BurnSystems.Logging.Pipe
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
-
                 _disposedValue = true;
             }
         }

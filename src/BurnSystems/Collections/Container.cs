@@ -10,13 +10,6 @@
         /// <summary>
         /// Initializes a new instance of the Container class.
         /// </summary>
-        public Container()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Container class.
-        /// </summary>
         /// <param name="item">Item to be stored.</param>
         public Container(T item)
         {

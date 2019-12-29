@@ -68,11 +68,23 @@
                 foreach (var field in thisType.GetFields(
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
+                    if (field.DeclaringType == null)
+                    {
+                        throw new InvalidOperationException("Declaring type is null");
+                    }
+
                     // Checks, if this field already exists
                     if (typeEntry.Fields.Exists(
-                        x => 
-                            x.FieldInfo.DeclaringType.FullName == field.DeclaringType.FullName
-                            && x.FieldInfo.Name == field.Name))
+                        x =>
+                        {
+                            if (x?.FieldInfo?.DeclaringType == null)
+                            {
+                                throw new InvalidOperationException("if (x?.FieldInfo?.DeclaringType == null)");
+                            }
+
+                            return x.FieldInfo.DeclaringType.FullName == field.DeclaringType.FullName
+                                   && x.FieldInfo.Name == field.Name;
+                        }))
                     {
                         continue;
                     }

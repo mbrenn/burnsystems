@@ -18,7 +18,7 @@ namespace BurnSystems.Logging.Provider
             int eventId;
             lock(_categories)
             {
-                if (string.IsNullOrEmpty(logMessage.Category))
+                if (string.IsNullOrEmpty(logMessage.Category) || logMessage.Category == null)
                 {
                     eventId = 1;
                 }

@@ -41,8 +41,7 @@
         public long AddObject(object value, out bool alreadyInserted)
         {
             // Check, if object exists
-            long result;
-            if (_objectToNumber.TryGetValue(value, out result))
+            if (_objectToNumber.TryGetValue(value, out var result))
             {
                 alreadyInserted = true;
                 return result;
