@@ -19,7 +19,7 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Gets the messages being received
         /// </summary>
-        public List<InMemoryLogMessage> Messages
+        public IList<InMemoryLogMessage> Messages
         {
             get
             {
@@ -32,7 +32,7 @@ namespace BurnSystems.Logging.Provider
 
         public void LogMessage(LogMessage logMessage)
         {
-            lock (Messages)
+            lock (_messages)
             {
                 _messages.Add(
                     new InMemoryLogMessage(logMessage, DateTime.Now));
@@ -41,7 +41,7 @@ namespace BurnSystems.Logging.Provider
         
         public void ClearLog()
         {
-            lock (Messages)
+            lock (_messages)
             {
                 _messages.Clear();
             }
