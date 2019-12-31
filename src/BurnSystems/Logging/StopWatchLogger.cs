@@ -9,16 +9,36 @@ namespace BurnSystems.Logging
     /// </summary>
     public class StopWatchLogger : IDisposable
     {
+        /// <summary>
+        /// Stores the logger
+        /// </summary>
         private readonly ILogger _logger;
+        
+        /// <summary>
+        /// Stores the message to be given
+        /// </summary>
         private readonly string _message;
+        
+        /// <summary>
+        /// Defines the loglevel by which the messages will be created
+        /// </summary>
         private readonly LogLevel _logLevel;
+        
+        /// <summary>
+        /// Used stopwatch
+        /// </summary>
         private readonly Stopwatch _stopWatch;
+        
+        /// <summary>
+        /// Flag whether the stopwatch logger is currently stopped. If yes, no logging
+        /// will be sent out when the logger is disposed
+        /// </summary>
         private bool _isStopped;
 
         /// <summary>
         /// Defines the already created number of items
         /// </summary>
-        private static int _instanceCount = 0;
+        private static int _instanceCount;
 
         /// <summary>
         /// Defines the number of the instance
@@ -42,6 +62,10 @@ namespace BurnSystems.Logging
             logger.Log(logLevel, $"#{_instance}: Start: {message}");
         }
 
+        /// <summary>
+        /// Can be called when an intermediate logging is required
+        /// </summary>
+        /// <param name="type"></param>
         public void IntermediateLog(string type)
         {
             _logger.Log(_logLevel, $"#{_instance}: {type}  : {_message}", _stopWatch.ElapsedMilliseconds, "ms");
@@ -57,6 +81,9 @@ namespace BurnSystems.Logging
             _isStopped = true;
         }
 
+        /// <summary>
+        /// Used for disposal. Just sends out a stop message, when stop has not been called before
+        /// </summary>
         public void Dispose()
         {
             if (!_isStopped)
