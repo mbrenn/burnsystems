@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BurnSystems.Synchronisation;
 
 namespace BurnSystems.Logging.Provider
 {
@@ -15,6 +16,8 @@ namespace BurnSystems.Logging.Provider
         /// Gets the messages that are received
         /// </summary>
         private readonly List<InMemoryLogMessage> _messages = new List<InMemoryLogMessage>();
+        
+        private readonly ReadWriteLock _lock = new ReadWriteLock();
 
         /// <summary>
         /// Gets the messages being received
@@ -23,7 +26,7 @@ namespace BurnSystems.Logging.Provider
         {
             get
             {
-                lock (_messages)
+                using (_lock.GetReadLock())
                 {
                     return _messages.ToList();
                 }
@@ -32,7 +35,7 @@ namespace BurnSystems.Logging.Provider
 
         public void LogMessage(LogMessage logMessage)
         {
-            lock (_messages)
+            using (_lock.GetWriteLock())
             {
                 _messages.Add(
                     new InMemoryLogMessage(logMessage, DateTime.Now));
@@ -41,7 +44,7 @@ namespace BurnSystems.Logging.Provider
         
         public void ClearLog()
         {
-            lock (_messages)
+            using (_lock.GetWriteLock())
             {
                 _messages.Clear();
             }
