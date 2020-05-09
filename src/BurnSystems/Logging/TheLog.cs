@@ -105,5 +105,14 @@ namespace BurnSystems.Logging
         {
             Singleton.SetLogLevel(provider, newLogLevel);
         }
+        
+        /// <summary>
+        /// Sets the log level of the given provider
+        /// </summary>
+        /// <param name="provider">Provider to be modified</param>
+        public static LogLevel GetLogLevel(ILogProvider provider)
+        {
+            return Singleton.GetLogLevel(provider);
+        }
     }
 }

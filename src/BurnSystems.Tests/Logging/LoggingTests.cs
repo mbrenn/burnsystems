@@ -47,10 +47,12 @@ namespace BurnSystems.Tests.Logging
             TheLog.AddProvider(inMemoryProvider, LogLevel.Trace);
             TheLog.Trace("Test2");
             Assert.AreEqual(1, inMemoryProvider.Messages.Count);
+            Assert.That(TheLog.GetLogLevel(inMemoryProvider), Is.EqualTo(LogLevel.Trace));
             
             TheLog.SetLogLevel(inMemoryProvider, LogLevel.Fatal);
             TheLog.Trace("Test3");
             Assert.AreEqual(1, inMemoryProvider.Messages.Count);
+            Assert.That(TheLog.GetLogLevel(inMemoryProvider), Is.EqualTo(LogLevel.Fatal));
         }
 
         [Test]
