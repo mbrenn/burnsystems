@@ -95,5 +95,15 @@ namespace BurnSystems.Logging
             add => Singleton.MessageLogged += value;
             remove => Singleton.MessageLogged -= value;
         }
+        
+        /// <summary>
+        /// Sets the log level of the given provider
+        /// </summary>
+        /// <param name="provider">Provider to be modified</param>
+        /// <param name="newLogLevel">New log level of the provider</param>
+        public static void SetLogLevel(ILogProvider provider, LogLevel newLogLevel)
+        {
+            Singleton.SetLogLevel(provider, newLogLevel);
+        }
     }
 }
