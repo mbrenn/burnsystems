@@ -124,5 +124,17 @@ namespace BurnSystems.Logging
                 foundProvider.LogLevelThreshold = newLogLevel;
             }
         }
+        
+        /// <summary>
+        /// Returns the set loglevel of the provider
+        /// </summary>
+        /// <param name="provider">Provider to be queried</param>
+        /// <returns>The found loglevel for the given provider</returns>
+        public LogLevel GetLogLevel(ILogProvider provider)
+        {
+            var foundProvider = _providers.FirstOrDefault(x => x.Provider.Equals(provider));
+            return foundProvider?.LogLevelThreshold 
+                   ?? throw new InvalidOperationException($"The given Provider was not found: {provider}");
+        }
     }
 }
