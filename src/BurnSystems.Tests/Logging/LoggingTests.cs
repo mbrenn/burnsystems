@@ -40,6 +40,20 @@ namespace BurnSystems.Tests.Logging
         }
 
         [Test]
+        public void TestChangeLofLogLevels()
+        {
+            var inMemoryProvider = new InMemoryDatabaseProvider();
+            TheLog.FilterThreshold = LogLevel.Trace;
+            TheLog.AddProvider(inMemoryProvider, LogLevel.Trace);
+            TheLog.Trace("Test2");
+            Assert.AreEqual(1, inMemoryProvider.Messages.Count);
+            
+            TheLog.SetLogLevel(inMemoryProvider, LogLevel.Fatal);
+            TheLog.Trace("Test3");
+            Assert.AreEqual(1, inMemoryProvider.Messages.Count);
+        }
+
+        [Test]
         public void TestFiltering()
         {
             var inMemoryProvider = new InMemoryDatabaseProvider();

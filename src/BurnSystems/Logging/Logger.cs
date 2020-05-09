@@ -110,5 +110,19 @@ namespace BurnSystems.Logging
                 MessageLogged?.Invoke(this, e);
             }
         }
+
+        /// <summary>
+        /// Sets the log level of the given provider
+        /// </summary>
+        /// <param name="provider">Provider to be modified</param>
+        /// <param name="newLogLevel">New log level of the provider</param>
+        public void SetLogLevel(ILogProvider provider, LogLevel newLogLevel)
+        {
+            var foundProvider = _providers.FirstOrDefault(x => x.Provider.Equals(provider));
+            if (foundProvider != null)
+            {
+                foundProvider.LogLevelThreshold = newLogLevel;
+            }
+        }
     }
 }
