@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Linq;
 using BurnSystems.Logging;
 using BurnSystems.Logging.Provider;
 using NUnit.Framework;
@@ -199,6 +201,34 @@ namespace BurnSystems.Tests.Logging
             lines = File.ReadAllLines("./test.txt");
             Assert.AreEqual(2, lines.Length);
             TheLog.ClearProviders();
+        }
+
+        [Test]
+        public void Test101FileLoggers()
+        {
+            var fileProviders = new System.Collections.Generic.List<FileProvider>();
+            for (var n = 0; n < 100; n++)
+            {
+                fileProviders.Add(new FileProvider("./test.txt", true));
+                TheLog.AddProvider(fileProviders.Last());
+            }
+            
+            TheLog.Log(LogLevel.Info, "YES");
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                for (var n = 0; n < 100; n++)
+                {
+                    fileProviders.Add(new FileProvider("./test.txt", true));
+                    TheLog.AddProvider(fileProviders.Last());
+                }
+                
+                TheLog.Log(LogLevel.Info, "YES");
+            });
+
+            foreach (var provider in fileProviders)
+            {
+                provider.Dispose();
+            }
         }
 
         [Test]
