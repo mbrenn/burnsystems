@@ -170,6 +170,7 @@ $RECYCLE.BIN/
 
 project.lock.json
 *.js.map
+src/.idea/*
 /src/DatenMeister.Web.Application/App_Data/Database
 /src/.vs
 /src/DatenMeister.Web.Application/htdocs/img/icons
