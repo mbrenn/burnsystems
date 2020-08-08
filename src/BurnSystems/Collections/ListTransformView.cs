@@ -77,14 +77,13 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Detach()
         {
-            var notifyPropertyChanged = _list as INotifyPropertyChanged;
-            var notifyCollectionChanged = _list as INotifyCollectionChanged;
-            if (notifyCollectionChanged == null)
+            
+            if (!(_list is INotifyCollectionChanged notifyCollectionChanged))
             {
                 throw new InvalidOperationException("list is not of type INotifyCollectionChanged");
             }
 
-            if (notifyPropertyChanged == null)
+            if (!(_list is INotifyPropertyChanged notifyPropertyChanged))
             {
                 throw new InvalidOperationException("list is not of type INotifyPropertyChanged");
             }

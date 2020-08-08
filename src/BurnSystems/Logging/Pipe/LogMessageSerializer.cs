@@ -241,37 +241,32 @@ namespace BurnSystems.Logging.Pipe
         {
             var offset = 0;
 
-            switch (messageId)
+            return messageId switch
             {
-                case SerializerMessageIDs.SendLogMessage:
-                    return new LogMessage
-                    {
-                        LogLevel = (LogLevel) GetInteger8(message, ref offset),
-                        Category = GetString(message, ref offset),
-                        Message = GetString(message, ref offset)
-                    };
-                
-                case SerializerMessageIDs.SendLogMetricMessageInteger:
-                    return new LogMetricMessage<int>
-                    {
-                        LogLevel = (LogLevel) GetInteger8(message, ref offset),
-                        Category = GetString(message, ref offset),
-                        Message = GetString(message, ref offset),
-                        Value = GetInteger32(message, ref offset),
-                        Unit = GetString(message,ref offset)
-                    };
-                case SerializerMessageIDs.SendLogMetricMessageDouble:
-                    return new LogMetricMessage<double>
-                    {
-                        LogLevel = (LogLevel) GetInteger8(message, ref offset),
-                        Category = GetString(message, ref offset),
-                        Message = GetString(message, ref offset),
-                        Value = GetDouble(message, ref offset),
-                        Unit = GetString(message,ref offset)
-                    };
-            }
-
-            return null;
+                SerializerMessageIDs.SendLogMessage => new LogMessage
+                {
+                    LogLevel = (LogLevel) GetInteger8(message, ref offset),
+                    Category = GetString(message, ref offset),
+                    Message = GetString(message, ref offset)
+                },
+                SerializerMessageIDs.SendLogMetricMessageInteger => new LogMetricMessage<int>
+                {
+                    LogLevel = (LogLevel) GetInteger8(message, ref offset),
+                    Category = GetString(message, ref offset),
+                    Message = GetString(message, ref offset),
+                    Value = GetInteger32(message, ref offset),
+                    Unit = GetString(message, ref offset)
+                },
+                SerializerMessageIDs.SendLogMetricMessageDouble => new LogMetricMessage<double>
+                {
+                    LogLevel = (LogLevel) GetInteger8(message, ref offset),
+                    Category = GetString(message, ref offset),
+                    Message = GetString(message, ref offset),
+                    Value = GetDouble(message, ref offset),
+                    Unit = GetString(message, ref offset)
+                },
+                _ => null
+            };
         }
 
         /// <summary>

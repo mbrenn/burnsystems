@@ -37,14 +37,14 @@ namespace BurnSystems.Collections
 
             foreach (var instance in _instances)
             {
-                if (instance is T)
+                if (instance is T instanceAsT)
                 {
                     if (alreadyFound)
                     {
                         throw new InvalidOperationException(LocalizationBS.TypedContainer_MultipleInstance);
                     }
 
-                    found = (T) instance;
+                    found = instanceAsT;
                     alreadyFound = true;
                 }
             }

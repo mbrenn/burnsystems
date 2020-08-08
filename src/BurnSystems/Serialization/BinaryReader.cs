@@ -130,17 +130,13 @@ namespace BurnSystems.Serialization
         public ContainerType ReadContainerType()
         {
             var containerTypeValue = ReadByte();
-            switch (containerTypeValue)
+            return containerTypeValue switch
             {
-                case 0x01:
-                    return ContainerType.Type;
-                case 0x02:
-                    return ContainerType.Data;
-                case 0x03:
-                    return ContainerType.Reference;
-                default:
-                    throw new InvalidCastException(LocalizationBS.BinaryWriter_UnknownContainerType);
-            }
+                0x01 => ContainerType.Type,
+                0x02 => ContainerType.Data,
+                0x03 => ContainerType.Reference,
+                _ => throw new InvalidCastException(LocalizationBS.BinaryWriter_UnknownContainerType)
+            };
         }
 
         /// <summary>
@@ -150,21 +146,15 @@ namespace BurnSystems.Serialization
         public DataType ReadDataType()
         {
             var dataTypeValue = ReadByte();
-            switch (dataTypeValue)
+            return dataTypeValue switch
             {
-                case 0x01:
-                    return DataType.Null;
-                case 0x02:
-                    return DataType.Native;
-                case 0x03:
-                    return DataType.Array;
-                case 0x04:
-                    return DataType.Complex;
-                case 0x05:
-                    return DataType.Enum;
-                default:
-                    throw new InvalidCastException(LocalizationBS.BinaryWriter_UnknownDataType);
-            }
+                0x01 => DataType.Null,
+                0x02 => DataType.Native,
+                0x03 => DataType.Array,
+                0x04 => DataType.Complex,
+                0x05 => DataType.Enum,
+                _ => throw new InvalidCastException(LocalizationBS.BinaryWriter_UnknownDataType)
+            };
         }
 
         /// <summary>
@@ -228,10 +218,12 @@ namespace BurnSystems.Serialization
                 var fieldNameBytes = new byte[fieldNameLength];
                 _stream.Read(fieldNameBytes, 0, fieldNameLength);
 
-                var fieldEntry = new FieldEntry();
-                fieldEntry.FieldId = fieldId;
-                fieldEntry.Name = Encoding.UTF8.GetString(fieldNameBytes);
-                     
+                var fieldEntry = new FieldEntry
+                {
+                    FieldId = fieldId, 
+                    Name = Encoding.UTF8.GetString(fieldNameBytes)
+                };
+
                 typeEntry.Fields.Add(fieldEntry);
             }
 
@@ -244,10 +236,13 @@ namespace BurnSystems.Serialization
         /// <returns>Read array header</returns>
         public ArrayHeader ReadArrayHeader()
         {
-            var arrayHeader = new ArrayHeader();
-            arrayHeader.TypeId = ReadInt64();
-            arrayHeader.ObjectId = ReadInt64();
-            arrayHeader.DimensionCount = ReadInt32();
+            var arrayHeader = new ArrayHeader
+            {
+                TypeId = ReadInt64(), 
+                ObjectId = ReadInt64(), 
+                DimensionCount = ReadInt32()
+            };
+
             Ensure.IsGreaterOrEqual(arrayHeader.DimensionCount, 0);
 
             for (var n = 0; n < arrayHeader.DimensionCount; n++)
@@ -264,10 +259,12 @@ namespace BurnSystems.Serialization
         /// <returns>Read complex header</returns>
         public ComplexHeader ReadComplexHeader()
         {
-            var complexHeader = new ComplexHeader();
-            complexHeader.TypeId = ReadInt64();
-            complexHeader.ObjectId = ReadInt64();
-            complexHeader.FieldCount = ReadInt32();
+            var complexHeader = new ComplexHeader
+            {
+                TypeId = ReadInt64(),
+                ObjectId = ReadInt64(),
+                FieldCount = ReadInt32()
+            };
 
             return complexHeader;
         }
@@ -278,8 +275,10 @@ namespace BurnSystems.Serialization
         /// <returns>Read reference header</returns>
         public ReferenceHeader ReadReferenceHeader()
         {
-            var referenceHeader = new ReferenceHeader();
-            referenceHeader.ObjectId = ReadInt64();
+            var referenceHeader = new ReferenceHeader
+            {
+                ObjectId = ReadInt64()
+            };
 
             return referenceHeader;
         }

@@ -216,7 +216,7 @@ namespace BurnSystems.Collections
         private void OnPropertyChanged(string propertyName)
         {
             var e = PropertyChanged;
-            if (e != null) e(this, new PropertyChangedEventArgs(propertyName));
+            e?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace BurnSystems.Collections
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             var e = CollectionChanged;
-            if (e != null) e(this, args);
+            e?.Invoke(this, args);
         }
 
         #region Implementation of the IList interface

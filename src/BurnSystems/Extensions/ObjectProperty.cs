@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BurnSystems.Extensions
+﻿namespace BurnSystems.Extensions
 {
     /// <summary>
     /// This helper class stores the property information
@@ -41,28 +39,13 @@ namespace BurnSystems.Extensions
         /// <returns>Property behind this object</returns>
         public object? GetProperty(string name)
         {
-            switch (name)
+            return name switch
             {
-                case "Name":
-                    return Name;
-                case "Value":
-                    return Value;
-                case "ValueText":
-                    return ValueText;
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// This function has to execute a function and to return an object
-        /// </summary>
-        /// <param name="functionName">Name of function</param>
-        /// <param name="parameters">Parameters for the function</param>
-        /// <returns>Return of function</returns>
-        public object? ExecuteFunction(string functionName, IList<object> parameters)
-        {
-            return null;
+                "Name" => Name,
+                "Value" => Value,
+                "ValueText" => ValueText,
+                _ => null
+            };
         }
 
         /// <summary>

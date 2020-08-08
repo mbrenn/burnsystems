@@ -71,8 +71,7 @@ namespace BurnSystems.Plugins
                 typeof(PluginDependencyAttribute), true);
             foreach (var attributeRaw in attributes)
             {
-                var attribute = attributeRaw as PluginDependencyAttribute;
-                if (attribute == null)
+                if (!(attributeRaw is PluginDependencyAttribute attribute))
                 {
                     throw new InvalidOperationException("attribute is null: " +
                                                         (attributeRaw?.ToString() ?? "Unknown"));

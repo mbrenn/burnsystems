@@ -147,8 +147,7 @@ namespace BurnSystems.Serialization
         /// <param name="objectId">Id of object</param>
         private void ParseArrayObject(object value, long objectId)
         {
-            var array = value as Array;
-            if (array == null)
+            if (!(value is Array array))
             {
                 throw new InvalidOperationException("Value is not of type Array");
             }

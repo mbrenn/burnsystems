@@ -121,9 +121,9 @@ namespace BurnSystems.Collections
             lock (_objects)
             {
                 var exists = _objects.TryGetValue(key, out var temp);
-                if (exists && temp is T)
+                if (exists && temp is T value)
                 {
-                    result = (T)temp;
+                    result = value;
                 }
                 else
                 {
@@ -148,9 +148,8 @@ namespace BurnSystems.Collections
         /// This function has to execute a function and to return an object
         /// </summary>
         /// <param name="functionName">Name of function</param>
-        /// <param name="parameters">Parameters for the function</param>
         /// <returns>Return of function</returns>
-        public object? ExecuteFunction(string functionName, IList<object> parameters)
+        public object? ExecuteFunction(string functionName)
         {
             lock (_objects)
             {

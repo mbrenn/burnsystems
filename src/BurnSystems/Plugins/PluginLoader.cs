@@ -51,8 +51,7 @@ namespace BurnSystems.Plugins
                         .Where(x => x.GetCustomAttributes(typeAttribute, false).Length > 0)
                         .Where(x => x.GetInterfaces().Any(y => y.FullName == typeof(T).FullName)))
                     {
-                        var plugin = Activator.CreateInstance(type) as T;
-                        if (plugin == null)
+                        if (!(Activator.CreateInstance(type) is T plugin))
                         {
                             throw new InvalidOperationException("Activator.CreateInstance has returned null");
                         }
@@ -108,8 +107,7 @@ namespace BurnSystems.Plugins
                 }
 
                 // Creates the plugin and adds the plugin info
-                var plugin = Activator.CreateInstance(typeOfPlugin) as T;
-                if (plugin == null)
+                if (!(Activator.CreateInstance(typeOfPlugin) is T plugin))
                 {
                     throw new InvalidOperationException("Created Instance is null");
                 }

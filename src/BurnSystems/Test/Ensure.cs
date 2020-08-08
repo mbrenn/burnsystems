@@ -213,34 +213,6 @@ namespace BurnSystems.Test
                     reference?.ToString() ?? "null"));
         }
 
-        /// <summary>
-        /// Überprüft, ob die beiden Objekte gleich sind. Zum Vergleich
-        /// wird der ==-Operator genutzt.
-        /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="value">Wert, der geprüft werden soll. </param>
-        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
-        /// <param name="text">Error text</param>
-        public static void AreEqual<T>(T value, T reference, string text)
-        {
-            if (value == null && reference == null)
-            {
-                return;
-            }
-            
-            if (value == null || value.Equals(reference))
-            {
-                return;
-            }
-
-            throw new EnsureFailedException(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Is: {0}, Should: {1}",
-                    value?.ToString(),
-                    reference?.ToString() ?? "null"));
-        }
-
         #endregion
 
         #region AreNotEqual

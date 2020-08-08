@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using BurnSystems.Collections;
-using System.ComponentModel;
-using System.Collections.Specialized;
-
-namespace BurnSystems.UnitTests.Collections
+﻿namespace BurnSystems.UnitTests.Collections
 {
 	/*
     /// <summary>

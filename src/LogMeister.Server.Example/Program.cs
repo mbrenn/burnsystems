@@ -6,7 +6,7 @@ namespace LogMeister.Server.Example
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             TheLog.AddProvider(new ConsoleProvider(), LogLevel.Trace);
             TheLog.AddProvider(new PipeLogProvider("BurnSystems.Prime"));

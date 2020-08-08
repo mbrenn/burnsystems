@@ -139,7 +139,6 @@ namespace BurnSystems.Extensions
         private static ObjectProperty ConvertToProperty(object value, string name)
         {
             string valueText;
-            var valueAsEnumerable = value as IEnumerable;
 
             if (value == null)
             {
@@ -149,7 +148,7 @@ namespace BurnSystems.Extensions
             {
                 valueText = value.ToString();
             }
-            else if (valueAsEnumerable != null)
+            else if (value is IEnumerable valueAsEnumerable)
             {
                 var builder = new StringBuilder();
                 builder.Append('{');

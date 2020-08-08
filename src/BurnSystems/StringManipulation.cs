@@ -85,76 +85,32 @@ namespace BurnSystems
             for (var counter = 0; counter < hexValue.Length; counter++)
             {
                 var current = hexValue[counter];
-                var currentValue = 0;
-                switch (current)
+                var currentValue = current switch
                 {
-                    case '0':
-                        currentValue = 0;
-                        break;
-                    case '1':
-                        currentValue = 1;
-                        break;
-                    case '2':
-                        currentValue = 2;
-                        break;
-                    case '3':
-                        currentValue = 3;
-                        break;
-                    case '4':
-                        currentValue = 4;
-                        break;
-                    case '5':
-                        currentValue = 5;
-                        break;
-                    case '6':
-                        currentValue = 6;
-                        break;
-                    case '7':
-                        currentValue = 7;
-                        break;
-                    case '8':
-                        currentValue = 8;
-                        break;
-                    case '9':
-                        currentValue = 9;
-                        break;
-                    case 'a':
-                        currentValue = 10;
-                        break;
-                    case 'A':
-                        currentValue = 10;
-                        break;
-                    case 'b':
-                        currentValue = 11;
-                        break;
-                    case 'B':
-                        currentValue = 11;
-                        break;
-                    case 'c':
-                        currentValue = 12;
-                        break;
-                    case 'C':
-                        currentValue = 12;
-                        break;
-                    case 'd':
-                        currentValue = 13;
-                        break;
-                    case 'D':
-                        currentValue = 13;
-                        break;
-                    case 'e':
-                        currentValue = 14;
-                        break;
-                    case 'E':
-                        currentValue = 14;
-                        break;
-                    case 'f':
-                        currentValue = 15;
-                        break;
-                    case 'F':
-                        currentValue = 15;
-                        break;
-                }
+                    '0' => 0,
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                    '6' => 6,
+                    '7' => 7,
+                    '8' => 8,
+                    '9' => 9,
+                    'a' => 10,
+                    'A' => 10,
+                    'b' => 11,
+                    'B' => 11,
+                    'c' => 12,
+                    'C' => 12,
+                    'd' => 13,
+                    'D' => 13,
+                    'e' => 14,
+                    'E' => 14,
+                    'f' => 15,
+                    'F' => 15,
+                    _ => 0
+                };
 
                 result *= 16;
                 result += currentValue;

@@ -10,7 +10,7 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Stores the categories of the event
         /// </summary>
-        private Dictionary<string, int> _categories = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _categories = new Dictionary<string, int>();
 
         [NonEvent]
         public void LogMessage(LogMessage logMessage)
@@ -42,8 +42,6 @@ namespace BurnSystems.Logging.Provider
             {
                 WriteEvent(1, eventId, category, message);
             }
-        }
-
-            
+        }    
     }
 }

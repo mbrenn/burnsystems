@@ -32,28 +32,27 @@ namespace BurnSystems.IO
         /// <returns>Line, which was read</returns>
         public string ReadLine()
         {
-            using (var memoryStream = new MemoryStream())
+            using var memoryStream = new MemoryStream();
+
+            int currentByte;
+
+            while ((currentByte = _stream.ReadByte()) != -1)
             {
-                int currentByte;
-
-                while ((currentByte = _stream.ReadByte()) != -1)
+                if (currentByte == 10)
                 {
-                    if (currentByte == 10)
-                    {
-                        continue;
-                    }
-
-                    if (currentByte == 13)
-                    {
-                        break;
-                    }
-
-                    memoryStream.WriteByte((byte)currentByte);
+                    continue;
                 }
 
-                var bytes = memoryStream.GetBuffer();
-                return Encoding.UTF8.GetString(bytes, 0, (int)memoryStream.Length);
+                if (currentByte == 13)
+                {
+                    break;
+                }
+
+                memoryStream.WriteByte((byte)currentByte);
             }
+
+            var bytes = memoryStream.GetBuffer();
+            return Encoding.UTF8.GetString(bytes, 0, (int)memoryStream.Length);
         }
     }
 }

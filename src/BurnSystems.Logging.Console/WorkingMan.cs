@@ -2,7 +2,7 @@
 {
     public class WorkingMan
     {
-        private ILogger logger = new ClassLogger(typeof(WorkingMan));
+        private readonly ILogger logger = new ClassLogger(typeof(WorkingMan));
 
         public void Work()
         {
