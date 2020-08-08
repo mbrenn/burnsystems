@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Test
-{
-    using System;
-    using System.Globalization;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Globalization;
+using System.Linq.Expressions;
 
+namespace BurnSystems.Test
+{
     /// <summary>
     /// Mit Hilfe dieser Hilfsklasse kann überprüft werden, ob 
     /// ein bestimmter Zustand eingehalten wird. Im Prinzip entspricht 
@@ -116,7 +116,7 @@
         {
             if (!expression.Compile()())
             {
-                throw new EnsureFailedException("That: " + expression.ToString());
+                throw new EnsureFailedException("That: " + expression);
             }
         }
 
@@ -238,8 +238,7 @@
                     CultureInfo.InvariantCulture,
                     "Is: {0}, Should: {1}",
                     value?.ToString(),
-                    reference?.ToString() ?? "null",
-                    text));
+                    reference?.ToString() ?? "null"));
         }
 
         #endregion
@@ -284,7 +283,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -307,7 +305,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -330,7 +327,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -353,7 +349,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -376,7 +371,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -399,7 +393,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -426,7 +419,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -449,7 +441,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -472,7 +463,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -495,7 +485,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -518,7 +507,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -541,7 +529,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -568,7 +555,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -591,7 +577,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -614,7 +599,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -637,7 +621,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -660,7 +643,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -683,7 +665,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -710,7 +691,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -733,7 +713,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -756,7 +735,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -779,7 +757,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -802,7 +779,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -825,7 +801,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -878,10 +853,8 @@
                 {
                     throw new EnsureFailedException("null not type of " + type.FullName);
                 }
-                else
-                {
-                    throw new EnsureFailedException(value.ToString() + " not type of " + type.FullName);
-                }
+
+                throw new EnsureFailedException(value + " not type of " + type.FullName);
             }
         }
 

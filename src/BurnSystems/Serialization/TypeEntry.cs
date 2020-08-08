@@ -1,10 +1,10 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using BurnSystems.Collections;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// This class defines the different types
     /// </summary>

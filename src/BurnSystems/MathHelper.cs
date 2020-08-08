@@ -1,14 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using BurnSystems.Test;
 
 namespace BurnSystems
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using Test;
-    using System.Threading;
-
     /// <summary>
     /// Eine Klasse, die ein paar Hilfsfunktionen für die mathematischen 
     /// Routinen zur Verfügung stellt. 
@@ -38,10 +36,8 @@ namespace BurnSystems
             {
                 return timeSpan2;
             }
-            else
-            {
-                return timeSpan1;
-            }
+
+            return timeSpan1;
         }
 
         /// <summary>
@@ -56,10 +52,8 @@ namespace BurnSystems
             {
                 return timeSpan2;
             }
-            else
-            {
-                return timeSpan1;
-            }
+
+            return timeSpan1;
         }
 
         /// <summary>
@@ -74,10 +68,8 @@ namespace BurnSystems
             {
                 return dateTime2;
             }
-            else
-            {
-                return dateTime1;
-            }
+
+            return dateTime1;
         }
 
         /// <summary>
@@ -92,10 +84,8 @@ namespace BurnSystems
             {
                 return dateTime2;
             }
-            else
-            {
-                return dateTime1;
-            }
+
+            return dateTime1;
         }
 
         /// <summary>

@@ -1,11 +1,11 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
-    using Test;
+﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using BurnSystems.Test;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// This class is an implementation of a binary reader for serialization.
     /// </summary>
@@ -40,7 +40,7 @@
 
             if (type == typeof(byte))
             {
-                return (byte)value[0];
+                return value[0];
             }
 
             if (type == typeof(short))

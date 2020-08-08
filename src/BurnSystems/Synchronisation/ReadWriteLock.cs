@@ -1,8 +1,8 @@
+using System;
+using System.Threading;
+
 namespace BurnSystems.Synchronisation
 {
-    using System;
-    using System.Threading;
-
     /// <summary>
     /// This helperclass supports the use of readwrite locks
     /// as a disposable pattern. 

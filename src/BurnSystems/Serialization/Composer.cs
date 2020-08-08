@@ -9,16 +9,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Runtime.Serialization;
 using BurnSystems.Logging;
 
 namespace BurnSystems.Serialization
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// The composer class helps to recompose the object
     /// </summary>

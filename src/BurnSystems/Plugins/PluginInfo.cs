@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Plugins
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 
+namespace BurnSystems.Plugins
+{
     /// <summary>
     /// Stores the information about a plugin
     /// </summary>

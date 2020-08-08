@@ -1,11 +1,11 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Collections;
-    using Test;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using BurnSystems.Collections;
+using BurnSystems.Test;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// The typecontainer stores and initializes the different type entries
     /// </summary>

@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Xml.Html
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
+namespace BurnSystems.Xml.Html
+{
     /// <summary>
     /// Helper class that is used to create a simple html element
     /// </summary>
@@ -44,7 +44,7 @@
         {
             var result = new List<object>();
             var notFirst = false;
-            foreach (var element in text.Split(new[] { '\r' }).Select(x => x.Trim()))
+            foreach (var element in text.Split('\r').Select(x => x.Trim()))
             {
                 if (notFirst)
                 {

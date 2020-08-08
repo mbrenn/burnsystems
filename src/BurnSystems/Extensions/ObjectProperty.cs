@@ -1,7 +1,7 @@
-﻿namespace BurnSystems.Extensions
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace BurnSystems.Extensions
+{
     /// <summary>
     /// This helper class stores the property information
     /// </summary>
