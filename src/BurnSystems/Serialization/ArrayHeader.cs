@@ -1,7 +1,7 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// This class stores the value of the array header
     /// </summary>

@@ -1,11 +1,12 @@
-﻿namespace BurnSystems.Collections
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-    using Interfaces;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using BurnSystems.Interfaces;
 
+namespace BurnSystems.Collections
+{
     /// <summary>
     /// This implements the IList interface on an XContainer element. 
     /// All addings, deletions, changes on this container will be directly done
@@ -243,7 +244,7 @@
         /// Elements being null are skipped
         /// </summary>
         /// <returns>Enumerator for the list</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }

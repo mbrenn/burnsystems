@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using System.Threading;
 using BurnSystems.Logging.Provider;
 
 namespace BurnSystems.Logging.Console
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             TheLog.AddProvider(new ConsoleProvider(), LogLevel.Trace);
             TheLog.AddProvider(new FileProvider("test.log", true), LogLevel.Info);

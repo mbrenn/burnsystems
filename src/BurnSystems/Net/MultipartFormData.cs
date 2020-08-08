@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 namespace BurnSystems.Net
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Implements the storage of a multipart formdata according
     /// to RFC 2388

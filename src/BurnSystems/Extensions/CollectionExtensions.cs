@@ -1,7 +1,7 @@
-﻿namespace BurnSystems.Extensions
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace BurnSystems.Extensions
+{
     /// <summary>
     /// These collection extensions are used to ease the use
     /// collector class

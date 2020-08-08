@@ -1,10 +1,9 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace BurnSystems.Collections
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Implements a priority queue, in which the element with 
     /// the smallest value is at first position
@@ -62,7 +61,7 @@ namespace BurnSystems.Collections
         /// <param name="item">Item to be added</param>
         public void Add(T item)
         {
-            var position = GetPosition(item, out var exists);
+            var position = GetPosition(item, out _);
 
             _elements.Insert(position, item);
         }
@@ -162,7 +161,7 @@ namespace BurnSystems.Collections
         /// Gets an enumerator for the class.
         /// </summary>
         /// <returns>Enumerator enumerating all elements</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _elements.GetEnumerator();
         }
@@ -184,7 +183,7 @@ namespace BurnSystems.Collections
             var left = 0;
             var right = Count; // Exclusive border
 
-            var current = (left + right) / 2;
+            var current = right / 2;
             while (left < right && current < Count)
             {
                 var compareValue = _comparer(item, _elements[current]);
@@ -207,11 +206,9 @@ namespace BurnSystems.Collections
                 exists = false;
                 return current;
             }
-            else
-            {
-                exists = _elements[current]?.Equals(item) == true;
-                return current;
-            }
+
+            exists = _elements[current]?.Equals(item) == true;
+            return current;
         }
     }
 }

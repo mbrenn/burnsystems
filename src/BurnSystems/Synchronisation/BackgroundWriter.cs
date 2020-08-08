@@ -92,10 +92,8 @@ namespace BurnSystems.Synchronisation
                 {
                     return leftUpdate;
                 }
-                else
-                {
-                    return leftStore;
-                }
+
+                return leftStore;
             }
         }
 

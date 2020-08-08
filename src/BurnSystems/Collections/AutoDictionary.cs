@@ -1,8 +1,9 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
 namespace BurnSystems.Collections
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// This class stores object, whose classes implements the interface IHasKey.
     /// IHasKey offers an access to the name of the instance
@@ -183,7 +184,7 @@ namespace BurnSystems.Collections
         /// Gets the enumerator
         /// </summary>
         /// <returns>Enumerator of this collection</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _dictionary.GetEnumerator();
         }

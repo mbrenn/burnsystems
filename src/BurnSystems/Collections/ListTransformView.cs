@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Collections;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Collections.Specialized;
-using BurnSystems.Test;
+using System.ComponentModel;
+using System.Linq;
 
 namespace BurnSystems.Collections
 {
@@ -16,7 +15,7 @@ namespace BurnSystems.Collections
     /// This list is read-only because the original list has to be modified
     /// </summary>
     /// <typeparam name="T">Type of the elements of the list that is the source type</typeparam>
-    /// <typeparam name="Q">Type of the elements of the list, that shall be delivered</typeparam>    
+    /// <typeparam name="TQ">Type of the elements of the list, that shall be delivered</typeparam>    
 	public class ListTransformView<T, TQ> : IList<TQ>, IList, INotifyPropertyChanged //, INotifyCollectionChanged
     {
         /// <summary>
@@ -78,14 +77,13 @@ namespace BurnSystems.Collections
         /// </summary>
         public void Detach()
         {
-            var notifyPropertyChanged = _list as INotifyPropertyChanged;
-            var notifyCollectionChanged = _list as INotifyCollectionChanged;
-            if (notifyCollectionChanged == null)
+            
+            if (!(_list is INotifyCollectionChanged notifyCollectionChanged))
             {
                 throw new InvalidOperationException("list is not of type INotifyCollectionChanged");
             }
 
-            if (notifyPropertyChanged == null)
+            if (!(_list is INotifyPropertyChanged notifyPropertyChanged))
             {
                 throw new InvalidOperationException("list is not of type INotifyPropertyChanged");
             }
@@ -102,9 +100,7 @@ namespace BurnSystems.Collections
         /// <param name="e">Arguments of event</param>
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-			return; 
-			
-			/*
+            /*
             var ev = this.CollectionChanged;
             if (ev != null)
             {

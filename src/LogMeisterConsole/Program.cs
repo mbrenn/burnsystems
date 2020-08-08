@@ -6,7 +6,7 @@ namespace LogMeisterConsole
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var server = new PipeLoggingClient();
             Task.Run(() => server.Start("BurnSystems.Prime")).Wait();

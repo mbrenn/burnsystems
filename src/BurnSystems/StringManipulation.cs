@@ -1,13 +1,15 @@
-﻿namespace BurnSystems
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
-    using Test;
-    using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using BurnSystems.Test;
+// ReSharper disable FormatStringProblem
 
+namespace BurnSystems
+{
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird
     /// </summary>
@@ -83,76 +85,32 @@
             for (var counter = 0; counter < hexValue.Length; counter++)
             {
                 var current = hexValue[counter];
-                var currentValue = 0;
-                switch (current)
+                var currentValue = current switch
                 {
-                    case '0':
-                        currentValue = 0;
-                        break;
-                    case '1':
-                        currentValue = 1;
-                        break;
-                    case '2':
-                        currentValue = 2;
-                        break;
-                    case '3':
-                        currentValue = 3;
-                        break;
-                    case '4':
-                        currentValue = 4;
-                        break;
-                    case '5':
-                        currentValue = 5;
-                        break;
-                    case '6':
-                        currentValue = 6;
-                        break;
-                    case '7':
-                        currentValue = 7;
-                        break;
-                    case '8':
-                        currentValue = 8;
-                        break;
-                    case '9':
-                        currentValue = 9;
-                        break;
-                    case 'a':
-                        currentValue = 10;
-                        break;
-                    case 'A':
-                        currentValue = 10;
-                        break;
-                    case 'b':
-                        currentValue = 11;
-                        break;
-                    case 'B':
-                        currentValue = 11;
-                        break;
-                    case 'c':
-                        currentValue = 12;
-                        break;
-                    case 'C':
-                        currentValue = 12;
-                        break;
-                    case 'd':
-                        currentValue = 13;
-                        break;
-                    case 'D':
-                        currentValue = 13;
-                        break;
-                    case 'e':
-                        currentValue = 14;
-                        break;
-                    case 'E':
-                        currentValue = 14;
-                        break;
-                    case 'f':
-                        currentValue = 15;
-                        break;
-                    case 'F':
-                        currentValue = 15;
-                        break;
-                }
+                    '0' => 0,
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                    '6' => 6,
+                    '7' => 7,
+                    '8' => 8,
+                    '9' => 9,
+                    'a' => 10,
+                    'A' => 10,
+                    'b' => 11,
+                    'B' => 11,
+                    'c' => 12,
+                    'C' => 12,
+                    'd' => 13,
+                    'D' => 13,
+                    'e' => 14,
+                    'E' => 14,
+                    'f' => 15,
+                    'F' => 15,
+                    _ => 0
+                };
 
                 result *= 16;
                 result += currentValue;
@@ -227,7 +185,7 @@
         /// <returns>Hash as string</returns>
         public static string Sha1(this byte[] bytes)
         {
-            using var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+            using var sha1 = new SHA1CryptoServiceProvider();
             var result = sha1.ComputeHash(bytes);
 
             return ToHexString(result);
@@ -263,7 +221,7 @@
         {
             var pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             var builder = new StringBuilder();
-            var randomGenerator = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var randomGenerator = new RNGCryptoServiceProvider();
 
             var randomBytes = new byte[length];
             randomGenerator.GetBytes(randomBytes);
@@ -555,10 +513,8 @@
             {
                 return $"{doubleFileLength:n0} {prefix[0]}";
             }
-            else
-            {
-                return string.Format("{0:n" + decimals + "} {1}", doubleFileLength, prefix[prefixNumber]);
-            }
+
+            return string.Format("{0:n" + decimals + "} {1}", doubleFileLength, prefix[prefixNumber]);
         }
 
         /// <summary>
@@ -632,6 +588,31 @@
             }
 
             return $"{char.ToUpper(text[0])}{text.Substring(1)}";
+        }
+        
+        /// <summary>
+        /// Gets a deterministic hash code for strings
+        /// Source by https://andrewlock.net/why-is-string-gethashcode-different-each-time-i-run-my-program-in-net-core/
+        /// </summary>
+        /// <param name="str">String to be used</param>
+        /// <returns>Hashcode</returns>
+        public static int GetDeterministicHashCode(this string str)
+        {
+            unchecked
+            {
+                int hash1 = (5381 << 16) + 5381;
+                int hash2 = hash1;
+
+                for (int i = 0; i < str.Length; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ str[i];
+                    if (i == str.Length - 1)
+                        break;
+                    hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+                }
+
+                return hash1 + (hash2 * 1566083941);
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ namespace BurnSystems.Logging.Console.DotNetFW
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             TheLog.AddProvider(new ConsoleProvider(), LogLevel.Trace);
             TheLog.AddProvider(new FileProvider("test.log", true), LogLevel.Info);

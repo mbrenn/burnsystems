@@ -1,13 +1,13 @@
-﻿namespace BurnSystems.Extensions
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
+namespace BurnSystems.Extensions
+{
     /// <summary>
     /// This static class stores the extension methods for every object.
     /// </summary>
@@ -139,7 +139,6 @@
         private static ObjectProperty ConvertToProperty(object value, string name)
         {
             string valueText;
-            var valueAsEnumerable = value as IEnumerable;
 
             if (value == null)
             {
@@ -149,7 +148,7 @@
             {
                 valueText = value.ToString();
             }
-            else if (valueAsEnumerable != null)
+            else if (value is IEnumerable valueAsEnumerable)
             {
                 var builder = new StringBuilder();
                 builder.Append('{');
@@ -161,7 +160,7 @@
 
                     if (subItem != null)
                     {
-                        builder.Append(subItem.ToString());
+                        builder.Append(subItem);
                     }
                     else
                     {
@@ -181,7 +180,7 @@
             }
 
             return
-                new ObjectProperty()
+                new ObjectProperty
                 {
                     Name = name,
                     Value = value,
@@ -201,46 +200,53 @@
             {
                 return value.ToString();
             }
-            else if (type == typeof(short))
+
+            if (type == typeof(short))
             {
                 return Convert.ToInt16(value);
             }
-            else if (type == typeof(int))
+
+            if (type == typeof(int))
             {
                 return Convert.ToInt32(value);
             }
-            else if (type == typeof(long))
+
+            if (type == typeof(long))
             {
                 return Convert.ToInt64(value);
             }
-            else if (type == typeof(float))
+
+            if (type == typeof(float))
             {
                 return Convert.ToSingle(value);
             }
-            else if (type == typeof(double))
+
+            if (type == typeof(double))
             {
                 return Convert.ToDouble(value);
             }
-            else if (type == typeof(decimal))
+
+            if (type == typeof(decimal))
             {
                 return Convert.ToDecimal(value);
             }
-            else if (type == typeof(DateTime))
+
+            if (type == typeof(DateTime))
             {
                 return Convert.ToDateTime(value);
             }
-            else if (type == typeof(bool))
+
+            if (type == typeof(bool))
             {
                 return Convert.ToBoolean(value);
             }
-            else if (type.IsEnum)
+
+            if (type.IsEnum)
             {
                 return Enum.Parse(type, value.ToString());
             }
-            else
-            {
-                throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NotSupportedType, type.ToString()));
-            }
+
+            throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NotSupportedType, type));
         }
     }
 }

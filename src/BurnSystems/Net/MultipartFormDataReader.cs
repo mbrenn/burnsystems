@@ -1,11 +1,10 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using BurnSystems.Collections;
 
 namespace BurnSystems.Net
 {
-    using System.IO;
-    using System.Text;
-    using Collections;
-
     /// <summary>
     /// Reads a stream and returns a MultipartFormData-Instance. 
     /// This method is NOT threadsafe
@@ -135,7 +134,7 @@ namespace BurnSystems.Net
 
             if (left == "Content-Disposition")
             {
-                var splittedRight = right.Split(new[] { ';' });
+                var splittedRight = right.Split(';');
 
                 foreach (var headerPart in splittedRight)
                 {

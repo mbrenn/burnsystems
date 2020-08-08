@@ -9,10 +9,11 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Logs the level
         /// </summary>
+        /// <param name="logger">The logger to be used</param>
         /// <param name="logLevel">The loglevel to be logged</param>
         /// <param name="messageText">Message to be filtered</param>
         /// <param name="category">Category of the</param>
-        public static void Log(this ILogger logger, LogLevel logLevel, string messageText, string category = "")
+        public static void Log(this ILogger logger, LogLevel logLevel, string messageText, string category)
         {
             var message = new LogMessage
             {
