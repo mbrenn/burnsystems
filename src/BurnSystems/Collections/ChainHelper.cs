@@ -56,7 +56,7 @@ namespace BurnSystems.Collections
         /// <returns>Enumerated elemets</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            T? current = Head;
+            var current = Head;
             while (current != null)
             {
                 yield return current;
