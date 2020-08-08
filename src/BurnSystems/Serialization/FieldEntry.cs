@@ -1,7 +1,7 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System.Reflection;
+﻿using System.Reflection;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// This class defines the entry for the different fields
     /// </summary>

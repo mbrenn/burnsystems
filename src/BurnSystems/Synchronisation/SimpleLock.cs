@@ -1,9 +1,9 @@
+using System;
+using BurnSystems.Interfaces;
+using BurnSystems.Test;
+
 namespace BurnSystems.Synchronisation
 {
-    using System;
-    using Interfaces;
-    using Test;
-
     /// <summary>
     /// Eine einfache Locking-Klasse, die für das Locken 
     /// eines ILockable-Objektes zustündig ist

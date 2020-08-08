@@ -1,11 +1,12 @@
-﻿namespace BurnSystems.Collections
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using Extensions;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using BurnSystems.Extensions;
 
+namespace BurnSystems.Collections
+{
     /// <summary>
     /// The objectcontainer stores the objects
     /// and offers a method to get an access to the objects
@@ -156,14 +157,12 @@
                 switch (functionName)
                 {
                     case "GetSummary":
-                        return StringManipulation.Join(
-                            _objects.Select(
-                                x => string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    "{0}: {1}",
-                                    x.Key,
-                                    x.Value.ConvertToString())),
-                            "\n");
+                        return _objects.Select(
+                            x => string.Format(
+                                CultureInfo.InvariantCulture,
+                                "{0}: {1}",
+                                x.Key,
+                                x.Value.ConvertToString())).Join("\n");
                 }
             }
 
@@ -190,7 +189,7 @@
         /// Gets the items of the enumeration
         /// </summary>
         /// <returns>Items of the enumeration</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             List<KeyValuePair<string, object>> copy;
 

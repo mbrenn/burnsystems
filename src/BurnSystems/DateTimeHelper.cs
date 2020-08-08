@@ -1,7 +1,7 @@
-﻿namespace BurnSystems
-{
-    using System;
+﻿using System;
 
+namespace BurnSystems
+{
     /// <summary>
     /// This static helper class is used to manipulate DateTime-Structures
     /// </summary>
@@ -27,19 +27,17 @@
                     0,
                     0);
             }
-            else
-            {
-                var yesterday = time.Subtract(
-                    TimeSpan.FromDays(1));
 
-                return new DateTime(
-                    yesterday.Year,
-                    yesterday.Month,
-                    yesterday.Day,
-                    hour,
-                    0,
-                    0);
-            }
+            var yesterday = time.Subtract(
+                TimeSpan.FromDays(1));
+
+            return new DateTime(
+                yesterday.Year,
+                yesterday.Month,
+                yesterday.Day,
+                hour,
+                0,
+                0);
         }
     }
 }

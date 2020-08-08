@@ -1,13 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using BurnSystems.Logging;
 
 namespace BurnSystems.Plugins
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-
     /// <summary>
     /// This class implements a plugin loader for applications. 
     /// It also tries to resolve dependencies within plugins, so they
@@ -33,13 +32,6 @@ namespace BurnSystems.Plugins
         /// Gets all plugins
         /// </summary>
         public List<PluginInfo<T>> Plugins => _plugins;
-
-        /// <summary>
-        /// Initializes a new instance of the PluginLoader class. 
-        /// </summary>
-        public PluginLoader()
-        {
-        }
 
         /// <summary>
         /// Loads all plugins from current directory with a certain attribute

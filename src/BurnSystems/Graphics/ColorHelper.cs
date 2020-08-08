@@ -1,9 +1,9 @@
+using System.Drawing;
+using System.Globalization;
+using BurnSystems.Test;
+
 namespace BurnSystems.Graphics
 {
-    using System.Drawing;
-    using System.Globalization;
-    using Test;
-    
     /// <summary>
     /// This is a small helper class for converting colors to hex and back. 
     /// Further methods will be implemented in the future
@@ -46,9 +46,9 @@ namespace BurnSystems.Graphics
                 return Color.White;
             }
 
-            var nR = StringManipulation.HexToInt(hexValue.Substring(start, 2));
-            var nG = StringManipulation.HexToInt(hexValue.Substring(start + 2, 2));
-            var nB = StringManipulation.HexToInt(hexValue.Substring(start + 4, 2));
+            var nR = hexValue.Substring(start, 2).HexToInt();
+            var nG = hexValue.Substring(start + 2, 2).HexToInt();
+            var nB = hexValue.Substring(start + 4, 2).HexToInt();
             return Color.FromArgb(255, nR, nG, nB);
         }
     }

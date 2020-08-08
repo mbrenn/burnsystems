@@ -1,7 +1,8 @@
-﻿namespace BurnSystems.Test
-{
-    using System;
+﻿using System;
+using System.Runtime.Serialization;
 
+namespace BurnSystems.Test
+{
     /// <summary>
     /// This method is thrown, when an ensure check failes
     /// </summary>
@@ -39,8 +40,8 @@
         /// <param name="info">Used by serialization</param>
         /// <param name="context">Context required for serialization</param>
         protected EnsureFailedException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context)
+          SerializationInfo info,
+          StreamingContext context)
             : base(info, context)
         {
         }

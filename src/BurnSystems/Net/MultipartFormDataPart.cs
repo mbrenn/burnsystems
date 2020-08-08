@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using BurnSystems.Collections;
+
 namespace BurnSystems.Net
 {
-    using System.Collections.Generic;
-    using Collections;
-
     /// <summary>
     /// Contains one part of the multipartform data. 
     /// </summary>

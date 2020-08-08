@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace BurnSystems.UserExceptionHandler
 {
@@ -32,8 +33,8 @@ namespace BurnSystems.UserExceptionHandler
         /// <param name="info">Information about serialization</param>
         /// <param name="context">Information about streaming context</param>
         protected NotHandledException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context)
+          SerializationInfo info,
+          StreamingContext context)
             : base(info, context) { }
     }
 }

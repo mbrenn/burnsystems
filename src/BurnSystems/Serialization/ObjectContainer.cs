@@ -1,8 +1,8 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// The object container stores the objects, which have already been registered
     /// </summary>

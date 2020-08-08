@@ -1,7 +1,7 @@
-﻿namespace BurnSystems.Plugins
-{
-    using System;
+﻿using System;
 
+namespace BurnSystems.Plugins
+{
     /// <summary>
     /// This attribute is used to define the dependency of a plugin 
     /// to another plugin. The Pluginloader has to load the plugins in 

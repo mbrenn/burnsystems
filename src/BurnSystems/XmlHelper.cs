@@ -1,16 +1,14 @@
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using BurnSystems.Test;
 
 namespace BurnSystems
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Text;
-    using System.Linq;
-    using System.Xml;
-    using System.Xml.Linq;
-    using Test;
-
     /// <summary>
     /// Helperclass for improving access to xml documents
     /// </summary>

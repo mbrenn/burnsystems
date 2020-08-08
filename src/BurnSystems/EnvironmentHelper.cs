@@ -1,14 +1,14 @@
-﻿namespace BurnSystems
-{
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Security;
-    using System.Xml.Linq;
-    using Test;
+﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security;
+using System.Xml.Linq;
+using BurnSystems.Test;
 
+namespace BurnSystems
+{
     /// <summary>
     /// This helper class offers some method to determine environment information
     /// </summary>

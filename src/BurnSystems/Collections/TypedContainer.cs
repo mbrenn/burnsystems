@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Collections
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace BurnSystems.Collections
+{
     /// <summary>
     /// Implements a container, that stores the instances according to their type. 
     /// An instance can be retrieved by its type

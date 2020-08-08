@@ -1,13 +1,15 @@
-﻿namespace BurnSystems
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
-    using Test;
-    using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using BurnSystems.Test;
+// ReSharper disable FormatStringProblem
 
+namespace BurnSystems
+{
     /// <summary>
     /// Delegat, der für die Funktion <c>Join</c> genutzt wird
     /// </summary>
@@ -227,7 +229,7 @@
         /// <returns>Hash as string</returns>
         public static string Sha1(this byte[] bytes)
         {
-            using var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+            using var sha1 = new SHA1CryptoServiceProvider();
             var result = sha1.ComputeHash(bytes);
 
             return ToHexString(result);
@@ -263,7 +265,7 @@
         {
             var pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             var builder = new StringBuilder();
-            var randomGenerator = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var randomGenerator = new RNGCryptoServiceProvider();
 
             var randomBytes = new byte[length];
             randomGenerator.GetBytes(randomBytes);
@@ -555,10 +557,8 @@
             {
                 return $"{doubleFileLength:n0} {prefix[0]}";
             }
-            else
-            {
-                return string.Format("{0:n" + decimals + "} {1}", doubleFileLength, prefix[prefixNumber]);
-            }
+
+            return string.Format("{0:n" + decimals + "} {1}", doubleFileLength, prefix[prefixNumber]);
         }
 
         /// <summary>

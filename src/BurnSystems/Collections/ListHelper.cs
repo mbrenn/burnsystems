@@ -1,12 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using BurnSystems.Test;
 
 namespace BurnSystems.Collections
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-
     /// <summary>
     /// Defines the delegate for the procedure
     /// </summary>

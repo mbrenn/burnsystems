@@ -1,8 +1,8 @@
+using System;
+using System.Threading;
+
 namespace BurnSystems.Synchronisation
 {
-    using System;
-    using System.Threading;
-
     /// <summary>
     /// Diese Delegatstruktur wird für die Benachrichtigung 
     /// von Threadabbrüchen genutzt. 

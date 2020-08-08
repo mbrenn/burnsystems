@@ -1,12 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using System.Web;
+
 namespace BurnSystems.Net
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Text;
-    using System.Web;
-    using Test;
-
     /// <summary>
     /// über diese Klasse nutzt die internen .Net-Routinen und stellt
     /// ein einfaches Interface zur Erzeugung eines Post-HTTP-Requests

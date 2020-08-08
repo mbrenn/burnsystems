@@ -1,8 +1,8 @@
-﻿namespace BurnSystems.IO
-{
-    using System.IO;
-    using System.Text;
+﻿using System.IO;
+using System.Text;
 
+namespace BurnSystems.IO
+{
     /// <summary>
     /// Dieser TextReader wird benötigt, wenn ein Teil des Streams als Text
     /// behandelt werden soll. Wird dieser TextReader nicht mehr benötigt,
