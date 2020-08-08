@@ -115,7 +115,7 @@ namespace BurnSystems.Serialization
         {
             var dataType = BinaryReader.ReadDataType();
 
-            object? result = dataType switch
+            var result = dataType switch
             {
                 DataType.Null => null,
                 DataType.Native => ReadNativeType(),
