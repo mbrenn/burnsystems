@@ -1,7 +1,7 @@
+using System.Xml.Linq;
+
 namespace BurnSystems.Interfaces
 {
-    using System.Xml.Linq;
-
     /// <summary>
     /// This interface is implemented by all classes, whose
     /// state shall be read from an xml node or shall be written to 

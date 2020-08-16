@@ -10,7 +10,7 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Stores the categories of the event
         /// </summary>
-        private Dictionary<string, int> _categories = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _categories = new Dictionary<string, int>();
 
         [NonEvent]
         public void LogMessage(LogMessage logMessage)
@@ -18,7 +18,7 @@ namespace BurnSystems.Logging.Provider
             int eventId;
             lock(_categories)
             {
-                if (string.IsNullOrEmpty(logMessage.Category) || logMessage.Category == null)
+                if (string.IsNullOrEmpty(logMessage.Category))
                 {
                     eventId = 1;
                 }
@@ -32,7 +32,7 @@ namespace BurnSystems.Logging.Provider
                 }
             }
 
-            InternalLog(eventId, logMessage.Category ?? string.Empty, logMessage.ToString());
+            InternalLog(eventId, logMessage.Category, logMessage.ToString());
         }
 
         [Event(1, Message = "{0}, {1}:{2}", Level = EventLevel.Informational)]
@@ -42,8 +42,6 @@ namespace BurnSystems.Logging.Provider
             {
                 WriteEvent(1, eventId, category, message);
             }
-        }
-
-            
+        }    
     }
 }

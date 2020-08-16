@@ -9,16 +9,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Runtime.Serialization;
 using BurnSystems.Logging;
 
 namespace BurnSystems.Serialization
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// The composer class helps to recompose the object
     /// </summary>
@@ -115,29 +114,16 @@ namespace BurnSystems.Serialization
         public object? ReadData()
         {
             var dataType = BinaryReader.ReadDataType();
-            object? result;
 
-            switch (dataType)
+            var result = dataType switch
             {
-                case DataType.Null:
-                    result = null;
-                    break;
-                case DataType.Native:
-                    result = ReadNativeType();
-                    break;
-                case DataType.Array:
-                    result = ReadArrayType();
-                    break;
-                case DataType.Complex:
-                    result = ReadComplexType();
-                    break;
-                case DataType.Enum:
-                    result = ReadEnumType();
-                    break;
-                default:
-                    throw new InvalidOperationException(
-                        LocalizationBS.BinaryWriter_UnknownDataType);
-            }
+                DataType.Null => null,
+                DataType.Native => ReadNativeType(),
+                DataType.Array => ReadArrayType(),
+                DataType.Complex => ReadComplexType(),
+                DataType.Enum => ReadEnumType(),
+                _ => throw new InvalidOperationException(LocalizationBS.BinaryWriter_UnknownDataType)
+            };
 
             return result;
         }
@@ -186,7 +172,8 @@ namespace BurnSystems.Serialization
             var typeEntry = Deserializer.TypeContainer.FindType(typeId);
             Debug.Assert(typeEntry != null);
 
-            return Enum.ToObject(typeEntry!.Type, value);
+            return Enum.ToObject(
+                typeEntry?.Type ?? throw new InvalidOperationException("Type is not set"), value);
         }
 
         /// <summary>
@@ -199,9 +186,10 @@ namespace BurnSystems.Serialization
             var complexHeader = BinaryReader.ReadComplexHeader();
 
             var type = Deserializer.TypeContainer.FindType(complexHeader.TypeId);
-            if ( type == null ) throw new InvalidOperationException("type is null");
+            if (type == null) throw new InvalidOperationException("type is null");
 
-            var value = FormatterServices.GetSafeUninitializedObject(type.Type);
+            var value = FormatterServices.GetSafeUninitializedObject(
+                type.Type ?? throw new InvalidOperationException("Type is not set"));
             Deserializer.ObjectContainer.AddObject(complexHeader.ObjectId, value);
 
             for (var n = 0; n < complexHeader.FieldCount; n++)
@@ -212,7 +200,6 @@ namespace BurnSystems.Serialization
 
                 // Tries to get field
                 var field = type.FindField(propertyId);
-                if (field == null) throw new InvalidOperationException("field is null");
 
                 if (field.FieldInfo != null)
                 {
@@ -279,7 +266,9 @@ namespace BurnSystems.Serialization
             // Creates the array
             var elementType = Deserializer.TypeContainer.FindType(
                 arrayHeader.TypeId);
-            var array = Array.CreateInstance(elementType.Type, dimensionList.ToArray());
+            var array = Array.CreateInstance(
+                elementType.Type ?? throw new InvalidOperationException("Type is not set"),
+                dimensionList.ToArray());
             Deserializer.ObjectContainer.AddObject(arrayHeader.ObjectId, array);
 
             // Enumerates the array

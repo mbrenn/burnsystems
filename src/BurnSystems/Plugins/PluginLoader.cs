@@ -1,13 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using BurnSystems.Logging;
 
 namespace BurnSystems.Plugins
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-
     /// <summary>
     /// This class implements a plugin loader for applications. 
     /// It also tries to resolve dependencies within plugins, so they
@@ -35,13 +34,6 @@ namespace BurnSystems.Plugins
         public List<PluginInfo<T>> Plugins => _plugins;
 
         /// <summary>
-        /// Initializes a new instance of the PluginLoader class. 
-        /// </summary>
-        public PluginLoader()
-        {
-        }
-
-        /// <summary>
         /// Loads all plugins from current directory with a certain attribute
         /// </summary>
         /// <param name="typeAttribute">Type of the attribute</param>
@@ -59,8 +51,7 @@ namespace BurnSystems.Plugins
                         .Where(x => x.GetCustomAttributes(typeAttribute, false).Length > 0)
                         .Where(x => x.GetInterfaces().Any(y => y.FullName == typeof(T).FullName)))
                     {
-                        var plugin = Activator.CreateInstance(type) as T;
-                        if (plugin == null)
+                        if (!(Activator.CreateInstance(type) is T plugin))
                         {
                             throw new InvalidOperationException("Activator.CreateInstance has returned null");
                         }
@@ -116,8 +107,7 @@ namespace BurnSystems.Plugins
                 }
 
                 // Creates the plugin and adds the plugin info
-                var plugin = Activator.CreateInstance(typeOfPlugin) as T;
-                if (plugin == null)
+                if (!(Activator.CreateInstance(typeOfPlugin) is T plugin))
                 {
                     throw new InvalidOperationException("Created Instance is null");
                 }

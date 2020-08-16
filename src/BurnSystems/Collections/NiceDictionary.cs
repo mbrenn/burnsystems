@@ -1,9 +1,10 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using BurnSystems.Interfaces;
+
 namespace BurnSystems.Collections
 {
-    using System;
-    using System.Collections.Generic;
-    using Interfaces;
-
     /// <summary>
     /// Dieses Dictionary entspricht dem normalen Dictionary, nur dass 
     /// bei der Abfrage über den Indexer ein null-Wert zurückgegeben wird, 
@@ -182,7 +183,7 @@ namespace BurnSystems.Collections
         /// Gets an enumerator
         /// </summary>
         /// <returns>Enumerator of dictionary</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _dictionary.GetEnumerator();
         }

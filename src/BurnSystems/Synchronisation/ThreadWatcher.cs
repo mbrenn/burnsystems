@@ -1,9 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+
 namespace BurnSystems.Synchronisation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-
     /// <summary>
     /// Diese Klasse verarbeitet Threads und überprüft, ob 
     /// die Threads nach einer gewissen Zeit schon beendet sind. 
@@ -138,7 +139,7 @@ namespace BurnSystems.Synchronisation
                     var now = DateTime.Now;
                     var threadsToBeRemoved = new List<ThreadWatcherItem>();
 
-                    if (System.Diagnostics.Debugger.IsAttached)
+                    if (Debugger.IsAttached)
                     {
                         // Bei einem aktiven Debugger werden keine Threads getötet
                         continue;
@@ -209,7 +210,7 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             ~WatchHelper()
             {
-                Dispose(false);
+                Dispose();
             }
 
             #region IDisposable Member
@@ -220,18 +221,8 @@ namespace BurnSystems.Synchronisation
             /// </summary>
             public void Dispose()
             {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            /// <summary>
-            /// Removes the thread from threadwatcher
-            /// </summary>
-            /// <param name="disposing">Value, indicating, if
-            /// called by Dispose()</param>
-            public void Dispose(bool disposing)
-            {
                 UnwatchThread(_thread);
+                GC.SuppressFinalize(this);
             }
 
             #endregion

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using BurnSystems.Interfaces;
 using System.Xml.Linq;
 using System.Globalization;
@@ -41,8 +38,7 @@ namespace BurnSystems.UnitTests.Collections
 
             public override bool Equals(object obj)
             {
-                var entity = obj as Entity;
-                if (entity == null)
+                if (!(obj is Entity entity))
                 {
                     return false;
                 }

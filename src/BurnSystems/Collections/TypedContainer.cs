@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Collections
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace BurnSystems.Collections
+{
     /// <summary>
     /// Implements a container, that stores the instances according to their type. 
     /// An instance can be retrieved by its type
@@ -37,14 +37,14 @@
 
             foreach (var instance in _instances)
             {
-                if (instance is T)
+                if (instance is T instanceAsT)
                 {
                     if (alreadyFound)
                     {
                         throw new InvalidOperationException(LocalizationBS.TypedContainer_MultipleInstance);
                     }
 
-                    found = (T) instance;
+                    found = instanceAsT;
                     alreadyFound = true;
                 }
             }

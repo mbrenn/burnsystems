@@ -2,11 +2,11 @@
 {
     public class WorkingMan
     {
-        private ILogger logger = new ClassLogger(typeof(WorkingMan));
+        private readonly ILogger _logger = new ClassLogger(typeof(WorkingMan));
 
         public void Work()
         {
-            logger.Info("We are working.");
+            _logger.Info("We are working.");
         }
     }
 }

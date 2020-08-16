@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System;
-    using System.Collections.Generic;
-    using Test;
+﻿using System;
+using System.Collections.Generic;
+using BurnSystems.Test;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// Type of container
     /// </summary>
@@ -122,12 +122,6 @@
         /// <returns>true, if the given value is of a native type</returns>
         public static bool IsNativeObject(object value)
         {
-            if (value == null)
-            {
-                // Null value is valid
-                return true;
-            }
-
             return IsNativeType(value.GetType());
         }
 

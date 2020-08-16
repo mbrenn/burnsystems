@@ -1,12 +1,11 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using Test;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// Deserializes a stream and returns an object. 
     /// </summary>

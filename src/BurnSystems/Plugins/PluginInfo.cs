@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Plugins
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 
+namespace BurnSystems.Plugins
+{
     /// <summary>
     /// Stores the information about a plugin
     /// </summary>
@@ -71,8 +71,7 @@
                 typeof(PluginDependencyAttribute), true);
             foreach (var attributeRaw in attributes)
             {
-                var attribute = attributeRaw as PluginDependencyAttribute;
-                if (attribute == null)
+                if (!(attributeRaw is PluginDependencyAttribute attribute))
                 {
                     throw new InvalidOperationException("attribute is null: " +
                                                         (attributeRaw?.ToString() ?? "Unknown"));

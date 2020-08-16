@@ -1,11 +1,12 @@
-﻿namespace BurnSystems.Collections
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using Extensions;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using BurnSystems.Extensions;
 
+namespace BurnSystems.Collections
+{
     /// <summary>
     /// The objectcontainer stores the objects
     /// and offers a method to get an access to the objects
@@ -120,9 +121,9 @@
             lock (_objects)
             {
                 var exists = _objects.TryGetValue(key, out var temp);
-                if (exists && temp is T)
+                if (exists && temp is T value)
                 {
-                    result = (T)temp;
+                    result = value;
                 }
                 else
                 {
@@ -138,7 +139,7 @@
         /// </summary>
         /// <param name="name">Name of requested property</param>
         /// <returns>Property behind this object</returns>
-        public object? GetProperty(string name)
+        public object GetProperty(string name)
         {
             return this[name];
         }
@@ -147,23 +148,20 @@
         /// This function has to execute a function and to return an object
         /// </summary>
         /// <param name="functionName">Name of function</param>
-        /// <param name="parameters">Parameters for the function</param>
         /// <returns>Return of function</returns>
-        public object? ExecuteFunction(string functionName, IList<object> parameters)
+        public object? ExecuteFunction(string functionName)
         {
             lock (_objects)
             {
                 switch (functionName)
                 {
                     case "GetSummary":
-                        return StringManipulation.Join(
-                            _objects.Select(
-                                x => string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    "{0}: {1}",
-                                    x.Key,
-                                    x.Value.ConvertToString())),
-                            "\n");
+                        return _objects.Select(
+                            x => string.Format(
+                                CultureInfo.InvariantCulture,
+                                "{0}: {1}",
+                                x.Key,
+                                x.Value.ConvertToString())).Join("\n");
                 }
             }
 
@@ -190,7 +188,7 @@
         /// Gets the items of the enumeration
         /// </summary>
         /// <returns>Items of the enumeration</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             List<KeyValuePair<string, object>> copy;
 

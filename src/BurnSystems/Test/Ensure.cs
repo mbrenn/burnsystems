@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Test
-{
-    using System;
-    using System.Globalization;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Globalization;
+using System.Linq.Expressions;
 
+namespace BurnSystems.Test
+{
     /// <summary>
     /// Mit Hilfe dieser Hilfsklasse kann überprüft werden, ob 
     /// ein bestimmter Zustand eingehalten wird. Im Prinzip entspricht 
@@ -116,7 +116,7 @@
         {
             if (!expression.Compile()())
             {
-                throw new EnsureFailedException("That: " + expression.ToString());
+                throw new EnsureFailedException("That: " + expression);
             }
         }
 
@@ -213,35 +213,6 @@
                     reference?.ToString() ?? "null"));
         }
 
-        /// <summary>
-        /// Überprüft, ob die beiden Objekte gleich sind. Zum Vergleich
-        /// wird der ==-Operator genutzt.
-        /// </summary>
-        /// <typeparam name="T">Typ der zu vergleichenden Objekte</typeparam>
-        /// <param name="value">Wert, der geprüft werden soll. </param>
-        /// <param name="reference">Wert, zu dem <c>value</c> gleich sein soll.</param>
-        /// <param name="text">Error text</param>
-        public static void AreEqual<T>(T value, T reference, string text)
-        {
-            if (value == null && reference == null)
-            {
-                return;
-            }
-            
-            if (value == null || value.Equals(reference))
-            {
-                return;
-            }
-
-            throw new EnsureFailedException(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Is: {0}, Should: {1}",
-                    value?.ToString(),
-                    reference?.ToString() ?? "null",
-                    text));
-        }
-
         #endregion
 
         #region AreNotEqual
@@ -284,7 +255,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -307,7 +277,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -330,7 +299,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -353,7 +321,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -376,7 +343,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -399,7 +365,6 @@
         {
             if (value > reference)
             {
-                return;
             }
             else
             {
@@ -426,7 +391,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -449,7 +413,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -472,7 +435,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -495,7 +457,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -518,7 +479,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -541,7 +501,6 @@
         {
             if (value >= reference)
             {
-                return;
             }
             else
             {
@@ -568,7 +527,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -591,7 +549,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -614,7 +571,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -637,7 +593,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -660,7 +615,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -683,7 +637,6 @@
         {
             if (value < reference)
             {
-                return;
             }
             else
             {
@@ -710,7 +663,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -733,7 +685,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -756,7 +707,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -779,7 +729,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -802,7 +751,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -825,7 +773,6 @@
         {
             if (value <= reference)
             {
-                return;
             }
             else
             {
@@ -874,14 +821,13 @@
         {
             if (!type.IsInstanceOfType(value))
             {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (value == null)
                 {
                     throw new EnsureFailedException("null not type of " + type.FullName);
                 }
-                else
-                {
-                    throw new EnsureFailedException(value.ToString() + " not type of " + type.FullName);
-                }
+
+                throw new EnsureFailedException(value + " not type of " + type.FullName);
             }
         }
 

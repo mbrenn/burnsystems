@@ -1,7 +1,7 @@
-﻿namespace BurnSystems.Xml.Html
-{
-    using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
+namespace BurnSystems.Xml.Html
+{
     /// <summary>
     /// Offers some helpermethods that can be used to manipulate and to create html documents
     /// </summary>
@@ -16,7 +16,7 @@
         /// Creates an Html Document of Version 5
         /// </summary>
         /// <returns></returns>
-        public static XDocument Create(string title, params XElement[] contents)
+        public static XDocument Create(string title, params object[] contents)
         {
             var result = new XDocument(
                 new XDocumentType("html", null, null, null),

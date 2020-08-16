@@ -6,7 +6,7 @@ namespace LogMeister.Client.Example
 {
     class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var server = new PipeLoggingClient();
             Task.Run(() => server.Start("BurnSystems.Prime")).ContinueWith(x=>Console.WriteLine("Server closed connection")).Wait();

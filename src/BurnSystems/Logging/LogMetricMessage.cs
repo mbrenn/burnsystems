@@ -39,8 +39,6 @@ namespace BurnSystems.Logging
 
         public override string ToString()
         {
-            Message ??= string.Empty;
-
             if (string.IsNullOrEmpty(Category))
             {
                 return

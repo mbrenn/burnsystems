@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System;
-    using System.Collections.Generic;
-    using Test;
+﻿using System;
+using System.Collections.Generic;
+using BurnSystems.Test;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// This visitor visits an object and calls the necessary method in 
     /// Serializer and Writer to serialize the object into a stream.
@@ -39,6 +39,7 @@
         public void ParseObject(object value)
         {
             // Null object
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (value == null)
             {
                 _writer.StartContainer(ContainerType.Data);
@@ -147,8 +148,7 @@
         /// <param name="objectId">Id of object</param>
         private void ParseArrayObject(object value, long objectId)
         {
-            var array = value as Array;
-            if (array == null)
+            if (!(value is Array array))
             {
                 throw new InvalidOperationException("Value is not of type Array");
             }

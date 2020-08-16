@@ -22,8 +22,6 @@
 
         public override string ToString()
         {
-            Message ??= string.Empty;
-
             if (string.IsNullOrEmpty(Category))
             {
                 return $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}]: {Message}";

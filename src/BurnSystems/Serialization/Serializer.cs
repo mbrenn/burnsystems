@@ -1,9 +1,9 @@
-﻿namespace BurnSystems.Serialization
-{
-    using System;
-    using System.IO;
-    using Test;
+﻿using System;
+using System.IO;
+using BurnSystems.Test;
 
+namespace BurnSystems.Serialization
+{
     /// <summary>
     /// Serializes an object into a stream
     /// </summary>
@@ -57,6 +57,7 @@
 
             var typeEntry = TypeContainer.FindType(type);
 
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (typeEntry == null)
             {
                 // Adds subgeneric
