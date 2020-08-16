@@ -140,43 +140,41 @@ namespace BurnSystems.Extensions
         {
             string valueText;
 
-            if (value == null)
+            switch (value)
             {
-                valueText = "null";
-            }
-            else if (value is string)
-            {
-                valueText = value.ToString();
-            }
-            else if (value is IEnumerable valueAsEnumerable)
-            {
-                var builder = new StringBuilder();
-                builder.Append('{');
-
-                var komma = string.Empty;
-                foreach (var subItem in valueAsEnumerable)
+                case string _:
+                    valueText = value.ToString();
+                    break;
+                case IEnumerable valueAsEnumerable:
                 {
-                    builder.Append(komma);
+                    var builder = new StringBuilder();
+                    builder.Append('{');
 
-                    if (subItem != null)
+                    var komma = string.Empty;
+                    foreach (var subItem in valueAsEnumerable)
                     {
-                        builder.Append(subItem);
-                    }
-                    else
-                    {
-                        builder.Append("null");
+                        builder.Append(komma);
+
+                        if (subItem != null)
+                        {
+                            builder.Append(subItem);
+                        }
+                        else
+                        {
+                            builder.Append("null");
+                        }
+
+                        komma = ", ";
                     }
 
-                    komma = ", ";
+                    builder.Append('}');
+
+                    valueText = builder.ToString();
+                    break;
                 }
-
-                builder.Append('}');
-
-                valueText = builder.ToString();
-            }
-            else
-            {
-                valueText = value.ToString();
+                default:
+                    valueText = value.ToString();
+                    break;
             }
 
             return

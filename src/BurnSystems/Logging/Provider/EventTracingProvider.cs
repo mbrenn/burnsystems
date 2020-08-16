@@ -18,7 +18,7 @@ namespace BurnSystems.Logging.Provider
             int eventId;
             lock(_categories)
             {
-                if (string.IsNullOrEmpty(logMessage.Category) || logMessage.Category == null)
+                if (string.IsNullOrEmpty(logMessage.Category))
                 {
                     eventId = 1;
                 }
@@ -32,7 +32,7 @@ namespace BurnSystems.Logging.Provider
                 }
             }
 
-            InternalLog(eventId, logMessage.Category ?? string.Empty, logMessage.ToString());
+            InternalLog(eventId, logMessage.Category, logMessage.ToString());
         }
 
         [Event(1, Message = "{0}, {1}:{2}", Level = EventLevel.Informational)]

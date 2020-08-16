@@ -122,12 +122,6 @@ namespace BurnSystems.Serialization
         /// <returns>true, if the given value is of a native type</returns>
         public static bool IsNativeObject(object value)
         {
-            if (value == null)
-            {
-                // Null value is valid
-                return true;
-            }
-
             return IsNativeType(value.GetType());
         }
 

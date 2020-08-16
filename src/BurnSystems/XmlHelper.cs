@@ -28,7 +28,7 @@ namespace BurnSystems
             string attributeName,
             string defaultvalue)
         {
-            if (xmlNode?.Attributes == null) throw new ArgumentNullException(nameof(xmlNode));
+            if (xmlNode.Attributes == null) throw new ArgumentNullException(nameof(xmlNode));
             if (attributeName == null) throw new ArgumentNullException(nameof(attributeName));
 
             var xmlAttribute = xmlNode.Attributes[attributeName];
@@ -477,11 +477,6 @@ namespace BurnSystems
         /// <returns>Element's value or default value</returns>
         public static string GetValueOr(this XElement element, string defaultValue)
         {
-            if (element == null)
-            {
-                return defaultValue;
-            }
-
             return element.Value;
         }
 
@@ -493,11 +488,6 @@ namespace BurnSystems
         /// <returns>Element's value or default value</returns>
         public static int GetValueOr(this XElement element, int defaultValue)
         {
-            if (element == null)
-            {
-                return defaultValue;
-            }
-
             return Convert.ToInt32(element.Value);
         }
 
@@ -509,11 +499,6 @@ namespace BurnSystems
         /// <returns>Element's value or default value</returns>
         public static bool GetValueOr(this XElement element, bool defaultValue)
         {
-            if (element == null)
-            {
-                return defaultValue;
-            }
-
             return Convert.ToBoolean(element.Value);
         }
 

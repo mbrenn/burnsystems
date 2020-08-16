@@ -39,6 +39,7 @@ namespace BurnSystems.Serialization
         public void ParseObject(object value)
         {
             // Null object
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (value == null)
             {
                 _writer.StartContainer(ContainerType.Data);

@@ -80,10 +80,10 @@ namespace BurnSystems.Logging.Pipe
             SetInteger8((byte) logMessage.LogLevel, bytes, ref offset);
 
             // Category
-            SetString(logMessage.Category ?? string.Empty, bytes, ref offset);
+            SetString(logMessage.Category, bytes, ref offset);
 
             // Message
-            SetString(logMessage.Message ?? string.Empty, bytes, ref offset);
+            SetString(logMessage.Message, bytes, ref offset);
 
             if (messageId == SerializerMessageIDs.SendLogMetricMessageInteger)
             {
@@ -121,7 +121,7 @@ namespace BurnSystems.Logging.Pipe
         private static int GetByteCountForDouble() => sizeof(double);
         
         private static int GetByteCountForString(string value) =>
-            Encoding.UTF8.GetBytes(value ?? string.Empty).Length + GetByteCountForInteger32();
+            Encoding.UTF8.GetBytes(value).Length + GetByteCountForInteger32();
         
 
         public static void SetBytes(byte[] bytes, byte[] buffer, ref int offset)
@@ -162,7 +162,6 @@ namespace BurnSystems.Logging.Pipe
 
         private static void SetString(string text, byte[] result, ref int offset)
         {
-            text ??= string.Empty;
             var bytes = Encoding.UTF8.GetBytes(text);
             SetInteger32(bytes.Length, result, ref offset);
 

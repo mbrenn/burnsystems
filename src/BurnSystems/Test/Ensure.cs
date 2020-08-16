@@ -821,6 +821,7 @@ namespace BurnSystems.Test
         {
             if (!type.IsInstanceOfType(value))
             {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (value == null)
                 {
                     throw new EnsureFailedException("null not type of " + type.FullName);

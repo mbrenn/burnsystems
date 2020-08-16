@@ -172,7 +172,8 @@ namespace BurnSystems.Serialization
             var typeEntry = Deserializer.TypeContainer.FindType(typeId);
             Debug.Assert(typeEntry != null);
 
-            return Enum.ToObject(typeEntry!.Type, value);
+            return Enum.ToObject(
+                typeEntry?.Type ?? throw new InvalidOperationException("Type is not set"), value);
         }
 
         /// <summary>
@@ -185,9 +186,10 @@ namespace BurnSystems.Serialization
             var complexHeader = BinaryReader.ReadComplexHeader();
 
             var type = Deserializer.TypeContainer.FindType(complexHeader.TypeId);
-            if ( type == null ) throw new InvalidOperationException("type is null");
+            if (type == null) throw new InvalidOperationException("type is null");
 
-            var value = FormatterServices.GetSafeUninitializedObject(type.Type);
+            var value = FormatterServices.GetSafeUninitializedObject(
+                type.Type ?? throw new InvalidOperationException("Type is not set"));
             Deserializer.ObjectContainer.AddObject(complexHeader.ObjectId, value);
 
             for (var n = 0; n < complexHeader.FieldCount; n++)
@@ -198,7 +200,6 @@ namespace BurnSystems.Serialization
 
                 // Tries to get field
                 var field = type.FindField(propertyId);
-                if (field == null) throw new InvalidOperationException("field is null");
 
                 if (field.FieldInfo != null)
                 {
@@ -265,7 +266,9 @@ namespace BurnSystems.Serialization
             // Creates the array
             var elementType = Deserializer.TypeContainer.FindType(
                 arrayHeader.TypeId);
-            var array = Array.CreateInstance(elementType.Type, dimensionList.ToArray());
+            var array = Array.CreateInstance(
+                elementType.Type ?? throw new InvalidOperationException("Type is not set"),
+                dimensionList.ToArray());
             Deserializer.ObjectContainer.AddObject(arrayHeader.ObjectId, array);
 
             // Enumerates the array

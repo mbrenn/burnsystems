@@ -139,7 +139,7 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="name">Name of requested property</param>
         /// <returns>Property behind this object</returns>
-        public object? GetProperty(string name)
+        public object GetProperty(string name)
         {
             return this[name];
         }

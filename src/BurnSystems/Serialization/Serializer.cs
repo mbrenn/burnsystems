@@ -57,6 +57,7 @@ namespace BurnSystems.Serialization
 
             var typeEntry = TypeContainer.FindType(type);
 
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (typeEntry == null)
             {
                 // Adds subgeneric
