@@ -195,10 +195,13 @@ namespace BurnSystems
         /// Creates a simple random string, containing of <c>length</c> letters
         /// </summary>
         /// <param name="length">Length of requested randomstring</param>
+        /// <param name="withoutNumbers">Flag, whether the creates string shall not contain numbers</param>
         /// <returns>Random string</returns>
-        public static string RandomString(int length)
+        public static string RandomString(int length, bool withoutNumbers = false)
         {
-            var pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            var pool = withoutNumbers ? 
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             var result = new StringBuilder();
             var random = MathHelper.Random;
 
@@ -206,7 +209,7 @@ namespace BurnSystems
             random.NextBytes(randomBytes);
             for (var n = 0; n < length; n++)
             {
-                result.Append(pool[randomBytes[n] % 32]);
+                result.Append(pool[randomBytes[n] % pool.Length]);
             }
 
             return result.ToString();
