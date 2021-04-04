@@ -6,10 +6,22 @@ namespace BurnSystems
 {
     public static class ResourceHelper
     {
+        /// <summary>
+        /// Loads the string from assembly
+        /// </summary>
+        /// <param name="typeInAssembly">Type of the assembly from which the data is loaded</param>
+        /// <param name="resourcePath">Path to the resources</param>
+        /// <returns></returns>
         public static string LoadStringFromAssembly(Type typeInAssembly, string resourcePath)
         {
             using var stream =
                 typeInAssembly.Assembly.GetManifestResourceStream(resourcePath);
+            using var reader = new StreamReader(stream ?? throw new InvalidOperationException("Stream is empty"));
+            return reader.ReadToEnd();
+        }
+
+        public static string LoadStringFromStream(Stream stream)
+        {
             using var reader = new StreamReader(stream ?? throw new InvalidOperationException("Stream is empty"));
             return reader.ReadToEnd();
         }
