@@ -486,9 +486,9 @@ namespace BurnSystems
         /// <param name="element">Element whose value is queried</param>
         /// <param name="defaultValue">Default value if element is null</param>
         /// <returns>Element's value or default value</returns>
-        public static int GetValueOr(this XElement element, int defaultValue)
+        public static int GetValueOr(this XElement? element, int defaultValue)
         {
-            return Convert.ToInt32(element.Value);
+            return Convert.ToInt32(element?.Value ?? "0");
         }
 
         /// <summary>
