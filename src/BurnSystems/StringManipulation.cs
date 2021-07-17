@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using BurnSystems.Test;
+
 // ReSharper disable FormatStringProblem
 
 namespace BurnSystems
