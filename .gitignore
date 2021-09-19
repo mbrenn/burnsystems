@@ -174,3 +174,6 @@ src/.idea/*
 /src/DatenMeister.Web.Application/App_Data/Database
 /src/.vs
 /src/DatenMeister.Web.Application/htdocs/img/icons
+
+nugets/*.snupkg
+nugets/*.nupkg
