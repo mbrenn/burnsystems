@@ -24,7 +24,7 @@ namespace BurnSystems.Logging.Console
             Thread.Sleep(80);
             new WorkingMan().Work();
 
-            System.Console.WriteLine("Press key");
+            System.Console.WriteLine("Press key!");
             System.Console.ReadKey();
         }
     }
