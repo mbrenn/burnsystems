@@ -1,8 +1,8 @@
-﻿using BurnSystems.Xml.Html;
+﻿using System.Xml.Linq;
+using BurnSystems.Xml.Html;
 using NUnit.Framework;
-using System.Xml.Linq;
 
-namespace BurnSystems.UnitTests.Xml
+namespace BurnSystems.Tests.Xml
 {
     [TestFixture]
     public class XmlTests

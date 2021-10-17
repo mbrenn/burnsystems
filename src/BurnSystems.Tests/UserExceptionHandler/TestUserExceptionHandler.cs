@@ -1,8 +1,8 @@
-﻿using BurnSystems.UserExceptionHandler;
+﻿using System;
+using BurnSystems.UserExceptionHandler;
 using NUnit.Framework;
-using System;
 
-namespace BurnSystems.UnitTests.UserExceptionHandler
+namespace BurnSystems.Tests.UserExceptionHandler
 {
     [TestFixture]
     public class TestUserExceptionHandler
@@ -24,7 +24,7 @@ namespace BurnSystems.UnitTests.UserExceptionHandler
         [Test]
         public void TestTrueExceptionHandlers()
         {
-            var handler = new StandardExceptionHandling(new IUserExceptionHandler[] { new TrueExceptionHandler() });
+            var handler = new StandardExceptionHandling(new IUserExceptionHandler[] {new TrueExceptionHandler()});
             done = false;
             handler.HandleException(new Exception());
             Assert.That(done, Is.EqualTo(true));
@@ -33,7 +33,7 @@ namespace BurnSystems.UnitTests.UserExceptionHandler
         [Test]
         public void TestFalseExceptionHandlers()
         {
-            var handler = new StandardExceptionHandling(new IUserExceptionHandler[] { new FalseExceptionHandler() });
+            var handler = new StandardExceptionHandling(new IUserExceptionHandler[] {new FalseExceptionHandler()});
             done = false;
             Assert.Throws<NotHandledException>(() => handler.HandleException(new Exception()));
             Assert.That(done, Is.EqualTo(true));

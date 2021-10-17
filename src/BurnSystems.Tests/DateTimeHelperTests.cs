@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace BurnSystems.UnitTests
+namespace BurnSystems.Tests
 {
     /// <summary>
     /// Test class for DateTimeHelper
@@ -35,7 +35,7 @@ namespace BurnSystems.UnitTests
             var toQuarter = DateTimeHelper.Truncate(time, TimeSpan.FromMinutes(15));
             var toMinute = DateTimeHelper.TruncateToMinute(time);
             var toSecond = DateTimeHelper.TruncateToSecond(time);
-            
+
             Assert.That(toQuarter, Is.EqualTo(new DateTime(2012, 11, 16, 11, 30, 0, 0)));
             Assert.That(toMinute, Is.EqualTo(new DateTime(2012, 11, 16, 11, 42, 0, 0)));
             Assert.That(toSecond, Is.EqualTo(new DateTime(2012, 11, 16, 11, 42, 25, 0)));

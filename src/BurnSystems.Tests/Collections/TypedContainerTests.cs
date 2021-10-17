@@ -1,8 +1,8 @@
 ﻿using System;
-using NUnit.Framework;
 using BurnSystems.Collections;
+using NUnit.Framework;
 
-namespace BurnSystems.UnitTests.Collections
+namespace BurnSystems.Tests.Collections
 {
     /// <summary>
     /// Implements some tests for the typed container

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace BurnSystems.UnitTests
+namespace BurnSystems.Tests
 {
     /// <summary>
     /// Contains the test concerning string manipulation

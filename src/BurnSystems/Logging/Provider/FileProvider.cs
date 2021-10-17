@@ -6,18 +6,51 @@ namespace BurnSystems.Logging.Provider
 {
     public class FileProvider : ILogProvider, IDisposable
     {
-        private readonly string _filePath;
         private readonly bool _createNew;
+        private readonly string _filePath;
         private readonly object _syncObject = new object();
 
         private StreamWriter? _file;
-        
+
         public FileProvider(string filePath, bool createNew = false)
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
 
             _filePath = filePath;
             _createNew = createNew;
+
+            var createTry = 0;
+            while (createTry < 100 && _file == null)
+            {
+                try
+                {
+                    var fileCore = Path.GetFileNameWithoutExtension(_filePath);
+                    var fileExtension = Path.GetExtension(_filePath);
+                    var directoryPath = Path.GetDirectoryName(_filePath);
+                    var number = createTry == 0 ? string.Empty : "." + createTry;
+
+                    var fileName = Path.Combine(directoryPath, fileCore + number + fileExtension);
+                    _file = new StreamWriter(fileName, !_createNew);
+                }
+                catch (Exception)
+                {
+                    createTry++;
+                }
+            }
+
+            if (_file == null)
+            {
+                throw new InvalidOperationException($"File could not be created: {createTry}");
+            }
+        }
+
+        public void Dispose()
+        {
+            lock (_syncObject)
+            {
+                _file?.Dispose();
+                _file = null;
+            }
         }
 
         /// <summary>
@@ -30,29 +63,7 @@ namespace BurnSystems.Logging.Provider
             {
                 if (_file == null)
                 {
-                    var createTry = 0;
-                    while (createTry < 100 && _file == null)
-                    {
-                        try
-                        {
-                            var fileCore = Path.GetFileNameWithoutExtension(_filePath);
-                            var fileExtension = Path.GetExtension(_filePath);
-                            var directoryPath = Path.GetDirectoryName(_filePath);
-                            var number = createTry == 0 ? string.Empty : "." + createTry;
-
-                            var fileName = Path.Combine(directoryPath, fileCore + number + fileExtension);
-                            _file = new StreamWriter(fileName, !_createNew);
-                        }
-                        catch
-                        {
-                            createTry++;
-                        }
-                    }
-                }
-
-                if (_file == null)
-                {
-                    throw new InvalidOperationException("File could not be created");
+                    throw new InvalidOperationException("File-Handle could not be created. ");
                 }
 
                 var timePassed = DateTime.Now - TheLog.TimeCreated;
@@ -73,15 +84,6 @@ namespace BurnSystems.Logging.Provider
                 }
 
                 _file.Flush();
-            }
-        }
-
-        public void Dispose()
-        {
-            lock (_syncObject)
-            {
-                _file?.Dispose();
-                _file = null;
             }
         }
     }

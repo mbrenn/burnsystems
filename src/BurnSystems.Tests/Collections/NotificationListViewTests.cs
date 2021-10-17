@@ -1,6 +1,6 @@
-﻿namespace BurnSystems.UnitTests.Collections
+﻿namespace BurnSystems.Tests.Collections
 {
-	/*
+    /*
     /// <summary>
     /// This class contains some tests for the NotificationListView class
     /// </summary>
@@ -166,7 +166,7 @@
             public List<string> PropertyNames = new List<string>();
         }
 
-		/*
+        /*
         /// <summary>
         /// Stores the last information about collection changes
         /// </summary>
@@ -177,6 +177,6 @@
             /// </summary>
             public List<NotifyCollectionChangedEventArgs> Arguments = new List<NotifyCollectionChangedEventArgs>();
         }
-		
+        
     }*/
 }

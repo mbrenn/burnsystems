@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using BurnSystems.Interfaces;
+﻿using System.Globalization;
+using System.Linq;
 using System.Xml.Linq;
-using System.Globalization;
-using NUnit.Framework;
 using BurnSystems.Collections;
+using BurnSystems.Interfaces;
+using NUnit.Framework;
 
-namespace BurnSystems.UnitTests.Collections
+namespace BurnSystems.Tests.Collections
 {
     /// <summary>
     /// Stores all tests that have been created for the xmllist
@@ -18,23 +18,11 @@ namespace BurnSystems.UnitTests.Collections
         /// </summary>
         public class Entity
         {
-            public string Name
-            {
-                get;
-                set;
-            }
+            public string Name { get; set; }
 
-            public string Prename
-            {
-                get;
-                set;
-            }
+            public string Prename { get; set; }
 
-            public int Age
-            {
-                get;
-                set;
-            }
+            public int Age { get; set; }
 
             public override bool Equals(object obj)
             {
@@ -44,8 +32,8 @@ namespace BurnSystems.UnitTests.Collections
                 }
 
                 return entity.Name == Name
-                    && entity.Prename == Prename
-                    && entity.Age == Age;
+                       && entity.Prename == Prename
+                       && entity.Age == Age;
             }
 
             public override int GetHashCode()

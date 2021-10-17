@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using NUnit.Framework;
 using System.Xml.Linq;
+using NUnit.Framework;
 
-namespace BurnSystems.UnitTests
+namespace BurnSystems.Tests
 {
     /// <summary>
     /// Contains some test checking the XmlHelper-class
@@ -67,7 +67,8 @@ namespace BurnSystems.UnitTests
             var xmlExisting = xmlTests.Element("existing");
             var xmlAttribute = xmlExisting.Attribute("Wert");
 
-            var xmlAttributeCheck = xDocument.Elements("tests").Elements("existing").GetOrCreateLastAttribute("Value", "test");
+            var xmlAttributeCheck = xDocument.Elements("tests").Elements("existing")
+                .GetOrCreateLastAttribute("Value", "test");
             Assert.That(xmlAttributeCheck, Is.Not.Null);
             Assert.That(xmlAttributeCheck, Is.Not.SameAs(xmlAttribute));
 
