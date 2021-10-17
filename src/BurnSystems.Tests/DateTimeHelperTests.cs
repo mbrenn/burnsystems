@@ -26,5 +26,19 @@ namespace BurnSystems.UnitTests
             Assert.That(timeBack10, Is.EqualTo(new DateTime(8, 9, 10, 10, 0, 0)));
             Assert.That(timeBack23, Is.EqualTo(new DateTime(8, 9, 09, 23, 0, 0)));
         }
+
+        [Test]
+        public void TestTruncation()
+        {
+            var time = new DateTime(2012, 11, 16, 11, 42, 25, 543);
+
+            var toQuarter = DateTimeHelper.Truncate(time, TimeSpan.FromMinutes(15));
+            var toMinute = DateTimeHelper.TruncateToMinute(time);
+            var toSecond = DateTimeHelper.TruncateToSecond(time);
+            
+            Assert.That(toQuarter, Is.EqualTo(new DateTime(2012, 11, 16, 11, 30, 0, 0)));
+            Assert.That(toMinute, Is.EqualTo(new DateTime(2012, 11, 16, 11, 42, 0, 0)));
+            Assert.That(toSecond, Is.EqualTo(new DateTime(2012, 11, 16, 11, 42, 25, 0)));
+        }
     }
 }
