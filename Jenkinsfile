@@ -22,7 +22,7 @@ pipeline {
             {
                 sh """ 
                     cd src
-                    dotnet test BurnSystems.Tests/bin/Debug/net5.0/BurnSystems.Tests.dll --logger "trx;LogFileName=test.trx"
+                    dotnet test BurnSystems.Tests/bin/Debug/net9.0/BurnSystems.Tests.dll --logger "trx;LogFileName=test.trx"
                     cd .. 
                 """  
 
