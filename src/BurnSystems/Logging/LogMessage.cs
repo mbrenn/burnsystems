@@ -22,12 +22,9 @@
 
         public override string ToString()
         {
-            if (string.IsNullOrEmpty(Category))
-            {
-                return $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}]: {Message}";
-            }
-
-            return $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}] {Category}: {Message}";
+            return string.IsNullOrEmpty(Category) 
+                ? $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}]: {Message}"
+                : $"[{LogLevel.ToString().PaddingRight(Logger.MaxLengthLogLevel)}] {Category}: {Message}";
         }
     }
 }

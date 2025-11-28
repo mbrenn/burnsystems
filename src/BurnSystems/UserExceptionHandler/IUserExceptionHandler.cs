@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BurnSystems.UserExceptionHandler
+﻿namespace BurnSystems.UserExceptionHandler
 {
     /// <summary>
     /// Defines the interface, that needs to be implemented

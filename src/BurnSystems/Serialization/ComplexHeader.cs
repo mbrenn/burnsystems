@@ -3,6 +3,7 @@
     /// <summary>
     /// This header stores the data for a complex structure
     /// </summary>
+    [Obsolete]
     public class ComplexHeader
     {
         /// <summary>

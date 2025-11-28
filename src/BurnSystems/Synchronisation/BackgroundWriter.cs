@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using BurnSystems.Logging;
+﻿using BurnSystems.Logging;
 
 namespace BurnSystems.Synchronisation
 {
@@ -12,7 +10,7 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Defines the logger for the background writer
         /// </summary>
-        private static readonly ClassLogger Logger = new ClassLogger(typeof(BackgroundWriter));
+        private static readonly ClassLogger Logger = new(typeof(BackgroundWriter));
 
         /// <summary>
         /// Gets or sets the time that the background worker will wait after the last
@@ -54,7 +52,7 @@ namespace BurnSystems.Synchronisation
         /// <summary>
         /// Just the sync object
         /// </summary>
-        private readonly object _syncObject = new object();
+        private readonly object _syncObject = new();
 
         /// <summary>
         /// Gets te information when the object was created

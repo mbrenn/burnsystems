@@ -1,9 +1,6 @@
 ﻿#nullable enable
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BurnSystems.Logging.Pipe
 {
@@ -56,14 +53,14 @@ namespace BurnSystems.Logging.Pipe
                 case SerializerMessageIDs.SendLogMetricMessageInteger:
                     Debug.Assert(logMetricMessageInt != null, nameof(logMetricMessageInt) + " != null");
                     totalLength += GetByteCountForInteger32() +
-                                   GetByteCountForString(logMetricMessageInt!.Unit);
+                                   GetByteCountForString(logMetricMessageInt.Unit);
                     break;
                 
                 
                 case SerializerMessageIDs.SendLogMetricMessageDouble:
                     Debug.Assert(logMetricMessageDouble != null, nameof(logMetricMessageDouble) + " != null");
                     totalLength += GetByteCountForDouble() +
-                                   GetByteCountForString(logMetricMessageDouble!.Unit);
+                                   GetByteCountForString(logMetricMessageDouble.Unit);
                     break;
             }
             
@@ -90,10 +87,10 @@ namespace BurnSystems.Logging.Pipe
                 Debug.Assert(logMetricMessageInt != null, nameof(logMetricMessageInt) + " != null");
                 
                 // Message
-                SetInteger32(logMetricMessageInt!.Value, bytes, ref offset);
+                SetInteger32(logMetricMessageInt.Value, bytes, ref offset);
                 
                 // Unit
-                SetString(logMetricMessageInt!.Unit, bytes, ref offset);
+                SetString(logMetricMessageInt.Unit, bytes, ref offset);
                 
             }
             else if (messageId == SerializerMessageIDs.SendLogMetricMessageDouble)

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
+﻿using System.Diagnostics.Tracing;
 
 namespace BurnSystems.Logging.Provider
 {
@@ -10,7 +8,7 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Stores the categories of the event
         /// </summary>
-        private readonly Dictionary<string, int> _categories = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _categories = new();
 
         [NonEvent]
         public void LogMessage(LogMessage logMessage)
@@ -36,7 +34,7 @@ namespace BurnSystems.Logging.Provider
         }
 
         [Event(1, Message = "{0}, {1}:{2}", Level = EventLevel.Informational)]
-        public void InternalLog(int eventId, string category, string message)
+        private void InternalLog(int eventId, string category, string message)
         {
             if (IsEnabled())
             {

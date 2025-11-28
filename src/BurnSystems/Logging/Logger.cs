@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BurnSystems.Logging.Provider;
+﻿using BurnSystems.Logging.Provider;
 
 namespace BurnSystems.Logging
 {
+    /// <summary>
+    /// Implements a logging function calling all the Logging Provider in case
+    /// a Log Message is required. 
+    /// </summary>
     public class Logger : ILogger
     {
         /// <summary>
@@ -15,7 +16,7 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Stores the list of providers
         /// </summary>
-        private readonly List<ProviderData> _providers = new List<ProviderData>();
+        private readonly List<ProviderData> _providers = new();
 
         /// <summary>
         /// Gets or sets the log level threshold for the logging
@@ -45,7 +46,10 @@ namespace BurnSystems.Logging
         public void AddProvider(ILogProvider provider, LogLevel logLevelThreshold)
         {
             var data = new ProviderData(provider,logLevelThreshold);
-            _providers.Add(data);
+            lock (_providers)
+            {
+                _providers.Add(data);
+            }
         }
 
         /// <summary>
@@ -63,16 +67,19 @@ namespace BurnSystems.Logging
                 return;
             }
 
-            // Now go through each provider and verify the log messages
-            foreach (var provider in _providers)
+            lock (_providers)
             {
-                var providerLogLevel = (int) provider.LogLevelThreshold;
-                if (logLevelDepth < providerLogLevel)
+                // Now go through each provider and verify the log messages
+                foreach (var provider in _providers)
                 {
-                    continue;
-                }
+                    var providerLogLevel = (int)provider.LogLevelThreshold;
+                    if (logLevelDepth < providerLogLevel)
+                    {
+                        continue;
+                    }
 
-                provider.Provider.LogMessage(message);
+                    provider.Provider.LogMessage(message);
+                }
             }
 
             OnMessageLogged(new LogEventArgs(message));
@@ -81,22 +88,19 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Stores the provider data being used in the logger
         /// </summary>
-        private class ProviderData
+        private class ProviderData(ILogProvider provider, LogLevel logLevelThreshold)
         {
-            public ProviderData(ILogProvider provider, LogLevel logLevelThreshold)
-            {
-                Provider = provider;
-                LogLevelThreshold = logLevelThreshold;
-            }
+            public LogLevel LogLevelThreshold { get; set; } = logLevelThreshold;
 
-            public LogLevel LogLevelThreshold { get; set; }
-
-            public ILogProvider Provider { get; set; }
+            public ILogProvider Provider { get; set; } = provider;
         }
 
         public void ClearProviders()
         {
-            _providers.Clear();
+            lock (_providers)
+            {
+                _providers.Clear();
+            }
         }
 
         /// <summary>
@@ -118,10 +122,14 @@ namespace BurnSystems.Logging
         /// <param name="newLogLevel">New log level of the provider</param>
         public void SetLogLevel(ILogProvider provider, LogLevel newLogLevel)
         {
-            var foundProvider = _providers.FirstOrDefault(x => x.Provider.Equals(provider));
-            if (foundProvider != null)
+            lock (_providers)
             {
-                foundProvider.LogLevelThreshold = newLogLevel;
+                var foundProvider = _providers.FirstOrDefault(x => x.Provider.Equals(provider));
+
+                if (foundProvider != null)
+                {
+                    foundProvider.LogLevelThreshold = newLogLevel;
+                }
             }
         }
         
@@ -132,9 +140,12 @@ namespace BurnSystems.Logging
         /// <returns>The found loglevel for the given provider</returns>
         public LogLevel GetLogLevel(ILogProvider provider)
         {
-            var foundProvider = _providers.FirstOrDefault(x => x.Provider.Equals(provider));
-            return foundProvider?.LogLevelThreshold 
-                   ?? throw new InvalidOperationException($"The given Provider was not found: {provider}");
+            lock (_providers)
+            {
+                var foundProvider = _providers.FirstOrDefault(x => x.Provider.Equals(provider));
+                return foundProvider?.LogLevelThreshold
+                       ?? throw new InvalidOperationException($"The given Provider was not found: {provider}");
+            }
         }
     }
 }

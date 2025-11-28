@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using BurnSystems.Test;
+﻿using BurnSystems.Test;
 
 namespace BurnSystems.Serialization
 {
@@ -36,7 +34,7 @@ namespace BurnSystems.Serialization
         /// Parses the object and calls the methods for serialization
         /// </summary>
         /// <param name="value">Object to be parsed</param>
-        public void ParseObject(object value)
+        public void ParseObject(object? value)
         {
             // Null object
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -148,7 +146,7 @@ namespace BurnSystems.Serialization
         /// <param name="objectId">Id of object</param>
         private void ParseArrayObject(object value, long objectId)
         {
-            if (!(value is Array array))
+            if (value is not Array array)
             {
                 throw new InvalidOperationException("Value is not of type Array");
             }
@@ -157,7 +155,7 @@ namespace BurnSystems.Serialization
             var elementType = arrayType.GetElementType();
             Ensure.IsNotNull(elementType);
 
-            var elementTypeEntry = _serializer.RegisterType(elementType);
+            var elementTypeEntry = _serializer.RegisterType(elementType!);
 
             _writer.StartContainer(ContainerType.Data);
             _writer.StartDataContainer(DataType.Array);            

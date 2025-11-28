@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BurnSystems
+﻿namespace BurnSystems
 {
     /// <summary>
     /// This static helper class is used to manipulate DateTime-Structures

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
+﻿using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -186,8 +183,7 @@ namespace BurnSystems
         /// <returns>Hash as string</returns>
         public static string Sha1(this byte[] bytes)
         {
-            using var sha1 = new SHA1CryptoServiceProvider();
-            var result = sha1.ComputeHash(bytes);
+            var result = SHA1.HashData(bytes);
 
             return ToHexString(result);
         }
@@ -225,7 +221,7 @@ namespace BurnSystems
         {
             var pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             var builder = new StringBuilder();
-            var randomGenerator = new RNGCryptoServiceProvider();
+            var randomGenerator = RandomNumberGenerator.Create();
 
             var randomBytes = new byte[length];
             randomGenerator.GetBytes(randomBytes);

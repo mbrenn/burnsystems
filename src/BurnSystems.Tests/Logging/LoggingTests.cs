@@ -222,7 +222,7 @@ namespace BurnSystems.Tests.Logging
                     TheLog.AddProvider(fileProviders.Last());
                 }
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 // ignored
             }

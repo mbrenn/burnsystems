@@ -9,8 +9,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
@@ -21,9 +19,10 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// The composer class helps to recompose the object
     /// </summary>
+    [Obsolete]
     public class Composer
     {
-        private static readonly ClassLogger Logger = new ClassLogger(typeof(Composer));
+        private static readonly ClassLogger Logger = new(typeof(Composer));
 
         /// <summary>
         /// These translations are used to translate the
@@ -31,8 +30,7 @@ namespace BurnSystems.Serialization
         /// The dictionary stores in the key the pair of source and target-Type
         /// and in the value the transformation from source to targetobject
         /// </summary>
-        private readonly Dictionary<KeyValuePair<Type, Type>, Func<object, object?>> _translations =
-            new Dictionary<KeyValuePair<Type, Type>, Func<object, object?>>();
+        private readonly Dictionary<KeyValuePair<Type, Type>, Func<object, object?>> _translations = new();
 
         /// <summary>
         /// Initializes a new instance of the Composer class.
@@ -111,6 +109,7 @@ namespace BurnSystems.Serialization
         /// Reads a dataobject
         /// </summary>
         /// <returns>Read object</returns>
+        [Obsolete("Obsolete")]
         public object? ReadData()
         {
             var dataType = BinaryReader.ReadDataType();
@@ -180,6 +179,7 @@ namespace BurnSystems.Serialization
         /// Reads and returns a complex type
         /// </summary>
         /// <returns>Read Complex type</returns>
+        [Obsolete("Obsolete")]
         private object ReadComplexType()
         {
             // Reads complex header

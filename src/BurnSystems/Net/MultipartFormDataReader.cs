@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using BurnSystems.Collections;
 
@@ -15,11 +13,6 @@ namespace BurnSystems.Net
         /// Boundary which separates the parts 
         /// </summary>
         private readonly byte[] _boundary;
-
-        /// <summary>
-        /// Stores the maximumsize of stream, that will be read
-        /// </summary>
-        private long _maxStreamSize = long.MaxValue;
 
         /// <summary>
         /// Initializes a new instance of the MultipartFormDataReader class.
@@ -53,11 +46,7 @@ namespace BurnSystems.Net
         /// Gets or sets the number of bytes, which is the maximum of the
         /// read bytes of stream
         /// </summary>
-        public long MaxStreamSize
-        {
-            get => _maxStreamSize;
-            set => _maxStreamSize = value;
-        }
+        public long MaxStreamSize { get; set; } = long.MaxValue;
 
         /// <summary>
         /// Defines the chunksize for the reader

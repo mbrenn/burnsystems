@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace BurnSystems.Collections
 {
@@ -9,12 +7,12 @@ namespace BurnSystems.Collections
     /// IHasKey offers an access to the name of the instance
     /// </summary>
     /// <typeparam name="T">Type of objects to be stored</typeparam>
-    public class AutoDictionary<T> : IDictionary<string, T> where T : IHasKey
+    public class AutoDictionary<T> : IDictionary<string, T?> where T : IHasKey
     {
         /// <summary>
         /// Object storing the instances
         /// </summary>
-        private readonly Dictionary<string, T> _dictionary = new Dictionary<string, T>();
+        private readonly Dictionary<string, T?> _dictionary = new();
 
         /// <summary>
         /// Gets the number of entries
@@ -34,7 +32,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Gets a collection of values
         /// </summary>
-        public ICollection<T> Values => _dictionary.Values;
+        public ICollection<T?> Values => _dictionary.Values;
 
         /// <summary>
         /// Returns an object with the given key
@@ -42,7 +40,7 @@ namespace BurnSystems.Collections
         /// <param name="key">Requested Key</param>
         /// <returns>Object with the key. If no key is found, an exception 
         /// will be thrown.</returns>
-        public T this[string key]
+        public T? this[string key]
         {
             get => _dictionary[key];
             set => Add(key, value);
@@ -75,9 +73,9 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="key">Key of entry</param>
         /// <param name="value">Value of entry</param>
-        public void Add(string key, T value)
+        public void Add(string key, T? value)
         {
-            if (value.Key != key)
+            if (value?.Key != key)
             {
                 throw new ArgumentException("key != value.key");
             }
@@ -101,7 +99,7 @@ namespace BurnSystems.Collections
         /// <param name="key">Key of requested value</param>
         /// <param name="value">Output of value, if value exists</param>
         /// <returns>true, if value exists</returns>
-        public bool TryGetValue(string key, out T value)
+        public bool TryGetValue(string key, out T? value)
         {
             return _dictionary.TryGetValue(key, out value);
         }
@@ -114,7 +112,7 @@ namespace BurnSystems.Collections
         /// Adds a new entry
         /// </summary>
         /// <param name="item">Entry to be added</param>
-        public void Add(KeyValuePair<string, T> item)
+        public void Add(KeyValuePair<string, T?> item)
         {
             Add(item.Key, item.Value);
         }
@@ -132,10 +130,10 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="item">Item to be checked</param>
         /// <returns>true, if it exists</returns>
-        public bool Contains(KeyValuePair<string, T> item)
+        public bool Contains(KeyValuePair<string, T?> item)
         {
             return _dictionary.ContainsKey(item.Key)
-                && (item.Value.Key == item.Key);
+                && (item.Value?.Key == item.Key);
         }
 
         /// <summary>
@@ -143,7 +141,7 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="array">The parameter is not used.</param>
         /// <param name="arrayIndex">The parameter is not used.</param>
-        public void CopyTo(KeyValuePair<string, T>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<string, T?>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
@@ -153,9 +151,9 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="item">entry to be removed</param>
         /// <returns>true, if item is removed</returns>
-        public bool Remove(KeyValuePair<string, T> item)
+        public bool Remove(KeyValuePair<string, T?> item)
         {
-            if (item.Key == item.Value.Key)
+            if (item.Key == item.Value?.Key)
             {
                 return Remove(item.Key);
             }
@@ -171,7 +169,7 @@ namespace BurnSystems.Collections
         /// Gets the enumerator
         /// </summary>
         /// <returns>Enumerator of this collection</returns>
-        public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, T?>> GetEnumerator()
         {
             return _dictionary.GetEnumerator();
         }

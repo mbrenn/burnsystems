@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace BurnSystems.Serialization
 {
     /// <summary>
     /// The object container stores the objects, which have already been registered
     /// </summary>
+    [Obsolete]
     internal class ObjectContainer
     {
         /// <summary>
@@ -91,7 +91,7 @@ namespace BurnSystems.Serialization
             /// <param name="x">First object</param>
             /// <param name="y">Second object</param>
             /// <returns>true, if both objects are equal</returns>
-            bool IEqualityComparer<object>.Equals(object x, object y)
+            bool IEqualityComparer<object>.Equals(object? x, object? y)
             {
                 return ReferenceEquals(x, y);
             }

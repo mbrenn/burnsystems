@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using BurnSystems.Collections;
 using BurnSystems.Test;
 
@@ -9,6 +7,7 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// The typecontainer stores and initializes the different type entries
     /// </summary>
+    [Obsolete]
     public class TypeContainer
     {
         /// <summary>
@@ -19,7 +18,7 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// List of types
         /// </summary>
-        private readonly List<TypeEntry> _types = new List<TypeEntry>();
+        private readonly List<TypeEntry> _types = new();
 
         /// <summary>
         /// Id of the last index

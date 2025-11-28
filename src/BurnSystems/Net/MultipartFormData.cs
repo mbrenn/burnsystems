@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace BurnSystems.Net
 {
     /// <summary>
@@ -11,8 +9,7 @@ namespace BurnSystems.Net
         /// <summary>
         /// List of parts
         /// </summary>
-        private readonly List<MultipartFormDataPart> _parts =
-            new List<MultipartFormDataPart>();
+        private readonly List<MultipartFormDataPart> _parts = new();
 
         /// <summary>
         /// Gets the different parts of the formdata

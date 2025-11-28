@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -136,14 +133,17 @@ namespace BurnSystems.Extensions
         /// <param name="value">Value to be converted</param>
         /// <param name="name">Name of the property</param>
         /// <returns>Resulting property</returns>
-        private static ObjectProperty ConvertToProperty(object value, string name)
+        private static ObjectProperty ConvertToProperty(object? value, string name)
         {
             string valueText;
 
             switch (value)
             {
+                case null:
+                    valueText = "null";
+                    break;
                 case string _:
-                    valueText = value.ToString();
+                    valueText = value.ToString() ?? string.Empty;
                     break;
                 case IEnumerable valueAsEnumerable:
                 {
@@ -173,7 +173,7 @@ namespace BurnSystems.Extensions
                     break;
                 }
                 default:
-                    valueText = value.ToString();
+                    valueText = value.ToString() ?? string.Empty;
                     break;
             }
 
@@ -196,7 +196,7 @@ namespace BurnSystems.Extensions
         {
             if (type == typeof(string))
             {
-                return value.ToString();
+                return value.ToString() ?? string.Empty;
             }
 
             if (type == typeof(short))
@@ -241,7 +241,7 @@ namespace BurnSystems.Extensions
 
             if (type.IsEnum)
             {
-                return Enum.Parse(type, value.ToString());
+                return Enum.Parse(type, value.ToString() ?? string.Empty) ;
             }
 
             throw new InvalidOperationException(string.Format(LocalizationBS.Mapper_NotSupportedType, type));

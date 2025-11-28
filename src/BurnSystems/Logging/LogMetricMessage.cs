@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 
 namespace BurnSystems.Logging
@@ -35,7 +34,7 @@ namespace BurnSystems.Logging
         public string ValueText => 
             typeof(T) == typeof(int) ? ((int) (object) Value).ToString(CultureInfo.InvariantCulture) :
             typeof(T) == typeof(double) ? ((double) (object) Value).ToString(CultureInfo.InvariantCulture) :
-            Value.ToString();
+            Value.ToString() ?? string.Empty;
 
         public override string ToString()
         {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using BurnSystems.Collections;
 
 namespace BurnSystems.Serialization
@@ -8,6 +6,7 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// This class defines the different types
     /// </summary>
+    [Obsolete]
     public class TypeEntry
     {
         /// <summary>
@@ -45,12 +44,12 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Gets the methods
         /// </summary>
-        public List<FieldEntry> Fields { get; } = new List<FieldEntry>();
+        public List<FieldEntry> Fields { get; } = new();
 
         /// <summary>
         /// Gets the generic arguments
         /// </summary>
-        public List<long> GenericArguments { get; } = new List<long>();
+        public List<long> GenericArguments { get; } = new();
 
         /// <summary>
         /// Adds a field to this type

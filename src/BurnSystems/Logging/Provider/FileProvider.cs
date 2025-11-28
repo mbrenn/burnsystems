@@ -1,14 +1,10 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
+﻿using System.Globalization;
 
 namespace BurnSystems.Logging.Provider
 {
     public class FileProvider : ILogProvider, IDisposable
     {
-        private readonly bool _createNew;
-        private readonly string _filePath;
-        private readonly object _syncObject = new object();
+        private readonly Lock _syncObject = new();
 
         private StreamWriter? _file;
 
@@ -16,21 +12,19 @@ namespace BurnSystems.Logging.Provider
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
 
-            _filePath = filePath;
-            _createNew = createNew;
-
             var createTry = 0;
             while (createTry < 100 && _file == null)
             {
                 try
                 {
-                    var fileCore = Path.GetFileNameWithoutExtension(_filePath);
-                    var fileExtension = Path.GetExtension(_filePath);
-                    var directoryPath = Path.GetDirectoryName(_filePath);
-                    var number = createTry == 0 ? string.Empty : "." + createTry;
+                    var fileCore = Path.GetFileNameWithoutExtension(filePath);
+                    var fileExtension = Path.GetExtension(filePath);
+                    var directoryPath = Path.GetDirectoryName(filePath)
+                                        ?? throw new InvalidOperationException("Could not determine directory path.");
+                    var number = createTry == 0 ? string.Empty : $".{createTry}";
 
-                    var fileName = Path.Combine(directoryPath, fileCore + number + fileExtension);
-                    _file = new StreamWriter(fileName, !_createNew);
+                    var fileName = Path.Combine(directoryPath, $"{fileCore}{number}{fileExtension}");
+                    _file = new StreamWriter(fileName, !createNew);
                 }
                 catch (Exception)
                 {

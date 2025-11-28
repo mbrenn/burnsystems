@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Pipes;
-using System.Threading.Tasks;
+﻿using System.IO.Pipes;
 
 namespace BurnSystems.Logging.Pipe
 {
     public class PipeLoggingServer : IDisposable
     {
-        private readonly List<NamedPipeServerStream> _stream = new List<NamedPipeServerStream>();
+        private readonly List<NamedPipeServerStream> _stream = new();
 
         public void Start(string pipeName)
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace BurnSystems.Logging.Provider
 {
@@ -20,7 +19,7 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Defines just the sync object
         /// </summary>
-        private static readonly object SyncObject = new object();
+        private static readonly Lock SyncObject = new();
 
         public void LogMessage(LogMessage logMessage)
         {
@@ -29,7 +28,7 @@ namespace BurnSystems.Logging.Provider
                 var timePassed = DateTime.Now - TheLog.TimeCreated;
                 var old = Console.ForegroundColor;
                 Console.ForegroundColor = _consoleColors[(int) logMessage.LogLevel - 1];
-                Console.WriteLine($"{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)}: " +
+                Console.WriteLine($@"{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)}: " +
                                   $"{logMessage}");
                 Console.ForegroundColor = old;
             }

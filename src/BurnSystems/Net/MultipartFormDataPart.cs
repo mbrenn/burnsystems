@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using BurnSystems.Collections;
 
 namespace BurnSystems.Net
@@ -11,12 +10,12 @@ namespace BurnSystems.Net
         /// <summary>
         /// Gets the elements of the content-disposition header
         /// </summary>
-        public NiceDictionary<string, string> ContentDisposition { get; } = new NiceDictionary<string, string>();
+        public NiceDictionary<string, string> ContentDisposition { get; } = new();
 
         /// <summary>
         /// Gets a list of headers
         /// </summary>
-        public List<KeyValuePair<string, string>> Headers { get; } = new List<KeyValuePair<string, string>>();
+        public List<KeyValuePair<string, string>> Headers { get; } = new();
 
         /// <summary>
         /// Gets or sets the content of this part

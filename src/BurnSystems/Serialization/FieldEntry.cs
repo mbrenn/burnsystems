@@ -5,6 +5,7 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// This class defines the entry for the different fields
     /// </summary>
+    [Obsolete]
     public class FieldEntry
     {
         /// <summary>

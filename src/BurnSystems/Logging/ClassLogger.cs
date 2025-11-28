@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BurnSystems.Logging
+﻿namespace BurnSystems.Logging
 {
     public class ClassLogger : ILogger
     {
@@ -8,7 +6,7 @@ namespace BurnSystems.Logging
 
         public ClassLogger(Type type)
         {
-            _category = type.FullName;
+            _category = type.FullName ?? throw new InvalidOperationException("Type has no fullname");
         }
 
         public void Log(LogMessage message)

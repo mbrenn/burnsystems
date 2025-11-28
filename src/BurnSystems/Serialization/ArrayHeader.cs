@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-
-namespace BurnSystems.Serialization
+﻿namespace BurnSystems.Serialization
 {
     /// <summary>
     /// This class stores the value of the array header
     /// </summary>
+    [Obsolete]
     public class ArrayHeader
     {
         /// <summary>
         /// List of dimensionsizes
         /// </summary>
-        private readonly List<int> _dimensions = new List<int>();
+        private readonly List<int> _dimensions = new();
 
         /// <summary>
         /// Gets or sets the id of type

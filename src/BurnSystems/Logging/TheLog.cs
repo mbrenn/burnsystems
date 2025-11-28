@@ -1,5 +1,4 @@
-﻿using System;
-using BurnSystems.Logging.Provider;
+﻿using BurnSystems.Logging.Provider;
 
 namespace BurnSystems.Logging
 {
@@ -8,7 +7,7 @@ namespace BurnSystems.Logging
         /// <summary>
         /// Gets the singleton
         /// </summary>
-        internal static Logger Singleton { get; } = new Logger();
+        internal static Logger Singleton { get; } = new();
 
         /// <summary>
         /// Gets or sets the time when the first logger was created

@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace BurnSystems
+﻿namespace BurnSystems
 {
     /// <summary>
     /// This class contains several helper methods affecting the filesystem

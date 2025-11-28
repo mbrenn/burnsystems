@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace BurnSystems.Serialization
 {
     /// <summary>
     /// Deserializes a stream and returns an object. 
     /// </summary>
+    [Obsolete]
     public class Deserializer : SerializationBase
     {
         /// <summary>
@@ -20,8 +17,7 @@ namespace BurnSystems.Serialization
         /// Stores the translation table for translating 
         /// a type name to the corresponding type
         /// </summary>
-        private readonly Dictionary<string, Type> _typeTranslation =
-            new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> _typeTranslation = new();
 
         /// <summary>
         /// Initializes a new instance of the Deserializer class.
@@ -88,7 +84,8 @@ namespace BurnSystems.Serialization
             {
                 var genericTypes = typeEntry.GenericArguments
                     .Select(x => TypeContainer.FindType(x).Type)
-                    .ToArray();
+                    .Where(x => x != null)!
+                    .ToArray<Type>();
 
                 type = type.MakeGenericType(genericTypes);
             }
@@ -104,7 +101,7 @@ namespace BurnSystems.Serialization
                 while (thisType != null && field.FieldInfo == null)
                 {
                     var fieldInfo = thisType.GetField(
-                        field.Name,
+                        field.Name ?? throw new InvalidOperationException("field.Name is null"),
                         BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     field.FieldInfo = fieldInfo;
 

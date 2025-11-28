@@ -3,6 +3,7 @@
     /// <summary>
     /// Stores the data of the reference
     /// </summary>
+    [Obsolete]
     public class ReferenceHeader
     {
         /// <summary>

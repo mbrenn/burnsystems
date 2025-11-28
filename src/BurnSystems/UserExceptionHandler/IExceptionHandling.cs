@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BurnSystems.UserExceptionHandler
+﻿namespace BurnSystems.UserExceptionHandler
 {
     /// <summary>
     /// This application handler has a default implementation and will

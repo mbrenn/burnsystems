@@ -13,9 +13,9 @@ namespace BurnSystems.Interfaces
         /// </summary>
         /// <param name="userName">Username of credentials</param>
         /// <param name="password">Encrypted or unencrypted password</param>
-        /// <param name="encryted">Flag, ob das Kennwort schon 
+        /// <param name="encrypted">Flag, ob das Kennwort schon 
         /// verschlüsselt ist</param>
         /// <returns>true, wenn dies der Fall ist</returns>
-        bool AreCredentialsOk(string userName, string password, bool encryted);
+        bool AreCredentialsOk(string userName, string password, bool encrypted);
     }
 }

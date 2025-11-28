@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Xml.Linq;
 using BurnSystems.Interfaces;
 
@@ -317,7 +314,7 @@ namespace BurnSystems.Collections
                 if (entity == null) throw new ArgumentNullException(nameof(entity));
                 return new XElement(
                     _nodeName,
-                    new XAttribute(_attributeName, entity.ToString()));
+                    new XAttribute(_attributeName, entity.ToString() ?? string.Empty));
             }
         }
 

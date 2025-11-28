@@ -3,17 +3,18 @@
     /// <summary>
     /// The base class for serialization and deserialization.
     /// </summary>
+    [Obsolete]
     public class SerializationBase
     {
         /// <summary>
         /// Container, storing the objects
         /// </summary>
-        private readonly ObjectContainer _objectContainer = new ObjectContainer();
+        private readonly ObjectContainer _objectContainer = new();
 
         /// <summary>
         /// Container, storing the types
         /// </summary>
-        private readonly TypeContainer _typeContainer = new TypeContainer();
+        private readonly TypeContainer _typeContainer = new();
 
         /// <summary>
         /// Gets the typecontainer

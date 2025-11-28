@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
@@ -16,11 +14,6 @@ namespace BurnSystems.Collections
         ///     Stores the list that has been abstracted
         /// </summary>
         private readonly IList<T> _container;
-
-        /// <summary>
-        ///     Stores the synchronisation root
-        /// </summary>
-        private readonly object _syncRoot = new object();
 
         /// <summary>
         ///     Called, when a collection has been changed
@@ -236,11 +229,11 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="value">Value to be added</param>
         /// <returns>Position of recently added item</returns>
-        public int Add(object value)
+        public int Add(object? value)
         {
-            if (!(value is T)) throw new InvalidCastException("value");
+            if (value is not T value1) throw new InvalidCastException("value");
 
-            Add((T) value);
+            Add(value1);
             return Count - 1;
         }
 
@@ -249,11 +242,11 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="value">Value to be checked</param>
         /// <returns>True, if item is available</returns>
-        public bool Contains(object value)
+        public bool Contains(object? value)
         {
-            if (!(value is T)) return false;
+            if (value is not T value1) return false;
 
-            return Contains((T) value);
+            return Contains(value1);
         }
 
         /// <summary>
@@ -261,11 +254,11 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="value">Value to be checked</param>
         /// <returns>Position of value</returns>
-        public int IndexOf(object value)
+        public int IndexOf(object? value)
         {
-            if (!(value is T)) return -1;
+            if (value is not T value1) return -1;
 
-            return IndexOf((T) value);
+            return IndexOf(value1);
         }
 
         /// <summary>
@@ -273,11 +266,11 @@ namespace BurnSystems.Collections
         /// </summary>
         /// <param name="index">Index of the item</param>
         /// <param name="value">Value to be added</param>
-        public void Insert(int index, object value)
+        public void Insert(int index, object? value)
         {
-            if (!(value is T)) throw new InvalidCastException("value");
+            if (value is not T value1) throw new InvalidCastException("value");
 
-            Insert(index, (T) value);
+            Insert(index, value1);
         }
 
         /// <summary>
@@ -289,11 +282,11 @@ namespace BurnSystems.Collections
         ///     Removes an item
         /// </summary>
         /// <param name="value">Value to be removed</param>
-        public void Remove(object value)
+        public void Remove(object? value)
         {
-            if (!(value is T)) return;
+            if (value is not T value1) return;
 
-            Remove((T) value);
+            Remove(value1);
         }
 
         /// <summary>
@@ -306,9 +299,9 @@ namespace BurnSystems.Collections
             get => this[index];
             set
             {
-                if (!(value is T)) throw new InvalidCastException("value");
+                if (value is not T value1) throw new InvalidCastException("value");
 
-                this[index] = (T) value;
+                this[index] = value1;
             }
         }
 
@@ -330,7 +323,7 @@ namespace BurnSystems.Collections
         /// <summary>
         ///     Gets the synchronisation object
         /// </summary>
-        public object SyncRoot => _syncRoot;
+        public object SyncRoot { get; } = new();
 
         #endregion
     }

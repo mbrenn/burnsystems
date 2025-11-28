@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using BurnSystems.Interfaces;
 
 namespace BurnSystems.Collections
@@ -13,7 +11,7 @@ namespace BurnSystems.Collections
     /// <typeparam name="TKey">Type of key</typeparam>
     /// <typeparam name="TValue">Type of values in dictionary</typeparam>
     [Serializable]
-    public class NiceDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IHasIndex<TKey, TValue>
+    public class NiceDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IHasIndex<TKey, TValue> where TKey : notnull
     {
         /// <summary>
         /// Eingebettetes Dictionary
@@ -106,7 +104,7 @@ namespace BurnSystems.Collections
         /// <param name="key">Requested key</param>
         /// <param name="value">Output for value</param>
         /// <returns>true, if value is found</returns>
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out TValue value)
         {
             return _dictionary.TryGetValue(key, out value);
         }

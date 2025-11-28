@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
+﻿using System.Globalization;
 using BurnSystems.Test;
 
 namespace BurnSystems
@@ -16,13 +12,12 @@ namespace BurnSystems
         /// <summary>
         /// Eine Zufallsvariable
         /// </summary>
-        private static readonly ThreadLocal<Random> RandomInThread 
-            = new ThreadLocal<Random>(() => new Random(Guid.NewGuid().GetHashCode()));
+        private static readonly ThreadLocal<Random> RandomInThread = new(() => new Random(Guid.NewGuid().GetHashCode()));
 
         /// <summary>
         /// Gets a threadsafe random instance
         /// </summary>
-        public static Random Random => RandomInThread.Value;
+        public static Random Random => RandomInThread.Value ?? throw new InvalidOperationException("Random not initialized");
 
         /// <summary>
         /// Gets the earliest of both timespans
@@ -157,7 +152,7 @@ namespace BurnSystems
                 }
                 else
                 {
-                    result = (result?.CompareTo(obj) == 1) ? result : obj;
+                    result = (result.CompareTo(obj) == 1) ? result : obj;
                 }
             }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace BurnSystems.Plugins
 {
@@ -12,7 +10,7 @@ namespace BurnSystems.Plugins
         /// <summary>
         /// Stores a list of dependencies
         /// </summary>
-        private readonly List<Type> _dependencies = new List<Type>();
+        private readonly List<Type> _dependencies = new();
 
         /// <summary>
         /// Gets or sets the instance of the plugin
@@ -71,7 +69,7 @@ namespace BurnSystems.Plugins
                 typeof(PluginDependencyAttribute), true);
             foreach (var attributeRaw in attributes)
             {
-                if (!(attributeRaw is PluginDependencyAttribute attribute))
+                if (attributeRaw is not PluginDependencyAttribute attribute)
                 {
                     throw new InvalidOperationException("attribute is null: " +
                                                         (attributeRaw?.ToString() ?? "Unknown"));

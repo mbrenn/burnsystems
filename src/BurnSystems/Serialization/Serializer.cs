@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using BurnSystems.Test;
+﻿using BurnSystems.Test;
 
 namespace BurnSystems.Serialization
 {

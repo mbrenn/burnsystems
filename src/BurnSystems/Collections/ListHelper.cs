@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using BurnSystems.Test;
 
 namespace BurnSystems.Collections
@@ -1019,7 +1015,7 @@ namespace BurnSystems.Collections
         /// <param name="list1">First list</param>
         /// <param name="list2">Second list</param>
         /// <returns>true, if both lists have the same elements</returns>
-        public static bool HasSameElementsAs<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
+        public static bool HasSameElementsAs<T>(this IEnumerable<T> list1, IEnumerable<T> list2) where T : notnull
         {
             var cnt = new Dictionary<T, int>();
             foreach (var s in list1)

@@ -1,4 +1,3 @@
-using System;
 using BurnSystems.Interfaces;
 using BurnSystems.Test;
 

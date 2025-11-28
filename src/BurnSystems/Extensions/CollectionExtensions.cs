@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BurnSystems.Extensions
+﻿namespace BurnSystems.Extensions
 {
     /// <summary>
     /// These collection extensions are used to ease the use
@@ -20,7 +18,7 @@ namespace BurnSystems.Extensions
         public static Dictionary<T, TValue> With<T, TValue>(
             this Dictionary<T, TValue> dict,
             T key,
-            TValue value)
+            TValue value) where T : notnull
         {
             dict[key] = value;
             return dict;
@@ -37,7 +35,7 @@ namespace BurnSystems.Extensions
         /// <returns>The modified dictionary</returns>
         public static Dictionary<T, TValue> With<T, TValue>(
             this Dictionary<T, TValue> dict,
-            IEnumerable<KeyValuePair<T, TValue>> values)
+            IEnumerable<KeyValuePair<T, TValue>> values) where T : notnull
         {
             foreach (var pair in values)
             {

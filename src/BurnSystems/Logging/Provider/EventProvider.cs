@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BurnSystems.Logging.Provider
+﻿namespace BurnSystems.Logging.Provider
 {
     /// <summary>
     /// Receives the log message and sends out an event to the receiving instance
@@ -10,7 +8,7 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Gets the event provider as a singleton provider
         /// </summary>
-        public static EventProvider TheOne { get; }= new EventProvider();
+        public static EventProvider TheOne { get; }= new();
 
         /// <summary>
         /// This event is thrown, when a log message is received

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace BurnSystems.Logging.Pipe
+﻿namespace BurnSystems.Logging.Pipe
 {
     public class PipeLogProvider : ILogProvider
     {

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using BurnSystems.Logging;
 
@@ -16,17 +12,16 @@ namespace BurnSystems.Plugins
     /// </summary>
     public class PluginLoader<T> where T : class
     {
-        private static readonly ClassLogger Logger = new ClassLogger(typeof(PluginLoader<T>));
+        private static readonly ClassLogger Logger = new(typeof(PluginLoader<T>));
         /// <summary>
         /// Cache for loaded assemblies
         /// </summary>
-        private readonly Dictionary<string, Assembly> _assemblies =
-            new Dictionary<string, Assembly>();
+        private readonly Dictionary<string, Assembly> _assemblies = new();
 
         /// <summary>
         /// Stores the list of loaded plugins
         /// </summary>
-        private readonly List<PluginInfo<T>> _plugins = new List<PluginInfo<T>>();
+        private readonly List<PluginInfo<T>> _plugins = new();
 
         /// <summary>
         /// Gets all plugins
@@ -51,7 +46,7 @@ namespace BurnSystems.Plugins
                         .Where(x => x.GetCustomAttributes(typeAttribute, false).Length > 0)
                         .Where(x => x.GetInterfaces().Any(y => y.FullName == typeof(T).FullName)))
                     {
-                        if (!(Activator.CreateInstance(type) is T plugin))
+                        if (Activator.CreateInstance(type) is not T plugin)
                         {
                             throw new InvalidOperationException("Activator.CreateInstance has returned null");
                         }
@@ -107,7 +102,7 @@ namespace BurnSystems.Plugins
                 }
 
                 // Creates the plugin and adds the plugin info
-                if (!(Activator.CreateInstance(typeOfPlugin) is T plugin))
+                if (Activator.CreateInstance(typeOfPlugin) is not T plugin)
                 {
                     throw new InvalidOperationException("Created Instance is null");
                 }

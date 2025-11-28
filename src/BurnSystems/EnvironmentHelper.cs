@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Globalization;
 using System.Reflection;
 using System.Security;
 using System.Xml.Linq;
@@ -198,7 +195,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="typeName">Type, which is required</param>
         /// <returns>Found type object</returns>
-        public static Type GetTypeByName(string typeName)
+        public static Type? GetTypeByName(string typeName)
         {
             return AppDomain.CurrentDomain
                 .GetAssemblies()

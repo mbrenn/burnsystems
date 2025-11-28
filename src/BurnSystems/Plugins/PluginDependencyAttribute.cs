@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BurnSystems.Plugins
+﻿namespace BurnSystems.Plugins
 {
     /// <summary>
     /// This attribute is used to define the dependency of a plugin 

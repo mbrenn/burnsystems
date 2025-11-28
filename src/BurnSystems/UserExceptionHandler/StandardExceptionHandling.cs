@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BurnSystems.UserExceptionHandler
+﻿namespace BurnSystems.UserExceptionHandler
 {
     /// <summary>
     /// Defines the standard exception handler, which will call every UserExceptionHandler

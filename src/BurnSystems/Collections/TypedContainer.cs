@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace BurnSystems.Collections
+﻿namespace BurnSystems.Collections
 {
     /// <summary>
     /// Implements a container, that stores the instances according to their type. 
@@ -13,7 +9,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Stores the object that has been stored within the instances
         /// </summary>
-        private readonly List<object> _instances = new List<object>();
+        private readonly List<object> _instances = new();
 
         /// <summary>
         /// Adds an object to the container

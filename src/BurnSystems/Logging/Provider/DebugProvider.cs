@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 
 namespace BurnSystems.Logging.Provider
 {
     public class DebugProvider: ILogProvider
     {
-        private static readonly object SyncObject = new object();
+        private static readonly Lock SyncObject = new();
         
         public void LogMessage(LogMessage logMessage)
         {

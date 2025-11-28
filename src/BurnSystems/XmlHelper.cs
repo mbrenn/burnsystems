@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -107,7 +104,7 @@ namespace BurnSystems
             Ensure.IsNotNull(attributeName);
             Ensure.IsNotNull(xmlNode.Attributes);
 
-            var xmlAttribute = xmlNode.Attributes[attributeName];
+            var xmlAttribute = xmlNode.Attributes![attributeName];
 
             if (xmlAttribute == null)
             {
@@ -281,12 +278,13 @@ namespace BurnSystems
         /// <returns>Found node or created and attached element with <c>elementName</c></returns>
         public static XElement GetOrCreateLastElement(this IEnumerable<XElement> nodes, string elementName)
         {
-            var foundElement = nodes.Elements(elementName).LastOrDefault();
+            var nodesAsArray = nodes as XElement[] ?? nodes.ToArray();
+            var foundElement = nodesAsArray.Elements(elementName).LastOrDefault();
             if (foundElement == null)
             {
                 // We have to create an element
                 foundElement = new XElement(elementName);
-                nodes.Last().Add(foundElement);
+                nodesAsArray.Last().Add(foundElement);
             }
 
             return foundElement;
@@ -302,7 +300,8 @@ namespace BurnSystems
         public static IEnumerable<XElement> GetOrCreateElements(this IEnumerable<XContainer> nodes, string elementName)
         {
             var found = false;
-            var foundElements = nodes.Elements(elementName);
+            var nodasAsArray = nodes as XContainer[] ?? nodes.ToArray();
+            var foundElements = nodasAsArray.Elements(elementName);
 
             foreach (var foundElement in foundElements)
             {
@@ -314,7 +313,7 @@ namespace BurnSystems
             {
                 // We have to create an element
                 var foundElement = new XElement(elementName);
-                nodes.Last().Add(foundElement);
+                nodasAsArray.Last().Add(foundElement);
 
                 yield return foundElement;
             }
@@ -475,9 +474,9 @@ namespace BurnSystems
         /// <param name="element">Element whose value is queried</param>
         /// <param name="defaultValue">Default value if element is null</param>
         /// <returns>Element's value or default value</returns>
-        public static string GetValueOr(this XElement element, string defaultValue)
+        public static string GetValueOr(this XElement? element, string defaultValue)
         {
-            return element.Value;
+            return element?.Value ?? defaultValue;
         }
 
         /// <summary>
@@ -497,9 +496,9 @@ namespace BurnSystems
         /// <param name="element">Element whose value is queried</param>
         /// <param name="defaultValue">Default value if element is null</param>
         /// <returns>Element's value or default value</returns>
-        public static bool GetValueOr(this XElement element, bool defaultValue)
+        public static bool GetValueOr(this XElement? element, bool defaultValue)
         {
-            return Convert.ToBoolean(element.Value);
+            return element == null ? defaultValue : Convert.ToBoolean(element.Value);
         }
 
         /// <summary>

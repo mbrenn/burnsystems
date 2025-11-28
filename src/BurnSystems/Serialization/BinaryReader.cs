@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
+﻿using System.Globalization;
 using System.Text;
 using BurnSystems.Test;
 
@@ -9,6 +7,7 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// This class is an implementation of a binary reader for serialization.
     /// </summary>
+    [Obsolete]
     public class BinaryReader
     {
         /// <summary>
@@ -108,7 +107,7 @@ namespace BurnSystems.Serialization
             // Reads string
             var headerBytes = Encoding.UTF8.GetBytes(Helper.StreamHeaderText);
             var bytes = new byte[headerBytes.Length];
-            _stream.Read(bytes, 0, bytes.Length);
+            _stream.ReadExactly(bytes);
             if (Encoding.UTF8.GetString(bytes) != Helper.StreamHeaderText)
             {
                 throw new InvalidOperationException(LocalizationBS.BinaryReader_InvalidHeader);
@@ -116,7 +115,7 @@ namespace BurnSystems.Serialization
 
             // Reads version
             var versionBytes = new byte[4];
-            _stream.Read(versionBytes, 0, versionBytes.Length);
+            _stream.ReadExactly(versionBytes);
             if (versionBytes[0] != 0x01 || versionBytes[1] != 0x00 || versionBytes[2] != 0x00 || versionBytes[3] != 0x00)
             {
                 throw new InvalidOperationException(LocalizationBS.BinaryReader_InvalidHeader);
@@ -169,7 +168,7 @@ namespace BurnSystems.Serialization
             Ensure.IsGreaterOrEqual(length, 0);
 
             var bytes = new byte[length];
-            _stream.Read(bytes, 0, length);
+            _stream.ReadExactly(bytes, 0, length);
             return ConvertObject(bytes, nativeType);
         }
 
@@ -186,7 +185,7 @@ namespace BurnSystems.Serialization
             Ensure.IsSmaller(typeNameLength, 10000);
 
             var typeNameBytes = new byte[typeNameLength];
-            _stream.Read(typeNameBytes, 0, typeNameLength);
+            _stream.ReadExactly(typeNameBytes, 0, typeNameLength);
             
             // Create type entry
             var typeEntry = new TypeEntry
@@ -216,7 +215,7 @@ namespace BurnSystems.Serialization
                 Ensure.IsSmaller(fieldNameLength, 10000);
 
                 var fieldNameBytes = new byte[fieldNameLength];
-                _stream.Read(fieldNameBytes, 0, fieldNameLength);
+                _stream.ReadExactly(fieldNameBytes, 0, fieldNameLength);
 
                 var fieldEntry = new FieldEntry
                 {
@@ -299,7 +298,7 @@ namespace BurnSystems.Serialization
         public int ReadInt32()
         {
             var bytes = new byte[4];
-            _stream.Read(bytes, 0, 4);
+            _stream.ReadExactly(bytes, 0, 4);
 
             return BitConverter.ToInt32(bytes, 0);
         }
@@ -311,7 +310,7 @@ namespace BurnSystems.Serialization
         public long ReadInt64()
         {
             var bytes = new byte[8];
-            _stream.Read(bytes, 0, 8);
+            _stream.ReadExactly(bytes, 0, 8);
 
             return BitConverter.ToInt64(bytes, 0);
         }

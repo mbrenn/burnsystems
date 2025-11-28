@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BurnSystems.Xml.Html
+﻿namespace BurnSystems.Xml.Html
 {
     /// <summary>
     /// Defines an html table

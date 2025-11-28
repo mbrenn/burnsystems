@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BurnSystems.Synchronisation;
+﻿using BurnSystems.Synchronisation;
 
 namespace BurnSystems.Logging.Provider
 {
@@ -10,14 +7,14 @@ namespace BurnSystems.Logging.Provider
         /// <summary>
         /// Stores a singleton that can be used by simple applications
         /// </summary>
-        public static InMemoryDatabaseProvider TheOne { get; }= new InMemoryDatabaseProvider();
+        public static InMemoryDatabaseProvider TheOne { get; }= new();
         
         /// <summary>
         /// Gets the messages that are received
         /// </summary>
-        private readonly List<InMemoryLogMessage> _messages = new List<InMemoryLogMessage>();
+        private readonly List<InMemoryLogMessage> _messages = new();
         
-        private readonly ReadWriteLock _lock = new ReadWriteLock();
+        private readonly ReadWriteLock _lock = new();
 
         /// <summary>
         /// Gets the messages being received

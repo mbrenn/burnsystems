@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using BurnSystems.Test;
+﻿using BurnSystems.Test;
 
 namespace BurnSystems.Serialization
 {
     /// <summary>
     /// Type of container
     /// </summary>
+    [Obsolete]
     public enum ContainerType
     {
         /// <summary>
@@ -80,17 +79,17 @@ namespace BurnSystems.Serialization
         /// <summary>
         /// Defines the used streamversion
         /// </summary>
-        public static readonly Version StreamVersion = new Version(1, 0, 0, 0);
+        public static readonly Version StreamVersion = new(1, 0, 0, 0);
 
         /// <summary>
         /// Dictionary for converting number to native type
         /// </summary>
-        private static readonly Dictionary<int, Type> NumberToNativeType = new Dictionary<int, Type>();
+        private static readonly Dictionary<int, Type> NumberToNativeType = new();
 
         /// <summary>
         /// Dictionary for converting type to number
         /// </summary>
-        private static readonly Dictionary<Type, int> NativeTypeToNumber = new Dictionary<Type, int>();
+        private static readonly Dictionary<Type, int> NativeTypeToNumber = new();
 
         /// <summary>
         /// Initializes static members of the Helper class.

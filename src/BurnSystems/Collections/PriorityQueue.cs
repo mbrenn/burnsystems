@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace BurnSystems.Collections
 {
@@ -14,7 +12,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Storage for elements
         /// </summary>
-        private readonly List<T> _elements = new List<T>();
+        private readonly List<T> _elements = new();
 
         /// <summary>
         /// Comparer for elements

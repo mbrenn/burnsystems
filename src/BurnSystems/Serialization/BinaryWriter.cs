@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
+﻿using System.Globalization;
 using System.Text;
 
 namespace BurnSystems.Serialization
@@ -9,6 +6,7 @@ namespace BurnSystems.Serialization
     /// <summary>
     /// This class is an implementation of a binary writer for serialization.
     /// </summary>
+    [Obsolete]
     public class BinaryWriter
     {
         /// <summary>
@@ -151,7 +149,8 @@ namespace BurnSystems.Serialization
             WriteInt64(typeEntry.TypeId);
 
             // Writes typename
-            var typeNameAsBytes = Encoding.UTF8.GetBytes(typeEntry.Name);
+            var typeNameAsBytes = Encoding.UTF8.GetBytes(
+                typeEntry.Name ?? throw new InvalidOperationException("Name is null"));
 
             WriteInt32(typeNameAsBytes.Length);
             _stream.Write(typeNameAsBytes, 0, typeNameAsBytes.Length);
@@ -172,7 +171,7 @@ namespace BurnSystems.Serialization
                 WriteInt32(field.FieldId);
 
                 // Fieldname
-                var propertyNameAsBytes = Encoding.UTF8.GetBytes(field.Name);
+                var propertyNameAsBytes = Encoding.UTF8.GetBytes(field.Name ?? throw new InvalidOperationException("Name is null"));
 
                 WriteInt32(propertyNameAsBytes.Length);
                 _stream.Write(propertyNameAsBytes, 0, propertyNameAsBytes.Length);
