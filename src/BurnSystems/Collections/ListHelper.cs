@@ -101,6 +101,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Typ des Delegaten</typeparam>
         /// <param name="list">Aufzählung mit den Elementen</param>
         /// <param name="action">Delegat, der aufgerufen wird</param>
+        [Obsolete("System.Linq.Enumerable.ForEach()")]
         public static void ForEach<T>(
             IEnumerable<T> list, 
             Action<T> action)
@@ -122,6 +123,7 @@ namespace BurnSystems.Collections
         /// <param name="predicate">Prädikat, auf das jedes einzelne
         /// Element getestet wird. </param>
         /// <returns>true, wenn eines der Elemente zutrifft</returns>
+        [Obsolete("System.Linq.Enumerable.Any(")]
         public static bool Exists<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
             Ensure.IsNotNull(list);
@@ -144,6 +146,7 @@ namespace BurnSystems.Collections
         /// <param name="list">List to be checked</param>
         /// <param name="predicate">Zu erfüllendes Prädikat</param>
         /// <returns>Gefundenes Objekt</returns>
+        [Obsolete("System.Linq.Enumerable.FirstOrDefault()")]
         public static T Find<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
             Ensure.IsNotNull(list);
@@ -166,6 +169,7 @@ namespace BurnSystems.Collections
         /// <param name="list">List to be looked up</param>
         /// <param name="item">Item to be checked</param>
         /// <returns>true, if item is found in list</returns>
+        [Obsolete("System.Linq.Enumerable.Contains()")]
         public static bool Contains<T>(IEnumerable<T> list, T item)
         {
             Ensure.IsNotNull(list);
@@ -188,6 +192,7 @@ namespace BurnSystems.Collections
         /// <param name="list">List to be looked up</param>
         /// <param name="predicate">Predicate to be used</param>
         /// <returns>true, if item is found in list</returns>
+        [Obsolete("System.Linq.Enumerable.Contains(")]
         public static bool Contains<T>(IEnumerable<T> list, Predicate<T> predicate)
         {
             Ensure.IsNotNull(list);
@@ -343,6 +348,7 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Type of elements in list</typeparam>
         /// <param name="source">List with elements</param>
         /// <returns>Enumeration of unique elements</returns>
+        [Obsolete("System.Linq.Enumerable.Distinct()")]
         public static IEnumerable<T> Distinct<T>(
             this IEnumerable<T> source)
         {
@@ -370,6 +376,7 @@ namespace BurnSystems.Collections
         /// <param name="source">List with elements</param>
         /// <param name="selector">Selector to find unique element</param>
         /// <returns>Enumeration of unique elements</returns>
+        [Obsolete("System.Linq.Enumerable.Distinct()")]
         public static IEnumerable<T> Distinct<T, TValue>(
             this IEnumerable<T> source,
             Func<T, TValue> selector)
@@ -552,6 +559,7 @@ namespace BurnSystems.Collections
         /// werden soll. </param>
         /// <param name="itemToBeAdded">Objekt, das hinzugefügt werden soll.</param>
         /// <param name="testFunction">Prädikat, mit dessen Hilfe getestet wird.</param>
+        [Obsolete("Use Hashset")]
         public static void AddIfNotExists<T>(
             IList<T> list, 
             T itemToBeAdded, 
@@ -576,7 +584,8 @@ namespace BurnSystems.Collections
         /// <typeparam name="T">Typ der in der Liste enthaltenen Elemente</typeparam>
         /// <param name="list">Zu sortierende Liste</param>
         /// <param name="comparer">Comparer to be used for sorting</param>
-        /// <returns>Sortet list</returns>
+        /// <returns>Sorted list</returns>
+        [Obsolete("Use OrderBy(list, comparer).ToList")]
         public static IList<T> Sort<T>(
             IEnumerable<T> list, 
             Comparison<T> comparer)
@@ -597,6 +606,7 @@ namespace BurnSystems.Collections
         /// <param name="predicate">Predicate, which checks, if an 
         /// element has to be removed</param>
         /// <returns>Anzahl der entfernten Elemente</returns>
+        [Obsolete("System.Linq.Enumerable.RemoveAll() or explicit remove")]
         public static int Remove<T>(IList<T> list, Predicate<T> predicate)
         {
             Ensure.IsNotNull(list);
@@ -629,7 +639,7 @@ namespace BurnSystems.Collections
         /// <param name="hayStick">Haystick with all elements</param>
         /// <param name="needle">Searched Needle</param>
         /// <param name="startPosition">Starting position of search</param>
-        /// <returns>Position of first occurance</returns>
+        /// <returns>Position of first occurance</returns>]
         public static int IndexOf<T>(T[] hayStick, T[] needle, int startPosition)
         {
             // Do standard error checking here.
@@ -687,6 +697,7 @@ namespace BurnSystems.Collections
         /// <param name="list">Zu sortierende Liste</param>
         /// <param name="comparison">Comparison-Delegate used 
         /// for sorting</param>
+        [Obsolete("There are enough sorting algorithms available, use the existing ones")]
         public static void InsertionSort<T>(IList<T> list, Comparison<T> comparison)
         {
             Ensure.IsNotNull(list);
@@ -724,7 +735,7 @@ namespace BurnSystems.Collections
         /// <returns>Kopiertes Array</returns>
         public static T[,] Copy<T>(T[,] source)
         {
-            Ensure.IsNotNull(source);
+            ArgumentNullException.ThrowIfNull(source);
 
             var height = source.GetLength(0);
             var width = source.GetLength(1);
@@ -751,17 +762,10 @@ namespace BurnSystems.Collections
         [Obsolete("System.Linq.Enumerable.All()")]
         public static bool ForAll<T>(IEnumerable<T> items, Predicate<T> predicate)
         {
-            Ensure.IsNotNull(items);
+            ArgumentNullException.ThrowIfNull(items);
+            ArgumentNullException.ThrowIfNull(predicate);
 
-            foreach (var element in items)
-            {
-                if (!predicate(element))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return items.All(element => predicate(element));
         }
 
         /// <summary>
@@ -772,6 +776,7 @@ namespace BurnSystems.Collections
         /// <param name="items">Enumeration, whose elements should be
         /// executed.</param>
         /// <param name="action">Action, which should be executed</param>
+        [Obsolete("Use Parallel.Foreach")]
         public static void ForeachParallel<T>(IEnumerable<T> items, Action<T> action)
         {
             Ensure.IsNotNull(items);
@@ -792,6 +797,7 @@ namespace BurnSystems.Collections
         /// <param name="action">Action, which should be executed</param>
         /// <param name="numberOfThreads">Number of threads, that should
         /// be used</param>
+        [Obsolete("Use Parallel.Foreach")]
         public static void ForeachParallel<T>(
             IEnumerable<T> items, 
             Action<T> action,
@@ -859,7 +865,8 @@ namespace BurnSystems.Collections
         /// <returns>Index of item matching the predicate or -1 if not found. </returns>
         public static int IndexOf<T>(ICollection<T> list, Predicate<T> predicate)
         {
-           Ensure.IsNotNull(list);
+            ArgumentNullException.ThrowIfNull(list);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var result = 0;
 
@@ -884,6 +891,7 @@ namespace BurnSystems.Collections
         /// <param name="function">Function, which converts an 
         /// element to a comparable value</param>
         /// <returns>The minimum element</returns>
+        [Obsolete("System.Linq.Enumerable.Min()")]
         public static T FindMin<T>(IEnumerable<T> list, Func<T, IComparable> function)
         {
             T smallest = default!;
@@ -911,6 +919,7 @@ namespace BurnSystems.Collections
         /// <param name="function">Function, which converts an 
         /// element to a comparable value</param>
         /// <returns>The minimum element</returns>
+        [Obsolete("System.Linq.Enumerable.Max()")]
         public static T FindMax<T>(IEnumerable<T> list, Func<T, IComparable> function)
         {
             Ensure.IsNotNull(list);
@@ -940,6 +949,7 @@ namespace BurnSystems.Collections
         /// <param name="start">Startposition of the range</param>
         /// <param name="end">Exclusive endposition of range</param>
         /// <returns>List, containing no, some or all elements of <c>list</c>.</returns>
+        [Obsolete("Use Range")]
         public static IList<T> Range<T>(IList<T> list, int start, int end)
         {
             Ensure.IsNotNull(list);
@@ -1008,7 +1018,7 @@ namespace BurnSystems.Collections
         }
 
         /// <summary>
-        /// Checks, if both lists have the same content. Algorithm used:        /// 
+        /// Checks, if both lists have the same content. Algorithm used:      
         /// http://stackoverflow.com/questions/3669970/compare-two-listt-objects-for-equality-ignoring-order
         /// </summary>
         /// <typeparam name="T">Type of element</typeparam>
@@ -1025,13 +1035,9 @@ namespace BurnSystems.Collections
                     throw new InvalidOperationException("List contains a null element");
                 }
 
-                if (cnt.ContainsKey(s))
+                if (!cnt.TryAdd(s, 1))
                 {
                     cnt[s]++;
-                }
-                else
-                {
-                    cnt.Add(s, 1);
                 }
             }
 

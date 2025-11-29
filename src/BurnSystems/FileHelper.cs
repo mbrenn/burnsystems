@@ -6,34 +6,53 @@
     public static class FileHelper
     {
         /// <summary>
-        /// Copies a complete directory from one place to another. 
-        /// If necessary, the directories are created
+        /// Copies the directory from source dir to destination dir.
+        /// Source from https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
         /// </summary>
-        /// <param name="sourcePath">Path containing the source</param>
-        /// <param name="targetPath">Path containing the target</param>
-        /// <param name="doOverwrite">Flag, if file shall be overwritten</param>
-        public static void CopyDirectory(string sourcePath, string targetPath, bool doOverwrite = false)
+        /// <param name="sourceDir">Source Directory from which the files shall be copied</param>
+        /// <param name="destinationDir">Destination directory to which the files will be copied</param>
+        /// <param name="recursive">Flag, if copying shall be recursive</param>
+        /// <exception cref="DirectoryNotFoundException">Thrown, if Source Directory does not exist</exception>
+        public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive = true)
         {
-            if (!Directory.Exists(targetPath))
+            // Get information about the source directory
+            var dir = new DirectoryInfo(sourceDir);
+
+            // Check if the source directory exists
+            if (!dir.Exists)
             {
-                Directory.CreateDirectory(targetPath);
+                Directory.CreateDirectory(sourceDir);
+                dir = new DirectoryInfo(sourceDir);
             }
 
-            foreach (var directory in Directory.GetDirectories(sourcePath))
+            // Cache directories before we start copying
+            var dirs = dir.GetDirectories();
+
+            // Create the destination directory
+            if (Directory.Exists(destinationDir))
             {
-                var newSourcePath = Path.Combine(sourcePath, directory);
-                var newTargetPath = Path.Combine(targetPath, directory);
-                
-                // Copy recursively
-                CopyDirectory(newSourcePath, newTargetPath, doOverwrite);
+                // DeleteDirectory(destinationDir);
+            }
+            else
+            {
+                Directory.CreateDirectory(destinationDir);
             }
 
-            foreach (var file in Directory.GetFiles(sourcePath))
+            // Get the files in the source directory and copy to the destination directory
+            foreach (var file in dir.GetFiles())
             {
-                var newSourcePath = Path.Combine(sourcePath, file);
-                var newTargetPath = Path.Combine(targetPath, Path.GetFileName(file));
+                var targetFilePath = Path.Combine(destinationDir, file.Name);
+                file.CopyTo(targetFilePath, true);
+            }
 
-                File.Copy(newSourcePath, newTargetPath, doOverwrite);
+            // If recursive and copying subdirectories, recursively call this method
+            if (!recursive) 
+                return;
+            
+            foreach (var subDir in dirs)
+            {
+                var newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+                CopyDirectory(subDir.FullName, newDestinationDir);
             }
         }
     }

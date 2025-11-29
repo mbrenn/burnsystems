@@ -7,6 +7,7 @@ namespace BurnSystems.Synchronisation
     /// Eine einfache Locking-Klasse, die für das Locken 
     /// eines ILockable-Objektes zustündig ist
     /// </summary>
+    [Obsolete("Use Lock" )]
     public class SimpleLock : IDisposable
     {
         /// <summary>

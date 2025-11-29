@@ -3,6 +3,7 @@
     /// <summary>
     /// Defines an html table
     /// </summary>
+    [Obsolete("Use DatenMeister.HtmlEngine")]
     public class HtmlTable : HtmlElement
     {
         /// <summary>

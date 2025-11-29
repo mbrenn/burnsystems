@@ -7,6 +7,7 @@ namespace BurnSystems.Collections
     /// the smallest value is at first position
     /// </summary>
     /// <typeparam name="T">Type of elements</typeparam>
+    [Obsolete("Use PriorityQueue<T> instead" )]
     public class PriorityQueue<T> : IEnumerable<T>
     {
         /// <summary>

@@ -2,9 +2,11 @@
 
 namespace BurnSystems.Xml.Html
 {
+    
     /// <summary>
     /// Offers some helpermethods that can be used to manipulate and to create html documents
     /// </summary>
+    [Obsolete("Use DatenMeister.HtmlEngine")]
     public static class HtmlDocument
     {
         /// <summary>

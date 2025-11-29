@@ -111,7 +111,7 @@ namespace BurnSystems.Synchronisation
                 {
                     _taskRunning = true;
                     _lastStore = DateTime.Now;
-                    Task.Run(() => BackgroundTask());
+                    Task.Run(BackgroundTask);
                 }
             }
         }

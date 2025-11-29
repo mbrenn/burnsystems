@@ -95,19 +95,17 @@ namespace BurnSystems.Logging.Pipe
             }
             else if (messageId == SerializerMessageIDs.SendLogMetricMessageDouble)
             {
-                Debug.Assert(logMetricMessageDouble != null, nameof(logMetricMessageDouble) + " != null");
+                Debug.Assert(logMetricMessageDouble != null, $"{nameof(logMetricMessageDouble)} != null");
                 
                 // Message
-                SetDouble(logMetricMessageDouble!.Value, bytes, ref offset);
+                SetDouble(logMetricMessageDouble.Value, bytes, ref offset);
                 
                 // Unit
-                SetString(logMetricMessageDouble!.Unit, bytes, ref offset);
+                SetString(logMetricMessageDouble.Unit, bytes, ref offset);
             }
 
             return bytes;
         }
-
-        private static int GetByteCountForBytes(byte[] bytes) => bytes.Length;
 
         private static int GetByteCountForInteger8() => sizeof(Byte);
 

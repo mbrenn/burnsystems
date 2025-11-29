@@ -3,7 +3,7 @@
     /// <summary>
     /// This method is thrown, when an ensure check failes
     /// </summary>
-    [Serializable]
+    [Obsolete("Use Assert")]
     public class EnsureFailedException : Exception
     {
         /// <summary>

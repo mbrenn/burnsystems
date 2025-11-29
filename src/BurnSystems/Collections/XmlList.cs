@@ -10,6 +10,7 @@ namespace BurnSystems.Collections
     /// on the element
     /// </summary>
     /// <typeparam name="T">Type of the entity</typeparam>
+    [Obsolete("Use DatenMeister")]
     public class XmlList<T> : IList<T>
     {
         /// <summary>

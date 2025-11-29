@@ -10,7 +10,7 @@ namespace BurnSystems.Plugins
         /// <summary>
         /// Stores a list of dependencies
         /// </summary>
-        private readonly List<Type> _dependencies = new();
+        private readonly List<Type> _dependencies = [];
 
         /// <summary>
         /// Gets or sets the instance of the plugin
@@ -85,12 +85,7 @@ namespace BurnSystems.Plugins
         /// <returns>Name of the associated type</returns>
         public override string ToString()
         {
-            if (Type != null)
-            {
-                return Type.FullName ?? "Unknown Fullname";
-            }
-
-            return "PluginInfo, Unknown Type";
+            return Type.FullName ?? "Unknown Fullname";
         }
     }
 }

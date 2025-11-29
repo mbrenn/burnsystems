@@ -132,7 +132,7 @@ namespace BurnSystems.Serialization
         /// <returns>true, if the given type is a native type</returns>
         public static bool IsNativeType(Type type)
         {
-            Ensure.IsNotNull(type);
+            ArgumentNullException.ThrowIfNull(type);
 
             return NativeTypeToNumber.ContainsKey(type);
         }
@@ -144,7 +144,7 @@ namespace BurnSystems.Serialization
         /// <returns>true, if requested type is enumeration</returns>
         public static bool IsEnumeration(Type type)
         {
-            Ensure.IsNotNull(type);
+            ArgumentNullException.ThrowIfNull(type);
 
             return type.IsEnum;
         }

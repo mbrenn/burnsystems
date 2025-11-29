@@ -29,7 +29,7 @@ namespace BurnSystems.Logging.Provider
                 var old = Console.ForegroundColor;
                 Console.ForegroundColor = _consoleColors[(int) logMessage.LogLevel - 1];
                 Console.WriteLine($@"{timePassed.TotalSeconds.ToString("n3", CultureInfo.InvariantCulture)}: " +
-                                  $"{logMessage}");
+                                  $@"{logMessage}");
                 Console.ForegroundColor = old;
             }
         }

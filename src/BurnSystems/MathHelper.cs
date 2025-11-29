@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using BurnSystems.Test;
 
 namespace BurnSystems
@@ -169,7 +170,8 @@ namespace BurnSystems
         {
             while (true)
             {
-                Ensure.IsGreaterOrEqual(variance, 0.0);
+                ArgumentOutOfRangeException.ThrowIfNegative(variance);
+                
                 var d1 = Random.NextDouble();
                 var d2 = Random.NextDouble();
 

@@ -7,13 +7,8 @@ namespace BurnSystems.Net
     public class MultipartFormData
     {
         /// <summary>
-        /// List of parts
-        /// </summary>
-        private readonly List<MultipartFormDataPart> _parts = new();
-
-        /// <summary>
         /// Gets the different parts of the formdata
         /// </summary>
-        public List<MultipartFormDataPart> Parts => _parts;
+        public List<MultipartFormDataPart> Parts { get; } = [];
     }
 }

@@ -8,6 +8,7 @@ namespace BurnSystems.Collections
     /// Provides a helper for chaining of objects. A bit like a list, but very rough
     /// </summary>
     /// <typeparam name="T">Type of chained element</typeparam>
+    [Obsolete("Use LinkedList instead")]
     public class ChainHelper<T> : IEnumerable<T> where T : class, IChainNode<T>
     {
         /// <summary>

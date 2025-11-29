@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using BurnSystems.Test;
 
 // ReSharper disable FormatStringProblem
 
@@ -77,12 +76,11 @@ namespace BurnSystems
         /// <returns>Converted decimal string</returns>
         public static int HexToInt(this string hexValue)
         {
-            Ensure.IsNotNull(hexValue);
+            ArgumentException.ThrowIfNullOrEmpty(hexValue);
 
             var result = 0;
-            for (var counter = 0; counter < hexValue.Length; counter++)
+            foreach (var current in hexValue)
             {
-                var current = hexValue[counter];
                 var currentValue = current switch
                 {
                     '0' => 0,
@@ -133,12 +131,10 @@ namespace BurnSystems
                 throw new ArgumentException($"{nameof(maxLength)} < 0");
             }
 
-            if (value.Length > maxLength)
-            {
-                return value.Substring(0, maxLength) + ellipsis;
-            }
-
-            return value;
+            return
+                value.Length > maxLength 
+                    ? string.Concat(value.AsSpan(0, maxLength), ellipsis)
+                    : value;
         }
 
         /// <summary>
@@ -152,7 +148,7 @@ namespace BurnSystems
         {
             if (value.Length > letters)
             {
-                return value.Substring(0, letters);
+                return value[..letters];
             }
 
             return value;
@@ -325,7 +321,7 @@ namespace BurnSystems
         /// <returns>String with <c>repetitions</c> Characters of <c>character</c>.</returns>
         public static string Repeat(this char character, int repetitions)
         {
-            Ensure.IsGreaterOrEqual(repetitions, 0);
+            ArgumentOutOfRangeException.ThrowIfLessThan(repetitions, 0);
 
             // Check for empty strings
             if (repetitions == 0)
@@ -354,7 +350,7 @@ namespace BurnSystems
         /// <returns>Array mit Stringinhalten</returns>
         public static string[] WordWrap(string value, int lineLength)
         {
-            Ensure.IsGreaterOrEqual(lineLength, 0);
+            ArgumentOutOfRangeException.ThrowIfLessThan(lineLength, 0);
 
             var lines = new List<string>();
 
@@ -364,7 +360,7 @@ namespace BurnSystems
             while (true)
             {
                 var index = value.IndexOfAny(
-                    new[] { ' ', '\r', '\n' },
+                    [' ', '\r', '\n'],
                     currentPos);
 
                 if (index == -1)
@@ -388,7 +384,7 @@ namespace BurnSystems
                         }
                     }
 
-                    lines.Add(value.Substring(start).Trim());
+                    lines.Add(value[start..].Trim());
                     break;
                 }
 
@@ -467,7 +463,7 @@ namespace BurnSystems
         /// <returns>Gesäuberter String</returns>
         public static string RemoveInvalidFileNameChars(string fileName)
         {
-            Ensure.IsNotNull(fileName);
+            ArgumentException.ThrowIfNullOrEmpty(fileName);
 
             foreach (var invalidChar in Path.GetInvalidFileNameChars())
             {
@@ -483,7 +479,7 @@ namespace BurnSystems
         /// </summary>
         /// <param name="list">Liste, die das Element erhalten soll</param>
         /// <param name="line">String to be added to list</param>
-        private static void AddLineToArray(IList<string> list, string line)
+        private static void AddLineToArray(List<string> list, string line)
         {
             if (!string.IsNullOrEmpty(line))
             {
@@ -501,7 +497,7 @@ namespace BurnSystems
         public static string GetFileLengthInfo(long fileLength, int decimals)
         {
             var doubleFileLength = (double)fileLength;
-            var prefix = new[] { "Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB" };
+            string[] prefix = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB"];
             var prefixNumber = 0;
             while (doubleFileLength > 1024 && prefixNumber < (prefix.Length - 1))
             {

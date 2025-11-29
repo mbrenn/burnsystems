@@ -17,14 +17,7 @@ namespace BurnSystems.Graphics
         /// <returns>Hexstring of color</returns>
         public static string ColorToHex(Color color)
         {
-            Ensure.IsNotNull(color);
-
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0:X2}{1:X2}{2:X2}",
-                color.R, 
-                color.G, 
-                color.B);
+            return $"{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
         /// <summary>

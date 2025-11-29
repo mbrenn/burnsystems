@@ -10,6 +10,7 @@ namespace BurnSystems.Net
         /// <summary>
         /// Gets the elements of the content-disposition header
         /// </summary>
+        // ReSharper disable once CollectionNeverQueried.Global
         public NiceDictionary<string, string> ContentDisposition { get; } = new();
 
         /// <summary>

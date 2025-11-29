@@ -4,6 +4,7 @@
     /// Implements a container, that stores the instances according to their type. 
     /// An instance can be retrieved by its type
     /// </summary>
+    [Obsolete("Garbage implementation, use OfType")]
     public class TypedContainer
     {
         /// <summary>

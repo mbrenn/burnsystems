@@ -7,6 +7,7 @@ namespace BurnSystems.Interfaces
     /// state shall be read from an xml node or shall be written to 
     /// an xml node
     /// </summary>
+    [Obsolete]
     public interface IXElement
     {
         /// <summary>

@@ -14,7 +14,7 @@ namespace BurnSystems.Collections
         /// <summary>
         /// Contains the list implementation
         /// </summary>
-        private IList<T> _listImplementation = new List<T>();
+        private readonly IList<T> _listImplementation = new List<T>();
 
         /// <summary>
         /// Gets or sets the flag whether the list is dirty

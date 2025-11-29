@@ -8,7 +8,7 @@ namespace BurnSystems.Collections
     /// The objectcontainer stores the objects
     /// and offers a method to get an access to the objects
     /// </summary>
-    [Serializable]
+    [Obsolete]
     public class ObjectContainer : IEnumerable<KeyValuePair<string, object>>
     {
         /// <summary>

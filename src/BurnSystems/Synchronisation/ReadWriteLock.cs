@@ -3,8 +3,7 @@ namespace BurnSystems.Synchronisation
     /// <summary>
     /// This helperclass supports the use of readwrite locks
     /// as a disposable pattern. 
-    /// In .Net ReaderWriterLockSlim is used, in Mono ReaderWriterLock, because
-    /// Mono does not support recursions in the slim lock.
+    /// In .Net ReaderWriterLockSlim is used.
     /// </summary>
     public class ReadWriteLock : IDisposable
     {
@@ -14,26 +13,13 @@ namespace BurnSystems.Synchronisation
         private readonly ReaderWriterLockSlim? _nativeLockSlim;
 
         /// <summary>
-        /// Native lockstructure for mono
-        /// </summary>
-        private readonly ReaderWriterLock? _nativeLock;
-
-        /// <summary>
         /// Initializes a new instance of the ReadWriteLock class.
         /// If this readwritelock runs within mono, a simple lock will be used
         /// </summary>
         public ReadWriteLock()
         {
-            if (EnvironmentHelper.IsMono)
-            {
-                _nativeLock =
-                    new ReaderWriterLock();
-            }
-            else
-            {
-                _nativeLockSlim
-                    = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
-            }
+            _nativeLockSlim
+                = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
         }
 
         /// <summary>
@@ -48,13 +34,7 @@ namespace BurnSystems.Synchronisation
                 _nativeLockSlim.EnterReadLock();
                 return new ReaderLockSlim(this);
             }
-
-            if ( _nativeLock != null)
-            {
-                _nativeLock.AcquireReaderLock(-1);
-                return new ReaderLock(this);
-            }
-
+            
             throw new InvalidOperationException("Both locks are null");
         }
 
@@ -69,12 +49,6 @@ namespace BurnSystems.Synchronisation
             {
                 _nativeLockSlim.EnterWriteLock();
                 return new WriterLockSlim(this);
-            }
-
-            if (_nativeLock != null)
-            {
-                _nativeLock.AcquireWriterLock(-1);
-                return new WriterLock(this);
             }
 
             throw new InvalidOperationException("Both locks are null");
@@ -152,56 +126,6 @@ namespace BurnSystems.Synchronisation
         }
 
         /// <summary>
-        /// Helper class for disposing the readlock
-        /// </summary>
-        private class ReaderLock : IDisposable
-        {
-            /// <summary>
-            /// Reference to readwritelock-object
-            /// </summary>
-            private readonly ReadWriteLock _readWriteLock;
-
-            /// <summary>
-            /// Initializes a new instance of the ReaderLock class.
-            /// </summary>
-            /// <param name="readWriteLock">Read locked structure,
-            /// which should be controlled by this lock.</param>
-            public ReaderLock(ReadWriteLock readWriteLock)
-            {
-                _readWriteLock = readWriteLock;
-            }
-
-            /// <summary>
-            /// Finalizes an instance of the ReaderLock class.
-            /// </summary>
-            ~ReaderLock()
-            {
-                Dispose(false);
-            }
-
-            /// <summary>
-            /// Disposes the object
-            /// </summary>
-            /// <param name="disposing">Flag, if Dispose() has been called</param>
-            public void Dispose(bool disposing)
-            {
-                if (disposing)
-                {
-                    _readWriteLock._nativeLock?.ReleaseReaderLock();
-                }
-            }
-
-            /// <summary>
-            /// Disposes the object
-            /// </summary>
-            public void Dispose()
-            {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-        }
-
-        /// <summary>
         /// Helper class for disposing the writelock
         /// </summary>
         private class WriterLockSlim : IDisposable
@@ -241,56 +165,6 @@ namespace BurnSystems.Synchronisation
                 }
             }
             
-            /// <summary>
-            /// Dispoeses the object
-            /// </summary>
-            public void Dispose()
-            {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-        }
-
-        /// <summary>
-        /// Helper class for disposing the writelock
-        /// </summary>
-        private class WriterLock : IDisposable
-        {
-            /// <summary>
-            /// Reference to readwritelock-object
-            /// </summary>
-            private readonly ReadWriteLock _readWriteLock;
-
-            /// <summary>
-            /// Initializes a new instance of the WriterLock class.
-            /// </summary>
-            /// <param name="readWriteLock">Read locked structure,
-            /// which should be controlled by this lock.</param>
-            public WriterLock(ReadWriteLock readWriteLock)
-            {
-                _readWriteLock = readWriteLock;
-            }
-
-            /// <summary>
-            /// Finalizes an instance of the WriterLock class.
-            /// </summary>
-            ~WriterLock()
-            {
-                Dispose(false);
-            }
-
-            /// <summary>
-            /// Disposes the object
-            /// </summary>
-            /// <param name="disposing">Flag, if Dispose() has been called</param>
-            public void Dispose(bool disposing)
-            {
-                if (disposing)
-                {
-                    _readWriteLock._nativeLock?.ReleaseWriterLock();
-                }
-            }
-
             /// <summary>
             /// Dispoeses the object
             /// </summary>

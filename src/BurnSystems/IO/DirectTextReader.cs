@@ -3,9 +3,11 @@
 namespace BurnSystems.IO
 {
     /// <summary>
-    /// Dieser TextReader wird benötigt, wenn ein Teil des Streams als Text
-    /// behandelt werden soll. Wird dieser TextReader nicht mehr benötigt,
-    /// so wird nicht der darunterliegende Stream geschlossen. 
+    /// This TextReader is required when a part of the stream is to be treated as text. When this TextReader. It allows
+    /// a reading of an individual line within the stream without reading too much data into a temporary buffer
+    /// which is after wards not available anymore 
+    /// In case the instande of that class is no longer needed, the underlying stream is not closed
+    /// 
     /// </summary>
     public class DirectTextReader
     {
@@ -37,12 +39,12 @@ namespace BurnSystems.IO
 
             while ((currentByte = _stream.ReadByte()) != -1)
             {
-                if (currentByte == 10)
+                if (currentByte == 10) // \n
                 {
                     continue;
                 }
 
-                if (currentByte == 13)
+                if (currentByte == 13) // /r
                 {
                     break;
                 }

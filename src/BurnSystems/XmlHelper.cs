@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using BurnSystems.Test;
 
 namespace BurnSystems
 {
@@ -26,16 +25,13 @@ namespace BurnSystems
             string defaultvalue)
         {
             if (xmlNode.Attributes == null) throw new ArgumentNullException(nameof(xmlNode));
-            if (attributeName == null) throw new ArgumentNullException(nameof(attributeName));
+            ArgumentNullException.ThrowIfNull(attributeName);
 
             var xmlAttribute = xmlNode.Attributes[attributeName];
 
-            if (xmlAttribute == null)
-            {
-                return defaultvalue;
-            }
-
-            return xmlAttribute.InnerText;
+            return xmlAttribute == null
+                ? defaultvalue
+                : xmlAttribute.InnerText;
         }
 
         /// <summary>
@@ -52,17 +48,12 @@ namespace BurnSystems
             string attributeName,
             string defaultvalue)
         {
-            if (xmlNode == null) throw new ArgumentNullException(nameof(xmlNode));
-            Ensure.IsNotNull(attributeName);
+            ArgumentNullException.ThrowIfNull(xmlNode);
+            ArgumentNullException.ThrowIfNull(attributeName);
 
             var xmlAttribute = xmlNode.Attribute(attributeName);
 
-            if (xmlAttribute == null)
-            {
-                return defaultvalue;
-            }
-
-            return xmlAttribute.Value;
+            return xmlAttribute == null ? defaultvalue : xmlAttribute.Value;
         }
 
         /// <summary>
@@ -100,9 +91,9 @@ namespace BurnSystems
             XmlNode xmlNode, 
             string attributeName)
         {
-            Ensure.IsNotNull(xmlNode);
-            Ensure.IsNotNull(attributeName);
-            Ensure.IsNotNull(xmlNode.Attributes);
+            ArgumentNullException.ThrowIfNull(xmlNode);
+            ArgumentNullException.ThrowIfNull(attributeName);
+            ArgumentNullException.ThrowIfNull(xmlNode.Attributes, "Attributes of XmlNode must not be null.");
 
             var xmlAttribute = xmlNode.Attributes![attributeName];
 
@@ -129,8 +120,8 @@ namespace BurnSystems
             XElement xmlNode,
             string attributeName)
         {
-            Ensure.IsNotNull(xmlNode);
-            Ensure.IsNotNull(attributeName);
+            ArgumentNullException.ThrowIfNull(xmlNode);
+            ArgumentNullException.ThrowIfNull(attributeName);
 
             var xmlAttribute = xmlNode.Attribute(attributeName);
 
@@ -156,8 +147,8 @@ namespace BurnSystems
         /// if no xmlnode is returned by query</exception>
         public static XmlNode QuerySingleXmlNode(XmlNode xmlNode, string xpathQuery)
         {
-            Ensure.IsNotNull(xmlNode);
-            Ensure.IsNotNull(xpathQuery);
+            ArgumentNullException.ThrowIfNull(xmlNode);
+            ArgumentNullException.ThrowIfNull(xpathQuery);
 
             var xmlFoundNode = xmlNode.SelectSingleNode(xpathQuery);
             if (xmlFoundNode == null)
@@ -183,12 +174,9 @@ namespace BurnSystems
         public static string QuerySingleXmlNodeText(XmlNode xmlNode, string query, string defaultValue)
         {
             var node = xmlNode.SelectSingleNode(query);
-            if (node == null)
-            {
-                return defaultValue;
-            }
-
-            return node.InnerText;
+            return node == null
+                ? defaultValue 
+                : node.InnerText;
         }
 
         /// <summary>
@@ -300,8 +288,8 @@ namespace BurnSystems
         public static IEnumerable<XElement> GetOrCreateElements(this IEnumerable<XContainer> nodes, string elementName)
         {
             var found = false;
-            var nodasAsArray = nodes as XContainer[] ?? nodes.ToArray();
-            var foundElements = nodasAsArray.Elements(elementName);
+            var nodesAsArray = nodes as XContainer[] ?? nodes.ToArray();
+            var foundElements = nodesAsArray.Elements(elementName);
 
             foreach (var foundElement in foundElements)
             {
@@ -313,7 +301,7 @@ namespace BurnSystems
             {
                 // We have to create an element
                 var foundElement = new XElement(elementName);
-                nodasAsArray.Last().Add(foundElement);
+                nodesAsArray.Last().Add(foundElement);
 
                 yield return foundElement;
             }

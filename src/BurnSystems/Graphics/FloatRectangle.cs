@@ -4,7 +4,7 @@ namespace BurnSystems.Graphics
     /// Eine Rechteckstruktur, bei dem Breite und Höhe in einer Fließkommazahl
     /// mit doppelter Genauigkeit gespeichert wird. 
     /// </summary>
-    public class FloatRectangle
+    public record FloatRectangle
     {
         /// <summary>
         /// Initializes a new instance of the FloatRectangle class.

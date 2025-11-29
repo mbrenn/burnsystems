@@ -6,6 +6,7 @@ namespace BurnSystems.Interfaces
     /// This interface defines a converter which converts an entity to an XElement-Node and vice versa
     /// </summary>
     /// <typeparam name="T">Type of the entity to be converted</typeparam>
+    [Obsolete]
     public interface IXElementConverter<T>
     {
         /// <summary>

@@ -5,6 +5,7 @@ namespace BurnSystems.Xml.Html
     /// <summary>
     /// Helper class that is used to create a simple html element
     /// </summary>
+    [Obsolete("Use DatenMeister.HtmlEngine")]
     public class HtmlElement : XElement
     {
         /// <summary>

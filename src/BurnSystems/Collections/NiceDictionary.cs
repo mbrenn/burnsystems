@@ -4,9 +4,8 @@ using BurnSystems.Interfaces;
 namespace BurnSystems.Collections
 {
     /// <summary>
-    /// Dieses Dictionary entspricht dem normalen Dictionary, nur dass 
-    /// bei der Abfrage über den Indexer ein null-Wert zurückgegeben wird, 
-    /// wenn dieser nicht vorhanden ist 
+    /// This dictionary corresponds to the standard dictionary, except that querying via the indexer
+    /// returns a null value if the entry does not exist.
     /// </summary>
     /// <typeparam name="TKey">Type of key</typeparam>
     /// <typeparam name="TValue">Type of values in dictionary</typeparam>

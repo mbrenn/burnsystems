@@ -12,18 +12,12 @@ namespace BurnSystems
     public static class EnvironmentHelper
     {
         /// <summary>
-        /// Stores, whether the environment is currently running under mono
-        /// </summary>
-        public static bool IsMono { get; }
-
-        /// <summary>
         /// Initializes static members of the EnvironmentHelper class.
         /// </summary>
         static EnvironmentHelper()
         {
             // Gets the type, only implemented by mono
             var t = Type.GetType("Mono.Runtime");
-            IsMono = t != null;
         }
 
         /// <summary>
@@ -97,6 +91,7 @@ namespace BurnSystems
         /// </remarks>
         /// <param name="xmlType">Xmlnode storing the configuration</param>
         /// <returns>Found type.</returns>
+        [Obsolete("Not required")]
         public static Type GetType(XElement xmlType)
         {
             Ensure.IsNotNull(xmlType);

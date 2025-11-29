@@ -19,14 +19,9 @@ namespace BurnSystems.Plugins
         private readonly Dictionary<string, Assembly> _assemblies = new();
 
         /// <summary>
-        /// Stores the list of loaded plugins
-        /// </summary>
-        private readonly List<PluginInfo<T>> _plugins = new();
-
-        /// <summary>
         /// Gets all plugins
         /// </summary>
-        public List<PluginInfo<T>> Plugins => _plugins;
+        public List<PluginInfo<T>> Plugins { get; } = [];
 
         /// <summary>
         /// Loads all plugins from current directory with a certain attribute
@@ -53,7 +48,7 @@ namespace BurnSystems.Plugins
 
                         var pluginInfo = new PluginInfo<T>(assembly, type, plugin);
 
-                        _plugins.Add(pluginInfo);
+                        Plugins.Add(pluginInfo);
                     }
                 }
                 catch (Exception exc)
@@ -109,7 +104,7 @@ namespace BurnSystems.Plugins
 
                 var pluginInfo = new PluginInfo<T>(assembly, typeOfPlugin, plugin);
 
-                _plugins.Add(pluginInfo);
+                Plugins.Add(pluginInfo);
 
                 return plugin;
             }
@@ -130,10 +125,10 @@ namespace BurnSystems.Plugins
         {
             // First sort the plugins
             // Source of order... After sorting, this class has to be empty
-            var source = _plugins.ToList();
+            var source = Plugins.ToList();
             Plugins.Clear();
 
-            var hasAdded = false;
+            bool hasAdded;
             do
             {
                 hasAdded = false;

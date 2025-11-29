@@ -3,7 +3,7 @@
     /// <summary>
     /// This helper class stores the property information
     /// </summary>
-    public class ObjectProperty
+    public record ObjectProperty
     {
         /// <summary>
         /// Gets or sets the name of the property
@@ -11,7 +11,7 @@
         public string? Name
         {
             get;
-            set;
+            init;
         }
 
         /// <summary>
@@ -20,7 +20,7 @@
         public object? Value
         {
             get;
-            set;
+            init;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
         public string? ValueText
         {
             get;
-            set;
+            init;
         }
 
         /// <summary>

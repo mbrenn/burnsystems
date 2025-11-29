@@ -4,7 +4,7 @@ namespace BurnSystems.Logging.Pipe
 {
     public class PipeLoggingServer : IDisposable
     {
-        private readonly List<NamedPipeServerStream> _stream = new();
+        private readonly List<NamedPipeServerStream> _stream = [];
 
         public void Start(string pipeName)
         {
@@ -51,6 +51,8 @@ namespace BurnSystems.Logging.Pipe
                     catch (IOException)
                     {
                         stream.Dispose();
+                        
+                        // ReSharper disable once PossibleInvalidOperationExceptionCollectionWasModified
                         _stream.Remove(stream);
                     }
                 }

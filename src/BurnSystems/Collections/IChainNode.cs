@@ -6,6 +6,7 @@ namespace BurnSystems.Collections
     /// Defines the interface for elements which are a node in the linked list- 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Obsolete("Use LinkedList instead")]
     public interface IChainNode<T> where T : class
     {
         /// <summary>

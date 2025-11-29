@@ -12,6 +12,7 @@ namespace BurnSystems.Test
     /// Scheitert eine Abfrage, so wird eine EnsureFailedException geworfen. 
     /// </para>
     /// </summary>
+    [Obsolete("Use Assert")]
     public static class Ensure
     {
         /// <summary>
