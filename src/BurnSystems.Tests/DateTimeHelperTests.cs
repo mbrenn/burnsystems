@@ -39,6 +39,11 @@ namespace BurnSystems.Tests
             Assert.That(toQuarter, Is.EqualTo(new DateTime(2012, 11, 16, 11, 30, 0, 0)));
             Assert.That(toMinute, Is.EqualTo(new DateTime(2012, 11, 16, 11, 42, 0, 0)));
             Assert.That(toSecond, Is.EqualTo(new DateTime(2012, 11, 16, 11, 42, 25, 0)));
+
+            Assert.That(DateTimeHelper.Truncate(DateTime.MinValue, TimeSpan.FromSeconds(10)), Is.EqualTo(DateTime.MinValue));
+            Assert.That(DateTimeHelper.Truncate(DateTime.MaxValue, TimeSpan.FromSeconds(10)), Is.EqualTo(DateTime.MaxValue));
+            
+            Assert.That(DateTimeHelper.Truncate(time, TimeSpan.Zero), Is.EqualTo(time));
         }
     }
 }
